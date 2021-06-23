@@ -1,0 +1,7 @@
+$enable-rounded: false;
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~bootstrap-vue/src/index.scss";
+
+@import "./light-mode";
+@import "./dark-mode";

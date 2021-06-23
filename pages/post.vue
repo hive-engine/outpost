@@ -1,0 +1,401 @@
+<template>
+  <b-container>
+    <b-card tag="article" class="full-post">
+      <h1 class="entry-header">
+        {{ post.title }}
+      </h1>
+
+      <div class="d-flex justify-content-between mb-2">
+        <div class="d-flex">
+          <b-avatar :src="`${$config.IMAGES_CDN}u/${post.author}/avatar`" variant="dark" size="40px" class="mr-2" />
+
+          <div class="d-flex flex-column">
+            <author :author="post.author" :reputation="post.author_reputation" />
+
+            <div>
+              <timeago class="small" :datetime="createdAt" :title="createdAt.toLocaleString()" :auto-update="60" />
+
+              <template v-if="createdAt.getTime() !== updatedAt.getTime()">
+                (<span v-b-tooltip.hover class="small" :title="updatedAt.toLocaleString()">Edited</span>)
+              </template>
+            </div>
+
+            <template v-if="postAuthor !== post.author">
+              <div class="small">
+                Authored by <nuxt-link :to="{name:'user', params: { user: postAuthor }}">
+                  @{{ postAuthor }}
+                </nuxt-link>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <div>
+          <b-badge variant="success" class="text-uppercase p-2" tag="div">
+            <nuxt-link :to="{name:'sort-tag', params:{sort:'trending', tag: community.tag}}">
+              {{ community.title }}
+            </nuxt-link>
+          </b-badge>
+        </div>
+      </div>
+
+      <div v-if="post.depth >= 1" class="border p-3">
+        <p class="font-weight-bold">
+          You are viewing a single comment's thread:
+        </p>
+
+        <ul class="m-0 list-unstyled">
+          <li>
+            <nuxt-link :to="post.url">
+              View full context
+            </nuxt-link>
+          </li>
+
+          <li>
+            <nuxt-link :to="{name:'user-post', params: {user: post.parent_author, post: post.parent_permlink}}">
+              View direct parent
+            </nuxt-link>
+          </li>
+        </ul>
+      </div>
+
+      <markdown-viewer class="mt-3" :text="post.body" />
+
+      <hr>
+
+      <div v-if="post.json_metadata.tags" class="d-flex flex-wrap">
+        <nuxt-link v-for="(tag, i) of post.json_metadata.tags" :key="i" class="badge badge-secondary mw-100 b-form-tag text-uppercase mr-2 mt-1 px-2" :to="{name:'sort-tag', params:{sort:'trending', tag}}">
+          {{ tag }}
+        </nuxt-link>
+      </div>
+      <hr>
+
+      <div class="d-flex align-items-center justify-content-between font-weight-bold mb-3">
+        <div class="d-flex align-items-center">
+          <votes :author="post.author" :permlink="post.permlink" :active-votes="post.active_votes" :rshares="post.vote_rshares" :payout="post.pending_token || post.total_payout_value" />
+
+          <extra-actions :author="post.author" :permlink="post.permlink" :deletable="post.vote_rshares <= 0 && post.children === 0" />
+        </div>
+
+        <div class="mr-3">
+          {{ post.estimated_payout_value }} {{ post.token }}
+        </div>
+      </div>
+
+      <reply-editor :parent-author="post.author" :parent-permlink="post.permlink" :autofocus="false" />
+
+      <div id="comments">
+        <div class="d-flex justify-content-between align-items-center mt-5">
+          <div>{{ Object.keys(discussions).length - 1 }} comments</div>
+
+          <b-dropdown variant="link" lazy right size="sm">
+            <template #button-content>
+              <fa-icon icon="sort-amount-down" /> {{ sortOptions[sortBy] }}
+            </template>
+
+            <b-dropdown-item v-for="(option, i) of Object.keys(sortOptions)" :key="i" @click.prevent="sortBy = option">
+              {{ sortOptions[option] }}
+            </b-dropdown-item>
+          </b-dropdown>
+        </div>
+
+        <div class="mt-3">
+          <div v-for="(permlink, i) of post.replies" :key="i">
+            <comment :permlink="permlink" :discussions="discussions" />
+          </div>
+        </div>
+      </div>
+    </b-card>
+  </b-container>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+import { proxifyImageUrl } from '@/utils/proxify-url'
+import { extractImageLink, extractBodySummary, extractCanonicalLink } from '@/utils/extract-content'
+import Author from '@/components/cards/Author.vue'
+import Comment from '@/components/cards/Comment.vue'
+import MarkdownViewer from '@/components/MarkdownViewer.vue'
+import ReplyEditor from '@/components/ReplyEditor.vue'
+import ExtraActions from '@/components/ExtraActions.vue'
+import Votes from '@/components/Votes.vue'
+
+export default {
+  name: 'SinglePostPage',
+
+  components: {
+    Author,
+    Comment,
+    MarkdownViewer,
+    ReplyEditor,
+    ExtraActions,
+    Votes
+  },
+
+  async asyncData ({ $chain, $auth, route, error }) {
+    let discussions = null
+    let permlinks = []
+
+    try {
+      const client = $chain.getClient()
+
+      const { user: author, post: permlink } = route.params
+
+      const params = { author, permlink }
+
+      if ($auth.loggedIn) {
+        params.observer = $auth.user.username
+      }
+
+      discussions = await client.hivemind.call('get_discussion', params)
+
+      Object.keys(discussions).forEach((permlink) => {
+        discussions[permlink] = {
+          ...discussions[permlink],
+          pending_token: 0,
+          vote_rshares: 0,
+          total_payout_value: 0,
+          estimated_payout_value: 0
+        }
+      })
+
+      permlinks = Object.keys(discussions)
+    } catch (e) {
+      return error({ statusCode: 404, message: 'Content was not found!' })
+    }
+
+    return {
+      discussions,
+      permlinks
+    }
+  },
+
+  data () {
+    return {
+      sortBy: '',
+      sortOptions: {
+        reward: 'Reward',
+        newest: 'Newest',
+        oldest: 'Oldest',
+        reputation: 'Reputation'
+      }
+    }
+  },
+
+  fetchOnServer: false,
+
+  async fetch () {
+    this.sortBy = 'reward'
+
+    const requests = this.permlinks.map((p) => {
+      const [author, permlink] = p.split('/')
+      return this.fetchPost({ author, permlink })
+    })
+
+    const scotData = await Promise.all(requests)
+
+    scotData.filter(d => d).forEach((d) => {
+      const authorperm = d.authorperm.substring(1)
+
+      this.discussions[authorperm] = {
+        ...this.discussions[authorperm],
+        authorperm: d.authorperm,
+        active_votes: d.active_votes,
+        token: d.token,
+        pending_token: d.pending_token,
+        vote_rshares: d.vote_rshares,
+        total_payout_value: d.total_payout_value,
+        estimated_payout_value: d.estimated_payout_value
+      }
+    })
+  },
+
+  head () {
+    const link = []
+
+    const description = extractBodySummary(this.post.body)
+    let thumbnail = extractImageLink(this.post.json_metadata, this.post.body)
+    const canonicalLink = extractCanonicalLink(this.post.json_metadata, this.post.category, this.post.author, this.post.permlink)
+
+    const meta = [
+      { hid: 'description', name: 'description', content: description },
+      { hid: 'og-type', property: 'og:type', content: 'article' },
+      { hid: 'og-title', property: 'og:title', content: this.post.title },
+      { hid: 'og-description', property: 'og:description', content: description },
+
+      { hid: 'twitter-card', name: 'twitter:card', content: 'summary_large_image' },
+      { hid: 'twitter-title', name: 'twitter:title', content: this.post.title },
+      { hid: 'twitter-description', name: 'twitter:description', content: description }
+    ]
+
+    if (thumbnail) {
+      thumbnail = proxifyImageUrl(thumbnail, '1200x630')
+
+      meta.push({ hid: 'og-image', property: 'og:image', content: thumbnail })
+      meta.push({ hid: 'twitter-image', name: 'twitter:image', content: thumbnail })
+    }
+
+    if (canonicalLink) {
+      link.push({ hid: 'canonical', rel: 'canonical', href: canonicalLink })
+    }
+
+    return {
+      title: this.post.title,
+      meta,
+      link
+    }
+  },
+
+  computed: {
+    ...mapGetters('scot', ['communities', 'accounts']),
+
+    post () {
+      const { user: author, post: permlink } = this.$route.params
+
+      return this.discussions[`${author}/${permlink}`]
+    },
+
+    community () {
+      let { community: tag, community_title: title } = this.post
+
+      if (!tag) {
+        try {
+          tag = this.post.json_metadata.tags[0]
+          title = tag
+        } catch {
+
+        }
+      }
+
+      return {
+        tag,
+        title
+      }
+    },
+
+    postAuthor () {
+      return (this.post.json_metadata.author) ? this.post.json_metadata.author : this.post.author
+    },
+
+    createdAt () {
+      return new Date(`${this.post.created}Z`)
+    },
+
+    updatedAt () {
+      return new Date(`${this.post.updated}Z`)
+    }
+  },
+
+  watch: {
+    sortBy (key) {
+      const replies = Object.values(this.discussions).filter(c => c.parent_author === this.post.author && c.parent_permlink === this.post.permlink)
+
+      replies.sort((a, b) => {
+        if (key === 'oldest' || key === 'newest') {
+          const createdA = new Date(a.created).getTime()
+          const createdB = new Date(b.created).getTime()
+
+          if (key === 'oldest') {
+            return createdA - createdB
+          }
+
+          return createdB - createdA
+        } else if (key === 'reputation') {
+          return b.author_reputation - a.author_reputation
+        }
+
+        return b.net_rshares - a.net_rshares
+      })
+
+      this.post.replies = replies.map(p => `${p.author}/${p.permlink}`)
+    }
+  },
+
+  mounted () {
+    const self = this
+
+    this.$eventBus.$on(['upvote-successful', 'downvote-successful', 'unvote-successful'], async ({ type, author, permlink, weight }) => {
+      await self.sleep(30 * 1000)
+
+      const [content] = await Promise.all([
+        self.fetchPost({ author, permlink }),
+        self.fetchAccountScotData()
+      ])
+      const authorperm = content.authorperm.substring(1)
+
+      const newData = {
+        ...this.discussions[authorperm],
+        active_votes: content.active_votes,
+        pending_token: content.pending_token,
+        total_payout_value: content.total_payout_value,
+        estimated_payout_value: content.estimated_payout_value
+      }
+
+      this.discussions[authorperm] = newData
+
+      this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
+    })
+
+    this.$eventBus.$on(['comment-publish-successful', 'comment-edit-successful'], (data) => {
+      const content = {
+        ...data,
+        created: new Date().toISOString().replace(/\dZ/, ''),
+        updated: new Date().toISOString().replace(/\dZ/, ''),
+        replies: [],
+        token: self.$config.TOKEN,
+        vote_rshares: 0,
+        active_votes: [],
+        pending_token: 0,
+        total_payout_value: 0,
+        estimated_payout_value: 0
+      }
+
+      const authorperm = `${data.author}/${data.permlink}`
+
+      if (!data.edit) {
+        self.discussions[authorperm] = content
+        self.discussions[`${data.parent_author}/${data.parent_permlink}`].replies.push(authorperm)
+      } else {
+        self.discussions[authorperm] = {
+          ...self.discussions[authorperm],
+          updated: new Date().toISOString().replace(/\dZ/, ''),
+          body: data.body
+        }
+      }
+    })
+
+    this.$eventBus.$on(['post-delete-successful', 'comment-delete-successful'], async ({ author, permlink, type }) => {
+      if (type === 'post' && self.post.author === author && self.post.permlink === permlink) {
+        self.loading = true
+
+        await self.sleep(30 * 1000)
+
+        self.$router.push({ name: 'user', params: { user: author } })
+      }
+
+      if (type === 'comment') {
+        const authorperm = `${author}/${permlink}`
+
+        const parent = self.discussions[`${self.discussions[authorperm].parent_author}/${self.discussions[authorperm].parent_permlink}`]
+
+        parent.replies = parent.replies.filter(r => r !== authorperm)
+
+        delete self.discussions[authorperm]
+      }
+    })
+  },
+
+  beforeDestroy () {
+    this.$eventBus.$off(['upvote-successful', 'downvote-successful', 'unvote-successful', 'comment-publish-successful', 'comment-edit-successful', 'post-delete-successful', 'comment-delete-successful'])
+  },
+
+  methods: {
+    ...mapActions('scot', ['fetchPost']),
+    ...mapActions('user', ['fetchAccountScotData'])
+  }
+}
+</script>
+
+<style>
+
+</style>

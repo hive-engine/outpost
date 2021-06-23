@@ -1,0 +1,304 @@
+$dark-color: #f5f5f4;
+$dark-link-color: #c7d3df;
+$dark-bg-color: #1e2329;
+$dark-secondary: #2d333b;
+$dark-border-color: #444c56;
+
+$dark-input-bg-color: lighten($dark-secondary, 10%);
+$dark-input-border-color: lighten($dark-secondary, 20%);
+$dark-input-color: #fff;
+
+.dark-mode {
+  scrollbar-color: lighten($dark-border-color, 20) $dark-secondary;
+
+  &::-webkit-scrollbar {
+    background-color: $dark-secondary;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: lighten($dark-border-color, 20);
+  }
+
+  body {
+    background-color: $dark-bg-color;
+    color: $dark-color;
+  }
+
+  a {
+    color: $dark-link-color;
+
+    &:active,
+    &:hover,
+    &:focus {
+      color: darken($dark-link-color, 10);
+      text-decoration: none;
+    }
+  }
+
+  .btn {
+    color: $dark-color;
+  }
+
+  blockquote {
+    color: $dark-color;
+    border-color: $dark-bg-color;
+  }
+
+  pre {
+    color: $dark-color;
+    border-color: $dark-bg-color;
+  }
+
+  .navbar-light {
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .navbar-nav .nav-link {
+      color: $dark-color;
+    }
+
+    .navbar-brand {
+      color: $dark-color;
+    }
+  }
+
+  .bg-light {
+    background-color: $dark-secondary !important;
+  }
+
+  .border,
+  .border-bottom {
+    border-color: $dark-border-color !important;
+  }
+
+  .btn-create {
+    border-color: $dark-input-border-color;
+    background-color: $dark-input-bg-color;
+  }
+
+  .btn-warning {
+    color: $dark;
+  }
+
+  .modal-content {
+    background-color: $dark-secondary;
+  }
+
+  .modal-header,
+  .modal-footer {
+    border-color: $dark-border-color;
+  }
+
+  .close {
+    color: #fff;
+  }
+
+  .alert {
+    a {
+      color: $dark-secondary;
+    }
+
+    h5,
+    h6 {
+      color: $dark-secondary;
+    }
+
+    .close {
+      color: $dark-secondary;
+    }
+  }
+
+  .table {
+    color: $dark-color;
+    border-color: $dark-bg-color;
+
+    th,
+    td {
+      border-color: $dark-bg-color;
+    }
+
+    &.table-striped tbody tr:nth-of-type(2n + 1) {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &.table-sm {
+      th,
+      td {
+        padding: 0.4rem;
+      }
+    }
+  }
+
+  .dropdown-menu,
+  .card {
+    background-color: $dark-secondary;
+  }
+
+  .dropdown-item {
+    color: $dark-color !important;
+
+    &:hover,
+    &:focus {
+      background-color: lighten($color: $dark-secondary, $amount: 10);
+    }
+  }
+
+  .card {
+    .dropdown-menu {
+      background-color: $dark-bg-color;
+      color: $dark-color;
+    }
+  }
+
+  .text-muted {
+    color: darken($color: $dark-color, $amount: 25) !important;
+  }
+
+  input[type="text"],
+  .form-control,
+  .custom-select,
+  .ui.selection.dropdown,
+  .b-form-tags-input,
+  .custom-file-label,
+  .input-group-text {
+    background-color: $dark-input-bg-color;
+    border-color: $dark-input-border-color;
+    color: $dark-input-color !important;
+
+    &:disabled {
+      background-color: darken($dark-input-bg-color, 1);
+    }
+
+    &::-webkit-input-placeholder {
+      color: darken($color: $dark-color, $amount: 30);
+    }
+
+    &:-ms-input-placeholder {
+      color: darken($color: $dark-color, $amount: 30);
+    }
+
+    &::placeholder {
+      color: darken($color: $dark-color, $amount: 30);
+    }
+  }
+
+  .nav {
+    .nav-link {
+      color: $dark-color;
+
+      &.active {
+        background-color: var(--gray) !important;
+      }
+    }
+  }
+
+  .content-input-wrapper {
+    textarea {
+      background-color: $dark-input-bg-color !important;
+      color: $dark-color !important;
+    }
+
+    background-color: $dark-input-bg-color !important;
+    color: $dark-color !important;
+  }
+
+  .v-note-wrapper {
+    border-color: $dark-input-border-color !important;
+
+    .v-note-panel .v-note-edit.divarea-wrapper.single-edit {
+      color: $dark-color !important;
+      background-color: $dark-input-bg-color !important;
+      border-radius: 0;
+    }
+
+    .v-note-op {
+      background-color: $dark-input-bg-color !important;
+      border-color: $dark-input-border-color !important;
+    }
+
+    .op-icon {
+      color: $dark-color !important;
+
+      &:hover {
+        color: $dark-secondary !important;
+      }
+    }
+
+    .popup-dropdown {
+      background-color: $dark-secondary !important;
+    }
+
+    .dropdown-item {
+      color: $dark-color !important;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3) !important;
+        color: $dark-color !important;
+      }
+    }
+  }
+
+  .add-image-link-wrapper .add-image-link {
+    background-color: $dark-secondary !important;
+    color: $dark-color;
+
+    .input-wrapper {
+      background-color: $dark-input-bg-color !important;
+      border-color: $dark-input-border-color !important;
+    }
+  }
+
+  /*-------------------------------
+  | Wallet Page
+  -------------------------------*/
+  .user-wallet {
+    .dropdown-toggle {
+      &.disabled {
+        color: $dark-color !important;
+      }
+    }
+  }
+
+  /*-------------------------------
+  | Post
+  -------------------------------*/
+  .vote-weight-popover {
+    &.popover {
+      min-width: 300px;
+      background-color: $dark-bg-color;
+    }
+
+    .popover-body {
+      color: $dark-color;
+    }
+
+    .arrow::after {
+      border-right-color: $dark-bg-color;
+    }
+  }
+
+  .btn-vote {
+    color: $dark-color;
+
+    &:hover {
+      color: $dark-color;
+    }
+  }
+
+  /*-------------------------------
+  | Author Card
+  -------------------------------*/
+  .author-card {
+    .author-dropdown {
+      background-color: $dark-bg-color;
+      border: 1px solid $dark-border-color;
+    }
+  }
+
+  .tag-scrolling-wrapper {
+    .slider-nav {
+      background: rgba($color: $dark-bg-color, $alpha: 0.8);
+      color: $dark-color;
+    }
+  }
+}
