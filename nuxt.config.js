@@ -60,7 +60,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    '@/modules/axios-cache.js'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -87,7 +88,7 @@ export default {
     preference: 'light'
   },
 
-  modern: 'server',
+  // modern: 'server',
 
   bootstrapVue: {
     icons: false,

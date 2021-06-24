@@ -21,3 +21,7 @@ export const SIDECHAIN_RPC = 'https://ha.herpc.dtools.dev'
 export const SIDECHAIN_HISTORY_API = 'https://accounts.hive-engine.com'
 export const NUMBER_OF_UNSTAKE_TRX = 4
 export const MAX_UPLOAD_SIZE = 8
+export const AXIOS_CACHE_CONFIG = {
+  maxAge: 5 * 60 * 1000, // 5 minutes
+  exclude: { query: false }
+}

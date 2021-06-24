@@ -19,6 +19,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@privyid/nuxt-csrf": "^1.0.0",
     "axios": "^0.21.1",
+    "axios-cache-adapter": "^2.7.3",
     "body-parser": "^1.19.0",
     "bootstrap": "4.6.0",
     "bootstrap-vue": "^2.21.2",
