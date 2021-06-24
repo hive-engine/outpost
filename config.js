@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'CINE'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://localhost:3000'
+export const APP_DOMAIN = 'https://tribe-v2-cinetv-pojo8.ondigitalocean.app'
 export const APP_TITLE = 'CineTV'
 export const APP = `nitrous/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
