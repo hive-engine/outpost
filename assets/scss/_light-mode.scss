@@ -196,12 +196,20 @@ pre {
     float: left;
     padding-right: 1rem;
     max-width: 50%;
+    position: relative;
+    z-index: 10;
   }
 
   div.pull-right {
     float: right;
     padding-left: 1rem;
     max-width: 50%;
+    position: relative;
+    z-index: 10;
+  }
+
+  .phishy {
+    color: red;
   }
 }
 

@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'CINE'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://tribe-v2-cinetv-pojo8.ondigitalocean.app'
+export const APP_DOMAIN = process.env.APP_DOMAIN // Hard code it or use environment varible
 export const APP_TITLE = 'CineTV'
 export const APP = `nitrous/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
@@ -21,3 +21,7 @@ export const SIDECHAIN_RPC = 'https://ha.herpc.dtools.dev'
 export const SIDECHAIN_HISTORY_API = 'https://accounts.hive-engine.com'
 export const NUMBER_OF_UNSTAKE_TRX = 4
 export const MAX_UPLOAD_SIZE = 8
+export const AXIOS_CACHE_CONFIG = {
+  maxAge: 5 * 60 * 1000, // 5 minutes
+  exclude: { query: false }
+}

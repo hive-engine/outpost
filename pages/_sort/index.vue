@@ -1,7 +1,7 @@
 <template>
   <div class="sort-page">
     <div class="page-header">
-      <b-container class="mb-2" fluid>
+      <b-container v-if="$route.params.sort !== 'curated'" class="mb-2" fluid>
         <trending-tags :sort="$route.params.sort" />
       </b-container>
 

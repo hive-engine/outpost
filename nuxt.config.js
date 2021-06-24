@@ -2,21 +2,35 @@ import * as config from './config'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
-    titleTemplate: (titleChunk) => {
-      return titleChunk ? `${titleChunk} - ${config.APP_TITLE}` : `${config.APP_TITLE}`
-    },
-    htmlAttrs: {
-      lang: 'en'
-    },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+  head () {
+    const description = `${config.APP_TITLE} is a social media platform where everyone gets paid for creating and curating content. It leverages a robust digital points system, called ${config.TOKEN}, that supports real value for digital rewards through market price discovery and liquidity.`
+
+    const head = {
+      titleTemplate: (titleChunk) => {
+        return titleChunk ? `${titleChunk} - ${config.APP_TITLE}` : `${config.APP_TITLE}`
+      },
+      htmlAttrs: {
+        lang: 'en'
+      },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'description', name: 'description', content: description },
+        { hid: 'og-type', property: 'og:type', content: 'website' },
+        { hid: 'og-title', property: 'og:title', content: config.APP_TITLE },
+        { hid: 'og-description', property: 'og:description', content: description },
+        { hid: 'og-image', property: 'og:image', content: `${config.APP_DOMAIN}/cover.png` },
+        { hid: 'twitter-title', name: 'twitter:title', content: config.APP_TITLE },
+        { hid: 'twitter-card', name: 'twitter:card', content: 'summary_large_image' },
+        { hid: 'twitter-description', name: 'twitter:description', content: description },
+        { hid: 'twitter-image', name: 'twitter:image', content: `${config.APP_DOMAIN}/cover.png` }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
+    }
+
+    return head
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -60,7 +74,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    '@/modules/axios-cache.js'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -70,6 +85,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend (config, ctx) {
+      config.node = {
+        fs: 'empty'
+      }
+    },
+
     babel: {
       compact: true
     },
@@ -87,7 +108,7 @@ export default {
     preference: 'light'
   },
 
-  modern: 'server',
+  modern: process.env.NODE_ENV === 'production',
 
   bootstrapVue: {
     icons: false,

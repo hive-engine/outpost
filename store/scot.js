@@ -58,7 +58,9 @@ export const actions = {
     }
 
     try {
-      const posts = (endpoint === 'curated') ? await this.$axios.$get('/api/v1/curated', { params }) : await this.$scot.$get(endpoint, { params })
+      const posts = (endpoint === 'curated')
+        ? await this.$axios.$get('/api/v1/curated', { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
+        : await this.$scot.$get(endpoint, { params })
 
       const { communities, accounts } = posts.reduce((acc, cur) => {
         if (/^hive-[1-3]\d{4,6}$/.test(cur.parent_permlink) && !state.communities[cur.parent_permlink]) {
