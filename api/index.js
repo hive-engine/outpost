@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 import axios from 'axios'
 import csurf from 'csurf'
+import cors from 'cors'
 import { differenceInMinutes } from 'date-fns'
 import { Client, cryptoUtils, utils, Signature } from '@hiveio/dhive'
 import * as config from '../config'
@@ -39,7 +40,9 @@ app.use(cookieSession({
   maxAge: 90 * 24 * 60 * 60 * 1000
 }))
 app.use(cookieParser())
-// app.use(csurf({ cookie: true }))
+
+app.use(cors())
+app.use(csurf({ cookie: true }))
 
 app.get('/', (req, res) => {
   res.json({

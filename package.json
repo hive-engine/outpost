@@ -26,6 +26,7 @@
     "cookie-session": "^1.4.0",
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.15.0",
+    "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "date-fns": "^2.22.1",
     "diff-match-patch": "^1.0.5",
@@ -65,6 +66,6 @@
   },
   "engines": {
     "node": "14.x",
-    "npm":"7.x"
+    "npm": "7.x"
   }
 }
