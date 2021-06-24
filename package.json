@@ -61,7 +61,7 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.11.1",
     "fibers": "^5.0.0",
-    "sass": "^1.35.1",
+    "sass": "~1.32.13",
     "sass-loader": "10.1.1"
   },
   "engines": {
