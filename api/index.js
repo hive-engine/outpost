@@ -185,11 +185,12 @@ app.get('/curated', async (req, res) => {
 
     posts.reverse()
 
-    posts = posts.map((r) => {
-      const { author, permlink } = r[1].op[1]
+    posts = posts.filter(p => p[1].op[1].weight > 0)
+      .map((r) => {
+        const { author, permlink } = r[1].op[1]
 
-      return fetchPost({ author, permlink })
-    })
+        return fetchPost({ author, permlink })
+      })
 
     posts = await Promise.all(posts)
 
