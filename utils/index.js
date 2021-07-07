@@ -78,3 +78,15 @@ export const toFixedWithoutRounding = (t, l = 3) => {
   const s = t * a
   return Math.trunc(s) / a
 }
+
+export const arrayChunk = (array, size = 20) => {
+  const chunkedArray = []
+  let index = 0
+
+  while (index < array.length) {
+    chunkedArray.push(array.slice(index, size + index))
+    index += size
+  }
+
+  return chunkedArray
+}

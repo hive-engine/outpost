@@ -16,8 +16,9 @@ export const SCOT_API = 'https://scot-api.hive-engine.com'
 export const SCOT_QUERY_LIMIT = 10
 export const CURATED_FEED = true
 export const CURATED_FEED_ACCOUNT = 'r-cine'
-export const SIDECHAIN_ID = 'ssc-mainnet-hive'
-export const SIDECHAIN_RPC = 'https://ha.herpc.dtools.dev'
+export const SIDECHAIN_ID = 'ssc-testnet-reaz'
+export const SIDECHAIN_RPC = 'https://hetestnet.dtools.dev/rpc'
+export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'
 export const SIDECHAIN_HISTORY_API = 'https://accounts.hive-engine.com'
 export const NUMBER_OF_UNSTAKE_TRX = 4
 export const MAX_UPLOAD_SIZE = 8
@@ -25,3 +26,7 @@ export const AXIOS_CACHE_CONFIG = {
   maxAge: 5 * 60 * 1000, // 5 minutes
   exclude: { query: false }
 }
+export const NFT_ENABLED = true
+export const NFT_SYMBOL = 'CINENFT'
+export const NFT_MARKETPLACE = 'cinetv'
+export const NFT_MARKETPLACE_API = 'https://marketplace.tribaldex.com/api'

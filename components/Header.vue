@@ -23,9 +23,9 @@
         <b-navbar-toggle target="nav-collapse" />
 
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav align="center">
+          <b-navbar-nav>
             <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
-              Your Feed
+              Feed
             </b-nav-item>
             <b-nav-item :to="{name:'sort', params:{sort:'trending'}}">
               Explore
@@ -33,12 +33,24 @@
             <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
               Curator's Pick
             </b-nav-item>
+            <b-nav-item :to="{name:'nfts'}">
+              NFTs
+            </b-nav-item>
           </b-navbar-nav>
 
-          <b-navbar-nav class="ml-auto" align="center">
+          <b-navbar-nav class="ml-auto align-items-md-center">
+            <b-nav-item v-if="$config.NFT_ENABLED && $route.name && ($route.name.startsWith('nfts') || ['user-collection', 'user-gallery', 'user-collection-series', 'user-gallery-series'].includes($route.name))" link-classes="navbar-btn" @click.prevent="$bvModal.show('activityModal')">
+              <div class="d-none d-md-block">
+                <fa-icon icon="shopping-basket" />
+              </div> <span class="d-md-none">Basket</span>
+              <div class="cart-item-count badge badge-primary">
+                {{ cart.length }}
+              </div>
+            </b-nav-item>
+
             <template v-if="$auth.loggedIn">
-              <b-nav-item :to="{ name:'publish' }">
-                <div class="btn-create d-none d-md-block">
+              <b-nav-item :to="{ name:'publish' }" link-classes="navbar-btn">
+                <div class="d-none d-md-block">
                   <fa-icon icon="pencil-alt" />
                 </div> <span class="d-md-none">Publish</span>
               </b-nav-item>
@@ -105,7 +117,8 @@ export default {
   name: 'Header',
 
   computed: {
-    ...mapGetters('user', ['voting_power', 'downvoting_power'])
+    ...mapGetters('user', ['voting_power', 'downvoting_power']),
+    ...mapGetters('nftmarketplace', ['cart'])
   },
 
   methods: {

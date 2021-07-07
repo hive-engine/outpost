@@ -1,4 +1,5 @@
-import { toFixedWithoutRounding } from '~/utils'
+import { toFixedWithoutRounding } from '@/utils'
+import { decrypt as WCDecrypt } from '@/utils/web-crypto'
 
 export const state = () => {
   return {
@@ -70,7 +71,7 @@ export const mutations = {
 }
 
 export const actions = {
-  login ({ dispatch }, username) {
+  login ({ dispatch }, { username, nftmarketplace = false }) {
     if (!username) { return }
 
     if (!window.hive_keychain) { return }
@@ -79,48 +80,62 @@ export const actions = {
 
     window.hive_keychain.requestSignBuffer(username, `${username}${ts}`, 'Posting', async (r) => {
       if (r.success) {
-        await dispatch('processLogin', { username, ts, sig: r.result })
+        await dispatch('processLogin', { username, ts, sig: r.result, nftmarketplace })
       }
     })
   },
 
-  async loginWithKey ({ dispatch }, { username, wif }) {
+  async loginWithKey ({ dispatch }, { username, wif, nftmarketplace = false }) {
     if (!username) { return }
 
-    if (!wif || !localStorage.getItem(`smartlock-${username}`)) {
-      return
+    if (!wif && !sessionStorage.getItem(`smartlock-${username}-posting`)) {
+      try {
+        wif = await dispatch('showUnlockModal', 'posting', { root: true })
+      } catch {
+        return
+      }
     }
 
-    wif = wif || localStorage.getItem(`smartlock-${username}`)
+    wif = wif || sessionStorage.getItem(`smartlock-${username}-posting`)
 
     try {
       const ts = Date.now()
-      const key = (wif.length > 51) ? atob(wif) : wif
+      const key = await WCDecrypt(wif, sessionStorage.getItem('smartlock-otp'))
       const privateKey = this.$chain.PrivateKey.fromString(key)
       const sig = privateKey.sign(Buffer.from(this.$chain.cryptoUtils.sha256(username + ts))).toString()
 
-      await dispatch('processLogin', { username, ts, sig, smartlock: true })
+      await dispatch('processLogin', { username, ts, sig, smartlock: true, nftmarketplace })
     } catch (e) {
       console.log(e)
     }
   },
 
-  async processLogin ({ dispatch }, { username, ts, sig, smartlock = false }) {
-    try {
-      const { data } = await this.$auth.login({ data: { username, ts, sig, smartlock } })
+  async processLogin ({ dispatch, commit }, { username, ts, sig, smartlock = false, nftmarketplace }) {
+    if (!nftmarketplace) {
+      try {
+        const { data } = await this.$auth.login({ data: { username, ts, sig, smartlock } })
 
-      this.$auth.setUser({ ...data, smartlock })
+        this.$auth.setUser({ ...data, smartlock })
 
-      localStorage.setItem('username', username)
-      localStorage.setItem('smartlock', smartlock)
+        localStorage.setItem('username', username)
+        localStorage.setItem('smartlock', smartlock)
 
-      await Promise.all([
-        dispatch('fetchFollowers', username),
-        dispatch('fetchFollowing', username),
-        dispatch('fetchAccountScotData')
-      ])
-    } catch {
+        await Promise.all([
+          dispatch('fetchFollowers', username),
+          dispatch('fetchFollowing', username),
+          dispatch('fetchAccountScotData')
+        ])
+      } catch {
       //
+      }
+    } else {
+      try {
+        const data = await this.$nftm.$post('auth/login', { username, ts, sig, site: this.$config.NFT_MARKETPLACE })
+
+        commit('nftmarketplace/SET_USER', data, { root: true })
+      } catch {
+        //
+      }
     }
   },
 

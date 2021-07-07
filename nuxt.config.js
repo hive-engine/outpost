@@ -45,10 +45,12 @@ export default {
     '@/plugins/event-bus.client.js',
     '@/plugins/global-mixins.js',
     '@/plugins/mavon-editor.client.js',
+    '@/plugins/nftmarketplace.js',
     '@/plugins/scot-api.js',
     '@/plugins/sidechain.js',
     '@/plugins/vue-lazyload.js',
     '@/plugins/vue-notification.js',
+    '@/plugins/vue-plyr.client.js',
     '@/plugins/vue-timeago.js',
     '@/plugins/vue-timers.client.js',
     '@/plugins/vuelidate.js'
@@ -63,7 +65,8 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/color-mode',
     '@nuxtjs/dotenv',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+    '@nuxtjs/router-extras'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -100,7 +103,8 @@ export default {
       'vue-pincode-input',
       'vue-notification',
       'sanitize-html',
-      /vue-awesome/
+      /vue-awesome/,
+      'vue-backtotop'
     ]
   },
 
@@ -134,6 +138,7 @@ export default {
       'ImagePlugin',
       'InputGroupPlugin',
       'LayoutPlugin',
+      'ListGroupPlugin',
       'MediaPlugin',
       'ModalPlugin',
       'NavbarPlugin',
@@ -142,6 +147,7 @@ export default {
       'ProgressPlugin',
       'SpinnerPlugin',
       'TablePlugin',
+      'TabsPlugin',
       'TooltipPlugin'
     ]
   },
@@ -150,7 +156,7 @@ export default {
     component: 'fa',
     suffix: true,
     icons: {
-      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleDown', 'faAngleRight', 'faAngleLeft'],
+      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faShoppingBasket', 'faExclamationCircle'],
       regular: ['faMoon', 'faSun', 'faTimesCircle', 'faComments', 'faCommentAlt'],
       brands: []
     }
@@ -209,6 +215,11 @@ export default {
           'https://www.google-analytics.com',
           'https://api.openhive.network',
           'https://ha.herpc.dtools.dev',
+          'https://shop.tribaldex.com',
+          'https://marketplace.tribaldex.com',
+          'https://cdn.plyr.io',
+          'https://api.coingecko.com',
+          'https://hetestnet.dtools.dev',
           ...config.NODES
         ],
         'form-action': ["'self'"],
@@ -255,7 +266,8 @@ export default {
   },
 
   server: {
-    host: '0.0.0.0'
+    port: 8080,
+    host: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost'
   },
 
   router: {
@@ -266,7 +278,7 @@ export default {
 
           if (route.path === '/:user') {
             route.path = route.path.replace(':', '@:')
-          } else if (route.name.startsWith('sort')) {
+          } else if (route.name && route.name.startsWith('sort')) {
             route.path = route.path.replace(':sort', ':sort(hot|trending|promoted|payout|payout_comments|muted|created|curated)')
           }
 

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import PincodeInput from 'vue-pincode-input'
 import Loading from '@/components/Loading.vue'
 
 if (!Vue.__myGlobalMixin__) {
@@ -6,7 +7,8 @@ if (!Vue.__myGlobalMixin__) {
 
   Vue.mixin({
     components: {
-      Loading
+      Loading,
+      PincodeInput
     },
 
     data () {

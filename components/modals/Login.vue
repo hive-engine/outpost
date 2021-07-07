@@ -42,7 +42,7 @@
       </template>
     </b-modal>
 
-    <smart-lock :callback="smartLockLogin" />
+    <smart-lock :callback="smartLockLogin" :key-types="['posting','active']" />
   </div>
 </template>
 
@@ -102,7 +102,7 @@ export default {
   },
 
   mounted () {
-    this.$root.$on('smartock-loggedin', () => {
+    this.$root.$on('smartlock-loggedin', () => {
       this.$root.$bvModal.hide('loginModal')
     })
   },
@@ -114,7 +114,7 @@ export default {
       this.$v.$touch()
 
       if (window.hive_keychain && !this.$v.$invalid) {
-        await this.login(this.username)
+        await this.login({ username: this.username })
 
         this.$bvModal.hide('loginModal')
       }

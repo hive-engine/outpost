@@ -77,6 +77,57 @@ export default ({ $config }, inject) => {
       return this.contract(request)
     },
 
+    getMetrics (symbol) {
+      const request = {
+        method: 'findOne',
+        params: {
+          contract: 'market',
+          table: 'metrics',
+          query: { symbol }
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getNFTSellBook (query, offset = 0, limit = 1000) {
+      const symbol = query.symbol || $config.NFT_SYMBOL
+
+      delete query.symbol
+
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'nftmarket',
+          table: `${symbol}sellBook`,
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getNFTInstances (query, offset = 0, limit = 1000) {
+      const symbol = query.symbol || $config.NFT_SYMBOL
+
+      delete query.symbol
+
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'nft',
+          table: `${symbol}instances`,
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
     getPendingUnstakes (account, symbol) {
       const request = {
         method: 'find',
