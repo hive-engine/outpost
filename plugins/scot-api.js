@@ -1,10 +1,7 @@
 import { setupCache } from 'axios-cache-adapter'
 
 export default ({ $config, $axios }, inject) => {
-  const { adapter } = setupCache({
-    maxAge: 5 * 60 * 1000,
-    exclude: { query: false }
-  })
+  const { adapter } = setupCache($config.AXIOS_CACHE_CONFIG)
 
   const SCOTAPI = $axios.create({
     baseURL: $config.SCOT_API,

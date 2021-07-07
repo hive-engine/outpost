@@ -4,7 +4,7 @@ export default function ({ $config, $axios, app, ssrContext }) {
   if (process.server) {
     $axios.defaults.adapter = ssrContext.$axiosCache.adapter
   } else {
-    const { adapter } = setupCache($config)
+    const { adapter } = setupCache($config.AXIOS_CACHE_CONFIG)
 
     $axios.defaults.adapter = adapter
   }
