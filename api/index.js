@@ -175,7 +175,7 @@ app.get('/curated', async (req, res) => {
   from = Number(from) || -1
 
   if (!limit || limit <= 0) {
-    limit = 20
+    limit = 50
   }
 
   try {

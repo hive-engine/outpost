@@ -321,17 +321,20 @@ export default {
         self.fetchPost({ author, permlink }),
         self.fetchAccountScotData()
       ])
-      const authorperm = content.authorperm.substring(1)
 
-      const newData = {
-        ...this.discussions[authorperm],
-        active_votes: content.active_votes,
-        pending_token: content.pending_token,
-        total_payout_value: content.total_payout_value,
-        estimated_payout_value: content.estimated_payout_value
+      if (content) {
+        const authorperm = content.authorperm.substring(1)
+
+        const newData = {
+          ...this.discussions[authorperm],
+          active_votes: content.active_votes,
+          pending_token: content.pending_token,
+          total_payout_value: content.total_payout_value,
+          estimated_payout_value: content.estimated_payout_value
+        }
+
+        this.discussions[authorperm] = newData
       }
-
-      this.discussions[authorperm] = newData
 
       this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
     })

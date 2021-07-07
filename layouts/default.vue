@@ -2,7 +2,7 @@
   <div class="app-container">
     <div v-if="$config.SIDECHAIN_ID !== 'ssc-mainnet-hive'" class="bg-info">
       <div class="container-fluid text-center">
-        <fa-icon icon="exclamation-circle" /> This is website is currently running on Hive-Engine Testnet!
+        <fa-icon icon="exclamation-circle" /> The website is currently running on Hive-Engine Testnet!
       </div>
     </div>
 

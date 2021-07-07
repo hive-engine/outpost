@@ -81,7 +81,7 @@ export default {
     // eslint-disable-next-line prefer-const
     let [trending, created, curated] = await Promise.all(requests)
 
-    if (!curated) {
+    if (!curated || curated.length <= 0) {
       this.trendingIsCurated = true
 
       curated = trending.splice(0, 5)
