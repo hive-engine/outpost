@@ -170,9 +170,14 @@
           responsive
           :fields="historyTableFields"
           :items="history"
+          fixed
           sort-by="timestamp"
           :sort-desc="true"
         >
+          <template #table-colgroup="scope">
+            <col v-for="field in scope.fields" :key="field.key" :style="{ width: field.key === 'timestamp' ? '80px' : '200px' }">
+          </template>
+
           <template #cell(timestamp)="{item}">
             <timeago :datetime="item.timestamp" :auto-update="60" />
           </template>
