@@ -4,7 +4,7 @@
       <b-row v-if="Object.keys(smartLockAccounts).length > 0" class="mb-3">
         <b-col v-for="(account,i) in Object.keys(smartLockAccounts)" :key="i" md="6" class="mb-2">
           <div class="account-link bg-light" @click.prevent="unlockAccount(account)">
-            <b-avatar :src="`https://images.hive.blog/u/${account}/avatar`" variant="light" class="border" />
+            <b-avatar :src="`https://images.hive.blog/u/${account}/avatar`" variant="dark" class="border mr-1" />
             @{{ account }}
             <a href="#" class="remove-account" @click.stop.prevent="removeAccount(account)">
               <fa-icon icon="times" />
@@ -44,9 +44,11 @@
         <b-form-input v-model.trim="username" />
       </b-form-group>
 
-      <b-form-group label="Hive Private Posting Key">
-        <b-form-input v-model.trim="key" type="password" />
-      </b-form-group>
+      <template v-for="(key, k) of keyTypes">
+        <b-form-group :key="k" :label="`Hive Private ${key} Key`" label-class="text-capitalize">
+          <b-form-input v-model="keys[key]" trim type="password" />
+        </b-form-group>
+      </template>
 
       <b-form-group label="Password">
         <div class="text-center">
@@ -56,11 +58,11 @@
 
       <b-form-group label="Confirm Password">
         <div class="text-center">
-          <PincodeInput v-model="cpassword" :length="5" :secure="true" placeholder="0" />
+          <pincode-input v-model="cpassword" :length="5" :secure="true" placeholder="0" />
         </div>
       </b-form-group>
 
-      <b-button variant="info" :disabled="username.length < 3 || !key || password.length < 5 || cpassword.length < 5" @click.prevent="addAccount">
+      <b-button variant="info" :disabled="username.length < 3 || Object.values(keys)[0].length < 51 || password.length < 5 || cpassword.length < 5" @click.prevent="addAccount">
         <span v-if="buttonBusy" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" /> Add Account
       </b-button>
     </b-modal>
@@ -78,7 +80,7 @@
       </b-alert>
 
       <div class="text-center">
-        <b-avatar :src="`https://images.hive.blog/u/${unlockingAccount}/avatar`" size="100px" variant="light" class="border" />
+        <b-avatar :src="`https://images.hive.blog/u/${unlockingAccount}/avatar`" size="100px" variant="dark" class="border" />
         <div class="font-weight-bold mt-2">
           @{{ unlockingAccount }}
         </div>
@@ -96,26 +98,21 @@
 </template>
 
 <script>
-import PincodeInput from 'vue-pincode-input'
-import { encrypt as TripesecEncrypt, decrypt as TripesecDecrypt, Buffer } from 'triplesec'
+import { encrypt, decrypt } from '@/utils/triplesec'
+import { encrypt as WCEncrypt } from '@/utils/web-crypto'
 
 export default {
   name: 'SmartLock',
 
-  components: {
-    PincodeInput
-  },
-
   props: {
-    prefix: { type: String, default: 'smartlock' },
-    keyType: { type: String, default: 'posting' },
+    keyTypes: { type: Array, default: () => ['posting'] },
     callback: { type: Function, default: () => {} }
   },
 
   data () {
     return {
       username: '',
-      key: '',
+      keys: {},
       password: '',
       cpassword: '',
       keySize: 256,
@@ -125,7 +122,9 @@ export default {
       unlockingPassword: '',
       buttonBusy: false,
       error: '',
-      showError: false
+      showError: false,
+
+      keysMap: {}
     }
   },
 
@@ -138,6 +137,18 @@ export default {
   },
 
   created () {
+    if (process.client && !sessionStorage.getItem('smartlock-otp')) {
+      const otp = Math.random().toString(36).substring(2)
+
+      sessionStorage.setItem('smartlock-otp', otp)
+    }
+
+    this.keys = this.keyTypes.reduce((acc, cur) => {
+      acc[cur] = ''
+
+      return acc
+    }, {})
+
     this.loadAccounts()
   },
 
@@ -155,7 +166,7 @@ export default {
       }
     })
 
-    this.$root.$on('smartock-loggedin', () => {
+    this.$root.$on('smartlock-loggedin', () => {
       this.$root.$bvModal.hide('smartLock')
       this.$root.$bvModal.hide('smartLockAddAccount')
       this.$root.$bvModal.hide('smartLockUnlockAccount')
@@ -167,7 +178,7 @@ export default {
       if (process.client) {
         this.smartLockAccounts = {}
 
-        const accounts = localStorage.getItem(`${this.prefix}-accounts`)
+        const accounts = localStorage.getItem('smartlock-accounts')
 
         if (accounts) {
           this.smartLockAccounts = JSON.parse(accounts)
@@ -180,25 +191,37 @@ export default {
 
       try {
         if (this.password === this.cpassword) {
-          const credentialsValid = await this.credentialsValid(this.username, this.key, this.keyType)
+          const keys = Object.keys(this.keys)
 
-          if (credentialsValid) {
-            const encryptedKey = await this.encrypt(this.key, this.password)
+          const account = {}
 
-            const account = this.smartLockAccounts[this.username] || {}
+          for (let i = 0; i < keys.length; i += 1) {
+            const keyType = keys[i]
+            const key = this.keys[keyType]
 
-            account.active = encryptedKey
+            if (key.length < 51) {
+              continue
+            }
 
-            localStorage.setItem(`${this.prefix}-accounts`, JSON.stringify({ ...this.smartLockAccounts, [this.username]: account }))
+            const credentialsValid = await this.credentialsValid(this.username, key, keyType)
 
-            this.unlockAccount(this.username)
+            if (credentialsValid) {
+              const encryptedKey = await encrypt(key, this.password)
 
-            this.username = ''
-            this.key = ''
-          } else {
-            this.error = `The key you have entered is not a valid ${this.keyType} key for @${this.username}.`
-            this.showError = true
+              account[keyType] = encryptedKey
+
+              this.keys[keyType] = ''
+            } else {
+              this.error = `The key you have entered is not a valid ${keyType} key for @${this.username}.`
+              this.showError = true
+            }
           }
+
+          localStorage.setItem('smartlock-accounts', JSON.stringify({ ...this.smartLockAccounts, [this.username]: account }))
+
+          this.unlockAccount(this.username)
+
+          this.username = ''
         } else {
           this.error = 'Your password and confirmation password do not match.'
           this.showError = true
@@ -226,16 +249,25 @@ export default {
           this.loadAccounts()
 
           const account = this.smartLockAccounts[this.unlockingAccount]
+          const keys = Object.keys(account)
 
-          const decryptedKey = await this.decrypt(account.active, this.unlockingPassword)
+          for (let i = 0; i < keys.length; i += 1) {
+            const keyType = keys[i]
 
-          localStorage.setItem(`${this.prefix}-${this.unlockingAccount}`, btoa(decryptedKey))
+            const decryptedKey = await decrypt(account[keyType], this.unlockingPassword)
 
-          this.$root.$emit('smartock-loggedin')
+            const storageKey = `smartlock-${this.unlockingAccount}-${keyType}`
+
+            const wcEncrypted = await WCEncrypt(decryptedKey, sessionStorage.getItem('smartlock-otp'))
+
+            sessionStorage.setItem(storageKey, wcEncrypted)
+          }
+
+          this.$root.$emit('smartlock-loggedin')
 
           this.$bvModal.hide('smartLockUnlockAccount')
 
-          this.callback(this.unlockingAccount, decryptedKey)
+          this.callback(this.unlockingAccount, sessionStorage.getItem(`smartlock-${this.unlockingAccount}-${this.keyTypes[0]}`))
         } catch (e) {
           this.unlockingPassword = ''
           this.showError = true
@@ -251,39 +283,9 @@ export default {
     removeAccount (username) {
       delete this.smartLockAccounts[username]
 
-      localStorage.setItem(`${this.prefix}-accounts`, JSON.stringify(this.smartLockAccounts))
+      localStorage.setItem('smartlock-accounts', JSON.stringify(this.smartLockAccounts))
 
       this.loadAccounts()
-    },
-
-    encrypt (message, pass) {
-      return new Promise((resolve, reject) => {
-        TripesecEncrypt({
-          data: Buffer.from(message),
-          key: Buffer.from(pass)
-        }, (err, buff) => {
-          if (!err) {
-            resolve(buff.toString('hex'))
-          }
-
-          reject(err)
-        })
-      })
-    },
-
-    decrypt (encryptedMessage, pass) {
-      return new Promise((resolve, reject) => {
-        TripesecDecrypt({
-          data: Buffer.from(encryptedMessage, 'hex'),
-          key: Buffer.from(pass)
-        }, (err, buff) => {
-          if (!err) {
-            resolve(buff.toString('utf-8'))
-          }
-
-          reject(err)
-        })
-      })
     },
 
     async getUserKeysMap (username) {
@@ -319,7 +321,9 @@ export default {
     },
 
     async credentialsValid (username, privateKey, type = null) {
-      const keysMap = await this.getUserKeysMap(username)
+      const keysMap = this.keysMap[username] ? this.keysMap[username] : await this.getUserKeysMap(username)
+
+      this.keysMap[username] = keysMap
 
       const key = this.$chain.PrivateKey.from(privateKey)
 
@@ -357,7 +361,7 @@ export default {
     position: absolute;
     right: 10px;
     display: inline-block;
-    margin-top: 5px;
+    margin-top: 10px;
     color: red;
 
     .icon {

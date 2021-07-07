@@ -1,5 +1,16 @@
 $enable-rounded: false;
 
+@function encodeColor($string) {
+  @if type-of($string) == "color" and str-index(#{$string}, "#") == 1 {
+    $hex: str-slice(ie-hex-str($string), 4);
+    $string: unquote("#{$hex}");
+
+    @return "%23" + $string;
+  }
+
+  @return $string;
+}
+
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
 

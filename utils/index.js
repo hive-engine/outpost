@@ -46,7 +46,7 @@ export const calculateReputation = (reputation) => {
 export const allTags = (tags, originalCategory, hashtags, editing = false) => {
   tags = new Set(tags)
 
-  if (SCOT_TAG_FIRST && !editing) {
+  if (SCOT_TAG_FIRST && !/^hive-[1-3]\d{4,6}$/.test(tags.values().next().value) && !editing) {
     tags = new Set([SCOT_TAG, ...tags])
   } else {
     tags = tags.add(SCOT_TAG)
@@ -77,4 +77,16 @@ export const toFixedWithoutRounding = (t, l = 3) => {
   const a = 10 ** l
   const s = t * a
   return Math.trunc(s) / a
+}
+
+export const arrayChunk = (array, size = 20) => {
+  const chunkedArray = []
+  let index = 0
+
+  while (index < array.length) {
+    chunkedArray.push(array.slice(index, size + index))
+    index += size
+  }
+
+  return chunkedArray
 }

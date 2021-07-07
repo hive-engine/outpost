@@ -8,6 +8,17 @@ $dark-input-bg-color: lighten($dark-secondary, 10%);
 $dark-input-border-color: lighten($dark-secondary, 20%);
 $dark-input-color: #fff;
 
+@function encodeColor($string) {
+  @if type-of($string) == "color" and str-index(#{$string}, "#") == 1 {
+    $hex: str-slice(ie-hex-str($string), 4);
+    $string: unquote("#{$hex}");
+
+    @return "%23" + $string;
+  }
+
+  @return $string;
+}
+
 .dark-mode {
   scrollbar-color: lighten($dark-border-color, 20) $dark-secondary;
 
@@ -71,9 +82,11 @@ $dark-input-color: #fff;
     border-color: $dark-border-color !important;
   }
 
-  .btn-create {
-    border-color: $dark-input-border-color;
-    background-color: $dark-input-bg-color;
+  .navbar-btn {
+    @include media-breakpoint-up("md") {
+      border-color: $dark-input-border-color;
+      background-color: $dark-input-bg-color;
+    }
   }
 
   .btn-warning {
@@ -121,6 +134,10 @@ $dark-input-color: #fff;
       background-color: rgba(0, 0, 0, 0.1);
     }
 
+    &.table-hover tbody tr:hover {
+      color: $dark-color;
+    }
+
     &.table-sm {
       th,
       td {
@@ -160,7 +177,8 @@ $dark-input-color: #fff;
   .ui.selection.dropdown,
   .b-form-tags-input,
   .custom-file-label,
-  .input-group-text {
+  .input-group-text,
+  input.vue-pincode-input {
     background-color: $dark-input-bg-color;
     border-color: $dark-input-border-color;
     color: $dark-input-color !important;
@@ -182,6 +200,12 @@ $dark-input-color: #fff;
     }
   }
 
+  .custom-select {
+    background: $dark-input-bg-color
+      url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='#{encodeColor($dark-color)}' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e")
+      right 0.75rem center/8px 10px no-repeat;
+  }
+
   .nav {
     .nav-link {
       color: $dark-color;
@@ -189,6 +213,23 @@ $dark-input-color: #fff;
       &.active {
         background-color: var(--gray) !important;
       }
+    }
+  }
+
+  .page-item {
+    .page-link {
+      background-color: $dark-bg-color !important;
+      border-color: $dark-border-color !important;
+      color: $dark-link-color;
+
+      &:hover,
+      &:focus {
+        color: darken($dark-link-color, 10);
+      }
+    }
+
+    &.active .page-link {
+      background-color: $dark-secondary !important;
     }
   }
 
@@ -299,6 +340,60 @@ $dark-input-color: #fff;
     .slider-nav {
       background: rgba($color: $dark-bg-color, $alpha: 0.8);
       color: $dark-color;
+    }
+  }
+
+  /*-------------------------------
+  | NFT Marketplace
+  -------------------------------*/
+  .nft-card {
+    border-color: $dark-border-color;
+    box-shadow: 0 0 8px 0 rgba($color: $light, $alpha: 0.2);
+  }
+
+  .transaction-history-list {
+    scrollbar-color: $dark-border-color $dark-secondary;
+
+    &::-webkit-scrollbar {
+      background-color: $dark-secondary;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $dark-border-color;
+    }
+
+    .list-group-item {
+      background-color: $dark-secondary;
+
+      &:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  /*-------------------------------
+  | Search
+  -------------------------------*/
+  .search-form {
+    hr {
+      border-color: darken($color: $dark-color, $amount: 50);
+    }
+
+    .search-label {
+      color: $dark-color;
+    }
+
+    .search-input {
+      background-color: transparent;
+      border-color: transparent;
+      color: $dark-color;
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='#{encodeColor($dark-color)}' d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    }
+
+    .divider {
+      &:after {
+        background-color: $border-color;
+      }
     }
   }
 }

@@ -14,7 +14,8 @@ module.exports = {
   plugins: [
   ],
   rules: {
-    'no-console': 0
+    'no-console': 0,
+    'vue/no-v-html': 0
   },
   globals: {
     $nuxt: 'readonly'

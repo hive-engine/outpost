@@ -78,7 +78,7 @@
       </div>
 
       <div class="text-center">
-        <b-button variant="danger" size="sm" @click.prevent="pending = true; requestBroadcastVote({author, permlink, weight: -dvWeight})">
+        <b-button variant="danger" size="sm" @click.prevent="dvPending = true; requestBroadcastVote({author, permlink, weight: -dvWeight})">
           Downvote
         </b-button>
 
