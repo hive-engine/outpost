@@ -187,14 +187,11 @@ export default {
   async fetch () {
     this.sortBy = 'reward'
 
-    const requests = this.permlinks.map((p) => {
-      const [author, permlink] = p.split('/')
-      return this.fetchPost({ author, permlink })
-    })
+    const { user: author, post: permlink } = this.$route.params
 
-    const scotData = await Promise.all(requests)
+    const scotData = await this.fetchThread({ author, permlink })
 
-    scotData.filter(d => d).forEach((d) => {
+    scotData.forEach((d) => {
       const authorperm = d.authorperm.substring(1)
 
       this.discussions[authorperm] = {
@@ -393,7 +390,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('scot', ['fetchPost']),
+    ...mapActions('scot', ['fetchPost', 'fetchThread']),
     ...mapActions('user', ['fetchAccountScotData'])
   }
 }

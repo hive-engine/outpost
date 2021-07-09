@@ -157,24 +157,21 @@ export default {
 
     votes () {
       const votes = this.activeVotes
-      const scotDenom = 10 ** this.tribe_info.precision
       const rsharesTotal = this.rshares
-      const payout = this.payout / scotDenom
+      const payout = this.payout || this.applyRewardsCurve(rsharesTotal)
 
       let currRshares = 0
 
-      const pot = rsharesTotal > 0 ? payout : 1
-      const denom = rsharesTotal > 0
-        ? this.applyRewardsCurve(rsharesTotal)
-        : scotDenom
+      const pot = payout
+      const denom = Math.abs(this.applyRewardsCurve(rsharesTotal))
 
       for (let i = 0; i < votes.length; i++) {
         const vote = votes[i]
         vote.estimated_value = (
-          pot * (this.applyRewardsCurve(currRshares + vote.rshares) - this.applyRewardsCurve(currRshares)) / denom
+          pot * (this.applyRewardsCurve(currRshares + Math.abs(vote.rshares)) - this.applyRewardsCurve(currRshares)) / denom
         ).toFixed(this.tribe_info.precision)
 
-        currRshares += vote.rshares
+        currRshares += Math.abs(vote.rshares)
       }
 
       return votes.sort((a, b) => b.estimated_value - a.estimated_value)
@@ -255,7 +252,7 @@ export default {
     ...mapActions('post', ['requestBroadcastVote']),
 
     applyRewardsCurve (rShares) {
-      return ((Math.max(0, rShares) ** this.tribe_config.author_curve_exponent) * this.tribe_info.reward_pool) / this.tribe_info.pending_rshares
+      return ((rShares ** this.tribe_config.author_curve_exponent) * this.tribe_info.reward_pool) / this.tribe_info.pending_rshares
     }
   }
 }

@@ -71,7 +71,11 @@ export const actions = {
           acc.accounts.add(cur.author)
         }
 
-        cur.estimated_payout_value = ((cur.pending_token || cur.total_payout_value) / 10 ** rootState.tribe_info.precision).toFixed(3)
+        const isPaidout = new Date(`${cur.cashout_time}Z`).getTime() < Date.now()
+
+        cur.estimated_payout_value = isPaidout
+          ? cur.total_payout_value.toFixed(3)
+          : (((cur.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares).toFixed(3)
 
         return acc
       }, {
@@ -104,12 +108,38 @@ export const actions = {
       const data = await this.$scot.$get(`@${author}/${permlink}`)
       post = data[TOKEN]
 
-      post.estimated_payout_value = ((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision).toFixed(3)
+      const isPaidout = new Date(`${post.cashout_time}Z`).getTime() < Date.now()
+
+      post.estimated_payout_value = isPaidout
+        ? post.total_payout_value.toFixed(3)
+        : (((post.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares).toFixed(3)
     } catch {
       //
     }
 
     return post
+  },
+
+  async fetchThread ({ rootState }, { author, permlink }) {
+    let posts = []
+
+    try {
+      const thread = await this.$scot.$get('get_thread', { params: { author, permlink } })
+
+      posts = thread.map((post) => {
+        const isPaidout = new Date(`${post.cashout_time}Z`).getTime() < Date.now()
+
+        post.estimated_payout_value = isPaidout
+          ? post.total_payout_value.toFixed(3)
+          : (((post.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares).toFixed(3)
+
+        return post
+      })
+    } catch {
+      //
+    }
+
+    return posts
   },
 
   async fetchTrendingTags ({ commit }) {

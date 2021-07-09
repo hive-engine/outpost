@@ -19,8 +19,7 @@ export const getters = {
     }
 
     return Math.min(
-      state.scot_data.voting_power + ((new Date() - new Date(`${state.scot_data.last_vote_time}Z`)) * 10000) /
-       (1000 * rootState.tribe_config.vote_regeneration_seconds),
+      state.scot_data.voting_power + ((Date.now() - state.scot_data.last_vote_timestamp) * 10000) / (1000 * rootState.tribe_config.vote_regeneration_seconds),
       10000
     )
   },
@@ -30,8 +29,7 @@ export const getters = {
     }
 
     return Math.min(
-      state.scot_data.downvoting_power + ((new Date() - new Date(`${state.scot_data.last_downvote_time}Z`)) * 10000) /
-       (1000 * rootState.tribe_config.downvote_regeneration_seconds),
+      state.scot_data.downvoting_power + ((Date.now() - state.scot_data.last_vote_timestamp) * 10000) / (1000 * rootState.tribe_config.vote_regeneration_seconds),
       10000
     )
   },
@@ -142,13 +140,30 @@ export const actions = {
   async fetchAccountScotData ({ commit }) {
     if (!this.$auth.loggedIn) { return }
 
-    try {
-      const data = await this.$scot.$get(`@${this.$auth.user.username}`)
+    let data = {
+      voting_power: 10000,
+      downvoting_power: 10000,
+      staked_tokens: 0,
+      last_vote_timestamp: 0
+    }
 
-      commit('SET_SCOT_DATA', data[`${this.$config.TOKEN}`] || {})
+    try {
+      const [{ votingPower, downvotingPower, lastVoteTimestamp }, { stake, delegationsIn }] = await Promise.all([
+        this.$sidechain.getVotingPower(this.$auth.user.username),
+        this.$sidechain.getBalance(this.$auth.user.username, this.$config.TOKEN)
+      ])
+
+      data = {
+        voting_power: votingPower,
+        downvoting_power: downvotingPower,
+        staked_tokens: Number(stake) + Number(delegationsIn),
+        last_vote_timestamp: lastVoteTimestamp
+      }
     } catch {
       //
     }
+
+    commit('SET_SCOT_DATA', data)
   },
 
   async fetchFollowers ({ commit }) {

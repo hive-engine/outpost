@@ -220,6 +220,7 @@ export default {
           'https://cdn.plyr.io',
           'https://api.coingecko.com',
           'https://hetestnet.dtools.dev',
+          'https://hetest.cryptoempirebot.com',
           ...config.NODES
         ],
         'form-action': ["'self'"],
@@ -240,7 +241,8 @@ export default {
         },
         token: {
           required: false,
-          type: false
+          type: false,
+          maxAge: 90 * 24 * 60 * 1000
         },
         user: {
           property: false,
@@ -260,9 +262,11 @@ export default {
       options: {
         path: '/',
         sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production'
+        secure: process.env.NODE_ENV === 'production',
+        expires: 90
       }
-    }
+    },
+    localStorage: false
   },
 
   server: {
