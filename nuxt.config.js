@@ -83,7 +83,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: config.APP_DOMAIN
+    credentials: true
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
