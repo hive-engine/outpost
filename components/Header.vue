@@ -33,7 +33,7 @@
             <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
               Curator's Pick
             </b-nav-item>
-            <b-nav-item :to="{name:'nfts'}">
+            <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
               NFTs
             </b-nav-item>
           </b-navbar-nav>

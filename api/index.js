@@ -42,7 +42,6 @@ app.use(cookieSession({
 app.use(cookieParser())
 
 app.use(cors())
-app.use(csurf({ cookie: true }))
 
 app.get('/', (req, res) => {
   res.json({
@@ -119,7 +118,7 @@ app.post('/login', csurfProtection, async (req, res) => {
   return res.status(401)
 })
 
-app.post('/me', csurfProtection, (req, res) => {
+app.post('/me', (req, res) => {
   const { user: username, smartlock } = req.session
 
   if (username) {
