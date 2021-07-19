@@ -29,4 +29,4 @@ export const AXIOS_CACHE_CONFIG = {
 export const NFT_ENABLED = true
 export const NFT_SYMBOL = 'CINENFT'
 export const NFT_MARKETPLACE = 'cinetv'
-export const NFT_MARKETPLACE_API = 'https://marketplace.tribaldex.com/api'
+export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'

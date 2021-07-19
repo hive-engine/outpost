@@ -1,14 +1,10 @@
 <template>
-  <b-container fluid="lg">
+  <b-container>
     <template v-if="loading">
       <loading />
     </template>
 
     <template v-else>
-      <b-button variant="primary" size="sm" :to="{ name: 'user-gallery', params: { user: $route.params.user } }" class="mt-3 mb-1">
-        <fa-icon icon="angle-left" /> Back
-      </b-button>
-
       <b-card class="mt-3">
         <h1 class="h3">
           {{ series.name }}
@@ -32,6 +28,42 @@
               <strong>Total Edition(s):</strong> {{ series.editions }}
             </div>
 
+            <div class="mt-3">
+              <strong>Remaining Edition(s):</strong> {{ remainingEditions }}
+            </div>
+
+            <div v-if="remainingEditions > 0" class="alert alert-info p-2 mt-5 mb-5">
+              <b-form-row>
+                <b-col>
+                  <b-form-group label="Edition">
+                    <b-input-group :append="`/ ${remainingEditions}`">
+                      <b-form-input v-model="editions" type="number" min="1" :max="remainingEditions" /></b-form-input>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+
+                <b-col>
+                  <b-form-group label="Total">
+                    <b-input-group :append="settings.official_nft_price_symbol">
+                      <b-form-input readonly :value="totalPrice" />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+
+                <b-col v-if="$auth.loggedIn" cols="12">
+                  Your balance: {{ balance }} {{ settings.official_nft_price_symbol }}
+                </b-col>
+              </b-form-row>
+
+              <b-button v-if="$auth.loggedIn" :disabled="balance < totalPrice" class="mt-2" variant="primary" @click.prevent="requestPayment">
+                Buy NFT
+              </b-button>
+
+              <b-button v-else class="mt-2" variant="primary" @click.prevent="$bvModal.show('loginModal')">
+                Login
+              </b-button>
+            </div>
+
             <ul class="mt-3 list-inline">
               <li v-for="(t, i) of series.tags" :key="i" class="list-inline-item">
                 <nuxt-link :to="{ name: 'nfts-search', query: { q: t } }">
@@ -39,6 +71,12 @@
                 </nuxt-link>
               </li>
             </ul>
+
+            <div v-if="$auth.loggedIn">
+              <b-button size="sm" variant="warning" @click="$bvModal.show('reportCollectibleModal')">
+                Report
+              </b-button>
+            </div>
           </b-col>
 
           <b-col lg="7" order="1" order-lg="2" class="mb-3 text-center text-lg-right">
@@ -69,7 +107,7 @@
         </b-row>
       </b-card>
 
-      <b-card class="mt-3" body-class="p-0">
+      <b-card v-if="remainingEditions <= 0" class="mt-3" body-class="p-0">
         <b-card-header>
           <div class="d-flex align-items-center justify-content-between cursor-pointer" @click="listingVisible = !listingVisible">
             <div class="font-weight-bold">
@@ -151,6 +189,12 @@
                   </nuxt-link>  for {{ parseFloat(h.data.price).toFixed(3) }} {{ h.data.symbol }}
                 </template>
 
+                <template v-else-if="h.type === 'buy_official_nft'">
+                  <nuxt-link :to="{name:'user-collection', params:{user: h.account}}">
+                    @{{ h.account }}
+                  </nuxt-link> has been issued edition #{{ h.data.editions.join(', #') }} for {{ parseFloat(h.data.price).toFixed(3) }} {{ h.data.symbol }}
+                </template>
+
                 <template v-else-if="h.type === 'transfer'">
                   <nuxt-link :to="{name:'user-collection', params:{user: h.account}}">
                     @{{ h.account }}
@@ -185,6 +229,8 @@
           </b-card-body>
         </b-collapse>
       </b-card>
+
+      <report :series="series.series" />
     </template>
   </b-container>
 </template>
@@ -193,12 +239,15 @@
 import { mapGetters, mapActions } from 'vuex'
 import NFTMMixin from '@/mixins/nftmarketplace'
 import AddToCart from '@/components/nftmarketplace/AddToCart.vue'
+import Report from '@/components/nftmarketplace/modals/Report.vue'
+import { toFixedWithoutRounding } from '~/utils'
 
 export default {
-  name: 'Series',
+  name: 'OfficialSeries',
 
   components: {
-    AddToCart
+    AddToCart,
+    Report
   },
 
   mixins: [NFTMMixin],
@@ -212,7 +261,7 @@ export default {
       //
     }
 
-    if (!series) {
+    if (!series || !series.official) {
       return error({ statusCode: 404, message: 'NFT you are looking for can not be found!' })
     }
 
@@ -223,6 +272,9 @@ export default {
 
   data () {
     return {
+      editions: 1,
+      balance: 0,
+
       forSale: [],
       history: [],
 
@@ -245,13 +297,19 @@ export default {
   async fetch () {
     this.loading = true
 
-    const [forSale, history] = await Promise.all([
-      this.fetchForSale({ account: this.$route.params.user, 'grouping.series': this.$route.params.series }),
-      this.$nftm.$get('transactions/history', { params: { series: this.$route.params.series, types: 'issue,buy,burn' } })
-    ])
+    const requests = [
+      this.$nftm.$get('transactions/history', { params: { series: this.$route.params.series, types: 'issue,buy_official_nft,burn' } }),
+      this.fetchTokenBalance()
+    ]
 
-    this.forSale = forSale
+    if (this.remainingEditions <= 0) {
+      requests.push(this.fetchForSale({ 'grouping.series': this.$route.params.series }))
+    }
+
+    const [history,, forSale] = await Promise.all(requests)
+
     this.history = history
+    this.forSale = forSale
 
     this.loading = false
   },
@@ -274,37 +332,107 @@ export default {
   },
 
   computed: {
-    ...mapGetters('nftmarketplace', ['token_price'])
+    ...mapGetters('nftmarketplace', ['settings', 'token_price']),
+
+    remainingEditions () {
+      return this.series.editions - this.series.editions_issued
+    },
+
+    totalPrice () {
+      return toFixedWithoutRounding(this.editions * this.series.price_per_edition, this.settings.official_nft_price_symbol_precision)
+    }
+  },
+
+  watch: {
+    '$auth.loggedIn': {
+      async handler (v) {
+        if (v) {
+          await this.fetchTokenBalance()
+        }
+      }
+    }
   },
 
   mounted () {
-    this.$eventBus.$on(['nft-buy-successful', 'nft-sell-successful', 'nft-cancel-sell-successful', 'nft-change-price-successful'], this.requestValidateTransaction)
+    this.$eventBus.$on(['nft-buy-successful', 'nft-cancel-sell-successful', 'nft-change-price-successful'], this.requestValidateTransaction)
 
     this.$eventBus.$on('transaction-validated', this.$fetch)
+
+    this.$eventBus.$on('tokens-transfer-successful', async (data) => {
+      this.loading = true
+      this.editions = 1
+
+      await this.validateTokenIssuance(data.id)
+    })
+
+    this.$eventBus.$on('nftmarketplace-mint-tokens-validated', async () => {
+      await this.$nuxt.refresh()
+
+      this.$notify({ title: 'Success', text: 'You have been issued the NFT(s).', type: 'success' })
+    })
+
+    this.$eventBus.$on('nftmarketplace-mint-tokens-not-validated', async () => {
+      await this.$nuxt.refresh()
+
+      this.$notify({ title: 'Warning', text: 'Automatic verification has failed. Please verify manually.', type: 'warn' })
+    })
   },
 
   beforeDestroy () {
-    this.$eventBus.$off(['nft-buy-successful', 'nft-sell-successful', 'nft-cancel-sell-successful', 'nft-change-price-successful'], this.requestValidateTransaction)
+    this.$eventBus.$off(['nft-buy-successful', 'nft-cancel-sell-successful', 'nft-change-price-successful'], this.requestValidateTransaction)
     this.$eventBus.$off('transaction-validated', this.$fetch)
+
+    this.$eventBus.$off(['tokens-transfer-successful', 'nftmarketplace-mint-tokens-validated', 'nftmarketplace-mint-tokens-not-validated'])
   },
 
   methods: {
-    ...mapActions('nftmarketplace', ['fetchForSale']),
-    ...mapActions('transaction', ['validateTransaction']),
+    ...mapActions('nftmarketplace', ['fetchForSale', 'validateTokenIssuance']),
+    ...mapActions('user', ['requestTokenAction']),
+
+    async fetchTokenBalance () {
+      if (!this.$auth.loggedIn) { return }
+
+      let balance = 0
+
+      try {
+        balance = await this.$sidechain.getBalance(this.$auth.user.username, this.settings.official_nft_price_symbol)
+        balance = balance ? Number(balance.balance) : 0
+      } catch {
+        //
+      }
+
+      this.balance = balance
+    },
+
+    requestPayment () {
+      const { account, site, official_nft_price_symbol: priceSymbol } = this.settings
+
+      const payload = {
+        action: 'transfer',
+        symbol: priceSymbol,
+        amount: this.totalPrice,
+        to: account,
+        memo: JSON.stringify({
+          action: 'mint-official',
+          site,
+          series: this.series.series,
+          editions: this.editions
+        })
+      }
+
+      this.requestTokenAction(payload)
+    },
 
     getUSDPrice (hivePrice) {
       return `$${Number(Number(hivePrice) * this.token_price).toFixed(3)}`
     }
+  },
+
+  timers: {
+    fetchTokenBalance: { time: 3 * 60 * 1000, autostart: true, immediate: true, repeat: true }
   }
 }
 </script>
-
-<router>
-  {
-    name:'user-gallery-series',
-    path: '/@:user/gallery/:series'
-  }
-</router>
 
 <style>
 

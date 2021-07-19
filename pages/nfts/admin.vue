@@ -1,6 +1,6 @@
 <template>
   <div class="nftmarketplace-admin">
-    <b-container>
+    <b-container fluid="lg">
       <template v-if="!isLoggedIn">
         <b-card class="mt-5">
           <div class="h5">
@@ -56,6 +56,10 @@
             <b-tab title="Issue Manully">
               <manual-issue />
             </b-tab>
+
+            <b-tab title="Official NFTs">
+              <official-nfts />
+            </b-tab>
           </b-tabs>
         </b-card>
       </template>
@@ -73,6 +77,7 @@ import Collectibles from '@/components/nftmarketplace/admin/Collectibles.vue'
 import Applications from '@/components/nftmarketplace/admin/Applications.vue'
 import Reports from '@/components/nftmarketplace/admin/Reports.vue'
 import ManualIssue from '@/components/nftmarketplace/admin/ManualIssue.vue'
+import OfficialNfts from '@/components/nftmarketplace/admin/OfficialNfts.vue'
 
 export default {
   name: 'AdminPanel',
@@ -85,7 +90,8 @@ export default {
     Collectibles,
     Applications,
     Reports,
-    ManualIssue
+    ManualIssue,
+    OfficialNfts
   },
 
   middleware: 'authenticated',

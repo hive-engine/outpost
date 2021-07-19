@@ -66,12 +66,10 @@ export default {
     try {
       await store.dispatch('nftmarketplace/fetchSettings', { root: true })
 
-      if (!store.state.nftmarketplace.settings.site) {
+      if (!store.state.nftmarketplace.settings || !store.state.nftmarketplace.settings.site) {
         return error({ statusCode: 404, message: 'NFT Marketplace settings has not been found!' })
       }
     } catch (error) {
-      console.log(error)
-
       return error({ statusCode: 404, message: 'NFT Marketplace settings has not been found!' })
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="nftmarketplace-gallery">
-    <b-container>
+    <b-container fluid="lg">
       <b-row align-h="center">
         <b-col md="8" lg="6">
           <search class="mt-0 mb-0" />

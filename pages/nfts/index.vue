@@ -1,10 +1,29 @@
 <template>
-  <b-container>
+  <b-container fluid="lg">
     <template v-if="loading">
       <loading />
     </template>
 
     <template v-else>
+      <section v-if="settings && settings.official_nft_enabled && official.length >0">
+        <h3 class="mt-5">
+          Official NFTs
+        </h3>
+
+        <b-row class="mt-3">
+          <b-col
+            v-for="(nft,i) of official"
+            :key="i"
+            class="mb-5"
+            sm="6"
+            md="4"
+            lg="3"
+          >
+            <nft :nft="nft" route="nfts-official-series" />
+          </b-col>
+        </b-row>
+      </section>
+
       <section>
         <h3 class="mt-5">
           Featured NFTs
@@ -84,6 +103,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Nft from '@/components/nftmarketplace/Nft.vue'
 
 export default {
@@ -95,6 +115,7 @@ export default {
 
   data () {
     return {
+      official: [],
       featured: [],
       latest: [],
       history: []
@@ -104,12 +125,14 @@ export default {
   async fetch () {
     this.loading = true
 
-    const [latest, featured, history] = await Promise.all([
+    const [official, latest, featured, history] = await Promise.all([
+      this.$nftm.$get('collectibles/official'),
       this.$nftm.$get('collectibles/latest', { params: { limit: 4 } }),
       this.$nftm.$get('collectibles/featured', { params: { limit: 4 } }),
       this.$nftm.$get('transactions/history', { params: { types: 'buy', limit: 4 } })
     ])
 
+    this.official = official
     this.latest = latest
     this.featured = featured
     this.history = history.map(h => ({ ...h, ...h.series_info }))
@@ -121,6 +144,10 @@ export default {
     return {
       title: 'NFT Marketplace'
     }
+  },
+
+  computed: {
+    ...mapGetters('nftmarketplace', ['settings'])
   }
 }
 </script>
