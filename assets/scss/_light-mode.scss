@@ -111,6 +111,10 @@ pre {
   max-width: 1920px;
 }
 
+.container-lg {
+  max-width: 1140px;
+}
+
 .btn-link {
   color: inherit;
 
@@ -733,7 +737,6 @@ pre {
   }
 
   .nft-name {
-    margin-bottom: 10px;
     font-size: 20px;
     white-space: nowrap;
     overflow: hidden;

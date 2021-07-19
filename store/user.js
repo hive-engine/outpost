@@ -285,12 +285,14 @@ export const actions = {
     }
   },
 
-  requestTokenAction ({ dispatch, rootState }, { action, amount, to, memo }) {
+  requestTokenAction ({ dispatch, rootState }, { action, amount, symbol, to, memo }) {
+    symbol = symbol || this.$config.TOKEN
+
     const op = {
       contractName: 'tokens',
       contractAction: action,
       contractPayload: {
-        symbol: this.$config.TOKEN,
+        symbol,
         quantity: toFixedWithoutRounding(amount, rootState.tribe_info.precision).toString()
       }
     }

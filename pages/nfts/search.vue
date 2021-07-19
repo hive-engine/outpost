@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid="lg">
     <div class="search-form">
       <label ref="label" for="search-input" class="search-label">Search...</label>
       <input

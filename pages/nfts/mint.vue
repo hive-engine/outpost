@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid="lg">
     <template v-if="loading">
       <loading />
     </template>
@@ -273,6 +273,31 @@
             I understand that if I violate the Terms of Service I may be blacklisted from the site.
           </b-checkbox>
 
+          <b-alert v-if="settings && settings.official_nft_enabled && settings.admins.includes($auth.user.username)" show variant="warning" class="mt-5">
+            <b-checkbox id="official_nft" v-model="official_nft" value="accepted" :unchecked-value="false">
+              This is an official NFT and I'd like to set a price for it.
+            </b-checkbox>
+
+            <div v-if="official_nft" class="mt-3">
+              <b-form-group label="Price Per Edition *">
+                <b-input-group :append="settings.official_nft_price_symbol">
+                  <b-form-input
+                    v-model="official_nft_price"
+                    number
+                    type="number"
+                    autocomplete="off"
+                    min="0"
+                    :state="$v.official_nft_price.$dirty ? !$v.official_nft_price.$error : null"
+                  />
+                </b-input-group>
+              </b-form-group>
+
+              <div class="mt-3">
+                There will be <strong>{{ editions }}</strong> editions of this official NFT priced <strong>{{ official_nft_price }} {{ settings.official_nft_price_symbol }}/edition</strong> totaling <strong>{{ toFixedWithoutRounding(editions * official_nft_price, settings.official_nft_price_symbol_precision) }} {{ settings.official_nft_price_symbol }}</strong>. <span class="text-danger">Please note that you won't be able to change any of this in future.</span>
+              </div>
+            </div>
+          </b-alert>
+
           <div class="mt-4 h6">
             Total Issuance fee for {{ editions }} edition(s): {{ issuanceFee }} {{ settings.currency }}
           </div>
@@ -292,6 +317,7 @@ import { required, numeric, maxLength, between, url } from 'vuelidate/lib/valida
 import getSlug from 'speakingurl'
 import { toFixedWithoutRounding } from '@/utils'
 import FileInput from '@/components/nftmarketplace/FileInput.vue'
+import requiredIf from 'vuelidate/lib/validators/requiredIf'
 
 export default {
   name: 'MintNFT',
@@ -348,6 +374,9 @@ export default {
       accept_content: null,
       accept_no_violance: null,
 
+      official_nft: false,
+      official_nft_price: 1,
+
       currencyBalance: 0,
 
       uploading: false,
@@ -397,6 +426,10 @@ export default {
     },
 
     issuanceFee () {
+      if (this.official_nft) {
+        return 0.01
+      }
+
       return toFixedWithoutRounding(this.settings.token_issuance_base_fee + (this.settings.token_issuance_fee * this.editions), 3)
     },
 
@@ -455,6 +488,10 @@ export default {
 
     selectedCollection (v) {
       this.collection = v
+    },
+
+    official_nft (v) {
+      this.collection = v ? 'Official NFT' : ''
     }
   },
 
@@ -492,6 +529,9 @@ export default {
       self.accept_content = null
       self.accept_no_violance = null
 
+      self.official_nft = null
+      self.official_nft_price = ''
+
       self.$v.$reset()
 
       self.loading = true
@@ -501,7 +541,7 @@ export default {
       await self.$nuxt.refresh()
     })
 
-    this.$eventBus.$once('nftmarketplace-mint-tokens-validated', ({ series }) => {
+    this.$eventBus.$once('nftmarketplace-mint-tokens-validated', ({ account, series }) => {
       try {
         self.$root.$bvModal.msgBoxOk('Congratulations, your content has been tokenized! Please visit your collection to list your NFT(s) for sale.', {
           title: 'Congratulations!',
@@ -512,7 +552,7 @@ export default {
         })
           .then((value) => {
             if (value) {
-              self.$router.push({ name: 'user-collection-series', params: { user: self.$auth.user.username, series } })
+              self.$router.push({ name: 'user-collection-series', params: { user: account, series } })
             }
           })
       } catch (e) {
@@ -546,6 +586,8 @@ export default {
 
   methods: {
     ...mapActions('nftmarketplace', ['fetchUserInfo', 'requestLoginToMarketplace', 'requestMintTokens', 'validateTokenIssuance']),
+
+    toFixedWithoutRounding,
 
     uploadFile (file, type) {
       const self = this
@@ -604,6 +646,11 @@ export default {
           description: this.description
         }
 
+        if (this.official_nft) {
+          payload.official = true
+          payload.price = this.official_nft_price
+        }
+
         this.requestMintTokens({ fee: this.issuanceFee, payload })
       }
     },
@@ -649,6 +696,14 @@ export default {
     fileURL: {
       required,
       url
+    },
+
+    official_nft_price: {
+      greaterThanZero: (v) => {
+        if (v === '') { return true }
+        return v > 0
+      },
+      required: requiredIf(function () { return this.official_nft })
     }
   }
 }
