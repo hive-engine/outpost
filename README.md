@@ -1,6 +1,6 @@
 # Outpost
 
-Blogging platform built on top of Hive and Hive-Engine, connected to a customizable reward pool to link people with a common interest. Outposts also include an NFT marketplace, own DTF (soon), and Diesel Pool (soon).
+Blogging platform built on top of Hive and Hive-Engine, connected to a customizable reward pool to link people with a common interest. Outposts also include an NFT marketplace, own DTF, and Diesel Pool (soon).
 
 ## Getting Ready
 
