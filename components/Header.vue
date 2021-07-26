@@ -36,6 +36,9 @@
             <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
               NFTs
             </b-nav-item>
+            <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
+              Proposals
+            </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto align-items-md-center">

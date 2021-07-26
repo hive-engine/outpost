@@ -6,7 +6,7 @@ export default ({ $config, $axios }, inject) => {
   const SCOTAPI = $axios.create({
     baseURL: $config.SCOT_API,
     adapter,
-    credentials: true
+    withCredentials: false
   })
 
   SCOTAPI.onRequest((config) => {
