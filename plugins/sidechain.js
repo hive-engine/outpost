@@ -77,6 +77,32 @@ export default ({ $config, store }, inject) => {
       return this.contract(request)
     },
 
+    getContractParams (contractName) {
+      const request = {
+        method: 'findOne',
+        params: {
+          contract: contractName,
+          table: 'params',
+          query: {}
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getDTFFund (fundId) {
+      const request = {
+        method: 'findOne',
+        params: {
+          contract: 'tokenfunds',
+          table: 'funds',
+          query: { id: fundId }
+        }
+      }
+
+      return this.contract(request)
+    },
+
     getMetrics (symbol) {
       const request = {
         method: 'findOne',
@@ -135,6 +161,66 @@ export default ({ $config, store }, inject) => {
           contract: 'tokens',
           table: 'pendingUnstakes',
           query: { account, symbol }
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getDTFAccounts (query = {}, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'tokenfunds',
+          table: 'accounts',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getDTFApprovals (query = {}, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'tokenfunds',
+          table: 'approvals',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getDTFProposals (query, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'tokenfunds',
+          table: 'proposals',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getTokens (query = {}, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'tokens',
+          table: 'tokens',
+          query,
+          offset,
+          limit
         }
       }
 

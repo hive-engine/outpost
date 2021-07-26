@@ -185,6 +185,7 @@ $dark-input-color: #fff;
 
     &:disabled {
       background-color: darken($dark-input-bg-color, 1);
+      cursor: not-allowed;
     }
 
     &::-webkit-input-placeholder {
@@ -197,6 +198,14 @@ $dark-input-color: #fff;
 
     &::placeholder {
       color: darken($color: $dark-color, $amount: 30);
+    }
+  }
+
+  .b-form-btn-label-control {
+    &.form-control[aria-disabled="true"],
+    &.form-control[aria-readonly="true"] {
+      background-color: darken($dark-input-bg-color, 1);
+      cursor: not-allowed;
     }
   }
 
@@ -394,6 +403,16 @@ $dark-input-color: #fff;
       &:after {
         background-color: $border-color;
       }
+    }
+  }
+
+  .b-calendar-grid-body {
+    .text-dark {
+      @extend .text-light;
+    }
+
+    .btn-light {
+      @extend .btn-dark;
     }
   }
 }
