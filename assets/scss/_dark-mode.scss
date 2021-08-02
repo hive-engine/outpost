@@ -201,6 +201,50 @@ $dark-input-color: #fff;
     }
   }
 
+  .ui.selection.active.dropdown {
+    border-color: $dark-input-border-color;
+
+    .menu {
+      border-color: $dark-input-border-color;
+    }
+
+    &:hover {
+      border-color: $dark-input-border-color;
+
+      .menu {
+        border-color: $dark-input-border-color;
+      }
+    }
+  }
+
+  .ui.label {
+    background-color: $dark-secondary;
+  }
+
+  .ui.multiple.dropdown > .label i.icon.delete::after,
+  .ui.multiple.dropdown > .label i.icon.delete::before {
+    background-color: $dark-input-color;
+  }
+
+  .ui.dropdown {
+    .menu {
+      background-color: $dark-secondary;
+    }
+
+    input.search {
+      color: #fff;
+
+      &:focus + .text {
+        color: #fff !important;
+      }
+    }
+  }
+
+  .ui.selection.dropdown .menu > .item {
+    color: #fff;
+    border-color: $dark-border-color;
+  }
+
   .b-form-btn-label-control {
     &.form-control[aria-disabled="true"],
     &.form-control[aria-readonly="true"] {
@@ -413,6 +457,25 @@ $dark-input-color: #fff;
 
     .btn-light {
       @extend .btn-dark;
+    }
+  }
+
+  /*-------------------------------
+  | Diesel Pool
+  -------------------------------*/
+  .swap-currency-input {
+    background-color: $dark-secondary;
+
+    input {
+      color: lighten($color: $dark-secondary, $amount: 50);
+
+      &::placeholder {
+        color: lighten($color: $dark-secondary, $amount: 50);
+      }
+    }
+
+    button {
+      color: #fff;
     }
   }
 }

@@ -30,6 +30,13 @@ if (!Vue.__myGlobalMixin__) {
 
       sleep (ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
+      },
+
+      roundHalfUp (number, precision = 3) {
+        const sign = Math.sign(number)
+        const power = 10 ** precision
+
+        return sign * Math.round(Math.abs(number) * power) / power
       }
     }
   })
