@@ -103,13 +103,36 @@ export default ({ $config, store }, inject) => {
       return this.contract(request)
     },
 
-    getMetrics (symbol) {
+    getLiquidityPositions (query = {}, offset = 0, limit = 1000) {
       const request = {
-        method: 'findOne',
+        method: 'find',
+        params: {
+          contract: 'marketpools',
+          table: 'liquidityPositions',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getMetrics (symbol) {
+      const query = { symbol }
+      let method = 'findOne'
+
+      if (Array.isArray(symbol)) {
+        query.symbol = { $in: symbol }
+        method = 'find'
+      }
+
+      const request = {
+        method,
         params: {
           contract: 'market',
           table: 'metrics',
-          query: { symbol }
+          query
         }
       }
 
@@ -203,6 +226,21 @@ export default ({ $config, store }, inject) => {
         params: {
           contract: 'tokenfunds',
           table: 'proposals',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getMarketPools (query, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'marketpools',
+          table: 'pools',
           query,
           offset,
           limit

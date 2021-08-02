@@ -15,6 +15,7 @@ export const state = () => {
 export const getters = {
   settings: state => state.settings,
   cart: state => state.cart,
+  hive_price: state => state.hive_price,
   token_price: (state) => {
     return (state.settings.currency === 'SWAP.HIVE') ? state.hive_price : state.token_price
   },

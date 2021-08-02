@@ -853,3 +853,104 @@ pre {
     }
   }
 }
+
+.ui.selection.dropdown {
+  border-radius: 0;
+
+  .menu {
+    border-radius: 0;
+  }
+}
+
+/*-------------------------------
+| Diesel Pool
+-------------------------------*/
+.swap-currency-input {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 20px;
+
+  input {
+    position: relative;
+    width: auto;
+    flex: 1 1 auto;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    appearance: textfield;
+    font-weight: bold;
+
+    &:focus,
+    &:focus-visible,
+    &:focus-within {
+      border: none;
+      box-shadow: none;
+      outline: none;
+    }
+  }
+
+  button {
+    color: #111;
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: rgba(0, 0, 0, 0.15);
+      box-shadow: none;
+      border-color: transparent;
+    }
+
+    &:disabled {
+      background-color: transparent;
+      border-color: transparent;
+      color: $body-color;
+    }
+  }
+
+  .radio-buttons {
+    input[type="radio"] {
+      position: absolute;
+      visibility: hidden;
+    }
+
+    label {
+      text-align: center;
+      display: inline-block;
+      width: 50px;
+      border-radius: 10px;
+      margin-right: 5px;
+      padding: 0.3rem;
+      cursor: pointer;
+
+      &.active {
+        background-color: rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+
+.pool-icons {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+
+  img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    z-index: 2;
+    background-color: $gray-400;
+    border: 1px solid #d4d4d4;
+
+    &:last-of-type {
+      position: absolute;
+      left: 15px;
+      z-index: 1;
+    }
+  }
+}
