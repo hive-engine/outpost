@@ -185,7 +185,7 @@ export const actions = {
         } else {
           this.$eventBus.$emit('transaction-broadcast-error', { error: r.message, data: emitData })
         }
-      }, true)
+      })
     }
   },
 
