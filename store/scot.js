@@ -71,7 +71,8 @@ export const actions = {
           acc.accounts.add(cur.author)
         }
 
-        cur.estimated_payout_value = ((cur.pending_token || cur.total_payout_value) / 10 ** rootState.tribe_info.precision).toFixed(3)
+        cur.estimated_payout_value = ((cur.pending_token || cur.total_payout_value) / 10 ** rootState.tribe_info.precision)
+        cur.curator_payout_value = (cur.curator_payout_value / 10 ** rootState.tribe_info.precision)
 
         return acc
       }, {
@@ -104,7 +105,8 @@ export const actions = {
       const data = await this.$scot.$get(`@${author}/${permlink}`)
       post = data[TOKEN]
 
-      post.estimated_payout_value = ((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision).toFixed(3)
+      post.estimated_payout_value = ((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision)
+      post.curator_payout_value = (post.curator_payout_value / 10 ** rootState.tribe_info.precision)
     } catch {
       //
     }

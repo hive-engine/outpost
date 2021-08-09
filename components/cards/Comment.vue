@@ -30,9 +30,7 @@
         <div v-if="!showReplyEditor" class="d-flex align-items-center small font-weight-bold">
           <votes :author="comment.author" :permlink="comment.permlink" :active-votes="comment.active_votes" :rshares="comment.vote_rshares" :payout="comment.pending_token || comment.total_payout_value" />
 
-          <div class="mr-3">
-            {{ comment.estimated_payout_value }} {{ comment.token }}
-          </div>
+          <payout :post="comment" class="mr-3" />
 
           <div class="mr-3">
             <a class="cursor-pointer" @click.prevent="showReplyEditor = true">Reply</a>
@@ -64,6 +62,7 @@ import MarkdownViewer from '@/components/MarkdownViewer.vue'
 import Comment from '@/components/cards/Comment.vue'
 import ReplyEditor from '@/components/ReplyEditor.vue'
 import Votes from '@/components/Votes.vue'
+import Payout from '@/components/Payout.vue'
 
 export default {
   name: 'Comment',
@@ -73,7 +72,8 @@ export default {
     Comment,
     MarkdownViewer,
     ReplyEditor,
-    Votes
+    Votes,
+    Payout
   },
 
   props: {
