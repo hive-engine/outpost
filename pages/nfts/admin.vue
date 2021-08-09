@@ -53,7 +53,7 @@
               <reports />
             </b-tab>
 
-            <b-tab title="Issue Manully">
+            <b-tab title="Issue Manually">
               <manual-issue />
             </b-tab>
 
