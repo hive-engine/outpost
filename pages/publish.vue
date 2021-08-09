@@ -338,8 +338,8 @@ export default {
       },
       payoutType: 'regular',
       payoutTypes: [
-        { text: '50% HBD and 50% HP', value: 'regular' },
-        { text: '100% Hive Power (HP)', value: 'powerup' },
+        { text: '50% Liquid and 50% Staked', value: 'regular' },
+        { text: '100% Staked', value: 'powerup' },
         { text: 'Decline', value: 'decline' },
         { text: 'Burn', value: 'burn' }
       ],
