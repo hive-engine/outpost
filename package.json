@@ -1,5 +1,5 @@
 {
-  "name": "tribe-v2",
+  "name": "outpost",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
-    "@hiveio/dhive": "^0.14.12",
+    "@hiveio/dhive": "^1.0.1",
     "@hiveio/hivescript": "^1.2.3",
     "@nuxtjs/auth-next": "5.0.0-1622918202.e815752",
     "@nuxtjs/axios": "^5.13.6",

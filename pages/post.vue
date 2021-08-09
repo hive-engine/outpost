@@ -77,9 +77,7 @@
           <extra-actions :author="post.author" :permlink="post.permlink" :deletable="post.vote_rshares <= 0 && post.children === 0" />
         </div>
 
-        <div class="mr-3">
-          {{ post.estimated_payout_value }} {{ post.token }}
-        </div>
+        <payout :post="post" />
       </div>
 
       <reply-editor :parent-author="post.author" :parent-permlink="post.permlink" :autofocus="false" />
@@ -119,6 +117,7 @@ import MarkdownViewer from '@/components/MarkdownViewer.vue'
 import ReplyEditor from '@/components/ReplyEditor.vue'
 import ExtraActions from '@/components/ExtraActions.vue'
 import Votes from '@/components/Votes.vue'
+import Payout from '@/components/Payout.vue'
 
 export default {
   name: 'SinglePostPage',
@@ -129,7 +128,8 @@ export default {
     MarkdownViewer,
     ReplyEditor,
     ExtraActions,
-    Votes
+    Votes,
+    Payout
   },
 
   async asyncData ({ $chain, $auth, route, error }) {
@@ -196,13 +196,7 @@ export default {
 
       this.discussions[authorperm] = {
         ...this.discussions[authorperm],
-        authorperm: d.authorperm,
-        active_votes: d.active_votes,
-        token: d.token,
-        pending_token: d.pending_token,
-        vote_rshares: d.vote_rshares,
-        total_payout_value: d.total_payout_value,
-        estimated_payout_value: d.estimated_payout_value
+        ...d
       }
     })
   },
@@ -324,10 +318,7 @@ export default {
 
         const newData = {
           ...this.discussions[authorperm],
-          active_votes: content.active_votes,
-          pending_token: content.pending_token,
-          total_payout_value: content.total_payout_value,
-          estimated_payout_value: content.estimated_payout_value
+          ...content
         }
 
         this.discussions[authorperm] = newData
@@ -341,13 +332,15 @@ export default {
         ...data,
         created: new Date().toISOString().replace(/\dZ/, ''),
         updated: new Date().toISOString().replace(/\dZ/, ''),
+        cashout_time: new Date().toISOString().replace(/\dZ/, ''),
         replies: [],
         token: self.$config.TOKEN,
         vote_rshares: 0,
         active_votes: [],
         pending_token: 0,
         total_payout_value: 0,
-        estimated_payout_value: 0
+        estimated_payout_value: 0,
+        curator_payout_value: 0
       }
 
       const authorperm = `${data.author}/${data.permlink}`
