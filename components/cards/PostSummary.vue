@@ -76,9 +76,7 @@
           <extra-actions :type="post.main_post ? 'post':'comment'" :author="post.author" :permlink="post.permlink" :deletable="post.vote_rshares <= 0 && post.children === 0" />
         </div>
 
-        <div v-b-tooltip.hover class="text-nowrap text-truncate" :title="`${post.estimated_payout_value} ${post.token}`">
-          {{ post.estimated_payout_value }} {{ post.token }}
-        </div>
+        <payout :post="post" />
       </div>
     </template>
   </b-card>
@@ -90,12 +88,14 @@ import { proxifyImageUrl } from '@/utils/proxify-url'
 import { extractImageLink, extractBodySummary } from '@/utils/extract-content'
 import Votes from '@/components/Votes.vue'
 import ExtraActions from '@/components/ExtraActions.vue'
+import Payout from '@/components/Payout.vue'
 
 export default {
   name: 'PostSummary',
 
   components: {
     Votes,
+    Payout,
     ExtraActions
   },
 
@@ -106,6 +106,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['tribe_info']),
     ...mapGetters('scot', ['communities', 'accounts']),
 
     thumbnail () {
@@ -126,6 +127,10 @@ export default {
 
     createdAt () {
       return new Date(`${this.post.created}Z`)
+    },
+
+    cashoutTime () {
+      return new Date(`${this.post.cashout_time}Z`)
     },
 
     rebloggedBy () {

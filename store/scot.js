@@ -1,4 +1,4 @@
-import { calculateReputation } from '@/utils'
+import { calculateReputation, toFixedWithoutRounding } from '@/utils'
 import { TOKEN, SCOT_QUERY_LIMIT } from '@/config'
 
 export const state = () => {
@@ -74,8 +74,8 @@ export const actions = {
         const isPaidout = new Date(`${cur.cashout_time}Z`).getTime() < Date.now()
 
         cur.estimated_payout_value = isPaidout
-          ? cur.total_payout_value.toFixed(3)
-          : (((cur.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares).toFixed(3)
+          ? cur.total_payout_value
+          : toFixedWithoutRounding(((cur.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares, rootState.tribe_info.precision)
 
         return acc
       }, {
@@ -111,8 +111,8 @@ export const actions = {
       const isPaidout = new Date(`${post.cashout_time}Z`).getTime() < Date.now()
 
       post.estimated_payout_value = isPaidout
-        ? post.total_payout_value.toFixed(3)
-        : (((post.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares).toFixed(3)
+        ? post.total_payout_value
+        : toFixedWithoutRounding(((post.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares, rootState.tribe_info.precision)
     } catch {
       //
     }
@@ -130,8 +130,8 @@ export const actions = {
         const isPaidout = new Date(`${post.cashout_time}Z`).getTime() < Date.now()
 
         post.estimated_payout_value = isPaidout
-          ? post.total_payout_value.toFixed(3)
-          : (((post.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares).toFixed(3)
+          ? post.total_payout_value
+          : toFixedWithoutRounding(((post.vote_rshares ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares, rootState.tribe_info.precision)
 
         return post
       })
