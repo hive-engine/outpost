@@ -12,6 +12,8 @@
 
     <Login />
 
+    <sidebar-menu />
+
     <notifications :duration="15000" />
 
     <client-only>
@@ -29,6 +31,7 @@ import { mapActions } from 'vuex'
 import BackToTop from 'vue-backtotop'
 import Header from '@/components/Header.vue'
 import Login from '@/components/modals/Login.vue'
+import SidebarMenu from '@/components/SidebarMenu.vue'
 
 export default {
   name: 'MainLayout',
@@ -36,7 +39,8 @@ export default {
   components: {
     BackToTop,
     Header,
-    Login
+    Login,
+    SidebarMenu
   },
 
   async fetch () {
