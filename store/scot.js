@@ -1,4 +1,4 @@
-import { calculateReputation } from '@/utils'
+import { calculateReputation, toFixedWithoutRounding } from '@/utils'
 import { TOKEN, SCOT_QUERY_LIMIT } from '@/config'
 
 export const state = () => {
@@ -71,8 +71,8 @@ export const actions = {
           acc.accounts.add(cur.author)
         }
 
-        cur.estimated_payout_value = ((cur.pending_token || cur.total_payout_value) / 10 ** rootState.tribe_info.precision)
-        cur.curator_payout_value = (cur.curator_payout_value / 10 ** rootState.tribe_info.precision)
+        cur.estimated_payout_value = toFixedWithoutRounding((cur.pending_token || cur.total_payout_value) / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
+        cur.curator_payout_value = toFixedWithoutRounding(cur.curator_payout_value / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
 
         return acc
       }, {
@@ -105,8 +105,8 @@ export const actions = {
       const data = await this.$scot.$get(`@${author}/${permlink}`)
       post = data[TOKEN]
 
-      post.estimated_payout_value = ((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision)
-      post.curator_payout_value = (post.curator_payout_value / 10 ** rootState.tribe_info.precision)
+      post.estimated_payout_value = toFixedWithoutRounding((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
+      post.curator_payout_value = toFixedWithoutRounding(post.curator_payout_value / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
     } catch {
       //
     }
