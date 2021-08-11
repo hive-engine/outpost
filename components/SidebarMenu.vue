@@ -39,12 +39,50 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
-      <b-list-group-item class="font-weight-bold" disabled>
-        Trade
+      <b-list-group-item :to="{name:'about'}">
+        About
       </b-list-group-item>
 
+      <b-list-group-item :to="{name:'videos'}">
+        Videos
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'shop'}">
+        Shop
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'promotion'}">
+        Promotion
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'faq'}">
+        FAQ
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'lasseehlers-nfts'}">
+        Lasse Ehlers NFTs
+      </b-list-group-item>
+    </b-list-group>
+
+    <b-list-group class="mt-3" flush>
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
-        Trade {{ $config.TOKEN }}
+        Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://discord.gg/aqeRcR7HPh">
+        Discord <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://primersion.com/he-witnesses">
+        Witness <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://dswap.trade">
+        Dswap <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hiveengine.usehive.com">
+        Tools <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
@@ -80,6 +118,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.sidebar-menu {
+  .svg-inline--fa.fa-external-link-alt {
+    width: 12px;
+    margin-left: 5px;
+    padding-top: 3px;
+  }
+}
 </style>
