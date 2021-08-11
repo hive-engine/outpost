@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <div class="profile-cover" :style="backgroundOverlay">
-      <b-container>
+      <b-container fluid="lg">
         <b-row no-gutters>
           <b-col md="8" lg="10">
             <b-media>

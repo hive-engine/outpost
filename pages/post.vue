@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid="lg">
     <b-card tag="article" class="full-post">
       <h1 class="entry-header">
         {{ post.title }}
