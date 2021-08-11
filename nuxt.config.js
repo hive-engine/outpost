@@ -1,3 +1,4 @@
+import fs from 'fs'
 import * as config from './config'
 
 export default {
@@ -94,6 +95,11 @@ export default {
       config.node = {
         fs: 'empty'
       }
+
+      config.module.rules.push({
+        test: /contents\/[\w-]+\.md$/,
+        loader: 'raw-loader'
+      })
     },
 
     babel: {
@@ -151,7 +157,8 @@ export default {
       'SpinnerPlugin',
       'TablePlugin',
       'TabsPlugin',
-      'TooltipPlugin'
+      'TooltipPlugin',
+      'SidebarPlugin'
     ]
   },
 
@@ -159,7 +166,7 @@ export default {
     component: 'fa',
     suffix: true,
     icons: {
-      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle'],
+      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt'],
       regular: ['faMoon', 'faSun', 'faTimesCircle', 'faComments', 'faCommentAlt'],
       brands: []
     }
@@ -280,7 +287,7 @@ export default {
 
   router: {
     extendRoutes (routes, resolve) {
-      routes = routes.filter(r => !['post', 'feed'].includes(r.name))
+      routes = routes.filter(r => !['post', 'feed', 'static'].includes(r.name))
         .map((r) => {
           const route = r
 
@@ -311,6 +318,17 @@ export default {
         name: 'tag-user-post',
         path: '/:tag/@:user/:post',
         redirect: { name: 'user-post' }
+      })
+
+      const staticRoutes = fs.readdirSync('./contents').map(r => r.replace(/\.md/, ''))
+
+      staticRoutes.forEach((mr) => {
+        routes.push({
+          name: mr,
+          path: `/${mr}`,
+          component: resolve(__dirname, 'pages/static.vue'),
+          chunkName: `pages/${mr}`
+        })
       })
 
       return routes
