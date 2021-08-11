@@ -7,7 +7,7 @@
 
       <template v-else>
         <b-row>
-          <b-col class="mt-5" md="6">
+          <b-col class="mt-5" lg="6">
             <b-alert variant="danger" :show="$v.$anyDirty && $v.$invalid" dismissible>
               <ul class="list-unstyled m-0">
                 <li v-if="!$v.title.required">
@@ -159,7 +159,7 @@
             </b-card>
           </b-col>
 
-          <b-col class="mt-5" md="6">
+          <b-col class="mt-5" lg="6">
             <b-card :title="title !== '' ? title : 'Preview'" class="h-100">
               <template v-if="!isEditing">
                 <div v-if="!editPermlink" class="d-flex mb-2">
