@@ -44,7 +44,7 @@
       </b-list-group-item>
 
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
-        Trade {{ $config.TOKEN }}
+        Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
@@ -80,6 +80,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.sidebar-menu {
+  .svg-inline--fa.fa-external-link-alt {
+    width: 12px;
+    margin-left: 5px;
+    padding-top: 3px;
+  }
+}
 </style>
