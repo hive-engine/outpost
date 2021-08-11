@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid="lg">
     <b-card tag="article" class="full-post">
       <h1 class="entry-header">
         {{ post.title }}
@@ -197,6 +197,8 @@ export default {
     scotData.filter(d => d).forEach((d) => {
       const authorperm = d.authorperm.substring(1)
 
+      delete d.json_metadata
+
       this.discussions[authorperm] = {
         ...this.discussions[authorperm],
         ...d
@@ -318,6 +320,8 @@ export default {
 
       if (content) {
         const authorperm = content.authorperm.substring(1)
+
+        delete content.json_metadata
 
         const newData = {
           ...this.discussions[authorperm],

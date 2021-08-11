@@ -1,6 +1,10 @@
 <template>
   <div class="sort-page">
     <div class="page-header">
+      <b-container v-if="$route.params.sort !== 'curated'" class="mb-2" fluid>
+        <trending-tags :sort="$route.params.sort" />
+      </b-container>
+
       <b-container>
         <div class="d-flex align-items-center justify-content-center">
           <h2 class="mr-3">
@@ -34,7 +38,7 @@
       </b-container>
     </div>
 
-    <b-container>
+    <b-container fluid="lg">
       <template v-if="loading">
         <loading />
       </template>
@@ -66,9 +70,14 @@
 
 <script>
 import postIndex from '@/mixins/postIndex'
+import TrendingTags from '@/components/cards/TrendingTags.vue'
 
 export default {
   name: 'SortTagPage',
+
+  components: {
+    TrendingTags
+  },
 
   mixins: [postIndex],
 

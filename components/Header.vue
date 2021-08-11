@@ -95,9 +95,15 @@
             </b-nav-item-dropdown>
           </template>
 
-          <b-nav-item v-else @click.prevent="$bvModal.show('loginModal')">
-            Login
-          </b-nav-item>
+          <template v-else>
+            <b-nav-item @click.prevent="$bvModal.show('loginModal')">
+              Login
+            </b-nav-item>
+
+            <b-nav-item target="_blank" href="https://signup.hive.io">
+              Sign up
+            </b-nav-item>
+          </template>
 
           <b-nav-item v-b-toggle.sidebar-menu link-classes="ml-2 mr-0 navbar-btn rounded">
             <fa-icon icon="bars" />
