@@ -1,6 +1,6 @@
 <template>
   <div class="user-wallet">
-    <b-container>
+    <b-container fluid="lg">
       <template v-if="loading">
         <loading />
       </template>
@@ -173,6 +173,8 @@
           fixed
           sort-by="timestamp"
           :sort-desc="true"
+          show-empty
+          empty-text="There are no history to show"
         >
           <template #table-colgroup="scope">
             <col v-for="field in scope.fields" :key="field.key" :style="{ width: field.key === 'timestamp' ? '80px' : '200px' }">
