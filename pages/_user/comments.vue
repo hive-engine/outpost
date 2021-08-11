@@ -1,6 +1,6 @@
 <template>
   <div class="user-comments">
-    <b-container>
+    <b-container fluid="lg">
       <template v-if="loading">
         <loading />
       </template>
