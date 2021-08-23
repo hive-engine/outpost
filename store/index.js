@@ -12,7 +12,12 @@ export const state = () => {
 
 export const getters = {
   tribe_info: state => state.tribe_info,
-  tribe_config: state => state.tribe_config
+  tribe_config: state => state.tribe_config,
+  issuer: (state) => {
+    const issuer = state.tribe_info.issuer || state.tribe_config.issuer
+
+    return issuer
+  }
 }
 
 export const mutations = {

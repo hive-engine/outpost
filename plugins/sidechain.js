@@ -139,6 +139,21 @@ export default ({ $config }, inject) => {
       return this.contract(request)
     },
 
+    getNFTs (query, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'nft',
+          table: 'nfts',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
     getNFTSellBook (query, offset = 0, limit = 1000) {
       const symbol = query.symbol || $config.NFT_SYMBOL
 
@@ -190,6 +205,21 @@ export default ({ $config }, inject) => {
       return this.contract(request)
     },
 
+    getDistributions (query, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'distribution',
+          table: 'batches',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
     getDTFAccounts (query = {}, offset = 0, limit = 1000) {
       const request = {
         method: 'find',
@@ -211,6 +241,21 @@ export default ({ $config }, inject) => {
         params: {
           contract: 'tokenfunds',
           table: 'approvals',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getDTFFunds (query = {}, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'tokenfunds',
+          table: 'funds',
           query,
           offset,
           limit
@@ -244,6 +289,34 @@ export default ({ $config }, inject) => {
           query,
           offset,
           limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getMiningPools (query, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'mining',
+          table: 'pools',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
+    getSMTRewardPool (symbol) {
+      const request = {
+        method: 'findOne',
+        params: {
+          contract: 'comments',
+          table: 'rewardPools',
+          query: { symbol }
         }
       }
 
