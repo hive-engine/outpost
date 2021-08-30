@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'LASSECASH'
 export const IS_HIVE = true
-export const APP_DOMAIN = process.env.APP_DOMAIN // Hard code it or use environment varible
+export const APP_DOMAIN = 'https://www.lassecash.com' // Hard code it or use environment varible
 export const APP_TITLE = 'LasseCash'
 export const APP = `lassecash/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
