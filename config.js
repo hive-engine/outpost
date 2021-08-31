@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'DUNK'
 export const IS_HIVE = true
-export const APP_DOMAIN = process.env.APP_DOMAIN // Hard code it or use environment varible
+export const APP_DOMAIN = 'https://cinetv.outpost.dtools.dev'
 export const APP_TITLE = 'DunkSocial'
 export const APP = `outpost/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
