@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'SPT'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://splintertalk.io'
+export const APP_DOMAIN = 'https://www.splintertalk.io'
 export const APP_TITLE = 'splintertalk'
 export const APP = `outpost/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
