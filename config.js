@@ -3,7 +3,7 @@ import { version } from './package.json'
 export const TOKEN = 'PAL'
 export const IS_HIVE = true
 export const APP_DOMAIN = 'https://www.palnet.io'
-export const APP_TITLE = 'Palnet'
+export const APP_TITLE = 'PALnet'
 export const APP = `palnet/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
 export const IMAGE_UPLOAD_SERVER = 'https://images.hive.blog'
@@ -26,9 +26,9 @@ export const AXIOS_CACHE_CONFIG = {
   maxAge: 0 * 60 * 1000, // 0 minutes
   exclude: { query: false }
 }
-export const NFT_ENABLED = false
-export const NFT_SYMBOL = 'CINENFT'
-export const NFT_MARKETPLACE = 'cinetv'
+export const NFT_ENABLED = true
+export const NFT_SYMBOL = 'PAL'
+export const NFT_MARKETPLACE = 'palnet'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = true
 export const DTF_ID = 'PAL:PAL'
