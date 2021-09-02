@@ -69,8 +69,7 @@
                 </div>
               </template>
 
-              <!-- v-if="$auth.user.username === issuer" -->
-              <b-dropdown-item :to="{ name:'dashboard' }">
+              <b-dropdown-item v-if="$auth.user.username === issuer" :to="{ name:'dashboard' }">
                 Dashboard
               </b-dropdown-item>
 

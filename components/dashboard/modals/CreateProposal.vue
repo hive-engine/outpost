@@ -5,7 +5,7 @@
     </template>
 
     <template v-else>
-      <b-form-group label="Title" description="Brief description of your proposal. Mximum of 80 characters.">
+      <b-form-group label="Title" description="Brief description of your proposal. Maximum of 80 characters.">
         <b-form-input v-model="title" trim :state="$v.title.$dirty ? !$v.title.$error : null" />
       </b-form-group>
 

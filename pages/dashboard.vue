@@ -230,9 +230,7 @@ export default {
       lpRewardPools: [],
       funds: [],
       distributionProposals: [],
-      distributions: [],
-
-      isSCOT: false
+      distributions: []
     }
   },
 
@@ -253,9 +251,9 @@ export default {
   computed: {
     ...mapGetters(['tribe_info', 'tribe_config']),
 
-    // isSCOT () {
-    //   return Boolean(this.tribe_info.start_date)
-    // },
+    isSCOT () {
+      return Boolean(this.tribe_info.start_date)
+    },
 
     dailyEmissions () {
       const emissions = this.pobRewards + this.stakingRewards + this.poolRewards + this.daoPayments
