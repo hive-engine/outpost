@@ -102,6 +102,8 @@ export default {
       baseSymbol: '',
       quoteSymbol: '',
 
+      tokens: [],
+
       btnBusy: false,
 
       error: false,
