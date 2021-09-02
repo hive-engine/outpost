@@ -26,9 +26,9 @@ export const AXIOS_CACHE_CONFIG = {
   maxAge: 0 * 60 * 1000, // 0 minutes
   exclude: { query: false }
 }
-export const NFT_ENABLED = false
-export const NFT_SYMBOL = 'CINENFT'
-export const NFT_MARKETPLACE = 'cinetv'
+export const NFT_ENABLED = true
+export const NFT_SYMBOL = 'SPTNFT'
+export const NFT_MARKETPLACE = 'splintertalk'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = true
 export const DTF_ID = 'SPT:SPT'
