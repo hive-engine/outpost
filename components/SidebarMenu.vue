@@ -73,10 +73,6 @@
         Discord <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://primersion.com/he-witnesses">
-        Witness <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-
       <b-list-group-item target="_blank" href="https://dswap.trade">
         Dswap <fa-icon icon="external-link-alt" />
       </b-list-group-item>

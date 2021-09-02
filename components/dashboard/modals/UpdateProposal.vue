@@ -46,31 +46,27 @@
       </b-col>
 
       <b-col>
-        <b-form-group label="Amount Per Day" :description="`Amount of tokens you want to receive per day.`">
+        <b-form-group label="Amount Per Day" :description="`Amount of tokens you want to receive per day. You can only decrease it.`">
           <b-form-input v-model="amountPerDay" number type="number" :state="$v.amountPerDay.$dirty ? !$v.amountPerDay.$error : null" />
         </b-form-group>
       </b-col>
     </b-form-row>
 
     <template #modal-footer>
-      <b-button variant="primary" @click.prevent="updateProposal">
-        Update
+      <b-button variant="primary" :disabled="modalBusy" @click.prevent="updateProposal">
+        <b-spinner v-if="modalBusy" small /> Update
       </b-button>
     </template>
   </b-modal>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { required, decimal, maxLength } from 'vuelidate/lib/validators'
 import { addDays, format, differenceInDays } from 'date-fns'
 
 export default {
   name: 'UpdateProposalModal',
-
-  props: {
-    proposal: { type: Object, required: true }
-  },
 
   data () {
     return {
@@ -78,11 +74,15 @@ export default {
       startDate: '',
       endDate: '',
       amountPerDay: '',
-      authorPermlink: ''
+      authorPermlink: '',
+
+      modalBusy: false
     }
   },
 
   computed: {
+    ...mapGetters('dashboard', ['proposal']),
+
     minEndDate () {
       return addDays(new Date(this.proposal.startDate).getTime(), 2)
     },
@@ -104,42 +104,27 @@ export default {
   },
 
   mounted () {
-    this.$root.$on('bv::modal::shown', this.onModalShow)
+    this.$root.$on('bv::modal::shown', this.onModalShown)
+    this.$root.$on('bv::modal::hidden', this.onModalHidden)
 
-    this.$eventBus.$on('dao-proposal-update-successful', this.onProposalUpdate)
+    this.$eventBus.$on('transaction-broadcast-error', this.resetModalBusyState)
   },
 
   beforeDestroy () {
-    this.$root.$off('bv::modal::shown', this.onModalShow)
-
-    this.$eventBus.$off('dao-proposal-update-successful', this.onProposalUpdate)
+    this.$root.$off('bv::modal::shown', this.onModalShown)
+    this.$root.$off('bv::modal::hidden', this.onModalHidden)
+    this.$eventBus.$off('transaction-broadcast-error', this.resetModalBusyState)
   },
 
   methods: {
     ...mapActions('dao', ['requestUpdateProposal']),
 
-    onModalShow (btnEvent, modalId) {
-      if (modalId === 'updateProposalModal') {
-        this.$v.$reset()
-
-        const { title, startDate, endDate, amountPerDay, authorPermlink } = this.proposal
-
-        this.title = title
-        this.startDate = format(new Date(startDate).getTime(), 'yyyy-MM-dd')
-        this.endDate = format(new Date(endDate).getTime(), 'yyyy-MM-dd')
-        this.amountPerDay = amountPerDay
-        this.authorPermlink = authorPermlink
-      }
-    },
-
-    onProposalUpdate () {
-      this.$bvModal.hide('updateProposalModal')
-    },
-
     updateProposal () {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
+        this.modalBusy = true
+
         const payload = {
           id: this.proposal._id.toString(),
           title: this.title,
@@ -150,6 +135,36 @@ export default {
 
         this.requestUpdateProposal(payload)
       }
+    },
+
+    onModalShown (btnEvent, modalId) {
+      if (modalId === 'updateProposalModal') {
+        const { title, startDate, endDate, amountPerDay, authorPermlink } = JSON.parse(JSON.stringify(this.proposal))
+
+        this.title = title
+        this.startDate = format(new Date(startDate).getTime(), 'yyyy-MM-dd')
+        this.endDate = format(new Date(endDate).getTime(), 'yyyy-MM-dd')
+        this.amountPerDay = amountPerDay
+        this.authorPermlink = authorPermlink
+      }
+    },
+
+    onModalHidden (btnEvent, modalId) {
+      if (modalId === 'updateProposalModal') {
+        this.$v.$reset()
+
+        this.title = ''
+        this.startDate = ''
+        this.endDate = ''
+        this.amountPerDay = ''
+        this.authorPermlink = ''
+
+        this.modalBusy = false
+      }
+    },
+
+    resetModalBusyState () {
+      this.modalBusy = false
     }
   },
 

@@ -69,6 +69,10 @@
                 </div>
               </template>
 
+              <b-dropdown-item v-if="$auth.user.username === issuer" :to="{ name:'dashboard' }">
+                Dashboard
+              </b-dropdown-item>
+
               <b-dropdown-item :to="{ name:'user', params: {user: $auth.user.username} }">
                 Profile
               </b-dropdown-item>
@@ -126,6 +130,7 @@ export default {
   name: 'Header',
 
   computed: {
+    ...mapGetters(['issuer']),
     ...mapGetters('user', ['voting_power', 'downvoting_power']),
     ...mapGetters('nftmarketplace', ['cart'])
   },
