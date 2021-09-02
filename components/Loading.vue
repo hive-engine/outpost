@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-animation text-center d-flex justify-content-center align-items-center flex-column mt-5" :class="{'loading-screen': !small}">
+  <div class="text-center d-flex justify-content-center align-items-center flex-column" :class="{'loading-screen': !small}">
     <b-spinner class="align-middle" type="border" />
 
     <p class="mt-3 mb-0">

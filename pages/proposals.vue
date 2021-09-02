@@ -175,9 +175,9 @@
                   </div>
 
                   <div v-if="proposal.creator !== proposal.payout.name" class="ml-2">
-                    for <nuxt-link :to="{ name:'user', params:{user: proposal.payout.name}}" target="_blank">
+                    for <nuxt-link v-if="proposal.payout.type === 'user'" :to="{ name:'user', params:{user: proposal.payout.name}}" target="_blank">
                       {{ proposal.payout.name }}
-                    </nuxt-link>
+                    </nuxt-link> <span v-else>{{ proposal.payout.name }} contract</span>
                   </div>
                 </div>
               </b-col>
@@ -247,7 +247,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { differenceInDays, format } from 'date-fns'
-import { toFixedWithoutRounding } from '@/utils'
+import { formatNumumber, toFixedWithoutRounding } from '@/utils'
 import CreateProposal from '@/components/dao/modals/CreateProposal.vue'
 import UpdateFund from '@/components/dao/modals/UpdateFund.vue'
 import UpdateProposal from '@/components/dao/modals/UpdateProposal.vue'
@@ -458,6 +458,8 @@ export default {
       'requestDisableProposal']),
     ...mapActions('transaction', ['validateTransaction']),
 
+    formatNumumber,
+
     async fetchUserApprovals () {
       const [approvals] = await Promise.all([
         this.fetchApprovals({ from: this.$auth.user.username }),
@@ -485,21 +487,6 @@ export default {
       this.loading = true
 
       await this.validateTransaction(data.id)
-    },
-
-    formatNumumber (number) {
-      const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E']
-
-      const tier = Math.log10(Math.abs(number)) / 3 | 0
-
-      if (tier === 0) { return number }
-
-      const suffix = SI_SYMBOL[tier]
-      const scale = Math.pow(10, tier * 3)
-
-      const scaled = number / scale
-
-      return scaled.toFixed(1) + suffix
     },
 
     async onModalShow (btnEvent, modalId) {
