@@ -3,8 +3,8 @@ import { version } from './package.json'
 export const TOKEN = 'SPT'
 export const IS_HIVE = true
 export const APP_DOMAIN = 'https://www.splintertalk.io'
-export const APP_TITLE = 'splintertalk'
-export const APP = `outpost/${version}`
+export const APP_TITLE = 'Splintertalk'
+export const APP = `splintertalk/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
 export const IMAGE_UPLOAD_SERVER = 'https://images.hive.blog'
 export const NODES = ['https://api.hive.blog', 'https://api.deathwing.me', 'https://rpc.ausbit.dev', 'https://api.ha.deathwing.me']
