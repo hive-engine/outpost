@@ -166,7 +166,7 @@ export default {
     component: 'fa',
     suffix: true,
     icons: {
-      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt'],
+      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt', 'faEye'],
       regular: ['faMoon', 'faSun', 'faTimesCircle', 'faComments', 'faCommentAlt'],
       brands: []
     }
