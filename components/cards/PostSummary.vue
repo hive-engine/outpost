@@ -65,7 +65,14 @@
     <template #footer>
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          <votes :author="post.author" :permlink="post.permlink" :active-votes="post.active_votes" :rshares="post.vote_rshares" :payout="post.total_payout_value" />
+          <votes
+            :author="post.author"
+            :permlink="post.permlink"
+            :active-votes="post.active_votes"
+            :rshares="post.vote_rshares"
+            :payout="post.pending_token || post.total_payout_value"
+            :is-comment="!post.main_post"
+          />
 
           <div class="mr-2">
             <nuxt-link class="btn text-nowrap" :to="{name:'user-post', hash:'#comments', params:{ user: post.author, post:post.permlink }}">

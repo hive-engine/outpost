@@ -74,6 +74,12 @@
                   Unstake
                 </b-dropdown-item-btn>
               </b-dropdown>
+
+              <div v-if="tokenNetDelegation !== 0" class="h6 px-3">
+                {{ tokenNetDelegation > 0 ? `+${numberWithCommas(tokenNetDelegation)}` : numberWithCommas(tokenNetDelegation) }} {{ $config.TOKEN }} <a v-if="tokenDelegations.length > 0" class="small" href="#" @click.prevent="$bvModal.show('delegationsModal')">
+                  <fa-icon icon="eye" />
+                </a>
+              </div>
             </b-col>
           </b-row>
         </b-card>
@@ -128,7 +134,7 @@
                 </b-dropdown-item>
               </b-dropdown>
 
-              <div class="h6 px-3">
+              <div v-if="netDelegation !== 0" class="h6 px-3">
                 {{ netDelegation > 0 ? `+${numberWithCommas(netDelegation)}` : numberWithCommas(netDelegation) }} {{ currency }}
               </div>
             </b-col>
@@ -339,6 +345,18 @@
         </b-button>
       </template>
     </b-modal>
+
+    <b-modal id="delegationsModal" centered size="lg" title="Delegations" hide-footer>
+      <b-table :items="tokenDelegations" hover sort-by="updated" sort-desc>
+        <template #cell(created)="{item}">
+          <timeago :datetime="item.created" :title="item.created.toLocaleString()" />
+        </template>
+
+        <template #cell(updated)="{item}">
+          <timeago :datetime="item.updated" :title="item.updated.toLocaleString()" />
+        </template>
+      </b-table>
+    </b-modal>
   </div>
 </template>
 
@@ -359,6 +377,8 @@ export default {
       tokenBalance: 0,
       tokenStake: 0,
       availableStake: 0,
+      tokenNetDelegation: 0,
+      tokenDelegations: [],
 
       pendingRewards: 0,
 
@@ -442,7 +462,7 @@ export default {
     },
 
     disableAction () {
-      return this.waiting || this.amount > this.available || (['transfer', 'stake', 'delegate'].includes(this.action) && !/^([a-z])[a-z0-9-.]{2,15}$/.test(this.to))
+      return this.waiting || this.amount === 0 || this.amount > this.available || (['transfer', 'stake', 'delegate'].includes(this.action) && !/^([a-z])[a-z0-9-.]{2,15}$/.test(this.to))
     }
   },
 
@@ -555,14 +575,21 @@ export default {
     async fetchSidechainBalance () {
       const { user } = this.$route.params
 
-      const [sidechainBalance, pendingUnstakes] = await Promise.all([
+      const [sidechainBalance, pendingUnstakes, tokenDelegations] = await Promise.all([
         this.$sidechain.getBalance(user, this.$config.TOKEN),
-        this.$sidechain.getPendingUnstakes(user, this.$config.TOKEN)
+        this.$sidechain.getPendingUnstakes(user, this.$config.TOKEN),
+        this.$sidechain.getDelegations({ symbol: this.$config.TOKEN, $or: [{ from: user }, { to: user }] })
       ])
 
       if (sidechainBalance) {
         this.tokenBalance = Number(sidechainBalance.balance)
         this.tokenStake = Number(sidechainBalance.stake)
+
+        const tokenDelegationsIn = Number(sidechainBalance.delegationsIn)
+
+        const tokenDelegationsOut = Number(sidechainBalance.delegationsOut)
+
+        this.tokenNetDelegation = tokenDelegationsIn - tokenDelegationsOut
 
         const lockedStake = pendingUnstakes.filter(p => p.numberTransactionsLeft > 1)
           .reduce((acc, cur) => {
@@ -571,6 +598,14 @@ export default {
 
         this.availableStake = this.tokenStake - lockedStake
       }
+
+      this.tokenDelegations = tokenDelegations.map((d) => {
+        const { from, to, quantity, symbol, created, updated } = d
+
+        return {
+          from, to, quantity: `${Number(quantity)} ${symbol}`, created: new Date(created), updated: new Date(updated)
+        }
+      })
     },
 
     async fetchPendingRewards () {

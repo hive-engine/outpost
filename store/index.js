@@ -3,10 +3,27 @@ import { IS_HIVE } from '@/config'
 import { encrypt as WCEncrypt, decrypt as WCDecrypt } from '@/utils/web-crypto'
 import { decrypt } from '@/utils/triplesec'
 
+const requestKeychain = (fn, ...args) => {
+  return new Promise((resolve) => {
+    window.hive_keychain[fn](...args, (r) => {
+      if (r.error === 'user_cancel') {
+        return resolve({ success: false, msg: r.error, cancel: true, ...r })
+      }
+
+      if (r.success) {
+        return resolve({ success: true, msg: r.result, ...r })
+      }
+
+      return resolve({ success: false, msg: r.message, ...r })
+    })
+  })
+}
+
 export const state = () => {
   return {
     tribe_config: null,
-    tribe_info: null
+    tribe_info: null,
+    json_ops: []
   }
 }
 
@@ -27,6 +44,10 @@ export const mutations = {
 
   SET_TRIBE_INFO (state, data) {
     state.tribe_info = data
+  },
+
+  SET_JSON_OPS (state, data) {
+    state.json_ops = data
   }
 }
 
@@ -49,6 +70,94 @@ export const actions = {
 
   async nuxtServerInit ({ dispatch }) {
     await dispatch('fetchTokenInfoAndConfig')
+  },
+
+  async requestBroadcastMultipleJson ({ commit, state, dispatch }) {
+    const { username } = this.$auth.user
+
+    const client = this.$chain.getClient()
+
+    const sentTransactions = []
+    let atLeastOneCancelled = false
+    let trxCount = 0
+
+    for (let i = 0; i < state.json_ops.length; i += 1) {
+      const { id, json, message, keyType, mutation, mutationData } = state.json_ops[i]
+
+      if (this.$auth.user.smartlock) {
+        try {
+          await dispatch('showConfirmation', { title: message, message: 'Are you sure you want to broadcast this transaction?' })
+
+          const keyTypeLowerCase = keyType.toLocaleLowerCase()
+
+          try {
+            let wif = sessionStorage.getItem(`smartlock-${username}-${keyTypeLowerCase}`)
+
+            if (!wif) {
+              wif = await dispatch('showUnlockModal', keyTypeLowerCase)
+            }
+
+            const key = await WCDecrypt(wif, sessionStorage.getItem('smartlock-otp'))
+            const privateKey = this.$chain.PrivateKey.fromString(key)
+
+            const broadcast = await client.broadcast.json({
+              required_auths: keyTypeLowerCase === 'active' ? [username] : [],
+              required_posting_auths: keyTypeLowerCase === 'posting' ? [username] : [],
+              id,
+              json: JSON.stringify(json)
+            }, privateKey)
+
+            sentTransactions.push(broadcast)
+
+            console.log(broadcast)
+
+            if (mutation) {
+              commit(mutation, mutationData)
+            }
+
+            trxCount = json.length
+          } catch (e) {
+            console.log(e.message)
+
+            atLeastOneCancelled = true
+          }
+        } catch (e) {
+          console.log(e)
+
+          atLeastOneCancelled = true
+        }
+      } else {
+        const { success, cancel, result, msg } = await requestKeychain('requestCustomJson', username, id, keyType, JSON.stringify(json), message)
+
+        if (success) {
+          console.log(msg)
+
+          sentTransactions.push(result)
+
+          if (mutation) {
+            commit(mutation, mutationData)
+          }
+
+          trxCount = json.length
+        }
+
+        if (cancel) {
+          atLeastOneCancelled = true
+        }
+      }
+
+      await this.$chain.sleep(1000)
+    }
+
+    if (atLeastOneCancelled) {
+      this.$eventBus.$emit('transaction-broadcast-error', { error: 'Request was canceled by the user.', data: {} })
+    }
+
+    if (sentTransactions.length > 0 && state.json_ops.length > 0 && state.json_ops[0].eventName) {
+      this.$eventBus.$emit(state.json_ops[0].eventName, { ...sentTransactions.pop(), trx_count: trxCount })
+    }
+
+    commit('SET_JSON_OPS', [])
   },
 
   requestBroadcastJson ({ commit, dispatch }, { id, json, message, eventName, emitData, mutation, mutationData, keyType = 'Posting' }) {
