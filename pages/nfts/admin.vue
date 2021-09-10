@@ -57,7 +57,7 @@
               <manual-issue />
             </b-tab>
 
-            <b-tab title="Official NFTs">
+            <b-tab v-if="settings.official_nft_enabled" title="Official NFTs">
               <official-nfts />
             </b-tab>
           </b-tabs>
@@ -97,7 +97,7 @@ export default {
   middleware: 'authenticated',
 
   computed: {
-    ...mapGetters('nftmarketplace', ['isLoggedIn'])
+    ...mapGetters('nftmarketplace', ['settings', 'isLoggedIn'])
   },
 
   methods: {
