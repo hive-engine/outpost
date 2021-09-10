@@ -5,10 +5,10 @@ title: FAQ
 # LasseCash FAQ
 
 ## <span id="What_is_lassecash">Why is www.lassecash.com not working on my Iphone?</span>
-LasseCash implemented the OUTPOST technology as the first in the world, it still needs tweaks, so its not for on Iphone at the moment, but the programmers are working on fixing that.
+LasseCash implemented the OUTPOST technology as the first in the world, it still needs tweaks, so its not working on Iphone at the moment, but the programmers are working on fixing that.
 
 ## <span id="What_is_lassecash">Why is my post not showing up at Google?</span>
-The old condensor site worked very well at indexing posts on Google, unfortunately that is still being worked on the new OUTPOST site www.lassecash.com , we believe it will work again at one point in the future.
+The old condensor site worked very well at indexing posts on Google, unfortunately that is still being worked on, on the new OUTPOST site www.lassecash.com , we believe it will work again at one point in the future.
 
 ## <span id="What_is_lassecash">What is LasseCash?</span>
 LasseCash is a tribe built by Hive Engine. We reward "Anarchy, Crypto, Truth" content.
