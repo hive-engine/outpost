@@ -55,7 +55,7 @@ Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST.
 Notes on distribution
 --
 
-When you compare LasseCash to any other tribe or OUTPOST, then you will probably see that LasseCash has the smallest amount of tokens and a hardcap of 51 million ever issued. This ia an advantage that LasseCash has over all other tribes and OUTPOSTs. 
+When you compare LasseCash to any other tribe or OUTPOST, then you will probably see that LasseCash has the smallest amount of tokens. LasseCash also have a hardcap of 51 million LASSECASH ever issued. Those two things together is an advantage that LasseCash has over all other tribes and OUTPOSTs. 
 
 
 
