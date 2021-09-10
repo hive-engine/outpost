@@ -132,6 +132,7 @@
               :fields="fields"
               sort-by="price"
               table-class="border-0"
+              @input="(items) => currentItems = items"
             >
               <template #cell(account)="{item}">
                 <nuxt-link :to="{ name: 'user-collection', params: { user: item.account }}">
@@ -148,19 +149,32 @@
               </template>
 
               <template #cell(actions)="{item}">
-                <add-to-cart :nft="{...item, name: series.name, thumbnail: series.thumbnail}" />
+                <add-to-cart :nft="item" :items="currentItems" />
               </template>
             </b-table>
 
-            <b-pagination
-              v-if="forSale.length > perPage"
-              v-model="currentPage"
-              :total-rows="forSale.length"
-              :per-page="perPage"
-              align="center"
-              size="sm"
-              class="mt-3"
-            />
+            <b-row>
+              <b-col align-self="center" class="pl-4 mt-3 mb-3">
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    Per Page:
+                  </div>
+
+                  <b-form-select v-model="perPage" size="sm" style="width:100px" :options="perPageOptions" />
+                </div>
+              </b-col>
+
+              <b-col align-self="center" class="pr-4 mt-3 mb-3">
+                <b-pagination
+                  v-model="currentPage"
+                  class="mb-0"
+                  :total-rows="forSale.length"
+                  :per-page="perPage"
+                  align="right"
+                  size="sm"
+                />
+              </b-col>
+            </b-row>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -280,14 +294,17 @@ export default {
 
       fields: [
         { key: 'account', label: 'Owner' },
-        { key: 'edition', label: 'Edition #' },
+        { key: 'edition', label: 'Edition #', sortable: true },
         { key: 'rights', label: 'Rights' },
         { key: 'price', label: 'Price', sortable: true },
         { key: 'actions', label: '' }
       ],
       perPage: 10,
+      perPageOptions: [10, 20, 50, 100],
       currentPage: 1,
       rightsOptions: ['Private', 'Limited Production Rights'],
+
+      currentItems: [],
 
       listingVisible: true,
       historyVisible: true
@@ -309,7 +326,10 @@ export default {
     const [history,, forSale] = await Promise.all(requests)
 
     this.history = history
-    this.forSale = forSale
+
+    if (forSale) {
+      this.forSale = forSale.map(s => ({ ...s, name: this.series.name, thumbnail: this.series.thumbnail }))
+    }
 
     this.loading = false
   },

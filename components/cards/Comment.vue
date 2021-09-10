@@ -28,7 +28,14 @@
         <markdown-viewer :text="comment.body" />
 
         <div v-if="!showReplyEditor" class="d-flex align-items-center small font-weight-bold">
-          <votes :author="comment.author" :permlink="comment.permlink" :active-votes="comment.active_votes" :rshares="comment.vote_rshares" :payout="comment.pending_token || comment.total_payout_value" />
+          <votes
+            :author="comment.author"
+            :permlink="comment.permlink"
+            :active-votes="comment.active_votes"
+            :rshares="comment.vote_rshares"
+            :payout="comment.pending_token || comment.total_payout_value"
+            :is-comment="true"
+          />
 
           <payout :post="comment" class="mr-3" />
 

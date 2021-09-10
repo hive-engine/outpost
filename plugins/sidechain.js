@@ -205,6 +205,21 @@ export default ({ $config, store }, inject) => {
       return this.contract(request)
     },
 
+    getDelegations (query, offset = 0, limit = 1000) {
+      const request = {
+        method: 'find',
+        params: {
+          contract: 'tokens',
+          table: 'delegations',
+          query,
+          offset,
+          limit
+        }
+      }
+
+      return this.contract(request)
+    },
+
     getDistributions (query, offset = 0, limit = 1000) {
       const request = {
         method: 'find',

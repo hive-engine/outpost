@@ -94,6 +94,7 @@
               :fields="fields"
               sort-by="edition"
               table-class="border-0"
+              @input="(items) => currentItems = items"
             >
               <template #cell(creator)>
                 <nuxt-link :to="{ name: 'user-gallery', params: { user: series.creator }}">
@@ -112,19 +113,32 @@
               </template>
 
               <template #cell(actions)="{item}">
-                <add-to-cart :nft="{...item, name: series.name, thumbnail: series.thumbnail}" />
+                <add-to-cart :nft="item" :items="currentItems" />
               </template>
             </b-table>
 
-            <b-pagination
-              v-if="collection.length > perPage"
-              v-model="currentPage"
-              :total-rows="collection.length"
-              :per-page="perPage"
-              align="center"
-              size="sm"
-              class="mt-3"
-            />
+            <b-row>
+              <b-col align-self="center" class="pl-4 mt-3 mb-3">
+                <div class="d-flex align-items-center">
+                  <div class="mr-2">
+                    Per Page:
+                  </div>
+
+                  <b-form-select v-model="perPage" size="sm" style="width:100px" :options="perPageOptions" />
+                </div>
+              </b-col>
+
+              <b-col align-self="center" class="pr-4 mt-3 mb-3">
+                <b-pagination
+                  v-model="currentPage"
+                  class="mb-0"
+                  :total-rows="collection.length"
+                  :per-page="perPage"
+                  align="right"
+                  size="sm"
+                />
+              </b-col>
+            </b-row>
           </b-card-body>
         </b-collapse>
       </b-card>
@@ -231,13 +245,16 @@ export default {
       fields: [
         { key: 'account', label: 'Owner' },
         { key: 'creator', label: 'Creator' },
-        { key: 'edition', label: 'Edition #' },
+        { key: 'edition', label: 'Edition #', sortable: true },
         { key: 'rights', label: 'Rights' },
         { key: 'actions', label: '' }
       ],
       perPage: 10,
+      perPageOptions: [10, 20, 50, 100],
       currentPage: 1,
       rightsOptions: ['Private', 'Limited Production Rights'],
+
+      currentItems: [],
 
       collectionVisible: true,
       historyVisible: true
@@ -252,7 +269,7 @@ export default {
       this.$nftm.$get('transactions/history', { params: { series: this.$route.params.series, types: 'issue,buy,burn,sell,transfer' } })
     ])
 
-    this.collection = collection
+    this.collection = collection.map(s => ({ ...s, name: this.series.name, thumbnail: this.series.thumbnail }))
     this.history = history
 
     this.loading = false
@@ -278,6 +295,7 @@ export default {
   mounted () {
     this.$eventBus.$on([
       'nft-transfer-successful',
+      'nft-multiple-transfer-successful',
       'nft-sell-successful',
       'nft-change-price-successful',
       'nft-burn-successful',
@@ -290,6 +308,7 @@ export default {
   beforeDestroy () {
     this.$eventBus.$off([
       'nft-transfer-successful',
+      'nft-multiple-transfer-successful',
       'nft-sell-successful',
       'nft-change-price-successful',
       'nft-burn-successful',
