@@ -47,9 +47,7 @@ Dynamic inflation
 Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST. He aim at only changing the inflation ones a year, but if nessesary it can be done at all times. Changes will always be announced in a post on the blockchain, so there is always full transparency, as there has been since the beginning of this product.
 
 
-![inflation estimate 2021.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23tcNRVyjJSTFUYZdhq7Ty8N3jPXgXMa2oVoTgHAWkkT5A7sycBL8LhsV1xTceXGDDj2Q.png)
-
-
+![inflation estimate 2021.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23tcNRVyjJSTFUYZdhq7Ty8N3jPXgXMa2oVoTgHAWkkT5A7sycBL8LhsV1xThTni8MMAU.png)
 
 
 Notes on distribution
