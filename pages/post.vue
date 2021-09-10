@@ -72,7 +72,14 @@
 
       <div class="d-flex align-items-center justify-content-between font-weight-bold mb-3">
         <div class="d-flex align-items-center">
-          <votes :author="post.author" :permlink="post.permlink" :active-votes="post.active_votes" :rshares="post.vote_rshares" :payout="post.pending_token || post.total_payout_value" />
+          <votes
+            :author="post.author"
+            :permlink="post.permlink"
+            :active-votes="post.active_votes"
+            :rshares="post.vote_rshares"
+            :payout="post.pending_token || post.total_payout_value"
+            :is-comment="false"
+          />
 
           <extra-actions :author="post.author" :permlink="post.permlink" :deletable="post.vote_rshares <= 0 && post.children === 0" />
         </div>

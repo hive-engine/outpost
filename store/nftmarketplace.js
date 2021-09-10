@@ -346,12 +346,67 @@ export const actions = {
       keyType: 'Active',
       json,
       message: `Transfer NFT (${state.settings.nft_symbol})`,
-      eventName: 'nft-transfer-successful',
+      eventName: 'nft-multiple-transfer-successful',
       mutation: 'nftmarketplace/EMPTY_CART',
       mutationData: nfts
     }
 
     dispatch('requestBroadcastJson', jsonData, { root: true })
+  },
+
+  async requestTransferMultiple ({ commit, state, dispatch }, recipients) {
+    const nfts = state.cart.filter(c => c.account === this.$auth.user.username && !c.for_sale).map(c => c.nft_id.toString())
+
+    const recipientsWithNfts = recipients.reduce((acc, cur) => {
+      if (!acc[cur]) {
+        acc[cur] = []
+      }
+
+      acc[cur].push(nfts.shift())
+
+      return acc
+    }, {})
+
+    const recipientChunks = arrayChunk(Object.keys(recipientsWithNfts), 5)
+
+    const ops = recipientChunks.reduce((acc, chunk) => {
+      const json = []
+
+      const nftIds = []
+
+      chunk.forEach((recipient) => {
+        const ids = recipientsWithNfts[recipient]
+
+        nftIds.push(ids)
+
+        json.push({
+          contractName: 'nft',
+          contractAction: 'transfer',
+          contractPayload: {
+            to: recipient,
+            nfts: [
+              { symbol: state.settings.nft_symbol, ids }
+            ]
+          }
+        })
+      })
+
+      acc.push({
+        id: state.settings.sidechain_id,
+        keyType: 'Active',
+        json,
+        message: `Transfer NFT (${state.settings.nft_symbol})`,
+        eventName: 'nft-transfer-successful',
+        mutation: 'nftmarketplace/EMPTY_CART',
+        mutationData: nftIds.flat(Infinity)
+      })
+
+      return acc
+    }, [])
+
+    commit('SET_JSON_OPS', ops, { root: true })
+
+    await dispatch('requestBroadcastMultipleJson', {}, { root: true })
   },
 
   requestSell ({ state, dispatch }, price) {
