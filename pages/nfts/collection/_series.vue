@@ -295,6 +295,7 @@ export default {
   mounted () {
     this.$eventBus.$on([
       'nft-transfer-successful',
+      'nft-multiple-transfer-successful',
       'nft-sell-successful',
       'nft-change-price-successful',
       'nft-burn-successful',
@@ -307,6 +308,7 @@ export default {
   beforeDestroy () {
     this.$eventBus.$off([
       'nft-transfer-successful',
+      'nft-multiple-transfer-successful',
       'nft-sell-successful',
       'nft-change-price-successful',
       'nft-burn-successful',

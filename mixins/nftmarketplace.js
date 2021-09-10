@@ -4,6 +4,7 @@ export default {
   mounted () {
     this.$eventBus.$on([
       'nft-transfer-successful',
+      'nft-multiple-transfer-successful',
       'nft-sell-successful',
       'nft-cancel-sell-successful',
       'nft-change-price-successful',
@@ -15,6 +16,7 @@ export default {
   beforeDestroy () {
     this.$eventBus.$off([
       'nft-transfer-successful',
+      'nft-multiple-transfer-successful',
       'nft-sell-successful',
       'nft-cancel-sell-successful',
       'nft-change-price-successful',
@@ -29,7 +31,13 @@ export default {
     async requestValidateTransaction (data) {
       this.loading = true
 
-      await this.validateTransaction(data.id)
+      let trxId = data.id
+
+      if (data.trx_count > 1) {
+        trxId = `${trxId}-0`
+      }
+
+      await this.validateTransaction(trxId)
     },
 
     resetActivityModal () {
