@@ -15,7 +15,7 @@ LasseCash is an OUTPOST build by Hive Engine, based on Lasse Ehlers' ideas. We a
 Proof of brain rewards
 --
 
-The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH / LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better then Hive and better then competing tribes and OUTPOSTs.
+The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH / LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better than Hive and better than competing tribes and OUTPOSTs.
 
 The powerdown time is 26 payments every 7 day over 6 months, this is made to incentivize longterm mentality. Furthermore the payout ratio is 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from Hive, other tribes and other OUTPOSTs.
 
@@ -47,7 +47,7 @@ Dynamic inflation
 Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST. He aim at only changing the inflation ones a year, but if nessesary it can be done at all times. Changes will always be announced in a post on the blockchain, so there is always full transparency, as there has been since the beginning of this product.
 
 
-![inflation estimate 2021.png](https://images.hive.blog/DQmWtXp9GAcnMUGakXF54UuTXjwXdKZYoZFb1bbaGE2DCfB/inflation%20estimate%202021.png)
+![inflation estimate 2021.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23tcNRVyjJSTFUYZdhq7Ty8N3jPXgXMa2oVoTgHAWkkT5A7sycBL8LhsV1xTceXGDDj2Q.png)
 
 
 
