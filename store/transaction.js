@@ -6,8 +6,9 @@ export const actions = {
 
     do {
       try {
-        trx = await this.$sidechain.getTransaction(trxId)
         await this.$chain.sleep(3000)
+
+        trx = await this.$sidechain.getTransaction(trxId)
       } catch (e) {
         console.log(e)
       }

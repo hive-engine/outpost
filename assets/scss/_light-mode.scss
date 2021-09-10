@@ -982,3 +982,32 @@ hr {
     }
   }
 }
+
+/*-------------------------------
+| Tags Input
+-------------------------------*/
+.tags-input {
+  @extend .form-control;
+  display: flex;
+
+  button {
+    color: inherit;
+    font-size: 125%;
+    line-height: 1;
+    float: none;
+    margin-left: 0.25rem;
+  }
+
+  .tag-button {
+    margin-right: 10px;
+    padding: 0 5px;
+    color: #fff;
+  }
+
+  .tag-input {
+    &:focus,
+    &:active {
+      outline: currentcolor none 0px;
+    }
+  }
+}
