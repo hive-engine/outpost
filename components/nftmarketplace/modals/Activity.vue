@@ -52,43 +52,94 @@
       </template>
 
       <template #modal-footer>
-        <div class="w-100 text-center">
-          <b-button v-if="!disableSellAndTransfer" class="mt-1" variant="danger" @click.prevent="$bvModal.show('burnModal')">
-            Burn
-          </b-button>
+        <div class="w-100">
+          <div class="d-flex justify-content-between">
+            <div>
+              <b-button v-if="cart.length > 0" class="mt-1" variant="warning" @click.prevent="EMPTY_CART()">
+                Clear
+              </b-button>
+            </div>
 
-          <b-button v-if="!disableSellAndTransfer" class="mt-1" variant="info" @click.prevent="$bvModal.show('sellModal')">
-            Sell
-          </b-button>
+            <div>
+              <b-button v-if="!disableSellAndTransfer" class="mt-1" variant="danger" @click.prevent="$bvModal.show('burnModal')">
+                Burn
+              </b-button>
 
-          <b-button v-if="!disableCancelSaleAndChangePrice" class="mt-1" variant="info" @click.prevent="$bvModal.show('changePriceModal')">
-            Change Price
-          </b-button>
+              <b-button v-if="!disableSellAndTransfer" class="mt-1" variant="info" @click.prevent="$bvModal.show('sellModal')">
+                Sell
+              </b-button>
 
-          <b-button v-if="!disableCancelSaleAndChangePrice" class="mt-1" variant="info" @click.prevent="cancelSaleNFT">
-            Cancel Sale
-          </b-button>
+              <b-button v-if="!disableCancelSaleAndChangePrice" class="mt-1" variant="info" @click.prevent="$bvModal.show('changePriceModal')">
+                Change Price
+              </b-button>
 
-          <b-button v-if="!disableSellAndTransfer" class="mt-1" variant="info" @click.prevent="$bvModal.show('transferModal')">
-            Transfer
-          </b-button>
+              <b-button v-if="!disableCancelSaleAndChangePrice" class="mt-1" variant="info" @click.prevent="cancelSaleNFT">
+                Cancel Sale
+              </b-button>
 
-          <b-button v-if="!disableBuy" class="mt-1" variant="info" @click.prevent="$bvModal.show('buyModal')">
-            Buy
-          </b-button>
+              <b-button v-if="!disableSellAndTransfer" class="mt-1" variant="info" @click.prevent="$bvModal.show('transferModal')">
+                Transfer
+              </b-button>
+
+              <b-button v-if="!disableBuy" class="mt-1" variant="info" @click.prevent="$bvModal.show('buyModal')">
+                Buy
+              </b-button>
+            </div>
+          </div>
         </div>
       </template>
     </b-modal>
 
     <b-modal id="transferModal" body-class="activity-modal" size="lg" centered title="Transfer NFT">
-      <b-form-group description="Enter HIVE username of the recipient" label="Recipient *">
-        <b-input-group prepend="@">
-          <b-form-input v-model="$v.recipient.$model" trim :state="$v.recipient.$dirty ? !$v.recipient.$error : null" />
-        </b-input-group>
+      <b-form-group>
+        <b-form-radio-group
+          v-model="recipientType"
+          button-variant="outline-primary"
+          :options="[{text:'Single Recipient', value:'single'}, {text:'Multiple Recipients', value:'multiple'}]"
+          name="recipientType"
+          buttons
+        />
       </b-form-group>
 
+      <template v-if="recipientType === 'single'">
+        <b-form-group description="Enter Hive username of the recipient" label="Recipient *">
+          <b-input-group prepend="@">
+            <b-form-input v-model="$v.recipient.$model" trim :state="$v.recipient.$dirty ? !$v.recipient.$error : null" />
+          </b-input-group>
+        </b-form-group>
+      </template>
+
+      <template v-else>
+        <tag-input
+          v-model="recipients"
+          label="Recipients *"
+          placeholder="Enter Hive usernames"
+          :description="`Enter Hive usernames of the recipients. You may enter one username a maximum of 50 times to send a maximum of 50 editions to that user. Max ${avilableForTransferSaleBurn.length} usernames.`"
+          :allow-duplicates="true"
+          :tag-validator="usernameValidator"
+          invalid-tag-text="Invalid username"
+          duplicate-tag-text="Duplicate username"
+          :max="avilableForTransferSaleBurn.length"
+        />
+        </b-form-group>
+
+        <b-form-file ref="uploadRecipients" accept="text/csv, text/plain" class="d-none" plain @input="onFileChange" />
+
+        <div class="cursor-pointer" @click.prevent="$refs.uploadRecipients.$el.click()">
+          Click here to upload a TXT or CSV file.
+        </div>
+
+        <p class="small text-muted">
+          For a text file all usernames should be comma seperate in a single line, for CSV all usernames must be on their own line.
+        </p>
+      </template>
+
       <template #modal-footer>
-        <b-button variant="info" :disabled="modalBusy || recipient.length < 3" @click.prevent="transferNFT">
+        <b-button v-if="recipientType === 'single'" variant="info" :disabled="modalBusy || recipient.length < 3" @click.prevent="transferNFT">
+          <b-spinner v-if="modalBusy" small /> Transfer
+        </b-button>
+
+        <b-button v-else variant="info" :disabled="modalBusy || recipients.length < 1" @click.prevent="transferMultiple">
           <b-spinner v-if="modalBusy" small /> Transfer
         </b-button>
       </template>
@@ -187,12 +238,14 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { required, minLength, maxLength, maxValue } from 'vuelidate/lib/validators'
 import VideoHover from '@/components/nftmarketplace/VideoHover.vue'
+import TagInput from '@/components/TagInput.vue'
 
 export default {
   name: 'ActivityModal',
 
   components: {
-    VideoHover
+    VideoHover,
+    TagInput
   },
 
   data () {
@@ -201,6 +254,9 @@ export default {
       price: '',
       newPrice: '',
       currencyBalance: 0,
+
+      recipientType: 'single',
+      recipients: [],
 
       modalBusy: false
     }
@@ -258,8 +314,8 @@ export default {
   },
 
   methods: {
-    ...mapActions('nftmarketplace', ['requestTransfer', 'requestSell', 'requestBuy', 'requestBurn', 'requestCancelSale', 'requestChangePrice']),
-    ...mapMutations('nftmarketplace', ['REMOVE_FROM_CART']),
+    ...mapActions('nftmarketplace', ['requestTransfer', 'requestTransferMultiple', 'requestSell', 'requestBuy', 'requestBurn', 'requestCancelSale', 'requestChangePrice']),
+    ...mapMutations('nftmarketplace', ['REMOVE_FROM_CART', 'EMPTY_CART']),
 
     transferNFT () {
       this.$v.recipient.$touch()
@@ -269,6 +325,12 @@ export default {
 
         this.requestTransfer(this.recipient)
       }
+    },
+
+    transferMultiple () {
+      this.modalBusy = true
+
+      this.requestTransferMultiple(this.recipients)
     },
 
     changeSellPrice () {
@@ -338,6 +400,7 @@ export default {
         this.recipient = ''
         this.price = ''
         this.newPrice = ''
+        this.recipients = []
       }
 
       if (modalId === 'buyModal') {
@@ -355,6 +418,44 @@ export default {
 
     resetModalBusyState () {
       this.modalBusy = false
+    },
+
+    usernameValidator (tag) {
+      return (
+        tag === tag.toLowerCase() &&
+        tag.length >= 3 &&
+        tag.length <= 16 &&
+        /^([a-z])[a-z0-9-.]+[a-z0-9]$/.test(tag)
+      )
+    },
+
+    onFileChange (file) {
+      if (file.type === 'text/csv' || file.type === 'text/plain') {
+        const reader = new FileReader()
+
+        reader.onload = (e) => {
+          let lines = e.target.result.split(',')
+
+          if (file.type === 'text/csv') {
+            lines = e.target.result.split('\n')
+          }
+
+          const recipients = lines.reduce((acc, cur) => {
+            const [account] = cur.split(',')
+
+            if (account) {
+              acc.push(account)
+            }
+
+            return acc
+          }, [])
+            .filter(r => this.usernameValidator(r))
+
+          this.recipients = recipients.slice(0, this.avilableForTransferSaleBurn.length)
+        }
+
+        reader.readAsText(file)
+      }
     }
   },
 

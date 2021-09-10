@@ -42,7 +42,14 @@
     >
       <div class="d-flex align-items-center justify-content-between">
         <div class="mr-2 w-75">
-          <b-form-input v-model="weight" type="range" min="0" max="100" step="1" />
+          <b-form-input
+            v-model="weight"
+            number
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+          />
         </div>
         <div>{{ weight }}%</div>
 
@@ -70,7 +77,14 @@
     >
       <div class="d-flex align-items-center justify-content-between">
         <div class="mr-2 w-75">
-          <b-form-input v-model="dvWeight" type="range" min="0" max="100" step="1" />
+          <b-form-input
+            v-model="dvWeight"
+            number
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+          />
         </div>
         <div>-{{ dvWeight }}%</div>
 
@@ -137,7 +151,8 @@ export default {
     permlink: { type: String, required: true },
     activeVotes: { type: Array, required: true },
     rshares: { type: Number, required: true },
-    payout: { type: Number, required: true }
+    payout: { type: Number, required: true },
+    isComment: { type: Boolean, default: false }
   },
 
   data () {
@@ -232,11 +247,58 @@ export default {
         tribeConfig: this.tribe_config,
         tribeInfo: this.tribe_info
       })
+    },
+
+    voteWeightKey () {
+      if (this.$auth.loggedIn) {
+        return this.isComment ? `voteweight-${this.$auth.user.username}-comment` : `voteweight-${this.$auth.user.username}-post`
+      }
+
+      return ''
+    },
+
+    downvoteWeightKey () {
+      if (this.$auth.loggedIn) {
+        return this.isComment ? `downvoteweight-${this.$auth.user.username}-comment` : `downvoteweight-${this.$auth.user.username}-post`
+      }
+
+      return ''
+    }
+  },
+
+  watch: {
+    weight (value, oldValue) {
+      if (value !== oldValue) {
+        this.$auth.$storage.setUniversal(this.voteWeightKey, value)
+      }
+    },
+
+    dvWeight (value, oldValue) {
+      if (value !== oldValue) {
+        this.$auth.$storage.setUniversal(this.downvoteWeightKey, value)
+      }
+    },
+
+    '$auth.loggedIn': {
+      handler () {
+        this.syncVoteWeights()
+      }
     }
   },
 
   mounted () {
     const self = this
+
+    this.$store.subscribe((mutation) => {
+      if (this.$auth.loggedIn) {
+        if (mutation.type === 'auth/SET') {
+          this.weight = this.$auth.$storage.getUniversal(this.voteWeightKey) || 100
+          this.dvWeight = this.$auth.$storage.getUniversal(this.downvoteWeightKey) || 100
+        }
+      }
+    })
+
+    this.syncVoteWeights()
 
     this.$eventBus.$on(['vote-acknowledgement', 'transaction-broadcast-error'], ({ author, permlink, data }) => {
       if (self.author === author && self.permlink === permlink) {
@@ -256,6 +318,13 @@ export default {
 
     applyRewardsCurve (rShares) {
       return ((Math.max(0, rShares) ** this.tribe_config.author_curve_exponent) * this.tribe_info.reward_pool) / this.tribe_info.pending_rshares
+    },
+
+    syncVoteWeights () {
+      if (this.$auth.loggedIn) {
+        this.weight = this.$auth.$storage.syncUniversal(this.voteWeightKey, 100)
+        this.dvWeight = this.$auth.$storage.syncUniversal(this.downvoteWeightKey, 100)
+      }
     }
   }
 }
