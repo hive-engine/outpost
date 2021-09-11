@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'LIST'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://hivelist.org'
+export const APP_DOMAIN = 'https://www.hivelist.org'
 export const APP_TITLE = 'HiveLIST'
 export const APP = `outpost/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
