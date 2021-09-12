@@ -20,7 +20,7 @@ Lasse Ehlers ( @lasseehlers ) contributed with the name, idea and face for Lasse
 Yes, you need a Hive account, there are several ways to [create a Hive account](https://signup.hive.io).
 
 ## <span of="hive_keys_safe">Are my Hive keys safe on the site? </span>
-We recommend using the browser add-on "Hive keychain" for your Hive keys. It's open source and trusted by a large group of people.
+We recommend using the browser add-on "Hive keychain" for your Hive keys, when logging in on all Hive Engine related sites, including www.lassecash.com. "Hive keychain" is open source and trusted by a large group of people.
 
 ## <span id="Do_you_have_discord">I have another question, where do I ask it? </span>
 You can ask any question in LasseCash Discord server, the link is here: https://discord.gg/5JW2w9t
