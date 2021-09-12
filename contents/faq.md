@@ -14,7 +14,7 @@ The old condensor site worked very well at indexing posts on Google, unfortunate
 LasseCash is an OUTPOST built by Hive Engine. We reward "Anarchy, Crypto and Truth" content.
 
 ## <span id="Who_is_behind_lassecash">Who is behind LasseCash?</span>
-Lasse Ehlers ( @lasseehlers ) contributed with the name, idea and face for LasseCash. LasseCash is developed by Hive Engine and Carlos Serrano ( @zaxan ) made all graphics. The community of LasseCash consist of all the tribe members of LasseCash, who owns the tribe in the form of LASSECASH and LASSECASH POWER.
+Lasse Ehlers ( @lasseehlers ) contributed with the name, idea and face for LasseCash. LasseCash is developed by Hive Engine and Carlos Serrano ( @zaxan ) made all graphics. The community of LasseCash consist of all the tribe members of LasseCash, who owns the OUTPOST in the form of LASSECASH and LASSECASH POWER.
 
 ## <span id="Do_I_need_wallet">Do I need an account to use and hold LasseCash?</span>
 Yes, you need a Hive account, there are several ways to [create a Hive account](https://signup.hive.io).
