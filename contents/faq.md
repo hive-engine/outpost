@@ -10,6 +10,9 @@ LasseCash implemented the OUTPOST technology as the first in the world, it still
 ## <span id="What_is_lassecash">Why is my post not showing up at Google?</span>
 The old condensor site worked very well at indexing posts on Google, unfortunately that is still being worked on, on the new OUTPOST site www.lassecash.com , we believe it will work again at one point in the future.
 
+## <span id="What_is_lassecash">What is the easiest way to buy LASSECASH?</span>
+The DEX hive-engine.com provide the ability to deposit older cryptocurrencies like forinstance Bitcoin, Ethereum or Litecoin (amoung others), after depositing then you can swap those for SWAP.HIVE which you can buy LASSECASH for. That is the easiest route to buy LASSECASH. It also works the other way of-course, so you can also sell LASSECASH for older cryptocurrencies on the same site. LASSECASH are traded on many Hive-engine based DEXs.
+
 ## <span id="What_is_lassecash">What is LasseCash?</span>
 LasseCash is an OUTPOST built by Hive Engine. We reward "Anarchy, Crypto and Truth" content.
 
