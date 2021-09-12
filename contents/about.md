@@ -26,7 +26,7 @@ The powerdown time is 26 payments every 7 day over 6 months, this is made to inc
 Diesel pool rewards
 --
 
-If you provide liquidity for the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responcible way. 
+If you provide liquidity for the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
 
 Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE/LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
 
