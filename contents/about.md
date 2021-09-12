@@ -57,7 +57,7 @@ We are keeping the 20 million LASSECASH for the first 10 years and 20 million LA
 LasseCash and HEX has the best tokenomics in the world of today
 --
 
-When you compare LasseCash to any other tribe or OUTPOST, then you will probably see that LasseCash has one of the smallest amount of tokens. LasseCash also have a hardcap of 51 million LASSECASH ever issued. Those two things together is an advantage that LasseCash has over almost all other tribes and OUTPOSTs. WE believe we have the best tokenomics ever, expect for HEX which we often endorse. HEX is a completely other product than LasseCash, those two solves two different problems in the world.
+When you compare LasseCash to any other tribe or OUTPOST, then you will probably see that LasseCash has one of the smallest amount of tokens. LasseCash also have a hardcap of 51 million LASSECASH ever issued. Those two things together is an advantage that LasseCash has over almost all other tribes and OUTPOSTs. We believe we have the best tokenomics ever, expect for HEX which we often endorse. HEX is a completely other product than LasseCash, those two solves two different problems in the world of today.
 
 
 
