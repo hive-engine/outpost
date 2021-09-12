@@ -51,6 +51,8 @@ Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST.
 
 ![inflation estimate 2021.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23tcNRVyjJSTFUYZdhq7Ty8N3jPXgXMa2oVoTgHAWkkT5A7sycBL8LhsV1xThTni8MMAU.png)
 
+We are keeping the 20 million LASSECASH for the first 10 years and 20 million LASSECASH forever thereafter, it has been like that since the beginning. Since the inflation is lower then 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, this is just an idea, which is subject to change. Even we have probably one of the lowest inflations and a low hardcap at 51 millon, there are pleanty of room to be creative in the future.
+
 
 Notes on distribution
 --
