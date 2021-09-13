@@ -2,7 +2,6 @@
 title: Welcome
 ---
 
-<center><iframe width="560" height="315" src="https://www.youtube.com/embed/kdf3bAcHmSU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
 
 <center>![image.png](https://images.hive.blog/DQmQTeTuBSYQv4G9u5nS2YKzujG18tiy21nqa2tEV3JuJmx/image.png)</center>
 
@@ -10,42 +9,63 @@ title: Welcome
 Welcome to LasseCash
 --
 
-Rewarding anarchy, crypto and truth.
+LasseCash is an OUTPOST build by Hive Engine, based on Lasse Ehlers' ideas. We are rewarding anarchy, crypto and truth content.
+
+Proof of brain rewards
+--
+
+The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH and LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better than Hive and better than competing tribes and OUTPOSTs.
+
+The powerdown time is 26 payments every 7 day over 6 months, this is made to incentivize longterm mentality. Furthermore the payout ratio on blog posts are 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from Hive, other tribes and other OUTPOSTs.
+
+
+
+
+
+Diesel pool rewards
+--
+
+If you provide liquidity for the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
+
+Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE/LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
+
+There is a bonus applied for long term liquidity providers. You get 1% extra per day you hold the liquidity in the contract, up till 30 days. If you hold longer then 30 days, you will get 30% extra rewards each day. In other words, when you provide liquidity long term, you get more rewards.
+
+
+NFT platform
+--
+
+LasseCash also enables you to mint your own NFTs. We prefer NFTs that contain or relate to anarchy, crypto and/or truth content, but other themes are also welcomed. You have to apply to be whitelisted and we usualy respond fast. There are terms in place, if you violate those terms you can be blacklisted with no refund. We aim at providing the best NFT platform in the whole cryptocurrency market.
+
+An NFT on LasseCash can be an image, an audio file or a video file. This is quite unique, most other NFT platforms dont provide all three options at the same time.
+
+The first edition costs 1000 LASSECASH and each additional edition costs 100 LASSECASH. There is a 1% fee for trading NFTs on LasseCash.
+
 
 Dynamic inflation
 --
 
-Inflation will be dynamically decided by tribe leader after the first 2 years (per the 24/4 – 2021). Probably decided each year. If new stuff comes out, like DeFi on Hive Engine, then it can be changed anytime to provide the best possible features for the tribe. Inflation is dynamically changed in a responsible way, to create the best conditions and hopefully higher prices for LasseCash.
+Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST. He aim at only changing the inflation ones a year, but if nessesary it can be done at all times. Changes will always be announced in a post on the blockchain, so there is always full transparency, as there has been since the beginning of this product.
 
-Since Hive Engine is still working on Diesel pool rewards given by account, then the inflation will continue to be 1750000 LASSECASH per year for now (given 100% via proof of brain).
 
-As soon as Hive Engine are ready, we will implement Diesel pool rewards and change the inflation accordingly. The max 51 millions ever, 20 millions for the first 10 years and 20 million forever thereafter stands for always.
+![inflation estimate 2021.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23tcNRVyjJSTFUYZdhq7Ty8N3jPXgXMa2oVoTgHAWkkT5A7sycBL8LhsV1xThTni8MMAU.png)
 
-*In other words, rewards for liquidity providing via Diesel pools are postponed into to the unknown future.*
+We are keeping the 20 million LASSECASH for the first 10 years and 20 million LASSECASH forever thereafter, it has been like that since the beginning. Since the inflation is lower then 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, for the remaining inflation up till 20 million, this is just an idea, which is subject to change. Even we have probably one of the lowest inflations and a low hardcap at 51 million, there are plenty of room to be creative in the future.
 
-Notes on distribution
+
+LasseCash and HEX has the best tokenomics in the world of today
 --
 
-If you compare to any other tribe, then they all have a huge token supply, often issued millions or billions more then LasseCash. This is in our view not serious, as scarcity of a token is very important for the tribe members valuation. As an example Bitcoin has 21 million max coins ever and with LasseCash its max 51 millions tokens ever. In effect LasseCash is much more scares then HIVE and all other tribes, which all have an ever expanding token supply with potentially a lot of inflation.
+When you compare LasseCash to any other tribe or OUTPOST, then you will probably see that LasseCash has one of the smallest amount of tokens. LasseCash also have a hardcap of 51 million LASSECASH ever issued. The combined tokenomics of the LasseCash OUTPOST, with "proof of brain"-blogging, NFT minting and NFT market and dieselpool rewards, gives LasseCash an advantage over all other tribes and OUTPOSTs. We believe we have the best tokenomics ever, expect for HEX which we often endorse. HEX is a completely other product than LasseCash, those two solves two different problems in the world of today.
 
-Scot.bot. parameters and liquidity rewards
+
+
+Lasse Ehlers as leader of LasseCash
 --
 
-We tweaked the parameters of the Scot.bot. to be more successful then HIVE and all other tribes. The powerdown time is 26 payments every 7 day over 6 months. This is made to incentivize longterm mentality. Furthermore the payout ratio is 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from HIVE.
+Lasse Ehlers is naturally the leader of the LasseCash OUTPOST and will be the one to resolve any potential dispute or drama, since he will always have the biggest stake.
 
-Diesel pool rewards are payout on a weekly basis (When it comes), depending on how much liquidity you provide to the SWAP.HIVE/LASSECASH pool.
 
-Badges
---
-
-Each account get s a badge depending on how much LASSECASH POWER they have:
-
-<center>![image.png](https://images.hive.blog/DQmSXcF6m5jziuhgEH5nNCuxkzKhYyN4XEJZJMeapD8foX4/image.png)</center>
-
-Lasse as leader of LasseCash
---
-
-Lasse Ehlers is naturally the leader of the LASSECASH tribe and will be the one to resolve any potential dispute or drama, since he has the biggest stake.
 
 Legal disclaimer
 --
