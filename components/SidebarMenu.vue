@@ -39,6 +39,26 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+      <b-list-group-item target="_blank" href="https://hivelist.io">
+        Home <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.io/classifieds">
+        Classifieds <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.io/nft-marketplace">
+        NFT Market Hub <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.io/list-token">
+        LIST Token <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.store">
+        Hivelist Store <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
       <b-list-group-item class="font-weight-bold" disabled>
         Trade
       </b-list-group-item>
