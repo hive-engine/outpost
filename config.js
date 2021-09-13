@@ -2,13 +2,14 @@ import { version } from './package.json'
 
 export const TOKEN = 'LASSECASH'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.lassecash.com' // Hard code it or use environment varible
+export const APP_DOMAIN = 'https://www.lassecash.com'
 export const APP_TITLE = 'LasseCash'
 export const APP = `lassecash/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
 export const IMAGE_UPLOAD_SERVER = 'https://images.hive.blog'
 export const NODES = ['https://api.hive.blog', 'https://api.deathwing.me', 'https://rpc.ausbit.dev', 'https://api.ha.deathwing.me']
 export const COMMUNITY_CATEGORY = 'hive-145209'
+export const AUTO_ADD_COMMUNITY = false
 export const SCOT_TAG = 'lassecash'
 export const SCOT_TAG_FIRST = true
 export const MAX_TAG = 20
