@@ -1,6 +1,6 @@
 import { Remarkable } from 'remarkable'
 import HtmlReady from '@/utils/HtmlReady'
-import { SCOT_TAG_FIRST, SCOT_TAG, MAX_TAG } from '@/config'
+import { AUTO_ADD_COMMUNITY, COMMUNITY_CATEGORY, SCOT_TAG_FIRST, SCOT_TAG, MAX_TAG } from '@/config'
 
 const remarkable = new Remarkable({ html: true, breaks: true })
 
@@ -43,13 +43,17 @@ export const calculateReputation = (reputation) => {
   return parseInt(v * 9 + 25)
 }
 
-export const allTags = (tags, originalCategory, hashtags, editing = false) => {
+export const allTags = (tags, originalCategory, hashtags, editing = false, isComment = false) => {
   tags = new Set(tags)
 
   if (SCOT_TAG_FIRST && !/^hive-[1-3]\d{4,6}$/.test(tags.values().next().value) && !editing) {
     tags = new Set([SCOT_TAG, ...tags])
   } else {
     tags = tags.add(SCOT_TAG)
+  }
+
+  if (AUTO_ADD_COMMUNITY && /^hive-[1-3]\d{4,6}$/.test(COMMUNITY_CATEGORY) && !/^hive-[1-3]\d{4,6}$/.test(tags.values().next().value) && !isComment) {
+    tags = new Set([COMMUNITY_CATEGORY, ...tags])
   }
 
   // remove original category, if present
