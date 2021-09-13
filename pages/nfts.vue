@@ -90,7 +90,8 @@ export default {
   },
 
   timers: {
-    fetchHivePrice: { time: 5 * 60 * 1000, autostart: true, immediate: true, repeat: true }
+    fetchHivePrice: { time: 5 * 60 * 1000, autostart: true, immediate: true, repeat: true },
+    fetchTokenPrice: { time: 15 * 60 * 1000, autostart: true, immediate: true, repeat: true }
   }
 }
 </script>
