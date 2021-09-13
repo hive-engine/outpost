@@ -9,6 +9,7 @@ export const IMAGES_CDN = 'https://images.hive.blog/'
 export const IMAGE_UPLOAD_SERVER = 'https://images.hive.blog'
 export const NODES = ['https://api.hive.blog', 'https://api.deathwing.me', 'https://rpc.ausbit.dev', 'https://api.ha.deathwing.me']
 export const COMMUNITY_CATEGORY = 'hive-121744'
+export const AUTO_ADD_COMMUNITY = true
 export const SCOT_TAG = 'cinetv'
 export const SCOT_TAG_FIRST = true
 export const MAX_TAG = 10
