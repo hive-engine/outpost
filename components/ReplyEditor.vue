@@ -151,7 +151,7 @@ export default {
 
       const meta = {}
 
-      const metaTags = allTags(this.commentTags, '', rtags.hashtags, this.commentPermlink !== '')
+      const metaTags = allTags(this.commentTags, '', rtags.hashtags, this.commentPermlink !== '', true)
 
       if (metaTags.size) {
         meta.tags = Array.from(metaTags)

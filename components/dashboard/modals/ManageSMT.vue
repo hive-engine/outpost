@@ -61,7 +61,7 @@
         </b-col>
 
         <b-col cols="12" lg="6">
-          <b-form-group label="Reward Interval Seconds" description="How often to add tokens to the reward pool.">
+          <b-form-group label="Reward Interval Seconds" description="How often to add tokens to the reward pool. Must be between 30 to 86400 seconds and divisible by 3.">
             <b-form-input v-model="config.rewardIntervalSeconds" :state="$v.config.rewardIntervalSeconds.$dirty ? !$v.config.rewardIntervalSeconds.$error : null" number />
           </b-form-group>
 
@@ -314,7 +314,13 @@ export default {
 
       rewardIntervalSeconds: {
         required,
-        numeric
+        numeric,
+        between: between(30, 86400),
+        validInput: (value) => {
+          if (value === '') { return true }
+
+          return value % 3 === 0
+        }
       },
 
       voteRegenerationDays: {
