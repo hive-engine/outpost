@@ -65,6 +65,11 @@ Lasse Ehlers as leader of LasseCash
 
 Lasse Ehlers is naturally the leader of the LasseCash OUTPOST and will be the one to resolve any potential dispute or drama, since he will always have the biggest stake.
 
+What happens if Lasse Ehlers dies prematurely?
+--
+
+The system-state could be airdroped on to a new OUTPOST, with a new leader and a new name, but the same token distribution and system-state. Its up to the community to find a new leader fit for running a new OUTPOST with a new name and airdrop system-state over to that new OUTPOST.
+
 
 
 Legal disclaimer
