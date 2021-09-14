@@ -281,6 +281,31 @@ export const actions = {
     }
   },
 
+  requestApplyForAutoWhitelist ({ state, dispatch }) {
+    const { amount, symbol } = state.settings.whitelist_payment_requirement
+
+    const json = {
+      contractName: 'tokens',
+      contractAction: 'transfer',
+      contractPayload: {
+        symbol,
+        to: state.settings.account,
+        quantity: amount.toString(),
+        memo: JSON.stringify({ action: 'whitelist-apply' })
+      }
+    }
+
+    const jsonData = {
+      id: this.$config.SIDECHAIN_ID,
+      keyType: 'Active',
+      json,
+      message: 'Auto Whitelist Application',
+      eventName: 'nftmarketplace-whitelist-apply-successful'
+    }
+
+    dispatch('requestBroadcastJson', jsonData, { root: true })
+  },
+
   requestMintTokens ({ state, dispatch }, { fee, payload }) {
     const json = {
       contractName: 'tokens',
