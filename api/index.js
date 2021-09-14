@@ -34,7 +34,7 @@ app.set('trust proxy', 1)
 app.use(bodyParser.json())
 app.use(cookieSession({
   name: 'session',
-  secret: 'hello',
+  secret: process.env.SESSION_SECRET || 'mySuperSecretSessionSecret',
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax',
   maxAge: 90 * 24 * 60 * 60 * 1000

@@ -20,7 +20,7 @@
       <template v-else>
         <b-row>
           <b-col md="6">
-            <b-card title="Profile" class="mt-5">
+            <b-card title="Profile" class="mt-5 h-100">
               <b-alert variant="info" dismissible show>
                 Please fill out the profile information before applying to the whitelist, blank applications will be denied.
               </b-alert>
@@ -68,13 +68,17 @@
           </b-col>
 
           <b-col md="6">
-            <b-card title="Apply for Whitelist" class="mt-5">
-              <b-alert variant="info" dismissible :show="showWhitelistAlert">
+            <b-card title="Apply for Whitelist" class="mt-5 h-100">
+              <b-alert v-if="settings.auto_whitelist_enabled" variant="info" dismissible :show="showWhitelistAlert">
+                Your whitelist application was successful. Please wait for a few minutes while we process the application.
+              </b-alert>
+
+              <b-alert v-else variant="info" dismissible :show="showWhitelistAlert">
                 Your whitelist application was successful. Please wait for a moderator to process your application.
               </b-alert>
 
               <p v-if="profile.whitelisted" class="text-muted">
-                You are already a whitelisted member.
+                You are a whitelisted member.
               </p>
 
               <p v-else-if="profile.whitelist_applied" class="text-muted">
@@ -86,18 +90,93 @@
                   To mint NFTs you need to be Whitelisted. Please fill out your profile details and then apply for the whitelist.
                 </p>
 
-                <b-checkbox id="accept_tos" v-model="accept_tos" value="accepted" unchecked-value="not_accepted">
-                  I agree to only tokenize contents I created and do not infringe on any copyright. I understand that if I violate the TOS I may be blacklisted from the site.
-                </b-checkbox>
+                <template v-if="settings.auto_whitelist_enabled">
+                  <p>You can be whitelisted automatically, if you meet the following requirements.</p>
 
-                <b-button
-                  class="mt-3"
-                  variant="primary"
-                  :disabled="accept_tos !== 'accepted'"
-                  @click.prevent="requestApplyForWhitelist"
-                >
-                  Apply
-                </b-button>
+                  <h6 class="mt-3">
+                    Payment Requirement
+                  </h6>
+
+                  <client-only placeholder="Loading...">
+                    <table class="table table-sm mt-3">
+                      <tr>
+                        <th>Required</th>
+                        <th>Your Balance</th>
+                        <th>Filled</th>
+                      </tr>
+
+                      <tr>
+                        <td>{{ settings.whitelist_payment_requirement.amount }} {{ settings.whitelist_payment_requirement.symbol }}</td>
+                        <td>{{ balances[settings.whitelist_payment_requirement.symbol].balance }} {{ settings.whitelist_payment_requirement.symbol }}</td>
+                        <td>
+                          <fa-icon v-if="balances[settings.whitelist_payment_requirement.symbol].balance >= settings.whitelist_payment_requirement.amount" class="text-success" icon="check" />
+
+                          <fa-icon v-else icon="times" class="text-danger" />
+                        </td>
+                      </tr>
+                    </table>
+                  </client-only>
+
+                  <template v-if="Object.keys(settings.whitelist_staking_requirements).length > 0">
+                    <h6 class="mt-3">
+                      Staking Requirement
+                    </h6>
+
+                    <client-only placeholder="Loading...">
+                      <table class="table table-sm mt-3">
+                        <tr>
+                          <th>Required</th>
+                          <th>Your Stake</th>
+                          <th>Filled</th>
+                        </tr>
+
+                        <template v-for="(token, i) of Object.keys(settings.whitelist_staking_requirements)">
+                          <tr :key="i">
+                            <td>{{ settings.whitelist_staking_requirements[token] }} {{ token }}</td>
+                            <td>{{ balances[token].stake }} {{ token }}</td>
+                            <td>
+                              <fa-icon v-if="balances[token].stake >= settings.whitelist_staking_requirements[token]" class="text-success" icon="check" />
+
+                              <fa-icon v-else icon="times" class="text-danger" />
+                            </td>
+                          </tr>
+                        </template>
+                      </table>
+                    </client-only>
+                  </template>
+
+                  <b-checkbox id="accept_tos" v-model="accept_tos" value="accepted" unchecked-value="not_accepted">
+                    I agree to only tokenize contents I created and do not infringe on any copyright. I understand that if I violate the TOS I may be blacklisted from the site.
+                  </b-checkbox>
+
+                  <b-button
+                    class="mt-3"
+                    variant="primary"
+                    :disabled="!shouldEnable"
+                    @click.prevent="requestApplyForAutoWhitelist"
+                  >
+                    Apply
+                  </b-button>
+
+                  <b-button class="mt-3" variant="info" @click.prevent="requestRefresh">
+                    Refresh
+                  </b-button>
+                </template>
+
+                <template v-else>
+                  <b-checkbox id="accept_tos" v-model="accept_tos" value="accepted" unchecked-value="not_accepted">
+                    I agree to only tokenize contents I created and do not infringe on any copyright. I understand that if I violate the TOS I may be blacklisted from the site.
+                  </b-checkbox>
+
+                  <b-button
+                    class="mt-3"
+                    variant="primary"
+                    :disabled="accept_tos !== 'accepted'"
+                    @click.prevent="requestApplyForWhitelist"
+                  >
+                    Apply
+                  </b-button>
+                </template>
               </template>
             </b-card>
           </b-col>
@@ -131,7 +210,9 @@ export default {
 
       profile: {},
       showWhitelistAlert: false,
-      profileUpdated: null
+      profileUpdated: null,
+
+      balances: {}
     }
   },
 
@@ -140,15 +221,58 @@ export default {
 
     await this.fetchUserInfo()
 
+    const tokens = Array.from(
+      new Set([...Object.keys(this.settings.whitelist_staking_requirements), this.settings.whitelist_payment_requirement.symbol])
+    )
+
+    this.balances = tokens.reduce((acc, cur) => {
+      acc[cur] = { balance: 0, stake: 0 }
+
+      return acc
+    }, {})
+
     if (this.isLoggedIn) {
-      await this.fetchProfile()
+      const requests = [this.fetchProfile()]
+
+      if (this.settings.auto_whitelist_enabled) {
+        requests.unshift(this.$sidechain.getBalance(this.$auth.user.username, tokens))
+      }
+
+      const [balances] = await Promise.all(requests)
+
+      if (balances) {
+        balances.forEach((balance) => {
+          this.balances[balance.symbol] = { balance: Number(balance.balance), stake: Number(balance.stake) }
+        })
+      }
     }
 
     this.loading = false
   },
 
+  head () {
+    return {
+      title: 'User Profile'
+    }
+  },
+
   computed: {
-    ...mapGetters('nftmarketplace', ['isLoggedIn', 'isWhitelisted', 'isAdmin'])
+    ...mapGetters('nftmarketplace', ['settings', 'isLoggedIn', 'isWhitelisted', 'isAdmin']),
+
+    stakeTokens () {
+      return Object.keys(this.settings.whitelist_staking_requirements)
+    },
+
+    shouldEnable () {
+      const {
+        whitelist_payment_requirement: paymentRequirement,
+        whitelist_staking_requirements: stakingRequirements
+      } = this.settings
+
+      return this.accept_tos === 'accepted' &&
+         this.balances[paymentRequirement.symbol].balance >= paymentRequirement.amount &&
+         this.stakeTokens.every(t => this.balances[t].stake > stakingRequirements[t])
+    }
   },
 
   watch: {
@@ -179,7 +303,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('nftmarketplace', ['fetchUserInfo', 'requestLoginToMarketplace', 'requestUpdateProfile', 'requestApplyForWhitelist']),
+    ...mapActions('nftmarketplace', ['fetchSettings', 'fetchUserInfo', 'requestLoginToMarketplace', 'requestUpdateProfile', 'requestApplyForWhitelist', 'requestApplyForAutoWhitelist']),
 
     async fetchProfile () {
       try {
@@ -213,6 +337,12 @@ export default {
       }
 
       return this.requestUpdateProfile(data)
+    },
+
+    async requestRefresh () {
+      await this.fetchSettings()
+
+      await this.$fetch()
     }
   },
 
