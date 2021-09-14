@@ -74,7 +74,7 @@ export const escapeHTML = (html) => {
 }
 
 export const numberWithCommas = (x) => {
-  return String(x).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+  return String(x)
 }
 
 export const toFixedWithoutRounding = (t, l = 3) => {
