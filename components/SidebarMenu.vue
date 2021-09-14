@@ -39,6 +39,26 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+      <b-list-group-item target="_blank" href="https://hivelist.io">
+        Home <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.io/classifieds">
+        Classifieds <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.io/nft-marketplace">
+        NFT Market Hub <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.io/list-token">
+        LIST Token <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://hivelist.store">
+        Hivelist Store <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
       <b-list-group-item class="font-weight-bold" disabled>
         Trade
       </b-list-group-item>
@@ -46,6 +66,43 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+      
+      <b-list-group-item class="font-weight-bold" disabled>
+        Main Category Tags
+      </b-list-group-item>
+      
+      <b-list-group-item href="https://www.hivelist.org/created/forsale">
+        ForSale
+      </b-list-group-item>
+      
+      <b-list-group-item href="https://www.hivelist.org/created/contests">
+        Contests
+      </b-list-group-item>
+      
+       <b-list-group-item href="https://www.hivelist.org/created/services">
+        Services
+      </b-list-group-item>
+      
+      <b-list-group-item href="https://www.hivelist.org/created/gigs">
+        Gigs
+      </b-list-group-item>
+      
+      <b-list-group-item href="https://www.hivelist.org/created/contests">
+        Contests
+      </b-list-group-item>
+      
+       <b-list-group-item href="https://www.hivelist.org/created/events">
+        Events
+      </b-list-group-item>
+      
+       <b-list-group-item href="https://www.hivelist.org/created/fundraising">
+        Fundraising
+      </b-list-group-item>
+      
+       <b-list-group-item href="https://www.hivelist.org/created/hivecommerce">
+        Hivecommerce
+      </b-list-group-item>
+      
     </b-list-group>
 
     <template #footer>
