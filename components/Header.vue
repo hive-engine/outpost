@@ -57,6 +57,9 @@
           <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'fundraising'}}">
             Fundraising
           </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'hivecommerce'}}">
+            HiveCommerce
+          </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto align-items-center">
