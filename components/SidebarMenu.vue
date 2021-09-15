@@ -66,6 +66,30 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+      <b-list-group-item class="font-weight-bold" disabled>
+       Categories
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forsale'}}">
+        ForSale
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'contests'}}">
+        Contests
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'services'}}">
+        Services
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'gigs'}}">
+        Gigs
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'events'}}">
+        Events
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'fundraising'}}">
+        Fundraising
+      </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'hivecommerce'}}">
+        HiveCommerce
+      </b-list-group-item>
     </b-list-group>
 
     <template #footer>
