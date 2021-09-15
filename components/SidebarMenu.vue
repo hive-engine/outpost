@@ -64,6 +64,9 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+       <b-list-group-item class="font-weight-bold" disabled>
+       Hivelist.io
+      </b-list-group-item>
       <b-list-group-item target="_blank" href="https://hivelist.io">
         Home <fa-icon icon="external-link-alt" />
       </b-list-group-item>
