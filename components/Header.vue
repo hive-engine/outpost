@@ -42,7 +42,7 @@
           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
-                  Categories
+                  Categories <fa-icon class="ml-1" icon="angle-down" />
                 </div>
               </template>
 
