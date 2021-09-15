@@ -647,7 +647,7 @@ export default {
             data = {
               author: h.author,
               permlink: h.permlink,
-              amount: h.int_amount / 10 ** h.precision,
+              amount: h.quantity,
               token: h.token
             }
           } else {
