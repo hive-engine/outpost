@@ -39,6 +39,24 @@
           <b-nav-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
             Pool
           </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forsale'}}">
+            ForSale
+          </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'contests'}}">
+            Contests
+          </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'services'}}">
+            Services
+          </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'gigs'}}">
+            Gigs
+          </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'events'}}">
+            Events
+          </b-nav-item>
+          <b-nav-item :to="{name:'sort-tag', params:{ sort:'created', tag:'fundraising'}}">
+            Fundraising
+          </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto align-items-center">
