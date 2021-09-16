@@ -207,7 +207,7 @@ export default {
           "'self'",
           'wss://ws.beechat.hive-engine.com',
           'https://beechat.hive-engine.com',
-          'https://accounts.hive-engine.com',
+          'https://history.hive-engine.com',
           'https://history.steem-engine.net',
           'https://api.hive-engine.com',
           'https://api.steem-engine.net',
