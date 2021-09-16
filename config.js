@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'BEE'
 export const IS_HIVE = true
-export const APP_DOMAIN = process.env.APP_DOMAIN // 'https://www.tribaldex.blog'
+export const APP_DOMAIN = 'https://tribaldex.blog'
 export const APP_TITLE = 'Tribaldex Blog'
 export const APP = `tribaldex/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
