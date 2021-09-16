@@ -9,7 +9,9 @@ title: Welcome
 Welcome to LasseCash
 --
 
-LasseCash is an OUTPOST build by Hive Engine, based on Lasse Ehlers' ideas. We are rewarding anarchy, crypto and truth content.
+We are rewarding anarchy, crypto and truth content.
+
+LasseCash is an OUTPOST build by Hive Engine, based on Lasse Ehlers' ideas ( @lasseehlers ). Carlos Serrano ( @zaxan ) made all graphics.
 
 Proof of brain rewards
 --
