@@ -260,6 +260,10 @@
               Started unstake of {{ item.data.amount }} {{ item.data.token }}
             </template>
 
+            <template v-else-if="item.type === 'tokens_unstakeDone'">
+              Completed unstake of {{ item.data.amount }} {{ item.data.token }}
+            </template>
+
             <template v-else-if="item.type === 'tokens_cancelUnstake'">
               Cancelled unstaked on {{ item.data.amount }} {{ item.data.token }}
             </template>
@@ -276,6 +280,10 @@
                   {{ item.data.to }}
                 </nuxt-link> undelegated {{ item.data.amount }} {{ item.data.token }}
               </template>
+            </template>
+
+            <template v-else-if="item.type === 'tokens_undelegateDone'">
+              Completed undelegation of {{ item.data.amount }} {{ item.data.token }}
             </template>
 
             <template v-else>
@@ -630,8 +638,7 @@ export default {
           params: {
             account,
             limit: 50,
-            offset: 0,
-            type: 'user',
+            ops: 'tokens_transfer,tokens_stake,tokens_delegate,tokens_unstakeStart,tokens_unstakeDone,tokens_cancelUnstake,tokens_undelegateStart,tokens_undelegateDone',
             symbol: this.$config.TOKEN
           }
         }),
