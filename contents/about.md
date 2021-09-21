@@ -37,9 +37,9 @@ There is a bonus applied for long term liquidity providers. You get 1% extra per
 NFT platform
 --
 
-LasseCash also enables you to mint your own NFTs. We prefer NFTs that contain or relate to anarchy, crypto and/or truth content, but other themes are also welcomed. You have to apply to be whitelisted and we usualy respond fast. There are terms in place, if you violate those terms you can be blacklisted with no refund. We aim at providing the best NFT platform in the whole cryptocurrency market.
+LasseCash also enables you to mint your own NFTs. We prefer NFTs that contain or relate to anarchy, crypto and/or truth content, but other themes are also welcomed. You have to apply to be whitelisted and we usually respond fast. There are terms in place, if you violate those terms you can be blacklisted with no refund. We aim at providing the best NFT platform in the whole cryptocurrency market.
 
-An NFT on LasseCash can be an image, an audio file or a video file. This is quite unique, most other NFT platforms dont provide all three options at the same time.
+A NFT on LasseCash can be an image, an audio file or a video file. This is quite unique, most other NFT platforms dont provide all three options at the same time.
 
 The first edition costs 1000 LASSECASH and each additional edition costs 100 LASSECASH. There is a 1% fee for trading NFTs on LasseCash.
 
