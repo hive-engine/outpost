@@ -67,7 +67,7 @@ When you compare LasseCash to any other tribe or OUTPOST, then you will probably
 Lasse Ehlers as leader of LasseCash
 --
 
-Lasse Ehlers is naturally the leader of the LasseCash OUTPOST and will be the one to resolve any potential dispute or drama, since he will always have the biggest stake.
+Even though LasseCash has been build by Hive Engine and Lasse Ehlers only is a symbolic figure, then Lasse Ehlers is naturally the leader of the LasseCash OUTPOST and will be the one to resolve any potential dispute or drama, since he will always have the biggest stake.
 
 What happens if Lasse Ehlers dies prematurely?
 --
