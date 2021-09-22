@@ -77,7 +77,7 @@ The system-state could be airdroped on to a new OUTPOST, with a new leader and a
 LasseCash is GREEN ENERGY
 --
 
-All LasseCash services runs on very little ressources and very little power consumption, the energy consumption for extreme numbers of capacity is similar to one modern households yearly consumption. In comparison Bitcoin's energy consumption is roughly equivalent to the annual energy draw of small countries like Malaysia or Sweden. In other words LasseCash is prepared for a green future since day 1.
+All LasseCash services runs on very little resources and very little power consumption, the energy consumption for extreme numbers of capacity is similar to one modern households yearly consumption. In comparison Bitcoin's energy consumption is roughly equivalent to the annual energy draw of small countries like Malaysia or Sweden. In other words LasseCash is prepared for a green future since day 1.
 
 
 
