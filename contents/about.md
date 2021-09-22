@@ -74,6 +74,11 @@ What happens if Lasse Ehlers dies prematurely?
 
 The system-state could be airdroped on to a new OUTPOST, with a new leader and a new name, but the same token distribution and system-state. Its up to the community to find a new leader fit for running a new OUTPOST with a new name and airdroped system-state over to that new OUTPOST.
 
+LasseCash is GREEN ENERGY
+--
+
+All LasseCash services runs on very little ressources and very little power consumption, the energy consumption for extreme numbers of capacity is similar to one modern households yearly consumption. In comparison Bitcoin's energy consumption is roughly equivalent to the annual energy draw of small countries like Malaysia or Sweden. In other words LasseCash is prepared for a green future since day 1.
+
 
 
 Legal disclaimer
