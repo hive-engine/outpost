@@ -34,3 +34,4 @@ export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = false
 export const DTF_ID = ''
 export const POOL_ENABLED = true
+export const IPFS_GATEWAY = 'https://ipfs.tribaldex.com'
