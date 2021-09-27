@@ -65,6 +65,10 @@
                 </vue-plyr>
               </client-only>
             </template>
+
+            <div v-if="series.ipfs && series.cid" class="text-center mt-3">
+              <a :href="`${$config.IPFS_GATEWAY}/ipfs/${series.cid}`" target="_blank">View on IPFS</a>
+            </div>
           </b-col>
         </b-row>
       </b-card>
