@@ -42,7 +42,7 @@
           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
-                  Categories <fa-icon class="ml-1" icon="angle-down" />
+                 Classifieds Categories <fa-icon class="ml-1" icon="angle-down" />
                 </div>
               </template>
 
@@ -68,10 +68,6 @@
 
               <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'fundraising'}}">
                 Fundraising
-              </b-dropdown-item>
-
-              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'hivecommerce'}}">
-                HiveCommerce
               </b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
