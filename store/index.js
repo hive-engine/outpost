@@ -39,10 +39,19 @@ export const getters = {
 
 export const mutations = {
   SET_TRIBE_CONFIG (state, data) {
+    data.author_curve_exponent = Number(data.author_curve_exponent)
+
     state.tribe_config = data
   },
 
   SET_TRIBE_INFO (state, data) {
+    data = {
+      ...data,
+      reward_pool: Number(data.reward_pool),
+      pending_rshares: Number(data.pending_rshares),
+      precision: Number(data.precision)
+    }
+
     state.tribe_info = data
   },
 
