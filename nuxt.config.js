@@ -229,7 +229,7 @@ export default {
           'https://cdn.plyr.io',
           'https://api.coingecko.com',
           'https://hetestnet.dtools.dev',
-          'https://hetest.cryptoempirebot.com',
+          'https://smtscot.cryptoempirebot.com',
           'https://api.marketplace.tribaldex.com',
           'localhost:3000',
           ...config.NODES
