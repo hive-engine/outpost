@@ -1,4 +1,4 @@
-import { calculateReputation, toFixedWithoutRounding } from '@/utils'
+import { calculateReputation, hasNsfwTag, toFixedWithoutRounding } from '@/utils'
 import { TOKEN, SCOT_QUERY_LIMIT } from '@/config'
 
 export const state = () => {
@@ -62,6 +62,18 @@ export const actions = {
         ? await this.$axios.$get('/api/v1/curated', { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
         : await this.$scot.$get(endpoint, { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 5 * 60 * 1000 } })
 
+      posts = posts.map((post) => {
+        const isPaidout = new Date(`${post.cashout_time}Z`).getTime() < Date.now()
+
+        post.estimated_payout_value = isPaidout
+          ? Number(post.total_payout_value)
+          : toFixedWithoutRounding(((Number(post.vote_rshares) ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares, rootState.tribe_info.precision)
+
+        post.is_nsfw = hasNsfwTag(post.tags.split(','))
+
+        return post
+      })
+
       const { communities, accounts } = posts.reduce((acc, cur) => {
         if (/^hive-[1-3]\d{4,6}$/.test(cur.parent_permlink) && !state.communities[cur.parent_permlink]) {
           acc.communities.add(cur.parent_permlink)
@@ -70,12 +82,6 @@ export const actions = {
         if (!state.accounts[cur.author]) {
           acc.accounts.add(cur.author)
         }
-
-        const isPaidout = new Date(`${cur.cashout_time}Z`).getTime() < Date.now()
-
-        cur.estimated_payout_value = isPaidout
-          ? Number(cur.total_payout_value)
-          : toFixedWithoutRounding(((Number(cur.vote_rshares) ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares, rootState.tribe_info.precision)
 
         return acc
       }, {
@@ -129,6 +135,8 @@ export const actions = {
       post.estimated_payout_value = isPaidout
         ? post.total_payout_value
         : toFixedWithoutRounding(((Number(post.vote_rshares) ** rootState.tribe_config.author_curve_exponent) * rootState.tribe_info.reward_pool) / rootState.tribe_info.pending_rshares, rootState.tribe_info.precision)
+
+      post.is_nsfw = hasNsfwTag(post.tags.split(','))
     } catch {
       //
     }
