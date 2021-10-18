@@ -11,7 +11,7 @@
         </h1>
 
         <b-row class="mt-3">
-          <b-col lg="5" order="2" order-lg="1" class="mb-3">
+          <b-col lg="5" order="2" order-lg="1" class="h-100 mb-3">
             {{ series.description }}
 
             <div class="mt-3">
@@ -43,7 +43,7 @@
             </div>
           </b-col>
 
-          <b-col lg="7" order="1" order-lg="2" class="mb-3 text-center text-lg-right">
+          <b-col lg="7" order="1" order-lg="2" class="h-100 mb-3 text-center text-lg-right">
             <b-img v-if="series.type === 'image'" fluid :src="series.file" />
 
             <template v-else-if="series.type === 'video'">
