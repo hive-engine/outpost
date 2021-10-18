@@ -1,4 +1,4 @@
-import { calculateReputation, toFixedWithoutRounding } from '@/utils'
+import { calculateReputation, hasNsfwTag, toFixedWithoutRounding } from '@/utils'
 import { TOKEN, SCOT_QUERY_LIMIT } from '@/config'
 
 export const state = () => {
@@ -58,9 +58,18 @@ export const actions = {
     }
 
     try {
-      const posts = (endpoint === 'curated')
+      let posts = (endpoint === 'curated')
         ? await this.$axios.$get('/api/v1/curated', { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
         : await this.$scot.$get(endpoint, { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 5 * 60 * 1000 } })
+
+      posts = posts.map((post) => {
+        post.estimated_payout_value = toFixedWithoutRounding((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
+        post.curator_payout_value = toFixedWithoutRounding(post.curator_payout_value / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
+
+        post.is_nsfw = hasNsfwTag(post.tags.split(','))
+
+        return post
+      })
 
       const { communities, accounts } = posts.reduce((acc, cur) => {
         if (/^hive-[1-3]\d{4,6}$/.test(cur.parent_permlink) && !state.communities[cur.parent_permlink]) {
@@ -70,9 +79,6 @@ export const actions = {
         if (!state.accounts[cur.author]) {
           acc.accounts.add(cur.author)
         }
-
-        cur.estimated_payout_value = toFixedWithoutRounding((cur.pending_token || cur.total_payout_value) / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
-        cur.curator_payout_value = toFixedWithoutRounding(cur.curator_payout_value / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
 
         return acc
       }, {
@@ -107,6 +113,8 @@ export const actions = {
 
       post.estimated_payout_value = toFixedWithoutRounding((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
       post.curator_payout_value = toFixedWithoutRounding(post.curator_payout_value / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
+
+      post.is_nsfw = hasNsfwTag(post.tags.split(','))
     } catch {
       //
     }
