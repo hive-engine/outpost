@@ -109,3 +109,7 @@ export const formatNumumber = (number) => {
 
   return scaled.toFixed(1) + suffix
 }
+
+export const hasNsfwTag = (tags) => {
+  return tags.includes('nsfw')
+}
