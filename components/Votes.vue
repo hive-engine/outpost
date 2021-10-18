@@ -278,12 +278,6 @@ export default {
       if (value !== oldValue) {
         this.$auth.$storage.setUniversal(this.downvoteWeightKey, value)
       }
-    },
-
-    '$auth.loggedIn': {
-      handler () {
-        this.syncVoteWeights()
-      }
     }
   },
 
