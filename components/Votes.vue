@@ -39,11 +39,13 @@
       placement="right"
       :target="`${id}-vote`"
       custom-class="vote-weight-popover"
+      @show="onPopoverShow"
     >
       <div class="d-flex align-items-center justify-content-between">
         <div class="mr-2 w-75">
           <b-form-input
             v-model="weight"
+            debounce="100"
             number
             type="range"
             min="0"
@@ -74,11 +76,13 @@
       placement="right"
       :target="`${id}-downvote`"
       custom-class="vote-weight-popover"
+      @show="onPopoverShow"
     >
       <div class="d-flex align-items-center justify-content-between">
         <div class="mr-2 w-75">
           <b-form-input
             v-model="dvWeight"
+            debounce="100"
             number
             type="range"
             min="0"
@@ -277,28 +281,11 @@ export default {
       if (value !== oldValue) {
         this.$auth.$storage.setUniversal(this.downvoteWeightKey, value)
       }
-    },
-
-    '$auth.loggedIn': {
-      handler () {
-        this.syncVoteWeights()
-      }
     }
   },
 
   mounted () {
     const self = this
-
-    this.$store.subscribe((mutation) => {
-      if (this.$auth.loggedIn) {
-        if (mutation.type === 'auth/SET') {
-          this.weight = this.$auth.$storage.getUniversal(this.voteWeightKey) || 100
-          this.dvWeight = this.$auth.$storage.getUniversal(this.downvoteWeightKey) || 100
-        }
-      }
-    })
-
-    this.syncVoteWeights()
 
     this.$eventBus.$on(['vote-acknowledgement', 'transaction-broadcast-error'], ({ author, permlink, data }) => {
       if (self.author === author && self.permlink === permlink) {
@@ -320,11 +307,9 @@ export default {
       return ((Math.max(0, rShares) ** this.tribe_config.author_curve_exponent) * this.tribe_info.reward_pool) / this.tribe_info.pending_rshares
     },
 
-    syncVoteWeights () {
-      if (this.$auth.loggedIn) {
-        this.weight = this.$auth.$storage.syncUniversal(this.voteWeightKey, 100)
-        this.dvWeight = this.$auth.$storage.syncUniversal(this.downvoteWeightKey, 100)
-      }
+    onPopoverShow () {
+      this.weight = this.$auth.$storage.getUniversal(this.voteWeightKey) || 100
+      this.dvWeight = this.$auth.$storage.getUniversal(this.downvoteWeightKey) || 100
     }
   }
 }
