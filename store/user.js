@@ -29,7 +29,7 @@ export const getters = {
     }
 
     return Math.min(
-      state.scot_data.downvoting_power + ((Date.now() - state.scot_data.last_vote_timestamp) * 10000) / (1000 * rootState.tribe_config.vote_regeneration_seconds),
+      state.scot_data.downvoting_power + ((Date.now() - state.scot_data.last_vote_timestamp) * 10000) / (1000 * rootState.tribe_config.downvote_regeneration_seconds),
       10000
     )
   },
