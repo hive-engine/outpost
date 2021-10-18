@@ -78,6 +78,12 @@
               <b-form-select v-model="mainchainNode" :options="mainchainNodeOptions" />
             </b-form-group>
           </b-col>
+
+          <b-col sm="6" md="4">
+            <b-form-group label="Not Safe for Work (NSFW) Content">
+              <b-form-select v-model="nsfwPref" :options="nsfwPrefOptions" />
+            </b-form-group>
+          </b-col>
         </b-row>
       </template>
     </b-container>
@@ -106,7 +112,10 @@ export default {
       profilePicFile: null,
       coverPicFile: null,
 
-      mainchainNode: ''
+      mainchainNode: '',
+
+      nsfwPref: 'warn',
+      nsfwPrefOptions: [{ value: 'show', text: 'Always Show' }, { value: 'warn', text: 'Always Warn' }]
     }
   },
 
@@ -157,11 +166,20 @@ export default {
       if (oldValue !== '') {
         location.reload()
       }
+    },
+
+    nsfwPref (pref) {
+      this.$cookies.set('nsfw_pref', pref, {
+        path: '/',
+        maxAge: 10 * 365 * 24 * 60 * 60,
+        sameSite: true
+      })
     }
   },
 
   created () {
     this.mainchainNode = this.$cookies.get('mainchain_rpc') || this.$config.NODES[0]
+    this.nsfwPref = this.$cookies.get('nsfw_pref') || 'warn'
   },
 
   mounted () {
