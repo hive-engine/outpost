@@ -12,18 +12,26 @@
 
     <b-media>
       <template v-if="thumbnail" #aside>
-        <nuxt-link :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}" class="post-thumbnail">
-          <picture>
-            <source :srcset="largeThumbnail" media="(min-width: 1000px)">
-            <source :srcset="mediumThumbnail" media="(max-width: 999px)">
-            <img :srcset="thumbnail">
-          </picture>
-        </nuxt-link>
+        <div v-if="!shouldShowPost" class="text-center mx-auto mt-4">
+          <b-badge variant="danger">
+            NSFW
+          </b-badge>
+        </div>
+
+        <template v-else>
+          <nuxt-link :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}" class="post-thumbnail">
+            <picture>
+              <source :srcset="largeThumbnail" media="(min-width: 1000px)">
+              <source :srcset="mediumThumbnail" media="(max-width: 999px)">
+              <img :srcset="thumbnail">
+            </picture>
+          </nuxt-link>
+        </template>
       </template>
 
       <div class="d-flex justify-content-between mb-2">
         <div class="d-flex">
-          <b-avatar :src="`${$config.IMAGES_CDN}u/${post.author}/avatar`" variant="dark" size="40px" class="mr-2" />
+          <b-avatar v-if="shouldShowPost" :src="`${$config.IMAGES_CDN}u/${post.author}/avatar`" variant="dark" size="40px" class="mr-2" />
 
           <div class="d-flex flex-column">
             <div>
@@ -53,13 +61,27 @@
         </div>
       </div>
 
-      <nuxt-link :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}" class="h6">
-        {{ post.title }}
-      </nuxt-link>
+      <template v-if="!shouldShowPost">
+        <template v-if="$auth.loggedIn">
+          <a class="cursor-pointer" @click.prevent="showNsfw = true">Reveal this post</a> or adjust your <nuxt-link :to="{name:'user-settings', params:{user:$auth.user.username}}">
+            display preferences
+          </nuxt-link>
+        </template>
 
-      <nuxt-link class="text-reset d-block" :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}">
-        {{ extractBodySummary(post.desc) }}
-      </nuxt-link>
+        <template v-else>
+          <a class="cursor-pointer" @click.prevent="showNsfw = true">Reveal this post</a>
+        </template>
+      </template>
+
+      <template v-else>
+        <nuxt-link :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}" class="h6">
+          {{ post.title }}
+        </nuxt-link>
+
+        <nuxt-link class="text-reset text-break d-block" :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}">
+          {{ extractBodySummary(post.desc) }}
+        </nuxt-link>
+      </template>
     </b-media>
 
     <template #footer>
@@ -112,6 +134,13 @@ export default {
     type: { type: String, default: 'feed' }
   },
 
+  data () {
+    return {
+      showNsfw: false,
+      nsfwPref: 'warn'
+    }
+  },
+
   computed: {
     ...mapGetters(['tribe_info']),
     ...mapGetters('scot', ['communities', 'accounts']),
@@ -146,7 +175,19 @@ export default {
       }
 
       return this.post.reblogged_by.filter(r => r !== this.post.author)
+    },
+
+    shouldShowPost () {
+      if (this.post.is_nsfw && this.nsfwPref === 'warn') {
+        return this.showNsfw
+      }
+
+      return true
     }
+  },
+
+  created () {
+    this.nsfwPref = this.$cookies.get('nsfw_pref') || 'warn'
   },
 
   methods: {
