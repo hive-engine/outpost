@@ -102,7 +102,7 @@
             </nuxt-link>
           </div>
 
-          <extra-actions :type="post.main_post ? 'post':'comment'" :author="post.author" :permlink="post.permlink" :deletable="post.vote_rshares <= 0 && post.children === 0" />
+          <extra-actions :post="post" />
         </div>
 
         <payout :post="post" />

@@ -192,5 +192,30 @@ export const actions = {
     } catch (e) {
       console.log(e.message)
     }
+  },
+
+  async requestMutePost ({ dispatch, rootGetters }, { type, authorperm, mute }) {
+    try {
+      await dispatch('showConfirmation', {
+        title: `${mute ? 'Mute' : 'Unmute'} ${type === 'post' ? 'Post' : 'Comment'}`,
+        message: `Are you sure you want to ${mute ? 'mute' : 'unmute'} ${authorperm}?`,
+        okText: 'Yes',
+        cancelText: 'Cancel'
+      }, { root: true })
+
+      const operations = [['custom_json', {
+        required_auths: [],
+        required_posting_auths: [rootGetters.muting_account],
+        id: 'scot_mute_post',
+        json: JSON.stringify({ token: this.$config.TOKEN, authorperm, mute })
+      }]]
+
+      const emitData = { type, authorperm, mute }
+      const emitEvent = `${type}-mute-successful`
+
+      dispatch('requestBroadcastOps', { operations, emitEvent, emitData }, { root: true })
+    } catch {
+      //
+    }
   }
 }
