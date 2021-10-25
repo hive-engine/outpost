@@ -34,7 +34,8 @@ export const getters = {
     const issuer = state.tribe_info.issuer || state.tribe_config.issuer
 
     return issuer
-  }
+  },
+  muting_account: state => state.tribe_config.muting_account || state.tribe_config.token_account
 }
 
 export const mutations = {
