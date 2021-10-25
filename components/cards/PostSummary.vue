@@ -39,9 +39,9 @@
                 @{{ post.author }}
               </nuxt-link>
 
-              <b-badge variant="info">
+              <!-- <b-badge variant="info">
                 {{ getReputation(post.author) }}
-              </b-badge>
+              </b-badge> -->
             </div>
 
             <timeago class="small" :datetime="createdAt" :title="createdAt.toLocaleString()" :auto-update="60" />

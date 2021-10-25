@@ -42,11 +42,11 @@
                         </nuxt-link>
                       </div>
 
-                      <div>
+                      <!-- <div>
                         <b-badge variant="info">
                           {{ follower.reputation }}
                         </b-badge>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div class="small text-muted">

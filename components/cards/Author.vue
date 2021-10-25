@@ -8,9 +8,9 @@
           </a>
         </nuxt-link>
 
-        <b-badge variant="info" class="p2">
+        <!-- <b-badge variant="info" class="p2">
           {{ getReputation(author) }}
-        </b-badge>
+        </b-badge> -->
       </div>
     </div>
 
