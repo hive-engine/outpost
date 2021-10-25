@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'SME'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.somee.social'
+export const APP_DOMAIN = 'https://www.somee.blog'
 export const APP_TITLE = 'SoMee'
 export const APP = `somee/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
