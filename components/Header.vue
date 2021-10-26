@@ -71,7 +71,8 @@
               </b-dropdown-item>
             </b-nav-item-dropdown>
             </b-nave-item target="_blank" href="https://hivelist.store">
-        Store <fa-icon icon="external-link-alt"
+        Store <fa-icon icon="external-link-alt"/>
+             </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto align-items-center">
