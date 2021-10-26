@@ -81,7 +81,7 @@
             :is-comment="false"
           />
 
-          <extra-actions :author="post.author" :permlink="post.permlink" :deletable="post.vote_rshares <= 0 && post.children === 0" />
+          <extra-actions :post="post" />
         </div>
 
         <payout :post="post" />
@@ -312,14 +312,31 @@ export default {
   },
 
   mounted () {
-    const self = this
+    this.$eventBus.$on(['upvote-successful', 'downvote-successful', 'unvote-successful'], this.onVote)
 
-    this.$eventBus.$on(['upvote-successful', 'downvote-successful', 'unvote-successful'], async ({ type, author, permlink, weight }) => {
-      await self.sleep(30 * 1000)
+    this.$eventBus.$on(['comment-publish-successful', 'comment-edit-successful'], this.onComment)
+
+    this.$eventBus.$on(['post-delete-successful', 'comment-delete-successful'], this.onDelete)
+  },
+
+  beforeDestroy () {
+    this.$eventBus.$off(['upvote-successful', 'downvote-successful', 'unvote-successful'], this.onVote)
+
+    this.$eventBus.$off(['comment-publish-successful', 'comment-edit-successful'], this.onComment)
+
+    this.$eventBus.$off(['post-delete-successful', 'comment-delete-successful'], this.onDelete)
+  },
+
+  methods: {
+    ...mapActions('scot', ['fetchPost', 'fetchThread']),
+    ...mapActions('user', ['fetchAccountScotData']),
+
+    async onVote ({ type, author, permlink, weight }) {
+      await this.sleep(30 * 1000)
 
       const [content] = await Promise.all([
-        self.fetchPost({ author, permlink }),
-        self.fetchAccountScotData()
+        this.fetchPost({ author, permlink }),
+        this.fetchAccountScotData()
       ])
 
       if (content) {
@@ -336,16 +353,16 @@ export default {
       }
 
       this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
-    })
+    },
 
-    this.$eventBus.$on(['comment-publish-successful', 'comment-edit-successful'], (data) => {
+    onComment (data) {
       const content = {
         ...data,
         created: new Date().toISOString().replace(/\dZ/, ''),
         updated: new Date().toISOString().replace(/\dZ/, ''),
         cashout_time: new Date().toISOString().replace(/\dZ/, ''),
         replies: [],
-        token: self.$config.TOKEN,
+        token: this.$config.TOKEN,
         vote_rshares: 0,
         active_votes: [],
         pending_token: 0,
@@ -357,45 +374,38 @@ export default {
       const authorperm = `${data.author}/${data.permlink}`
 
       if (!data.edit) {
-        self.discussions[authorperm] = content
-        self.discussions[`${data.parent_author}/${data.parent_permlink}`].replies.push(authorperm)
+        this.discussions[authorperm] = content
+        this.discussions[`${data.parent_author}/${data.parent_permlink}`].replies.push(authorperm)
       } else {
-        self.discussions[authorperm] = {
-          ...self.discussions[authorperm],
+        this.discussions[authorperm] = {
+          ...this.discussions[authorperm],
           updated: new Date().toISOString().replace(/\dZ/, ''),
           body: data.body
         }
       }
-    })
+    },
 
-    this.$eventBus.$on(['post-delete-successful', 'comment-delete-successful'], async ({ author, permlink, type }) => {
-      if (type === 'post' && self.post.author === author && self.post.permlink === permlink) {
-        self.loading = true
+    async onDelete ({ author, permlink, type }) {
+      if (type === 'post' && this.post.author === author && this.post.permlink === permlink) {
+        this.loading = true
 
-        await self.sleep(30 * 1000)
+        await this.sleep(30 * 1000)
 
-        self.$router.push({ name: 'user', params: { user: author } })
+        this.$router.push({ name: 'user', params: { user: author } })
       }
 
       if (type === 'comment') {
         const authorperm = `${author}/${permlink}`
 
-        const parent = self.discussions[`${self.discussions[authorperm].parent_author}/${self.discussions[authorperm].parent_permlink}`]
+        const parent = this.discussions[`${this.discussions[authorperm].parent_author}/${this.discussions[authorperm].parent_permlink}`]
 
         parent.replies = parent.replies.filter(r => r !== authorperm)
 
-        delete self.discussions[authorperm]
+        console.log({ authorperm, parent, dis: this.discussions[authorperm] })
+
+        delete this.discussions[authorperm]
       }
-    })
-  },
-
-  beforeDestroy () {
-    this.$eventBus.$off(['upvote-successful', 'downvote-successful', 'unvote-successful', 'comment-publish-successful', 'comment-edit-successful', 'post-delete-successful', 'comment-delete-successful'])
-  },
-
-  methods: {
-    ...mapActions('scot', ['fetchPost', 'fetchThread']),
-    ...mapActions('user', ['fetchAccountScotData'])
+    }
   }
 }
 </script>
