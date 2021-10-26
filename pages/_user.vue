@@ -46,6 +46,10 @@
             <b-button size="sm" class="mt-2" variant="warning" @click.prevent="requestBroadcastFollow({following: $route.params.user, what: 'ignore'})">
               Ignore
             </b-button>
+
+            <b-button v-if="$auth.user.username === muting_account" size="sm" class="mt-2" variant="primary" @click.prevent="requestBroadcastMute({ account:$route.params.user, mute: !muted})">
+              {{ muted? 'Unmute': 'Mute' }}
+            </b-button>
           </b-col>
         </b-row>
       </b-container>
@@ -69,9 +73,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'UserProfileMain',
 
-  async asyncData ({ $chain, route, error }) {
+  async asyncData ({ $chain, $sidechain, route, error }) {
     let account
     let profile = {}
+    let muted
     let followerCount
     let followingCount
     let backgroundOverlay = 'background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(10, 10, 10, 0.75) 100%)'
@@ -79,12 +84,15 @@ export default {
     const client = $chain.getClient()
 
     try {
-      const [[userAccount], followCount] = await Promise.all([
+      const [[userAccount], followCount, heVotingPower] = await Promise.all([
         client.database.getAccounts([route.params.user]),
-        client.database.call('get_follow_count', [route.params.user])
+        client.database.call('get_follow_count', [route.params.user]),
+        $sidechain.getVotingPower(route.params.user)
       ])
 
       if (userAccount) { account = userAccount }
+
+      muted = heVotingPower ? heVotingPower.mute : false
 
       followerCount = followCount.follower_count
       followingCount = followCount.following_count
@@ -113,6 +121,7 @@ export default {
     return {
       account,
       profile,
+      muted,
       followerCount,
       followingCount,
       backgroundOverlay
@@ -130,6 +139,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['muting_account']),
     ...mapGetters('user', ['following']),
 
     childRoutes () {
@@ -179,14 +189,23 @@ export default {
 
       await self.$fetch()
     })
+
+    this.$eventBus.$on('user-mute-successful', this.onMute)
   },
 
   beforeDestroy () {
     this.$eventBus.$off('account-update-successful')
+    this.$eventBus.$off('user-mute-successful', this.onMute)
   },
 
   methods: {
-    ...mapActions('user', ['requestBroadcastFollow'])
+    ...mapActions('user', ['requestBroadcastFollow', 'requestBroadcastMute']),
+
+    onMute ({ account, mute }) {
+      if (this.$route.params.user === account) {
+        this.muted = mute
+      }
+    }
   }
 }
 </script>

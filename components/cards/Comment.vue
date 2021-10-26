@@ -43,12 +43,12 @@
             <a class="cursor-pointer" @click.prevent="showReplyEditor = true">Reply</a>
           </div>
 
-          <div class="mr-3">
-            <a v-if="$auth.loggedIn && $auth.user.username === comment.author" class="cursor-pointer" @click.prevent="showCommentEditor = true">Edit</a>
+          <div v-if="$auth.loggedIn && $auth.user.username === comment.author" class="mr-3">
+            <a class="cursor-pointer" @click.prevent="showCommentEditor = true">Edit</a>
           </div>
 
-          <div class="mr-3">
-            <a v-if="$auth.loggedIn && $auth.user.username === comment.author && comment.children === 0" class="cursor-pointer" @click.prevent="requestBroadcastDelete({author:comment.author, permlink:comment.permlink})">Delete</a>
+          <div v-if="$auth.loggedIn && $auth.user.username === comment.author && comment.children === 0" class="mr-3">
+            <a class="cursor-pointer" @click.prevent="requestBroadcastDelete({author:comment.author, permlink:comment.permlink})">Delete</a>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Author from '@/components/cards/Author.vue'
 import MarkdownViewer from '@/components/MarkdownViewer.vue'
 import Comment from '@/components/cards/Comment.vue'
@@ -96,6 +96,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['muting_account']),
+
     comment () {
       return this.discussions[this.permlink]
     },
