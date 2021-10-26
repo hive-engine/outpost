@@ -36,6 +36,10 @@
           <b-button v-if="$auth.loggedIn && author !== $auth.user.username" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastFollow({following: author, what: 'ignore'})">
             Ignore
           </b-button>
+
+          <b-button v-if="$auth.loggedIn && $auth.user.username === muting_account" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastMute({account: author, mute: !profile.muted})">
+            {{ profile.muted ? 'Unmute': 'Mute' }}
+          </b-button>
         </div>
       </div>
 
@@ -81,12 +85,14 @@ export default {
         about: '',
         following: 0,
         followers: 0,
+        muted: false,
         loaded: false
       }
     }
   },
 
   computed: {
+    ...mapGetters(['muting_account']),
     ...mapGetters('scot', ['accounts']),
     ...mapGetters('user', ['following']),
 
@@ -98,25 +104,42 @@ export default {
   watch: {
     async showAuthorCard (shown) {
       if (shown && !this.profile.loaded) {
-        const client = this.$chain.getClient()
+        try {
+          const client = this.$chain.getClient()
 
-        const profile = await client.hivemind.call('get_profile', [this.author])
-        const { name, about } = profile.metadata.profile
-        const { following, followers } = profile.stats
+          const [profile, heVotingPower] = await Promise.all([
+            client.hivemind.call('get_profile', [this.author]),
+            this.$sidechain.getVotingPower(this.author)
+          ])
 
-        this.profile = {
-          name,
-          about,
-          following,
-          followers,
-          loaded: true
+          const { name, about } = profile.metadata.profile
+          const { following, followers } = profile.stats
+
+          this.profile = {
+            name,
+            about,
+            following,
+            followers,
+            muted: heVotingPower ? heVotingPower.mute : false,
+            loaded: true
+          }
+        } catch {
+          //
         }
       }
     }
   },
 
+  mounted () {
+    this.$eventBus.$on('user-mute-successful', this.onMute)
+  },
+
+  beforeDestroy () {
+    this.$eventBus.$off('user-mute-successful', this.onMute)
+  },
+
   methods: {
-    ...mapActions('user', ['requestBroadcastFollow']),
+    ...mapActions('user', ['requestBroadcastFollow', 'requestBroadcastMute']),
 
     getReputation (author) {
       const account = this.accounts[author]
@@ -130,6 +153,12 @@ export default {
       e.preventDefault()
 
       this.showAuthorCard = !(this.showAuthorCard)
+    },
+
+    onMute ({ account, mute }) {
+      if (this.author === account) {
+        this.profile.muted = mute
+      }
     }
   }
 }
