@@ -33,7 +33,7 @@ const callProviderMethod = (provider, methodName, ...parms) => {
 }
 
 const getProviderSandboxConfig = (provider) => {
-  const sandboxConfig = provider.sandboxConfig || null
+  const sandboxConfig = provider.sandboxConfig || {}
 
   return sandboxConfig
 }
