@@ -225,6 +225,7 @@ export default {
           'https://www.google-analytics.com',
           'https://api.openhive.network',
           'https://ha.herpc.dtools.dev',
+          'https://ha.smt-api.dtools.dev',
           'https://marketplace.tribaldex.com',
           'https://cdn.plyr.io',
           'https://api.coingecko.com',
