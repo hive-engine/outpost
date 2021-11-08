@@ -28,8 +28,8 @@ export const AXIOS_CACHE_CONFIG = {
   exclude: { query: false }
 }
 export const NFT_ENABLED = false
-export const NFT_SYMBOL = 'PAL'
-export const NFT_MARKETPLACE = 'palnet'
+export const NFT_SYMBOL = 'SPORTS'
+export const NFT_MARKETPLACE = 'sportstalksocial'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = true
 export const DTF_ID = 'SPORTS:SPORTS'
