@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'WEED'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://weedcash.network'
+export const APP_DOMAIN = 'https://www.weedcash.network'
 export const APP_TITLE = 'WeedCash Network'
 export const APP = `weedcash/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
