@@ -62,6 +62,10 @@
       <b-list-group-item :to="{name:'lasseehlers-nfts'}">
         Lasse Ehlers NFTs
       </b-list-group-item>
+
+      <b-list-group-item :to="{name:'cash'}">
+        Cash
+      </b-list-group-item>
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
@@ -72,7 +76,7 @@
       <b-list-group-item target="_blank" href="https://discord.gg/aqeRcR7HPh">
         Discord <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      
+
       <b-list-group-item target="_blank" href="https://primersion.com/he-witnesses">
         Witness <fa-icon icon="external-link-alt" />
       </b-list-group-item>
