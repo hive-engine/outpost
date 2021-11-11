@@ -271,7 +271,7 @@ export default {
 
       return this.accept_tos === 'accepted' &&
          this.balances[paymentRequirement.symbol].balance >= paymentRequirement.amount &&
-         this.stakeTokens.every(t => this.balances[t].stake > stakingRequirements[t])
+         this.stakeTokens.every(t => this.balances[t].stake >= stakingRequirements[t])
     }
   },
 
