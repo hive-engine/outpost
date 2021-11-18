@@ -47,11 +47,11 @@
         Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
-      <b-list-group-item target="_blank" :href="https://weedcash.org">
+      <b-list-group-item target="_blank" :href="'https://weedcash.org'">
         What is Weedcash?
       </b-list-group-item>
       
-      <b-list-group-item target="_blank" :href="https://weedcash.store">
+      <b-list-group-item target="_blank" :href="'https://weedcash.store'">
         Weedcash Store <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
