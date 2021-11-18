@@ -71,10 +71,6 @@
         Home <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://hivelist.io/classifieds">
-        Classifieds <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-
       <b-list-group-item target="_blank" href="https://hivelist.io/list-token">
         LIST Token <fa-icon icon="external-link-alt" />
       </b-list-group-item>
