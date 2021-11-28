@@ -29,7 +29,7 @@ export const getters = {
     }
 
     return Math.min(
-      state.scot_data.downvoting_power + ((Date.now() - state.scot_data.last_vote_timestamp) * 10000) / (1000 * rootState.tribe_config.vote_regeneration_seconds),
+      state.scot_data.downvoting_power + ((Date.now() - state.scot_data.last_vote_timestamp) * 10000) / (1000 * rootState.tribe_config.downvote_regeneration_seconds),
       10000
     )
   },
@@ -339,6 +339,39 @@ export const actions = {
       }]]
 
       dispatch('requestBroadcastOps', { operations, emitEvent: 'account-update-successful' }, { root: true })
+    } catch {
+      //
+    }
+  },
+
+  async requestBroadcastMute ({ dispatch, rootGetters }, { account, mute }) {
+    try {
+      await dispatch('showConfirmation', {
+        title: `${mute ? 'Mute' : 'Unmute'} User`,
+        message: `Are you sure you want to ${mute ? 'mute' : 'unmute'} @${account}?`,
+        okText: 'Yes',
+        cancelText: 'Cancel'
+      }, { root: true })
+
+      const operations = [['custom_json', {
+        required_auths: [rootGetters.muting_account],
+        required_posting_auths: [],
+        id: this.$config.SIDECHAIN_ID,
+        json: JSON.stringify({
+          contractName: 'comments',
+          contractAction: 'setMute',
+          contractPayload: {
+            rewardPoolId: rootGetters.tribe_config.reward_pool_id,
+            account,
+            mute
+          }
+        })
+      }]]
+
+      const emitData = { account, mute }
+      const emitEvent = 'user-mute-successful'
+
+      dispatch('requestBroadcastOps', { operations, emitEvent, emitData, keyType: 'active' }, { root: true })
     } catch {
       //
     }

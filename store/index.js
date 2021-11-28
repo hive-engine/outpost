@@ -34,7 +34,8 @@ export const getters = {
     const issuer = state.tribe_info.issuer || state.tribe_config.issuer
 
     return issuer
-  }
+  },
+  muting_account: state => state.tribe_info.issuer
 }
 
 export const mutations = {
@@ -68,7 +69,8 @@ export const actions = {
         this.$scot.$get('config')
       ])
 
-      config.vote_regeneration_seconds = config.vote_regeneration_days * 24 * 60 * 60
+      config.vote_regeneration_seconds = Number(config.vote_regeneration_days) * 24 * 60 * 60
+      config.downvote_regeneration_seconds = Number(config.downvote_regeneration_days) * 24 * 60 * 60
 
       commit('SET_TRIBE_INFO', info)
       commit('SET_TRIBE_CONFIG', config)

@@ -67,13 +67,12 @@
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.11.1",
-    "fibers": "^5.0.0",
     "raw-loader": "^4.0.2",
     "sass": "~1.32.13",
     "sass-loader": "10.1.1"
   },
   "engines": {
-    "node": "14.x",
-    "npm": "7.x"
+    "node": ">=14.x <17",
+    "npm": ">=7.x"
   }
 }
