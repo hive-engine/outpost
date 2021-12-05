@@ -58,12 +58,6 @@ Max 51 million tokens ever.
 We are keeping the 20 million LASSECASH for the first 10 years and 20 million LASSECASH forever thereafter, it has been like that since the beginning. Since the inflation is lower then 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, for the remaining inflation up till 20 million, this is just an idea, which is subject to change. Even we have probably one of the lowest inflations and a low hardcap at 51 million, there are plenty of room to be creative in the future.
 
 
-LasseCash and HEX has the best tokenomics in the world of today
---
-
-When you compare LasseCash to any other tribe or OUTPOST, then you will probably see that LasseCash has one of the smallest amount of tokens. LasseCash also have a hardcap of 51 million LASSECASH ever issued. The combined tokenomics of the LasseCash OUTPOST, with "proof of brain"-blogging, NFT minting and NFT market and dieselpool rewards, gives LasseCash an advantage over all other tribes and OUTPOSTs. We believe we have the best tokenomics ever, expect for HEX which we often endorse. HEX is a completely other product than LasseCash, those two solves two different problems in the world of today.
-
-
 
 Lasse Ehlers as leader of LasseCash
 --
