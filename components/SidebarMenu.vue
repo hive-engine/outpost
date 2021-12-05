@@ -34,7 +34,7 @@
       </b-list-group-item>
 
       <b-list-group-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
-        Pool
+        Swap Pool
       </b-list-group-item>
       
        <b-list-group-item class="font-weight-bold" disabled>
