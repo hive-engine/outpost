@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'POB'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://proofofbrain.io'
+export const APP_DOMAIN = 'https://www.proofofbrain.io'
 export const APP_TITLE = 'Proof of Brain'
 export const APP = `proofofbrain/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
