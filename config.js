@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'POB'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://proofofbrain.io'
+export const APP_DOMAIN = 'https://www.proofofbrain.io'
 export const APP_TITLE = 'Proof of Brain'
 export const APP = `proofofbrain/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
@@ -27,9 +27,9 @@ export const AXIOS_CACHE_CONFIG = {
   maxAge: 0 * 60 * 1000, // 0 minutes
   exclude: { query: false }
 }
-export const NFT_ENABLED = false
-export const NFT_SYMBOL = 'CINENFT'
-export const NFT_MARKETPLACE = 'cinetv'
+export const NFT_ENABLED = true
+export const NFT_SYMBOL = 'POB'
+export const NFT_MARKETPLACE = 'proofofbrain'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = false
 export const DTF_ID = 'CINE:CINE'
