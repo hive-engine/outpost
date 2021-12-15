@@ -57,6 +57,10 @@ export const actions = {
       params.limit = SCOT_QUERY_LIMIT
     }
 
+    if (['get_feed', 'get_discussions_by_blog'].includes(endpoint)) {
+      params.include_reblogs = true
+    }
+
     try {
       let posts = (endpoint === 'curated')
         ? await this.$axios.$get('/api/v1/curated', { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
