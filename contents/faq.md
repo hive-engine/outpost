@@ -4,7 +4,7 @@ title: FAQ
 
 # LasseCash FAQ
 
-## <span id="Do_I_need_wallet">Do I need an account to use and hold LasseCash?</span>
+## <span id="Do_I_need_wallet">Do I need an account to use LasseCash?</span>
 Yes, you need a Hive account, there are several ways to [create a Hive account](https://signup.hive.io).
 
 ## <span id="What_is_lassecash">Why is my post not showing up at Google?</span>
