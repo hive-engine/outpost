@@ -4,6 +4,8 @@ title: FAQ
 
 # LasseCash FAQ
 
+## <span id="Do_I_need_wallet">Do I need an account to use and hold LasseCash?</span>
+Yes, you need a Hive account, there are several ways to [create a Hive account](https://signup.hive.io).
 
 ## <span id="What_is_lassecash">Why is my post not showing up at Google?</span>
 The old condensor site worked very well at indexing posts on Google, unfortunately that is still being worked on, on the new OUTPOST site www.lassecash.com , we believe it will work again at one point in the future.
@@ -16,9 +18,6 @@ LasseCash is an OUTPOST built by Hive Engine. We reward "Anarchy, Crypto and Tru
 
 ## <span id="Who_is_behind_lassecash">Who is behind LasseCash?</span>
 Lasse Ehlers ( @lasseehlers ) contributed with the name, idea and face for LasseCash. LasseCash is developed by Hive Engine and Carlos Serrano ( @zaxan ) made all graphics. The community of LasseCash consist of all the soldiers of LasseCash, who owns the OUTPOST in the form of LASSECASH and LASSECASH POWER.
-
-## <span id="Do_I_need_wallet">Do I need an account to use and hold LasseCash?</span>
-Yes, you need a Hive account, there are several ways to [create a Hive account](https://signup.hive.io).
 
 ## <span of="hive_keys_safe">Are my Hive keys safe on the site? </span>
 We recommend using the browser add-on "Hive keychain" for your Hive keys, when logging in on all Hive Engine related sites, including www.lassecash.com. "Hive keychain" is open source and trusted by a large group of people.
