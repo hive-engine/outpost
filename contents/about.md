@@ -14,7 +14,7 @@ We are rewarding anarchy, crypto and truth content.
 
 LasseCash is a cryptocurrency with zero fees and 3 second transactions, social media with rewards which is censorship resistant and a NFT platform. All of this is an economy that rewards Anarchy, Crypto and Truth. In blockchain we trust.
 
-LasseCash is an a so-called OUTPOST build by Hive Engine, based on Lasse Ehlers' ideas ( @lasseehlers ). Carlos Serrano ( @zaxan ) is the main graphics designer.
+LasseCash is an so-called OUTPOST build by Hive Engine, based on Lasse Ehlers' ideas ( @lasseehlers ). Carlos Serrano ( @zaxan ) is the main graphics designer.
 
 Proof of brain rewards
 --
