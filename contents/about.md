@@ -40,7 +40,7 @@ Diesel pool rewards are paid out every day, depending on how much liquidity you 
 There is a bonus applied for long term liquidity providers. You get 1% extra per day you hold the liquidity in the contract, up till 30 days. If you hold longer then 30 days, you will get 30% extra rewards each day. In other words, when you provide liquidity long term, you get more rewards.
 
 
-NFT platform
+NFT platform (Works, but work in progress, for more info watch this: https://www.lassecash.com/@lasseehlers/a-few-important-notes-about-the-lassecash-nft-platform-it-still-work-in-progress )
 --
 
 LasseCash also enables you to mint your own NFTs. We prefer NFTs that contain or relate to anarchy, crypto and/or truth content, but other themes are also welcomed. You have to apply to be whitelisted and we usually respond fast. There are terms in place, if you violate those terms you can be blacklisted with no refund. We aim at providing the best NFT platform in the whole cryptocurrency market.
