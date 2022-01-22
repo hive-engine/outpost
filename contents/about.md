@@ -2,8 +2,6 @@
 title: Welcome
 ---
 
-<center>https://youtu.be/vHp5UkPBx70</center>
-
 <center>![image.png](https://images.hive.blog/DQmQTeTuBSYQv4G9u5nS2YKzujG18tiy21nqa2tEV3JuJmx/image.png)</center>
 
 <center>![coffee logo.jpg](https://images.hive.blog/DQmaavWndszwGcRzryp3Bgvt9v5mYXtYKxBAnmGvWiMJn7X/coffee%20logo.jpg)</center>
