@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'CINE'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://cinetv.outpost.dtools.dev'
+export const APP_DOMAIN = 'http://localhost:8080'
 export const APP_TITLE = 'CineTV'
 export const APP = `outpost/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
@@ -18,7 +18,7 @@ export const SCOT_QUERY_LIMIT = 10
 export const CURATED_FEED = true
 export const CURATED_FEED_ACCOUNT = 'r-cine'
 export const SIDECHAIN_ID = 'ssc-testnet-reaz'
-export const SIDECHAIN_RPC = 'https://hetestnet.dtools.dev/rpc'
+export const SIDECHAIN_RPC = 'https://hetestnet.dtools.dev'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'
 export const SIDECHAIN_HISTORY_API = 'https://history.hive-engine.com'
 export const NUMBER_OF_UNSTAKE_TRX = 4
