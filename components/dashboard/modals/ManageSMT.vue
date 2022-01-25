@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="manageSMTModal" title="Update SMT Config" size="lg" centered>
+  <b-modal id="manageSMTModal" title="Update SMT Config" size="xl" centered>
     <template v-if="loading">
       <loading small />
     </template>
@@ -58,6 +58,32 @@
               max="100"
             />
           </b-form-group>
+
+          <b-form-group label="Tags" :description="`Which tags (including community) should be looked at to index a post for this reward pool. Maximum of ${maxTagsPerPool} tags are allowed.`">
+            <b-form-tags
+              v-model="config.tags"
+              tag-variant="primary"
+              input-id="tags"
+              separator=" ,;"
+              placeholder="Tags"
+              :tag-validator="tagValidator"
+              :limit="maxTagsPerPool"
+              :state="$v.config.tags.$dirty ? !$v.config.tags.$error : null"
+            />
+          </b-form-group>
+
+          <b-form-group label="Excluded Tags" :description="`Which tags should be ignored when indexing a post for this reward pool. Maximum of ${maxTagsPerPool} tags are allowed.`">
+            <b-form-tags
+              v-model="config.excludeTags"
+              tag-variant="danger"
+              input-id="exclude-tags"
+              separator=" ,;"
+              placeholder="Exclude Tags"
+              :tag-validator="tagValidator"
+              :limit="maxTagsPerPool"
+              :state="$v.config.excludeTags.$dirty ? !$v.config.excludeTags.$error : null"
+            />
+          </b-form-group>
         </b-col>
 
         <b-col cols="12" lg="6">
@@ -113,15 +139,58 @@
             />
           </b-form-group>
 
-          <b-form-group label="Tags" description="Which tags (including community) should be looked at to index a post for this reward pool.">
-            <b-form-tags
-              v-model="config.tags"
-              tag-variant="primary"
-              input-id="tags"
-              separator=" ,;"
-              placeholder="Tags"
-              :tag-validator="tagValidator"
-            />
+          <b-form-group label="Setup App Tax" description="Configure an app tax for posts not using a designated app.">
+            <b-form-checkbox v-model="useAppTaxConfig" name="useAppTaxConfig-button" switch>
+              {{ useAppTaxConfig ? 'Yes' : "No" }}
+            </b-form-checkbox>
+          </b-form-group>
+
+          <b-form-row v-if="useAppTaxConfig">
+            <b-col cols="5">
+              <b-form-group label="App name" description="App name to compare. Matches posts or comments json_metadata.app field.">
+                <b-form-input
+                  v-model="config.appTaxConfig.app"
+                  placeholder="palnet"
+                  :state="$v.config.appTaxConfig.app.$dirty ? !$v.config.appTaxConfig.app.$error : null"
+                />
+              </b-form-group>
+            </b-col>
+
+            <b-col cols="3">
+              <b-form-group label="Percentage" description="Percent to deduct from non-curation portion of rewards.">
+                <b-input-group append="%">
+                  <b-form-input
+                    v-model="config.appTaxConfig.percent"
+                    number
+                    min="1"
+                    max="100"
+                    placeholder="5"
+                    :state="$v.config.appTaxConfig.percent.$dirty ? !$v.config.appTaxConfig.percent.$error : null"
+                  />
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col cols="4">
+              <b-form-group label="Beneficiary" description="Account to receive the deducted rewards.">
+                <b-form-input
+                  v-model="config.appTaxConfig.beneficiary"
+                  placeholder="minnowsupport"
+                  :state="$v.config.appTaxConfig.beneficiary.$dirty ? !$v.config.appTaxConfig.beneficiary.$error : null"
+                />
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-group label="Disable Downvotes" description="If you set this to 'Yes', downvotes will have no effect on the post rewards.">
+            <b-form-checkbox v-model="config.disableDownvote" name="disableDownvote-button" switch>
+              {{ config.disableDownvote ? 'Yes' : "No" }}
+            </b-form-checkbox>
+          </b-form-group>
+
+          <b-form-group label="Ignore Declined Payout" description="If you set this to 'Yes', authors won't be able to decline post payouts.">
+            <b-form-checkbox v-model="config.ignoreDeclinePayout" name="ignoreDeclinePayout-button" switch>
+              {{ config.ignoreDeclinePayout ? 'Yes' : "No" }}
+            </b-form-checkbox>
           </b-form-group>
         </b-col>
       </b-row>
@@ -142,7 +211,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { required, numeric, decimal, between } from 'vuelidate/lib/validators'
+import { required, requiredIf, numeric, decimal, between, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ManageSMT',
@@ -156,11 +225,14 @@ export default {
         { value: 'power', text: 'Power (r^a)' }
       ],
 
+      useAppTaxConfig: false,
+
       rewardPoolId: '',
       config: {},
 
       tokenBalance: 0,
       updateFee: 0,
+      maxTagsPerPool: 5,
       modalBusy: false
     }
   },
@@ -204,6 +276,14 @@ export default {
         contractPayload.config.curationRewardCurveParameter = this.config.curationRewardCurveParameter.toString()
         contractPayload.config.rewardPerInterval = this.config.rewardPerInterval.toString()
 
+        if (contractPayload.config.excludeTags.length <= 0) {
+          delete contractPayload.config.excludeTags
+        }
+
+        if (!this.useAppTaxConfig) {
+          delete contractPayload.config.appTaxConfig
+        }
+
         const json = {
           contractName: 'comments',
           contractAction: 'updateRewardPool',
@@ -227,14 +307,40 @@ export default {
         this.loading = true
 
         this.rewardPoolId = this.smt._id
-        this.config = JSON.parse(JSON.stringify(this.smt.config))
 
-        const [{ updateFee }, tokenBalance] = await Promise.all([
+        const config = JSON.parse(JSON.stringify(this.smt.config))
+
+        if (config.appTaxConfig === undefined) {
+          config.appTaxConfig = {
+            app: '',
+            percent: '',
+            beneficiary: ''
+          }
+        } else {
+          this.useAppTaxConfig = true
+        }
+
+        if (config.disableDownvote === undefined) {
+          config.disableDownvote = false
+        }
+
+        if (config.ignoreDeclinePayout === undefined) {
+          config.ignoreDeclinePayout = false
+        }
+
+        if (config.excludeTags === undefined) {
+          config.excludeTags = []
+        }
+
+        this.config = config
+
+        const [{ updateFee, maxTagsPerPool }, tokenBalance] = await Promise.all([
           this.$sidechain.getContractParams('comments'),
           this.$sidechain.getBalance(this.$auth.user.username, 'BEE')
         ])
 
         this.updateFee = Number(updateFee)
+        this.maxTagsPerPool = Number(maxTagsPerPool)
         this.tokenBalance = tokenBalance ? Number(tokenBalance.balance) : 0
 
         this.loading = false
@@ -246,6 +352,7 @@ export default {
         this.$v.$reset()
 
         this.rewardPoolId = ''
+        this.useAppTaxConfig = false
         this.config = {}
 
         this.modalBusy = false
@@ -349,7 +456,40 @@ export default {
       },
 
       tags: {
+        required,
+        minLength: minLength(1)
+      },
+
+      disableDownvote: {
         required
+      },
+
+      ignoreDeclinePayout: {
+        required
+      },
+
+      appTaxConfig: {
+        app: {
+          required: requiredIf(function () { return this.useAppTaxConfig })
+        },
+
+        percent: {
+          required: requiredIf(function () { return this.useAppTaxConfig }),
+          between: between(1, 100)
+        },
+
+        beneficiary: {
+          required: requiredIf(function () { return this.useAppTaxConfig }),
+          validUsername: (value) => {
+            if (value === '') { return true }
+
+            return value === value.toLowerCase() && value.length >= 3 && value.length <= 16 && /^([a-z])[a-z0-9-.]*$/.test(value)
+          }
+        }
+      },
+
+      excludeTags: {
+
       }
     }
   }
