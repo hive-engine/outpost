@@ -232,7 +232,7 @@ export default {
           'https://hetestnet.dtools.dev',
           'https://smtscot.cryptoempirebot.com',
           'https://api.marketplace.tribaldex.com',
-          'localhost:3000',
+          'localhost:8080',
           ...config.NODES
         ],
         'form-action': ["'self'"],
