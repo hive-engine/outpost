@@ -6,13 +6,9 @@ T-shirts for sale. The design is made by Lasse Ehlers @lasseehlers and Carlos Se
 
 T-shirt #1, for sale for $50.
 
-![t shirt new.jpeg](https://images.hive.blog/DQmSjJAbAKwxYvrdFzF8kJYd2nCMas1D38GysoSE68Wc5zC/t%20shirt%20new.jpeg)
-
-T-shirt #2, for sale for $50.
-
 ![image.png](https://images.hive.blog/DQmQu6tyxzup2KCC9WgjB2Ur24vS2eznNn35SMdarNujQw1/image.png)
 
-T-shirt #3, for sale for $50.
+T-shirt #2, for sale for $50.
 
 ![image.png](https://images.hive.blog/DQmSCZ391NAQcsE8Ss2sfL2q26mgBk8Apjer6Eb6mf4HtBv/image.png)
 
