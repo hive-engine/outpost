@@ -27,7 +27,11 @@ export default {
         { hid: 'twitter-image', name: 'twitter:image', content: `${config.APP_DOMAIN}/cover.png` }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'icon', type: 'image/x-icon', sizes: '32x32', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/x-icon', sizes: '16x16', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' },
+        { rel: 'icon', type: 'manifest', href: '/site.webmanifest' }
       ]
     }
 
