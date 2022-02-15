@@ -2,7 +2,7 @@
 title: Videos
 ---
 
-# 12 lessons on cryptocurrency
+# 14 lessons on cryptocurrency
 
 What is a blockchain?
 
@@ -20,15 +20,23 @@ What is HEX?
 
 https://www.youtube.com/watch?v=YOn6hIwUIg4
 
-What is PULSE?
+What is HEDRON.PRO?
+
+https://www.youtube.com/watch?v=NLHfo6kCPYY
+
+What is LasseCash? (What is Hive? What is Hive Engine?)
 
 https://www.youtube.com/watch?v=B0h-XHh9Yqw
 
-What is a hardfork?
+What is PULSE?
 
 https://www.youtube.com/watch?v=5BnbsA6I3hQ
 
-What is LasseCash? (What is Hive? What is Hive Engine?)
+What is PULSEX?
+
+https://www.youtube.com/watch?v=aNLZOY2elNU
+
+What is a hardfork?
 
 https://www.youtube.com/watch?v=ayOCiI-tBNo
 
