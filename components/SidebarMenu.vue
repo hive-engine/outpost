@@ -84,10 +84,6 @@
       <b-list-group-item target="_blank" href="https://dswap.trade">
         Dswap <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-
-      <b-list-group-item target="_blank" href="https://hiveengine.usehive.com">
-        Tools <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
     </b-list-group>
 
     <template #footer>
