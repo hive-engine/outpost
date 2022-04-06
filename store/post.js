@@ -1,5 +1,5 @@
 import DiffMatchPatch from 'diff-match-patch'
-import { APP, IS_HIVE, APP_DOMAIN } from '@/config'
+import { APP, IS_HIVE, APP_DOMAIN, ADD_COMMEMT_FOOTER, COMMENT_FOOTER } from '@/config'
 import { toFixedWithoutRounding } from '@/utils'
 
 const DMP = new DiffMatchPatch()
@@ -76,6 +76,10 @@ export const actions = {
 
     metadata.canonical_url = `${APP_DOMAIN}/@${author}/${permlink}`
     metadata.app = APP
+
+    if (ADD_COMMEMT_FOOTER) {
+      body += `\n\n${COMMENT_FOOTER.replace('%post_url%', metadata.canonical_url)}`
+    }
 
     const comment = {
       parent_author: parentAuthor,
