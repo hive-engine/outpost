@@ -12,7 +12,7 @@
 
         <div v-if="!trendingIsCurated" class="mt-4 text-uppercase text-right font-weight-bold">
           <nuxt-link :to="{name:'sort', params:{sort:'curated'}}">
-            See more curated contents <fa-icon icon="angle-right" />
+            See more curated content <fa-icon icon="angle-right" />
           </nuxt-link>
         </div>
 
@@ -24,7 +24,7 @@
 
             <div class="mt-4 text-uppercase font-weight-bold">
               <nuxt-link :to="{name:'sort', params:{sort:'trending'}}">
-                See more popular contents <fa-icon icon="angle-right" />
+                See more popular content <fa-icon icon="angle-right" />
               </nuxt-link>
             </div>
           </b-col>
@@ -36,7 +36,7 @@
 
             <div class="mt-4 text-uppercase font-weight-bold">
               <nuxt-link :to="{name:'sort', params:{sort:'created'}}">
-                See more new contents <fa-icon icon="angle-right" />
+                See more new content <fa-icon icon="angle-right" />
               </nuxt-link>
             </div>
           </b-col>
