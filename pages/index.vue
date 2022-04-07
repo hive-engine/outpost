@@ -6,6 +6,31 @@
       </template>
 
       <template v-else>
+        <b-row>
+          <b-col lg="6" class="mt-5">
+            <b-card class="card">
+              <h3>What is Cine TV?</h3>
+              <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
+            </b-card>
+            <!-- <b-card class="card-footer">
+            </b-card> -->
+          </b-col>
+          <b-col lg="6" class="mt-5">
+            <b-card class="card">
+              <h3>Current CINE Price: {{ getUSDPrice(1) }}</h3>
+              <p>Social:</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="https://discord.gg/U4K8EYAayB">Join the Cine TV Discord</a>
+                <a href="https://twitter.com/CineTv_io">Follow Cine TV on Twitter</a>
+              </div>
+            </b-card>
+            <!-- <b-card class="card-footer">
+              <div ">
+              </div>
+            </b-card> -->
+          </b-col>
+        </b-row>
+
         <div class="post-highlights">
           <post-summary v-for="(post,i) of curated" :key="i" :post="post" type="feed" />
         </div>
@@ -47,12 +72,26 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import postIndex from '@/mixins/postIndex'
+import NFTMMixin from '@/mixins/nftmarketplace'
 
 export default {
   name: 'Home',
 
-  mixins: [postIndex],
+  mixins: [postIndex, NFTMMixin],
+
+  async asyncData ({ error, store }) {
+    try {
+      await store.dispatch('nftmarketplace/fetchSettings', { root: true })
+
+      if (!store.state.nftmarketplace.settings || !store.state.nftmarketplace.settings.site) {
+        return error({ statusCode: 404, message: 'NFT Marketplace settings has not been found!' })
+      }
+    } catch (error) {
+      return error({ statusCode: 404, message: 'NFT Marketplace settings has not been found!' })
+    }
+  },
 
   data () {
     return {
@@ -66,6 +105,11 @@ export default {
 
   async fetch () {
     this.loading = true
+
+    await Promise.all([
+      this.fetchHivePrice(),
+      this.fetchTokenPrice()
+    ])
 
     const params = this.$config.CURATED_FEED ? {} : { limit: 15 }
 
@@ -94,6 +138,23 @@ export default {
     this.created = created
 
     this.loading = false
+  },
+
+  computed: {
+    ...mapGetters('nftmarketplace', ['settings', 'token_price'])
+  },
+
+  methods: {
+    ...mapActions('nftmarketplace', ['fetchHivePrice', 'fetchTokenPrice']),
+
+    getUSDPrice (hivePrice) {
+      return `$${Number(Number(hivePrice) * this.token_price).toFixed(3)}`
+    },
+
+    timers: {
+      fetchHivePrice: { time: 5 * 60 * 1000, autostart: true, immediate: true, repeat: true },
+      fetchTokenPrice: { time: 15 * 60 * 1000, autostart: true, immediate: true, repeat: true }
+    }
   }
 }
 </script>
