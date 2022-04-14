@@ -136,7 +136,11 @@
               Login
             </b-nav-item>
 
-            <b-nav-item target="_blank" href="https://signup.hive.io">
+            <b-nav-item v-if="$config.OUTPOST_ONBOARD" @click.prevent="$bvModal.show('signupModal')">
+              Sign up
+            </b-nav-item>
+
+            <b-nav-item v-else target="_blank" href="https://signup.hive.io">
               Sign up
             </b-nav-item>
           </template>
