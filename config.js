@@ -37,3 +37,7 @@ export const DTF_ENABLED = true
 export const DTF_ID = 'CINE:CINE'
 export const POOL_ENABLED = false
 export const IPFS_GATEWAY = 'https://ipfs.tribaldex.com'
+export const OUTPOST_ONBOARD = false
+export const OUTPOST_ONBOARD_API = 'https://onboard-api.tribaldex.com'
+export const OUTPOST_ONBOARD_ID = ''
+export const HCAPTCHA_KEY = ''
