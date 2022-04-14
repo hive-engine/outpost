@@ -166,7 +166,7 @@ export default {
     component: 'fa',
     suffix: true,
     icons: {
-      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt', 'faEye'],
+      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faRedoAlt', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt', 'faEye'],
       regular: ['faMoon', 'faSun', 'faTimesCircle', 'faComments', 'faCommentAlt'],
       brands: []
     }
@@ -192,7 +192,7 @@ export default {
         'default-src': ["'self'", '* data:', 'img.3speakcontent.online', 'emb.d.tube', 'www.youtube.com', 'staticxx.facebook.com', 'player.vimeo.com', 'https://cdnjs.cloudflare.com'],
         'img-src': ['https:', '* data:'],
         'worker-src': ["'self'", 'blob:'],
-        'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
+        'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com', 'https://cdnjs.cloudflare.com', 'https://hcaptcha.com', 'https://*.hcaptcha.com'],
         'script-src': [
           "'self'",
           "'unsafe-inline'",
@@ -201,7 +201,9 @@ export default {
           'https:',
           'www.google-analytics.com',
           'connect.facebook.net',
-          'https://cdnjs.cloudflare.com'
+          'https://cdnjs.cloudflare.com',
+          'https://hcaptcha.com',
+          'https://*.hcaptcha.com'
         ],
         'connect-src': [
           "'self'",
@@ -231,9 +233,13 @@ export default {
           'https://hetestnet.dtools.dev',
           'https://hetest.cryptoempirebot.com',
           'https://api.marketplace.tribaldex.com',
+          'https://hcaptcha.com',
+          'https://*.hcaptcha.com',
           'localhost:8080',
+          config.OUTPOST_ONBOARD_API,
           ...config.NODES
         ],
+        'frame-src': ['https://hcaptcha.com', 'https://*.hcaptcha.com'],
         'form-action': ["'self'"],
         'frame-ancestors': ["'none'"],
         'object-src': ["'none'"],
