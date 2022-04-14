@@ -11,6 +11,7 @@
     <Nuxt />
 
     <Login />
+    <SignUp v-if="$config.OUTPOST_ONBOARD" />
 
     <sidebar-menu />
 
@@ -31,7 +32,6 @@ import { mapActions } from 'vuex'
 import BackToTop from 'vue-backtotop'
 import Header from '@/components/Header.vue'
 import Login from '@/components/modals/Login.vue'
-import SidebarMenu from '@/components/SidebarMenu.vue'
 
 export default {
   name: 'MainLayout',
@@ -40,7 +40,8 @@ export default {
     BackToTop,
     Header,
     Login,
-    SidebarMenu
+    SignUp: () => import(/* webpackChunkName: "SignUpModal" */ '@/components/modals/SignUp.vue'),
+    SidebarMenu: () => import(/* webpackChunkName: "SidebarMenu" */ '@/components/SidebarMenu.vue')
   },
 
   async fetch () {
