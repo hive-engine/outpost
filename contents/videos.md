@@ -2,7 +2,7 @@
 title: Videos
 ---
 
-# 14 lessons on cryptocurrency
+# Lessons on cryptocurrency
 
 What is a blockchain?
 
@@ -47,10 +47,6 @@ https://www.youtube.com/watch?v=woWtmABxejg
 What is the difference of a project and a finished product?
 
 https://www.youtube.com/watch?v=2YIRnDk_qws
-
-Scammers like Dollarvigilante?
-
-https://www.youtube.com/watch?v=qDpCRbGdHUQ
 
 What is NFTs? (Which NFT platforms do I like?)
 
