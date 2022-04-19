@@ -1,5 +1,5 @@
 export const actions = {
-  requestSwapTokens ({ dispatch }, { tokenPair, tokenSymbol, tokenAmount, maxSlippage }) {
+  requestSwapTokens ({ dispatch }, { tokenPair, tokenSymbol, tokenAmount, minAmountOut }) {
     const json = {
       contractName: 'marketpools',
       contractAction: 'swapTokens',
@@ -8,7 +8,7 @@ export const actions = {
         tokenSymbol,
         tokenAmount: tokenAmount.toString(),
         tradeType: 'exactInput',
-        maxSlippage: maxSlippage.toString()
+        minAmountOut: minAmountOut.toString()
       }
     }
 
