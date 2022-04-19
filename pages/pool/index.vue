@@ -90,29 +90,34 @@
             </div>
 
             <div v-else-if="price > 0 && (fromAmount > 0 || toAmount > 0 )" key="price" class="swap-currency-input mt-3">
-              <div class="d-flex justify-content-between">
-                <div>Prices</div>
-                <div>Liquidity</div>
-              </div>
+              <div class="d-flex flex-wrap justify-content-between">
+                <div>
+                  <div class="mb-2">
+                    Prices
+                  </div>
+                  <div class="badge px-0 text-left">
+                    <p class="mb-1">
+                      {{ fromSymbolPrice }} {{ toSymbol }} per {{ fromSymbol }}
+                    </p>
 
-              <div class="d-flex mt-3 justify-content-between">
-                <div class="badge text-left">
-                  <p class="mb-1">
-                    {{ toFixedWithoutRounding(getExactInputPrice(fromSymbol, fromAmount) / fromAmount, poolInfo.precision) }} {{ toSymbol }} per {{ fromSymbol }}
-                  </p>
-
-                  <p class="mb-1">
-                    {{ toFixedWithoutRounding(getExactOutputPrice(toSymbol, toAmount) / toAmount, poolInfo.precision) }} {{ fromSymbol }} per {{ toSymbol }}
-                  </p>
+                    <p class="mb-1">
+                      {{ toSymbolPrice }} {{ fromSymbol }} per {{ toSymbol }}
+                    </p>
+                  </div>
                 </div>
 
-                <div class="badge text-right">
-                  <p class="mb-1">
-                    {{ baseSymbol }}: {{ toFixedWithoutRounding(poolInfo.baseQuantity, poolInfo.precision) }}
-                  </p>
-                  <p class="mb-1">
-                    {{ quoteSymbol }}: {{ toFixedWithoutRounding(poolInfo.quoteQuantity, poolInfo.precision) }}
-                  </p>
+                <div>
+                  <div class="text-sm-right mb-2">
+                    Liquidity
+                  </div>
+                  <div class="badge px-0 text-left text-sm-right">
+                    <p class="mb-1">
+                      {{ baseSymbol }}: {{ toFixedWithoutRounding(poolInfo.baseQuantity, poolInfo.precision) }}
+                    </p>
+                    <p class="mb-1">
+                      {{ quoteSymbol }}: {{ toFixedWithoutRounding(poolInfo.quoteQuantity, poolInfo.precision) }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -123,7 +128,7 @@
               <div>Slippage</div>
             </div>
 
-            <div class="d-flex mt-3 justify-content-between align-items-center">
+            <div class="d-flex flex-wrap mt-3 justify-content-between align-items-center">
               <div class="radio-buttons">
                 <label v-for="(r,i) of slippageOptions" :key="i" :class="{'active': maxSlippage === r.value}">
                   <input v-model.number="maxSlippage" type="radio" :value="r.value"> {{ r.text }}
@@ -137,12 +142,12 @@
                   :min="0.5"
                   :max="49.99"
                   step="any"
-                  style="width:50px"
+                  style="background-color:rgba(0,0,0,0.15);padding:0.3rem;border-radius:10px;width:50px;margin-bottom:0.5rem;"
                   pattern="^[0-9]*[.,]?[0-9]*$"
                   autocomplete="off"
                   spellcheck="false"
                   placeholder="0.0"
-                  class="text-right"
+                  class="text-center"
                 >
                 <fa-icon icon="percent" style="font-size: 13px; margin-bottom:1px" />
               </div>
@@ -173,15 +178,19 @@
           </b-button>
 
           <div v-if="minimumReceived >0" class="swap-currency-input mt-3">
-            <div class="d-flex align-items-center justify-content-between mb-2 mr-2">
-              <div>Minimum Received <a v-b-tooltip title="Transaction will revert if there is a big unfavorable price movement before it is confirmed." class="cursor-pointer"><fa-icon icon="info-circle" /></a></div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="mr-2">
+                Minimum Received <a v-b-tooltip title="Transaction will revert if there is a big unfavorable price movement before it is confirmed." class="cursor-pointer"><fa-icon icon="info-circle" /></a>
+              </div>
 
               <div class="text-right">
                 {{ minimumReceived }} {{ toSymbol }}
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <div>Price Impact <a v-b-tooltip title="The difference between market price and estimated price due to trade size." class="cursor-pointer"><fa-icon icon="info-circle" /></a></div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="mr-2">
+                Price Impact <a v-b-tooltip title="The difference between market price and estimated price due to trade size." class="cursor-pointer"><fa-icon icon="info-circle" /></a>
+              </div>
 
               <div class="text-right" :class="{'text-success': priceImpact < 0.20, 'text-danger': priceImpact > 0.20}">
                 <template v-if="priceImpact < 0.0001">
@@ -190,6 +199,15 @@
                 <template v-else>
                   {{ (priceImpact * 100).toFixed(2) }}
                 </template>%
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="mr-2">
+                Liquidity Provider Fee <a v-b-tooltip :title="`For each trade a ${lpFeeInPct}% fee is paid to the liquidity providers.`" class="cursor-pointer inline-block"><fa-icon icon="info-circle" /></a>
+              </div>
+
+              <div class="text-right">
+                {{ totalTradeFee }} {{ toSymbol }}
               </div>
             </div>
           </div>
@@ -220,13 +238,23 @@ export default {
   name: 'DieselPoolSwap',
 
   async asyncData ({ $config, $sidechain }) {
-    const pools = await $sidechain.getMarketPools({ tokenPair: { $regex: `^${$config.TOKEN}:?|:${$config.TOKEN}$`, $options: 'x' } })
+    let tradeFeeMul = 0.9975
+
+    const [pools, params] = await Promise.all([
+      $sidechain.getMarketPools({ tokenPair: { $regex: `^${$config.TOKEN}:?|:${$config.TOKEN}$`, $options: 'x' } }),
+      $sidechain.getContractParams('marketpools')
+    ])
+
+    if (params.tradeFeeMul) {
+      tradeFeeMul = Number(params.tradeFeeMul)
+    }
 
     const tokens = Array.from(new Set(pools.map(p => p.tokenPair.split(':')).flat(Infinity)))
 
     return {
       pools,
-      tokens
+      tokens,
+      tradeFeeMul
     }
   },
 
@@ -263,6 +291,8 @@ export default {
         { text: '10%', value: 10 },
         { text: '25%', value: 25 },
         { text: '49%', value: 49 }],
+
+      totalTradeFee: 0,
 
       btnBusy: false
     }
@@ -333,6 +363,30 @@ export default {
 
     disableSwapButton () {
       return false
+    },
+
+    lpFeeInPct () {
+      return this.roundHalfUp((1 - this.tradeFeeMul) * 100, 2)
+    },
+
+    fromSymbolPrice () {
+      if (this.price > 0 && (this.fromAmount > 0 || this.toAmount > 0)) {
+        const { price } = this.getExactInputPrice(this.fromSymbol, this.fromAmount)
+
+        return this.toFixedWithoutRounding(price / this.fromAmount, this.poolInfo.precision)
+      }
+
+      return 0
+    },
+
+    toSymbolPrice () {
+      if (this.price > 0 && (this.fromAmount > 0 || this.toAmount > 0)) {
+        const { price } = this.getExactOutputPrice(this.toSymbol, this.toAmount)
+
+        return this.toFixedWithoutRounding(price / this.toAmount, this.poolInfo.precision)
+      }
+
+      return 0
     }
   },
 
@@ -349,17 +403,21 @@ export default {
 
     fromAmount (v) {
       if (this.fromAmountActive && this.poolInfo.basePrice) {
-        const price = this.getExactInputPrice(this.fromSymbol, v)
+        const { price, fee } = this.getExactInputPrice(this.fromSymbol, v)
 
         this.toAmount = this.roundHalfUp(price, this.tokensInfo.get(this.toSymbol).precision)
+        this.totalTradeFee = this.roundHalfUp(fee, this.tokensInfo.get(this.toSymbol).precision)
       }
     },
 
     toAmount (v) {
       if (this.toAmountActive && this.poolInfo.basePrice) {
-        const price = this.getExactOutputPrice(this.toSymbol, v)
+        const { price } = this.getExactOutputPrice(this.toSymbol, v)
+
+        const fee = this.toAmount * (1 - this.tradeFeeMul)
 
         this.fromAmount = this.roundHalfUp(price, this.tokensInfo.get(this.fromSymbol).precision)
+        this.totalTradeFee = this.roundHalfUp(fee, this.tokensInfo.get(this.toSymbol).precision)
       }
     },
 
@@ -461,7 +519,7 @@ export default {
     swapTokens () {
       this.btnBusy = true
 
-      this.requestSwapTokens({ tokenPair: this.poolInfo.tokenPair, tokenSymbol: this.fromSymbol, tokenAmount: this.fromAmount, maxSlippage: this.maxSlippage })
+      this.requestSwapTokens({ tokenPair: this.poolInfo.tokenPair, tokenSymbol: this.fromSymbol, tokenAmount: this.fromAmount, minAmountOut: this.minimumReceived })
     },
 
     async fetchBalance () {
@@ -506,22 +564,35 @@ export default {
 
     async fetchBalanceAndPool () {
       await Promise.all([this.fetchBalance(), this.fetchPoolInfo()])
+
+      if (this.fromSymbol && this.fromSymbol !== '' && this.toSymbol && this.toSymbol !== '' && this.poolInfo) {
+        const { price, fee } = this.getExactInputPrice(this.fromSymbol, this.fromAmount)
+
+        this.toAmount = this.roundHalfUp(price, this.tokensInfo.get(this.toSymbol).precision)
+        this.totalTradeFee = this.roundHalfUp(fee, this.tokensInfo.get(this.toSymbol).precision)
+      }
     },
 
     getExactInputPrice (symbol, value) {
-      const price = (symbol === this.baseSymbol)
+      const estimatedPrice = (symbol === this.baseSymbol)
         ? (value * Number(this.poolInfo.quoteQuantity)) / (Number(this.poolInfo.baseQuantity) + value)
         : (value * Number(this.poolInfo.baseQuantity)) / (Number(this.poolInfo.quoteQuantity) + value)
 
-      return price
+      const price = estimatedPrice * this.tradeFeeMul
+      const fee = estimatedPrice - price
+
+      return { price, fee }
     },
 
     getExactOutputPrice (symbol, value) {
-      const price = (symbol === this.baseSymbol)
+      const estimatedPrice = (symbol === this.baseSymbol)
         ? (value * Number(this.poolInfo.quoteQuantity)) / (Number(this.poolInfo.baseQuantity) - value)
         : (value * Number(this.poolInfo.baseQuantity)) / (Number(this.poolInfo.quoteQuantity) - value)
 
-      return price
+      const price = estimatedPrice * this.tradeFeeMul
+      const fee = estimatedPrice - price
+
+      return { price, fee }
     },
 
     isTokenDisabled (token) {
