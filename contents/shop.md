@@ -8,7 +8,7 @@ T-shirts for sale. The design is made by Lasse Ehlers @lasseehlers and Carlos Se
 
 T-shirt #1, for sale for $50.
 
-![t shirt new.jpeg](https://images.hive.blog/DQmSjJAbAKwxYvrdFzF8kJYd2nCMas1D38GysoSE68Wc5zC/t%20shirt%20new.jpeg)
+![t shirt new april 2022.jpeg](https://images.hive.blog/DQmbEsLQ1szZXK29uf5n7C6utkBXZ6NvULQxfZPqb9Bx3SN/t%20shirt%20new%20april%202022.jpeg)
 
 T-shirt #2, for sale for $50.
 
