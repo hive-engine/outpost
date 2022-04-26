@@ -3,7 +3,13 @@
   "version": "1.1.0",
   "private": true,
   "description": "Blogging platform built on top of Hive and Hive-Engine, connected to a customizable reward pool to link people with a common interest. Outposts also include an NFT marketplace, own DTF, and Diesel Pool.",
-  "keywords": ["hive","hive-engine","pob","outpost","tribe"],
+  "keywords": [
+    "hive",
+    "hive-engine",
+    "pob",
+    "outpost",
+    "tribe"
+  ],
   "author": "Reazul Iqbal",
   "license": "MIT",
   "homepage": "https://github.com/hive-engine/outpost#readme",
