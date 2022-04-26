@@ -77,7 +77,7 @@ export const actions = {
     metadata.canonical_url = `${APP_DOMAIN}/@${author}/${permlink}`
     metadata.app = APP
 
-    if (ADD_COMMEMT_FOOTER) {
+    if (!edit && ADD_COMMEMT_FOOTER) {
       body += `\n\n${COMMENT_FOOTER.replace('%post_url%', metadata.canonical_url)}`
     }
 
