@@ -8,6 +8,10 @@
 
     <Header />
 
+    <div class="header-strip header-strip-top"></div>
+    <div class="header-strip header-strip-middle"></div>
+    <div class="header-strip header-strip-bottom"></div>
+
     <Nuxt />
 
     <Login />

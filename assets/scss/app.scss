@@ -14,5 +14,21 @@ $enable-rounded: false;
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
 
+.header-strip {
+  padding: 0.2rem;
+}
+
+.header-strip-top {
+  background-color: #f2b263;
+}
+
+.header-strip-middle {
+  background-color: #ef525b;
+}
+
+.header-strip-bottom {
+  background-color: #24c2cb;
+}
+
 @import "./light-mode";
 @import "./dark-mode";
