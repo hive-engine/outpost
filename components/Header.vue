@@ -124,6 +124,11 @@
       Voting Power: {{ (voting_power /100).toFixed(2) }}%<br>
       Downvoting Power: {{ (downvoting_power / 100).toFixed(2) }}%
     </b-tooltip>
+
+    <div class="header-strip header-strip-space" />
+    <div class="header-strip header-strip-top" />
+    <div class="header-strip header-strip-middle" />
+    <div class="header-strip header-strip-bottom" />
   </header>
 </template>
 
