@@ -26,7 +26,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"/></a>
               </div>
-              <p><em>Advertisment</em></p>
+              <p><em>Advertisement</em></p>
             </b-card>
           </b-col>
         </b-row>
