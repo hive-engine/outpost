@@ -14,6 +14,26 @@ $enable-rounded: false;
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
 
+h2 {
+	color: #EF525B;
+	margin: 2% 0 2%;
+	text-align: center;
+}
+h3 {
+	color: #F2B263;
+	text-align: center;
+	margin: 0 0 2%;
+}
+h4 {
+	color: #F2B263;
+	margin: 2% 0 2%;
+}
+p {
+	text-align: left;
+	font-size: .875em;
+	line-height: 1.5;
+}
+
 .header-strip {
   padding: 0.2rem;
 }
