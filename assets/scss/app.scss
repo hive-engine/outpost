@@ -30,5 +30,39 @@ $enable-rounded: false;
   background-color: #24c2cb;
 }
 
+.cinetvcardcontainer {
+	background-color: #E8E8E8DE;
+	border: 1px solid #9D9D9D57;
+	border-radius: 24px;
+
+	border-top: 0.2rem solid #9D9D9D57;
+	border-bottom: 0.2rem solid #9D9D9D57;
+
+	font-family: 'Josefin Sans', sans-serif;
+
+	height: auto;
+	min-width: content;
+	max-width: 100%;
+
+	position: relative;
+
+	padding-top: 1.5rem;
+	padding-bottom: 1.5rem;
+	// padding-left: 1rem;
+	// padding-right: 1rem;
+
+	-webkit-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.15);
+	-moz-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.15);
+	box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.15);
+}
+
+.cinetvcardcontainer:hover {
+	border: 1px solid gray;
+	border-radius: 24px;
+
+	border-top: 0.2rem solid gray;
+	border-bottom: 0.2rem solid gray;
+}
+
 @import "./light-mode";
 @import "./dark-mode";

@@ -7,18 +7,17 @@
 
       <template v-else>
         <b-row>
-          <b-col lg="6" class="mt-5">
-            <b-card class="card">
+          <b-col lg="6" class="mt-2">
+            <b-card class="card cinetvcardcontainer">
               <h3>What is Cine TV?</h3>
               <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
             </b-card>
             <!-- <b-card class="card-footer">
             </b-card> -->
           </b-col>
-          <b-col lg="6" class="mt-5">
-            <b-card class="card">
+          <b-col lg="6" class="mt-2">
+            <b-card class="card cinetvcardcontainer">
               <h3>Current CINE Price: {{ getUSDPrice(1) }}</h3>
-              <p>Social:</p>
               <div class="d-flex justify-content-between align-items-center">
                 <a href="https://discord.gg/U4K8EYAayB">Join the Cine TV Discord</a>
                 <a href="https://twitter.com/CineTv_io">Follow Cine TV on Twitter</a>

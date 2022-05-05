@@ -1,5 +1,5 @@
 <template>
-  <b-card class="post-summary">
+  <b-card class="post-summary cinetvcardcontainer">
     <div v-if="type === 'user-feed' && post.author !== user" class="reblog-text">
       <fa-icon icon="redo" /> reblogged
     </div>
