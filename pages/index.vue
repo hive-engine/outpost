@@ -11,12 +11,7 @@
             <b-card class="card cinetvcardcontainer">
               <h3>What is Cine TV?</h3>
               <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
-            </b-card>
-            <!-- <b-card class="card-footer">
-            </b-card> -->
-          </b-col>
-          <b-col lg="6" class="mt-2">
-            <b-card class="card cinetvcardcontainer">
+              <hr class="cinetvrule"/>
               <h3>Current CINE Price: {{ getUSDPrice(1) }}</h3>
               <div class="d-flex justify-content-between align-items-center">
                 <a href="https://discord.gg/U4K8EYAayB">Join the Cine TV Discord</a>
@@ -24,9 +19,15 @@
               </div>
             </b-card>
             <!-- <b-card class="card-footer">
-              <div ">
-              </div>
             </b-card> -->
+          </b-col>
+          <b-col lg="6" class="mt-2">
+            <b-card class="card cinetvcardcontainer cineadvert">
+              <div class="d-flex justify-content-between align-items-center">
+                <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"/></a>
+              </div>
+              <p><em>Advertisment</em></p>
+            </b-card>
           </b-col>
         </b-row>
 
