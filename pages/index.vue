@@ -6,30 +6,25 @@
       </template>
 
       <template v-else>
-        <b-row>
-          <b-col lg="6" class="mt-2">
-            <b-card class="card cinetvcardcontainer">
-              <h3>What is Cine TV?</h3>
-              <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
-              <hr class="cinetvrule"/>
-              <h3>Current CINE Price: {{ getUSDPrice(1) }}</h3>
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="https://discord.gg/U4K8EYAayB">Join the Cine TV Discord</a>
-                <a href="https://twitter.com/CineTv_io">Follow Cine TV on Twitter</a>
-              </div>
-            </b-card>
-            <!-- <b-card class="card-footer">
-            </b-card> -->
-          </b-col>
-          <b-col lg="6" class="mt-2">
-            <b-card class="card cinetvcardcontainer cineadvert">
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"/></a>
-              </div>
-              <p><em>Advertisement</em></p>
-            </b-card>
-          </b-col>
-        </b-row>
+
+        <div class="featured">
+          <b-card class="card featurecard">
+            <h3>What is Cine TV?</h3>
+            <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
+            <hr class="cinetvrule"/>
+            <h3>Current CINE Price: {{ getUSDPrice(1) }}</h3>
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="https://discord.gg/U4K8EYAayB">Join the Cine TV Discord</a>
+              <a href="https://twitter.com/CineTv_io">Follow Cine TV on Twitter</a>
+            </div>
+          </b-card>
+          <b-card class="card featurecard cineadvert">
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"/></a>
+            </div>
+            <p><em>Advertisement</em></p>
+          </b-card>
+        </div>
 
         <div class="post-highlights">
           <post-summary v-for="(post,i) of curated" :key="i" :post="post" type="feed" />
