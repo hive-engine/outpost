@@ -69,6 +69,10 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+      <b-list-group-item target="_blank" href="https://tribaldex.com/dieselpools">
+        Pools <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Market <fa-icon icon="external-link-alt" />
       </b-list-group-item>
