@@ -22,7 +22,7 @@ Proof of brain rewards
 
 The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH and LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better than Hive and better than competing tribes and OUTPOSTs. All text is stored on the Hive blockchain and is theirfore censorship resistant.
 
-The powerdown time is 26 payments every 7 day over 6 months, this is made to incentivize longterm mentality. Furthermore the payout ratio on blog posts are 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from Hive, other tribes and other OUTPOSTs.
+The powerdown time is 26 payments every 7 day over 6 months, this is made to incentivize longterm mentality. Furthermore the payout ratio on blog posts is 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from Hive, other tribes and other OUTPOSTs.
 
 
 
@@ -31,7 +31,7 @@ The powerdown time is 26 payments every 7 day over 6 months, this is made to inc
 Diesel pool rewards
 --
 
-If you provide liquidity for the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
+If you provide liquidity to the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
 
 Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE/LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
 
@@ -57,7 +57,7 @@ Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST.
 
 Max 51 million tokens ever.
 
-We are keeping the 20 million LASSECASH for the first 10 years (taken from @lassecash) and 20 million LASSECASH forever thereafter (Issued from the tokens unissued), it has been like that since the beginning. Since the inflation is lower then 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, for the remaining inflation up till 20 million, this is just an idea, which is subject to change. Even we have probably one of the lowest inflations and a low hardcap at 51 million, there are plenty of room to be creative in the future.
+20 million LASSECASH for the first 10 years (taken from @lassecash) and 20 million LASSECASH forever thereafter (Issued from the tokens unissued), it has been like that since the beginning. Since the inflation is lower then 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, for the remaining inflation up till 20 million, this is just an idea, which is subject to change. Even we have the lowest inflation of all tribes and OUTPOSTs and a low hardcap at 51 million, there is plenty of room to be creative in the future.
 
 
 
