@@ -22,24 +22,21 @@
             </div>
             <p><em>Advertisement</em></p>
           </b-card>
-          <!-- <post-summary v-for="(post,i) of featured" :key="i" :post="post" type="feed" /> -->
         </div>
 
         <div class="post-highlights">
           <h2>Latest Newspaper</h2>
-          <p></p>
           <h2>Latest Contest</h2>
+          <h2>Latest Writing Prompt</h2>
         </div>
 
-        <div class="post-highlights">
-          <post-summary :post="latestNewspaper" type="feed"/>
-          <post-summary :post="latestContest" type="feed"/>
+        <div class="latest">
+          <div class="post-highlights">
+            <post-summary :post="latestNewspaper" type="feed" />
+            <post-summary :post="latestContest" type="feed" />
+            <post-summary :post="latestWritingPrompt" type="feed" />
+          </div>
         </div>
-
-        <!-- <h2>Featured</h2>
-        <div class="post-highlights">
-          <post-summary v-for="(post,i) of featured" :key="i" :post="post" type="feed" />
-        </div> -->
 
         <h2>Curated</h2>
         <div class="post-highlights">
@@ -107,12 +104,11 @@ export default {
   data () {
     return {
       curated: [],
-      featured: [],
       trending: [],
       created: [],
       latestNewspaper: [],
       latestContest: [],
-
+      latestWritingPrompt: [],
       trendingIsCurated: false
     }
   },
@@ -126,7 +122,7 @@ export default {
     ])
 
     const params = this.$config.CURATED_FEED ? {} : { limit: 15 }
-    const featuredParams = { tag: this.$config.FEATURED_POST_ACCOUNT, limit: 3 }
+    const featuredParams = { tag: this.$config.FEATURED_POST_ACCOUNT, limit: 10 }
 
     const requests = [
       this.fetchPosts({ endpoint: 'get_discussions_by_trending', params }),
@@ -140,19 +136,6 @@ export default {
 
     // eslint-disable-next-line prefer-const
     let [trending, created, featured, curated] = await Promise.all(requests)
-
-    // console.log('Trending: ' + trending.length)
-    // console.log('created: ' + created.length)
-    // console.log('Featured: ' + featured.length)
-
-    // featured.forEach((featuredPost) => {
-    //   if (featuredPost.tags.includes('newspaper')) {
-    //     console.log('Got newspaper:')
-    //     console.log(featuredPost)
-    //     this.latestNewspaper = featuredPost
-    //     break
-    //   }
-    // })
 
     for (const featuredPost of featured) {
       if (featuredPost.tags.includes('newspaper')) {
@@ -172,6 +155,16 @@ export default {
       }
     }
 
+    for (const featuredPost of featured) {
+      // TODO: What is the tag for a writing prompt?
+      if (featuredPost.tags.includes('cinetvcontest')) {
+        console.log('Got writing prompt:')
+        console.log(featuredPost.title)
+        this.latestWritingPrompt = featuredPost
+        break
+      }
+    }
+
     if (!curated || curated.length <= 0) {
       this.trendingIsCurated = true
       curated = trending.splice(0, 5)
@@ -180,10 +173,8 @@ export default {
     }
 
     this.curated = curated
-    this.featured = featured
     this.trending = trending
     this.created = created
-
     this.loading = false
   },
 

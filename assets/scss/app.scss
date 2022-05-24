@@ -64,6 +64,17 @@ p {
 .homepage {
   padding-top: 0.5rem;
 
+  .latest {
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(2, 33.33%) auto;
+
+      .post-highlights .post-summary:first-child {
+          grid-column-start: 1;
+          grid-column-end: 2;
+      }
+    }
+  }
+
   .featured {
     display: grid;
     gap: 15px;
