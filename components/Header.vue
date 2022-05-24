@@ -5,21 +5,6 @@
         <b-navbar-brand to="/">
           <img src="/logo.png" class="logo">
         </b-navbar-brand>
-
-        <b-navbar-nav class="d-none d-md-flex">
-          <client-only>
-            <b-nav-item @click.prevent="changeColorMode">
-              <template v-if="$colorMode.value === 'light'">
-                <fa-icon :icon="['far', 'moon']" />
-              </template>
-
-              <template v-else>
-                <fa-icon :icon="['far', 'sun']" />
-              </template>
-            </b-nav-item>
-          </client-only>
-        </b-navbar-nav>
-
         <b-navbar-nav class="d-none d-lg-flex">
           <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
             Feed
