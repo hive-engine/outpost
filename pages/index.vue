@@ -25,10 +25,21 @@
           <!-- <post-summary v-for="(post,i) of featured" :key="i" :post="post" type="feed" /> -->
         </div>
 
-        <h2>Featured</h2>
+        <div class="post-highlights">
+          <h2>Latest Newspaper</h2>
+          <p></p>
+          <h2>Latest Contest</h2>
+        </div>
+
+        <div class="post-highlights">
+          <post-summary :post="latestNewspaper" type="feed"/>
+          <post-summary :post="latestContest" type="feed"/>
+        </div>
+
+        <!-- <h2>Featured</h2>
         <div class="post-highlights">
           <post-summary v-for="(post,i) of featured" :key="i" :post="post" type="feed" />
-        </div>
+        </div> -->
 
         <h2>Curated</h2>
         <div class="post-highlights">
@@ -99,6 +110,8 @@ export default {
       featured: [],
       trending: [],
       created: [],
+      latestNewspaper: [],
+      latestContest: [],
 
       trendingIsCurated: false
     }
@@ -131,6 +144,33 @@ export default {
     // console.log('Trending: ' + trending.length)
     // console.log('created: ' + created.length)
     // console.log('Featured: ' + featured.length)
+
+    // featured.forEach((featuredPost) => {
+    //   if (featuredPost.tags.includes('newspaper')) {
+    //     console.log('Got newspaper:')
+    //     console.log(featuredPost)
+    //     this.latestNewspaper = featuredPost
+    //     break
+    //   }
+    // })
+
+    for (const featuredPost of featured) {
+      if (featuredPost.tags.includes('newspaper')) {
+        console.log('Got newspaper:')
+        console.log(featuredPost.title)
+        this.latestNewspaper = featuredPost
+        break
+      }
+    }
+
+    for (const featuredPost of featured) {
+      if (featuredPost.tags.includes('cinetvcontest')) {
+        console.log('Got contest:')
+        console.log(featuredPost.title)
+        this.latestContest = featuredPost
+        break
+      }
+    }
 
     if (!curated || curated.length <= 0) {
       this.trendingIsCurated = true
