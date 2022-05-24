@@ -19,6 +19,7 @@ export const SCOT_API = 'https://scot-api.hive-engine.com'
 export const SCOT_QUERY_LIMIT = 10
 export const CURATED_FEED = false
 export const CURATED_FEED_ACCOUNT = 'r-cine'
+export const FEATURED_POST_ACCOUNT = 'cinetv'
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://ha.herpc.dtools.dev'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

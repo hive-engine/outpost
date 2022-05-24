@@ -4,14 +4,12 @@
       <template v-if="loading">
         <loading />
       </template>
-
       <template v-else>
-
         <div class="featured">
           <b-card class="card featurecard">
             <h3>What is Cine TV?</h3>
             <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
-            <hr class="cinetvrule"/>
+            <hr class="cinetvrule"></hr>
             <h3>Current CINE Price: {{ getUSDPrice(1) }}</h3>
             <div class="d-flex justify-content-between align-items-center">
               <a href="https://discord.gg/U4K8EYAayB">Join the Cine TV Discord</a>
@@ -20,14 +18,21 @@
           </b-card>
           <b-card class="card featurecard cineadvert">
             <div class="d-flex justify-content-between align-items-center">
-              <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"/></a>
+              <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"></img></a>
             </div>
             <p><em>Advertisement</em></p>
           </b-card>
+          <!-- <post-summary v-for="(post,i) of featured" :key="i" :post="post" type="feed" /> -->
         </div>
 
+        <h2>Featured</h2>
         <div class="post-highlights">
-          <post-summary v-for="(post,i) of curated" :key="i" :post="post" type="feed" />
+          <post-summary v-for="(post,i) of featured" :key="i" :post="post" type="feed" />
+        </div>
+
+        <h2>Curated</h2>
+        <div class="post-highlights">
+          <post-summary v-for="(post,j) of curated" :key="j" :post="post" type="feed" />
         </div>
 
         <div v-if="!trendingIsCurated" class="mt-4 text-uppercase text-right font-weight-bold">
@@ -91,6 +96,7 @@ export default {
   data () {
     return {
       curated: [],
+      featured: [],
       trending: [],
       created: [],
 
@@ -107,10 +113,12 @@ export default {
     ])
 
     const params = this.$config.CURATED_FEED ? {} : { limit: 15 }
+    const featuredParams = { tag: this.$config.FEATURED_POST_ACCOUNT, limit: 3 }
 
     const requests = [
       this.fetchPosts({ endpoint: 'get_discussions_by_trending', params }),
-      this.fetchPosts({ endpoint: 'get_discussions_by_created' })
+      this.fetchPosts({ endpoint: 'get_discussions_by_created' }),
+      this.fetchPosts({ endpoint: 'get_discussions_by_blog', params: featuredParams })
     ]
 
     if (this.$config.CURATED_FEED) {
@@ -118,17 +126,21 @@ export default {
     }
 
     // eslint-disable-next-line prefer-const
-    let [trending, created, curated] = await Promise.all(requests)
+    let [trending, created, featured, curated] = await Promise.all(requests)
+
+    // console.log('Trending: ' + trending.length)
+    // console.log('created: ' + created.length)
+    // console.log('Featured: ' + featured.length)
 
     if (!curated || curated.length <= 0) {
       this.trendingIsCurated = true
-
       curated = trending.splice(0, 5)
     } else {
       curated = curated.splice(0, 5)
     }
 
     this.curated = curated
+    this.featured = featured
     this.trending = trending
     this.created = created
 
