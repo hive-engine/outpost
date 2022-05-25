@@ -1,5 +1,8 @@
 <template>
   <b-card class="post-summary cinetvcardcontainer">
+    <div v-if="type === 'latest'">
+      <h3>{{ heading }}</h3>
+    </div>
     <div v-if="type === 'user-feed' && post.author !== user" class="reblog-text">
       <fa-icon icon="redo" /> reblogged
     </div>
@@ -131,7 +134,8 @@ export default {
   props: {
     post: { type: Object, required: true },
     user: { type: String, default: 'null' },
-    type: { type: String, default: 'feed' }
+    type: { type: String, default: 'feed' },
+    heading: { type: String, default: 'null' }
   },
 
   data () {

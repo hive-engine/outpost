@@ -24,17 +24,11 @@
           </b-card>
         </div>
 
-        <div class="post-highlights">
-          <h2>Latest Newspaper</h2>
-          <h2>Latest Contest</h2>
-          <h2>Latest Writing Prompt</h2>
-        </div>
-
         <div class="latest">
           <div class="post-highlights">
-            <post-summary :post="latestNewspaper" type="feed" />
-            <post-summary :post="latestContest" type="feed" />
-            <post-summary :post="latestWritingPrompt" type="feed" />
+            <post-summary :post="latestNewspaper" type="latest" heading="Latest Newspaper"/>
+            <post-summary :post="latestContest" type="latest" heading="Latest Contest"/>
+            <post-summary :post="latestWritingPrompt" type="latest" heading="Latest Writing Prompt"/>
           </div>
         </div>
 

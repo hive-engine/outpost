@@ -64,6 +64,10 @@ p {
 .homepage {
   padding-top: 0.5rem;
 
+  .post-highlights h3 {
+    padding: 2%;
+  }
+
   .latest {
     @media screen and (min-width: 1200px) {
       grid-template-columns: repeat(2, 33.33%) auto;
