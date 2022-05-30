@@ -4,7 +4,7 @@ import * as config from './config'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head () {
-    const description = `${config.APP_TITLE} is a social media platform where everyone gets paid for creating and curating content. It leverages a robust digital points system, called ${config.TOKEN}, that supports real value for digital rewards through market price discovery and liquidity.`
+    const description = `${config.APP_TITLE} is a cryptocurrency with zero fees and 3 second transactions, social media with rewards which is censorship resistant and a NFT platform. All of this is an economy that rewards Anarchy, Crypto and Truth content. In blockchain we trust.`
 
     const head = {
       titleTemplate: (titleChunk) => {
