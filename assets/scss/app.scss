@@ -20,15 +20,31 @@ h2 {
 }
 h3 {
 	color: #F2B263;
+  font-family: "Montserrat", Sans-serif;
+  font-size: 1.7em;
+  font-weight: 600;
 	margin: 0 0 2%;
 }
 h4 {
 	color: #F2B263;
 	margin: 2% 0 2%;
+  font-family: "Montserrat", Sans-serif;
+  font-size: 1.3em;
+  font-weight: 600;
 }
 p {
 	text-align: left;
 	line-height: 1.5;
+  color: white;
+  font-family: "Lora", Sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+a {
+  color: #EF525B;
+  font-family: "Montserrat", Sans-serif;
 }
 .cinetvrule {
   margin-top: 2.1rem;
