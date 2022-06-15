@@ -166,8 +166,6 @@ export default {
 
     for (const featuredPost of featured) {
       if (featuredPost.tags.includes('newspaper')) {
-        console.log('Got newspaper:')
-        console.log(featuredPost.title)
         this.latestNewspaper = featuredPost
         break
       }
@@ -175,8 +173,6 @@ export default {
 
     for (const featuredPost of featured) {
       if (featuredPost.tags.includes('cinetvcontest')) {
-        console.log('Got contest:')
-        console.log(featuredPost.title)
         this.latestContest = featuredPost
         break
       }
@@ -185,8 +181,6 @@ export default {
     for (const featuredPost of featured) {
       // TODO: What is the tag for a writing prompt?
       if (featuredPost.tags.includes('cinetvcontest')) {
-        console.log('Got writing prompt:')
-        console.log(featuredPost.title)
         this.latestWritingPrompt = featuredPost
         break
       }
