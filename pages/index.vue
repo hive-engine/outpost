@@ -6,7 +6,7 @@
       </template>
       <template v-else>
         <div class="featured">
-          <b-card class="card featurecard">
+          <b-card class="card featurecard infocard">
             <h3>What is Cine TV?</h3>
             <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
             <hr class="cinetvrule"></hr>
