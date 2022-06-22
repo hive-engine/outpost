@@ -179,8 +179,7 @@ export default {
     }
 
     for (const featuredPost of featured) {
-      // TODO: What is the tag for a writing prompt?
-      if (featuredPost.tags.includes('cinetvcontest')) {
+      if (featuredPost.tags.includes('writingprompt')) {
         this.latestWritingPrompt = featuredPost
         break
       }
