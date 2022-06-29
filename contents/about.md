@@ -22,7 +22,7 @@ LasseCash is a so-called OUTPOST (first in history) build by Hive Engine, based 
 Proof of brain rewards
 --
 
-The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH and LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better than Hive and better than competing tribes and OUTPOSTs. All text is stored on the Hive blockchain and is theirfore censorship resistant.
+The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH and LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better than Hive and better than competing tribes and OUTPOSTs. All text is stored on the Hive blockchain and is therefore censorship resistant.
 
 The powerdown time is 26 payments every 7 day over 6 months, this is made to incentivize longterm mentality. Furthermore the payout ratio on blog posts is 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from Hive, other tribes and other OUTPOSTs.
 
