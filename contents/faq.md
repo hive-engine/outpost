@@ -13,6 +13,9 @@ The old condensor site worked very well at indexing posts on Google, unfortunate
 ## <span id="What_is_lassecash">What is the easiest way to buy LASSECASH?</span>
 The DEX hive-engine.com provide the ability to deposit older cryptocurrencies like forinstance Bitcoin, Ethereum or Litecoin (among others), after depositing then you can swap those for SWAP.HIVE which you can buy LASSECASH for. That is the easiest route to buy LASSECASH. It also works the other way of-course, so you can also sell LASSECASH for older cryptocurrencies on the same site. LASSECASH are exchanged on many Hive-engine based DEXs and in the SWAP.HIVE:LASSECASH diesel pool.
 
+## <span id="What_is_lassecash">Why is LasseCash not prober listed on coinranking sites and why is there only a 3 months graph of the LasseCash price available?</span>
+The three biggest coinranking sites: Coinmarketcap.com, coingecko.com and Nomics.com have all been contacted by us and they are not willing to put in the world nessesary to list Hive Engine tokens like LasseCash probably. Fortunately Hiveland is a solution that is being worked on, which will both list all Hive Engine tokens probbaly and provide more advanced graphing: https://hiveland.live/  https://hive.blog/hive-139531/@doze/hiveland-dhf-proposal
+
 ## <span id="What_is_lassecash">What is LasseCash?</span>
 LasseCash is an OUTPOST built by Hive Engine. We reward "Anarchy, Crypto and Truth" content.
 
