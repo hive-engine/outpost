@@ -1,4 +1,4 @@
-import { toFixedWithoutRounding, arrayChunk } from '@/utils'
+import { arrayChunk } from '@/utils'
 
 export const state = () => {
   return {
@@ -118,7 +118,7 @@ export const actions = {
       const metrics = await this.$sidechain.getMetrics(state.settings.currency)
 
       if (metrics) {
-        commit('SET_TOKEN_PRICE', toFixedWithoutRounding(state.hive_price * Number(metrics.lastPrice)))
+        commit('SET_TOKEN_PRICE', state.hive_price * Number(metrics.lastPrice))
       }
     } catch {
       //
