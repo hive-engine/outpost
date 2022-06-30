@@ -43,6 +43,10 @@
         About
       </b-list-group-item>
 
+      <b-list-group-item :to="{name:'philosophy-and-inventions'}">
+        Philosophy and Inventions
+      </b-list-group-item>
+
       <b-list-group-item :to="{name:'videos'}">
         Videos
       </b-list-group-item>
@@ -72,7 +76,7 @@
       <b-list-group-item target="_blank" href="https://tribaldex.com/dieselpools">
         Pools <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      
+
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Market <fa-icon icon="external-link-alt" />
       </b-list-group-item>
