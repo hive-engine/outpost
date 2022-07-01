@@ -115,6 +115,36 @@ Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_hero-ch
 
 ## **Information**
 
-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
+30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
 
-2019: https://www.lassecash.com/@lasseehlers/introduction-to-lassecash-new-social-media
+9/6-2021: https://www.lassecash.com/@lasseehlers/lassecash-first-outpost-in-history
+
+9/6-2021: https://www.lassecash.com/@lasseehlers/contrary-to-popular-opinion-decentralized-ownership-might-be-is-a-myth
+
+25/5-2021: https://www.lassecash.com/@ironshield/lassecash-the-unsung-hero-of-crypto
+
+1/5-2021: https://www.lassecash.com/@lasseehlers/biggest-eth-fork-in-history
+
+27/4-2021: https://www.lassecash.com/flatearth/@lasseehlers/level
+
+7/3-2021: https://www.lassecash.com/@lasseehlers/lassecash-has-diesel-pool
+
+8/2-2021: https://www.lassecash.com/@lasseehlers/cryptocurrencies-are-anarchocapitalistic
+
+27/6-2020: https://www.lassecash.com/@lasseehlers/my-tribute-to-murray-ruthbard
+
+12/4-2020: https://www.lassecash.com/@lasseehlers/lassecash-token-swaped-to-hive
+
+20/3-2020: https://www.lassecash.com/@lasseehlers/freedom
+
+18/3-2020: http://hive.blog/communityfork/@hiveio/announcing-the-launch-of-hive-blockchain
+
+2/3-2020: https://www.lassecash.com/@lasseehlers/hostile-take-over-of-steem
+
+16/2.2020: https://www.lassecash.com/@lasseehlers/i-don-t-like-justin-sun-s-acquisition-of-steemit-inc-fork-his-stake-out-steemcash
+
+16/2-2020: https://www.lassecash.com/@lasseehlers/justin-buying-steem-how-does-it-affect-lassecash-and-what-do-i-think-about-it
+
+26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
+
+16/7-2019: https://www.lassecash.com/@lasseehlers/introduction-to-lassecash-new-social-media
