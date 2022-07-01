@@ -6,7 +6,9 @@ title: Philosophy and Inventions
 ## **Philosophy**
 
 
-Lasse Ehlers identify as an anarchocapitalist and flat earther, he learned about the philosophy of anarchocapitalism from Stefan Molyneux' videos in 2010, but it was first in April 2013, when he saw Bitcoin, that he believe anarchocapitalism was possible in practicallity. Even though Stefan Molyneux is ignorant to the truth about that the earth is flat, Lasse Ehlers acknowledge him as one of the biggest philosophers of our time, if not the biggest, esspecially for his work with spreading awareness of the philosophy of anarchocapitalism. Lasse Ehlers believes that we need to use our real identity in order to create a free society, this idea originates from Stefan Molyneux and he might be the one who came up with the idea and/or formulated it the first time. Lasse Ehlers therefore advocating using your real name on the internet, if everyone did it and used cryptocurrencies all the time, then Illuminati's statism systems (based on satanism) would very fast come to an end. Lasse Ehlers believe anarchocapitalism will happen, that it is inevitably after the creation of Bitcoin and Blockchain technology.
+Lasse Ehlers identify as an anarchocapitalist and flat earther, he learned about the philosophy of anarchocapitalism from Stefan Molyneux' videos in 2010, but it was first in April 2013, when he saw Bitcoin, that he believe anarchocapitalism was possible in practicallity. Even though Stefan Molyneux is ignorant to the truth about that the earth is flat, Lasse Ehlers acknowledge him as one of the biggest philosophers of our time, if not the biggest, esspecially for his work with spreading awareness of the philosophy of anarchocapitalism.
+
+Lasse Ehlers believes that we need to use our real identity in order to create a free society, this idea originates from Stefan Molyneux and he might be the one who came up with the idea and/or formulated it the first time. Lasse Ehlers therefore advocating using your real name on the internet, if everyone did it and used cryptocurrencies all the time, then Illuminati's statism systems (based on satanism) would very fast come to an end. Lasse Ehlers believe anarchocapitalism will happen, that it is inevitably after the creation of Bitcoin and Blockchain technology.
 
 Lasse Ehlers acknowledge Murray Rothbard as the philosopher who first formulated the philosophy of anarchocapitalism. Lasse Ehlers also gives credit to Jeff Berwick for spreading the word about anarchocapitalism over the internet for many years. 
 
@@ -34,8 +36,8 @@ The term is used to devalue a persons moral standards and ethical value.
 
 ![](https://images.hive.blog/DQmWyX4dXYGfGLStHp7N8Y74cFn3zziWJ6uFLL2Wpx4GFEz/image.png)
 
-https://www.lassecash.com/fiatmonster/@lasseehlers/68ateu-fiat-monster
-https://tribaldex.com/openhive/TDEX/lasseehlers_fiat-monster
+Proof on the blockchain: https://www.lassecash.com/fiatmonster/@lasseehlers/68ateu-fiat-monster
+Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_fiat-monster
 
 ### Real life hero
 
@@ -49,8 +51,8 @@ He probably is broke a lot of his life, since the fiat money system almost have 
 
 ![](https://images.hive.blog/DQmdNfoWnHPwQVQzCS7PjVE53DZ6BMYxaZa637pbgL9Eo9p/image.png)
 
-https://www.lassecash.com/reallifehero/@lasseehlers/real-life-hero
-https://tribaldex.com/openhive/TDEX/lasseehlers_real-life-hero
+Proof on the blockchain: https://www.lassecash.com/reallifehero/@lasseehlers/real-life-hero
+Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_real-life-hero
 
 
 
@@ -67,8 +69,8 @@ The term is invented to mark woman with this behavior as a person with low moral
 
 ![](https://images.hive.blog/DQmYb7qg1NBGhnznpNxiE1xjtGpi7YRj85MXVrGopB2qu2m/image.png)
 
-https://www.lassecash.com/fiatchick/@lasseehlers/fiat-chick
-https://tribaldex.com/openhive/TDEX/lasseehlers_fiat-chick
+Proof on the blockchain: https://www.lassecash.com/fiatchick/@lasseehlers/fiat-chick
+Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_fiat-chick
 
 ### Crypto woman / free market woman
 
@@ -84,8 +86,8 @@ She would never use the corrupt court system to kidnap her mans child and she de
 ![](https://images.hive.blog/DQmVRNZpDBMvHdv9tHgD9UtNB4b2Mqr5UkSVKoWpLR6L6nT/image.png)
 
 
-https://www.lassecash.com/cryptowoman/@lasseehlers/crypto-woman-free-market-woman
-https://tribaldex.com/openhive/TDEX/lasseehlers_crypto-woman
+Proof on the blockchain: https://www.lassecash.com/cryptowoman/@lasseehlers/crypto-woman-free-market-woman
+Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_crypto-woman
 
 
 ### Hero child
@@ -104,5 +106,5 @@ A hero child is raised by like-minded people, both adults and children and of co
 
 ![](https://images.hive.blog/DQmXYSQVaBhSGM9LVJrPbhi8SiK4QCebhmCYpP73uBYR9QK/image.png)
 
-https://www.lassecash.com/herochild/@lasseehlers/hero-child
-https://tribaldex.com/openhive/TDEX/lasseehlers_hero-child
+Proof on the blockchain: https://www.lassecash.com/herochild/@lasseehlers/hero-child
+Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_hero-child
