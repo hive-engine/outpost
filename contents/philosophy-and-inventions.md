@@ -6,7 +6,7 @@ title: Philosophy and Inventions
 ## **Philosophy**
 
 
-Lasse Ehlers identify as an anarchocapitalist and flat earther, he learned about the philosophy of anarchocapitalism from Stefan Molyneux' videos in 2010, but it was first in April 2013, when he saw Bitcoin, that he believe anarchocapitalism was possible in practicallity. Even though Stefan Molyneux is ignorant to the truth about that the earth is flat, Lasse Ehlers acknowledge him as one of the biggest philosophers of our time, if not the biggest, esspecially for his work with spreading awareness of the philosophy of anarchocapitalism.
+Lasse Ehlers identify as an anarchocapitalist and flat earther, he learned about the philosophy of anarchocapitalism from Stefan Molyneux' videos in 2010, but it was first in April 2013, when he saw Bitcoin, that he believe anarchocapitalism was possible in practicallity. Eventhough Stefan Molyneux is ignorant to the truth about that the earth is flat, Lasse Ehlers acknowledge him as one of the biggest philosophers of our time, if not the biggest, esspecially for his work with spreading awareness of the philosophy of anarchocapitalism.
 
 Lasse Ehlers believes that we need to use our real identity in order to create a free society, this idea originates from Stefan Molyneux and he might be the one who came up with the idea and/or formulated it the first time. Lasse Ehlers therefore advocating using your real name on the internet, if everyone did it and used cryptocurrencies all the time, then Illuminati's statism systems (based on satanism) would very fast come to an end. Lasse Ehlers believe anarchocapitalism will happen, that it is inevitably after the creation of Bitcoin and Blockchain technology.
 
