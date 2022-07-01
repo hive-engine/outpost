@@ -1,5 +1,5 @@
 ---
-title: Philosophy and Inventions
+title: Philosophy, Inventions and Information
 ---
 
 
@@ -112,3 +112,9 @@ A hero child is raised by like-minded people, both adults and children and of co
 
 Proof on the blockchain: https://www.lassecash.com/herochild/@lasseehlers/hero-child
 Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_hero-child
+
+## **Information**
+
+2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
+
+2019: https://www.lassecash.com/@lasseehlers/introduction-to-lassecash-new-social-media
