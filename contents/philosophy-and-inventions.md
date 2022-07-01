@@ -145,6 +145,10 @@ Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_hero-ch
 
 16/2-2020: https://www.lassecash.com/@lasseehlers/justin-buying-steem-how-does-it-affect-lassecash-and-what-do-i-think-about-it
 
-26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
+2/12.2019: I made many posts about HEX around the launch date, unfortunately I got pressured by Steem Whales, to edit those posts with "deleted" around ½ year later and it seeems to me that the tool for showing history of a post on Steem is gone now, so only a programmer can dig out this information from any of the 2 chains, in other words there is proof that I recommended and promoted HEX since launch (HEX which did 10000X in 2 years after launch), but that proof is pretty hard to dig out. So you have to take my word for it, I recommended HEX since day 1 and it went up 10000X in 2 years, I still believe it could do another 10000X and beyond, but today I promote and recommend Richard Heart and Lasse Ehlers related products in general.
 
 16/7-2019: https://www.lassecash.com/@lasseehlers/introduction-to-lassecash-new-social-media
+
+26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
+
+
