@@ -154,7 +154,7 @@ Most significant events within my cryptocurrency journey in posts or notes:
 
 26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
 
-3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. I was also constaantly following and testing new experiments, all of them was failures, so looking back it was a very bad period. It fixed my problems and it lead to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life.
+3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. I was also constantly following and testing new experiments, all of them was failures, so looking back it was a very hard and bad period, that I somehow managed to overcome mentally dispite constant failure. It fixed my problems somehow anyway and lead eventually to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life. I believe without this bad period, I would not have known about Hive Engine that basically created the technology that made LasseCash possible and who knows if I had known about HEX if it was not for bad stories beforehand.
 
 3/8-2016: My first post on Steemit.com.
 
