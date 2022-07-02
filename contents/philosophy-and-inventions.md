@@ -115,7 +115,7 @@ Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_hero-ch
 
 ## **Information**
 
-Most significant events within my cryptocurrency journey in post or notes:
+Most significant events within my cryptocurrency journey in posts or notes:
 
 
 30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
