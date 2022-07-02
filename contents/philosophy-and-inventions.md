@@ -156,7 +156,7 @@ Most significant events within my cryptocurrency journey in posts or notes:
 
 3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. I was also constaantly following and testing new experiments, all of them was failures, so looking back it was a very bad period. It fixed my problems and it lead to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life.
 
-3/8-2016: First post on Steemit.com.
+3/8-2016: My first post on Steemit.com.
 
 Summer 2015 to summer 2016: Was very broke after I lost all my money previously and had a dire situation where I didnt have any money to experiment with and not much time to focus on cryptocurrency. Looking back then I dont think much interesting happened in the cryptocurrency market in that period, at-least not something that lasted, which is really connected to what I use today.
 
