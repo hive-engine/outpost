@@ -154,7 +154,7 @@ Most significant events within my cryptocurrency journey in post or notes:
 
 26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
 
-3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. It fixed my problems and it lead to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life.
+3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. I was also constaantly following and testing new experiments, all of them was failures, so looking back it was a very bad period. It fixed my problems and it lead to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life.
 
 3/8-2016: First post on Steemit.com.
 
@@ -162,4 +162,4 @@ Summer 2015 to summer 2016: Was very broke after I lost all my money previously 
 
 April 2013 to summer 2015: Experimented with a lot of blockchains and related services, mined coins on Butterfly lap miner and homebuild GPU rack. Programmed a Bitcoin exchange, spend one year to get a permission to setup Bitcoin Exchange, failed eventually, because my bank didnt wanted to make accounts for my company (for the first time ever), so had to give up on making a Bitcoin exchange. Today I am happy it didnt succeeed, because LasseCash is a 10000 times better product, than a centralized Bitcoin exchange. 
 
-April 2013: Discorvered Bitcoin and bought 20 of them the same month for $50 each.
+April 2013: Discovered Bitcoin and bought 20 of them the same month for $50 each.
