@@ -51,7 +51,7 @@
         What is Weedcash?
       </b-list-group-item>
       
-      <b-list-group-item target="_blank" :href="'https://weedcash.store'">
+      <b-list-group-item target="_blank" :href="'https://hivelist.store/shop/weedcash-store'">
         Weedcash Store <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
