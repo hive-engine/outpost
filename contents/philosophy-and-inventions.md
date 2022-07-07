@@ -133,7 +133,9 @@ Most significant events within my cryptocurrency journey in posts or notes:
 7/3-2021: https://www.lassecash.com/@lasseehlers/lassecash-has-diesel-pool
 
 8/2-2021: https://www.lassecash.com/@lasseehlers/cryptocurrencies-are-anarchocapitalistic
-
+ 
+9/9-2020: https://www.lassecash.com/@lasseehlers/i-donated-1-million-lassecash-to-hive-engine-team
+ 
 27/6-2020: https://www.lassecash.com/@lasseehlers/my-tribute-to-murray-ruthbard
 
 12/4-2020: https://www.lassecash.com/@lasseehlers/lassecash-token-swaped-to-hive
