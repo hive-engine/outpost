@@ -2,6 +2,8 @@
 title: Philosophy, Inventions and Information
 ---
 
+# **Philosophy, Inventions and Information**
+
 
 ## **Philosophy**
 
