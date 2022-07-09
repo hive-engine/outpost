@@ -70,6 +70,18 @@ Lasse Ehlers as leader of LasseCash
 
 Even though LasseCash has been build by Hive Engine and Lasse Ehlers only is a symbolic figure, then Lasse Ehlers is naturally the leader of the LasseCash OUTPOST and will be the one to resolve any potential dispute or drama, since he will always have the biggest stake.
 
+Lasse Ehlers currently holds 7 millions (of the 11 million he was given day 1) after extensive activities for the first 3 years.
+
+Circulating supplying of 8. july 2022: 
+
+4.5 million in diesel pool contract
+10.4 million in @lassecash (only for inflation/rewards)
+
+11 millions + (20 million – 10.4 million – 4.5 million) = 16.1 million (Circulating supply)
+
+**Lasse Ehlers** owns 7/16.1 million = **43.8% of circulating supply (Pretty healthy!!)**
+
+
 What happens if Lasse Ehlers dies prematurely?
 --
 
