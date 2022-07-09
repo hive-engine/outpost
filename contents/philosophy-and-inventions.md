@@ -4,6 +4,8 @@ title: Philosophy, Inventions and Information
 
 # **Philosophy, Inventions and Information**
 
+<center>![philoso.jpg](https://files.peakd.com/file/peakd-hive/lasseehlers/23wX7v8tYz5dSamuMbr7dU4HoNJe4NXS4j65VQpRqUvofvT61rcaxQ6GYkTET35jwNqMr.jpg)</center>
+
 
 ## **Philosophy**
 
