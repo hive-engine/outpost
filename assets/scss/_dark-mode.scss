@@ -1,5 +1,5 @@
 $dark-color: #f5f5f4;
-$dark-link-color: #c7d3df;
+$dark-link-color: #24C2CB;
 $dark-bg-color: #1e2329;
 $dark-secondary: #2d333b;
 $dark-border-color: #444c56;
@@ -74,6 +74,10 @@ $dark-input-color: #fff;
   }
 
   .bg-light {
+    background-color: $dark-secondary !important;
+  }
+
+  .header-strip-space {
     background-color: $dark-secondary !important;
   }
 

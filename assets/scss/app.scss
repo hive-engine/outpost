@@ -14,5 +14,225 @@ $enable-rounded: false;
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
 
+h2 {
+	color: #EF525B;
+	margin: 2% 0 2%;
+}
+h3 {
+	color: #F2B263;
+  font-family: "Montserrat", Sans-serif;
+  font-size: 1.7em;
+  font-weight: 600;
+  margin: 0 0 2%;
+  text-decoration: underline;
+ 
+    text-align: center;
+}
+h4 {
+	color: #24C2CB;
+	margin: 2% 0 2%;
+  font-family: "Montserrat", Sans-serif;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+p {
+	text-align: left;
+	line-height: 1.5;
+  color: white;
+  font-family: "Lora", Sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+a {
+  color: #EF525B;
+  font-family: "Montserrat", Sans-serif;
+}
+.cineadvert {
+  a {
+      margin: auto;
+  }
+  p {
+    text-align: center;
+    font-size: .875em;
+    margin: 2% 0 0;
+  }
+}
+
+.header-strip {
+  padding: 0.2rem;
+}
+
+.header-strip-top {
+  background-color: #f2b263;
+}
+
+.header-strip-middle {
+  background-color: #ef525b;
+}
+
+.header-strip-bottom {
+  background-color: #24c2cb;
+}
+
+.homepage {
+  padding-top: 0.5rem;
+
+  .post-highlights h3 {
+    padding: 2%;
+  }
+
+  .latest {
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(2, 33.33%) auto;
+
+      .post-highlights {
+        .post-summary {
+          .post-thumbnail {
+            max-height: 280px;
+          }
+        }
+        .post-summary:first-child {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            .post-thumbnail {
+              max-height: 300px;
+            }
+        }
+
+        &:nth-child(2) {
+          grid-column-start: 3;
+          grid-column-end: 4;
+          grid-row: auto;
+
+          .post-thumbnail {
+            max-height: 300px;
+          }
+        }
+
+        &:nth-child(2n) {
+          grid-column-start: auto;
+          grid-column-end: auto;
+          max-height: 300px;
+        }
+      }
+    }
+  }
+
+  .fade-in-text {
+    font-size: 2rem;
+    color: black;
+    animation: fadeIn linear 3s;
+    -webkit-animation: fadeIn linear 3s;
+    -moz-animation: fadeIn linear 3s;
+    -o-animation: fadeIn linear 3s;
+  }
+
+  @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+
+  @-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+
+  .featured {
+    display: grid;
+    gap: 15px;
+    padding-bottom: 1.5rem;
+
+    .infocard {
+      background-color: transparent;
+      background-image: url("https://job.kurier.at/template/prototypes/Ebene_1.png"), linear-gradient(
+              180deg, #1E2329 50%, #0B2C3D 100%);
+      background-size: cover;
+      background-position: center;
+    }
+
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: 50% auto;
+      .featurecard {
+        &:first-child {
+          grid-column-start: 1;
+          grid-column-end: 4;
+
+          .post-thumbnail {
+            max-height: 400px;
+          }
+        }
+
+        &:nth-child(2n) {
+          grid-column-start: 1;
+          grid-column-end: 2;
+        }
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(2, 33.33%) auto;
+
+      .featurecard {
+        &:first-child {
+          grid-column-start: 1;
+          grid-column-end: 3;
+
+          .post-thumbnail {
+            max-height: 300px;
+          }
+        }
+
+        &:nth-child(2) {
+          grid-column-start: 3;
+          grid-column-end: 4;
+          grid-row: auto;
+
+          .post-thumbnail {
+            max-height: 300px;
+          }
+        }
+
+        &:nth-child(2n) {
+          grid-column-start: auto;
+          grid-column-end: auto;
+        }
+      }
+    }
+  }
+}
+
+.card {
+  background-color: #2d333b;
+  border: 1px solid #9D9D9D57;
+  border-radius: 24px;
+
+  border-top: 0.2rem solid #9D9D9D57;
+  border-bottom: 0.2rem solid #9D9D9D57;
+
+  font-family: 'Josefin Sans', sans-serif;
+
+  height: auto;
+  min-width: content;
+  max-width: 100%;
+
+  position: relative;
+
+  padding-top: 1.5rem;
+
+  -webkit-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.15);
+  -moz-box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.15);
+  box-shadow: 10px 10px 15px 2px rgba(0,0,0,0.15);
+}
+
+.card:hover {
+  border: 1px solid gray;
+  border-radius: 24px;
+
+  border-top: 0.2rem solid gray;
+  border-bottom: 0.2rem solid gray;
+}
+
 @import "./light-mode";
 @import "./dark-mode";

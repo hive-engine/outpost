@@ -121,7 +121,7 @@ export default {
   },
 
   colorMode: {
-    preference: 'light'
+    preference: 'dark'
   },
 
   modern: process.env.NODE_ENV === 'production',
