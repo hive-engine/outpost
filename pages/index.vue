@@ -58,10 +58,10 @@
         </div>
 
         <div class="latest">
-          <div class="post-highlights">
-            <post-summary :post="latestNewspaper" type="latest" heading="Latest Newspaper" />
-            <post-summary :post="latestContest" type="latest" heading="Latest Contest" />
-            <post-summary :post="latestWritingPrompt" type="latest" heading="Latest Writing Prompt" />
+          <div class="post-highlights" >
+            <post-summary v-if="latestNewspaper.length!=0" :post="latestNewspaper" type="latest" heading="Latest Newspaper" />
+            <post-summary  v-if="latestContest.length!=0" :post="latestContest" type="latest" heading="Latest Contest" />
+            <post-summary v-if="latestWritingPrompt.length!=0" :post="latestWritingPrompt" type="latest" heading="Latest Writing Prompt" />
           </div>
         </div>
 
@@ -149,7 +149,7 @@ export default {
     ])
 
     const params = this.$config.CURATED_FEED ? {} : { limit: 15 }
-    const featuredParams = { tag: this.$config.FEATURED_POST_ACCOUNT, limit: 10 }
+    const featuredParams = { tag: this.$config.FEATURED_POST_ACCOUNT, limit: 50 }
 
     const requests = [
       this.fetchPosts({ endpoint: 'get_discussions_by_trending', params }),
