@@ -70,7 +70,7 @@ h3 {
   text-decoration: underline;
  
     text-align: center;
-    
+
 }
 h4 {
 	color: #24C2CB;
@@ -277,6 +277,24 @@ a {
   border-top: 0.2rem solid gray;
   border-bottom: 0.2rem solid gray;
 }
+
+
+
+
+
+.badge {
+  border-radius: 0.5rem;
+  a {
+    color: $white !important;
+  }
+}
+
+.badge-success {
+  
+  border-radius: 0.5rem;
+}
+
+
 
 @import "./light-mode";
 @import "./dark-mode";
