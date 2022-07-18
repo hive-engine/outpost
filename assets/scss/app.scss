@@ -118,11 +118,18 @@ a {
 
 .text {
 
+  font-family: "Lora", Sans-serif;
+  font-size: 1em;
   padding: 0.5rem;
   
   }
 
-
+  .logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 4rem;
+  }
 
 
 .cineadvert {

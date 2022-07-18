@@ -10,7 +10,8 @@
             <div class="fade-in-text">
               <h1>What is Cine TV?</h1>
             </div>
-            <p>We are a supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
+            <p><em>"Say hello to my little friend!</em></p>
+            <p>We are a supportive Hive-based platform for people to explore their passion for Cinema, TV and Theater through the creative process of blogging and earn crypto while doing so.</p>
             <h4>Current CINE Price:<span style="color: #EF525B;"> {{ getUSDPrice(1) }}</span></h4>
             <div class="d-flex justify-content-between align-items-center">
 
@@ -115,6 +116,18 @@
             </div>
           </b-col>
         </b-row>
+
+
+<div>
+
+ <img src="https://cinetv.hivedata.live/logo.png" alt="CineTV Logo" class="logo"> 
+
+  </div>
+
+
+
+
+
       </template>
     </b-container>
   </div>
