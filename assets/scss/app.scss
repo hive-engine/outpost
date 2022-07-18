@@ -149,18 +149,24 @@ a {
 
 .header-strip {
   padding: 0.2rem;
+  transition: all .2s ease-in-out;
+  animation-name: fadeInLeft;
+  animation-duration: 1.25s;
 }
 
 .header-strip-top {
   background-color: #f2b263;
+  transition: all .2s ease-in-out;
 }
 
 .header-strip-middle {
   background-color: #ef525b;
+  transition: all .2s ease-in-out;
 }
 
 .header-strip-bottom {
   background-color: #24c2cb;
+  transition: all .2s ease-in-out;
 }
 
 .homepage {
