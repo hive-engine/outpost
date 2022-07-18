@@ -8,7 +8,7 @@
         <div class="featured">
           <b-card class="card featurecard infocard">
             <div class="fade-in-text">
-              <h3>What is Cine TV?</h3>
+              <h1>What is Cine TV?</h1>
             </div>
             <p>A supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
             <h4>Current CINE Price: {{ getUSDPrice(1) }}</h4>

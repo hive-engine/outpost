@@ -14,6 +14,49 @@ $enable-rounded: false;
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
 
+
+
+/* Addition by Zero */
+
+h1 {
+	color: #F2B263;
+  font-family: "Montserrat", Sans-serif;
+  text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+
+
+
+}
+
+h1:after {
+  content: attr(data-shadow);
+  position: absolute;
+  top: .06em; left: .06em;
+  z-index: -1;
+  text-shadow: none;
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent 45%,
+      hsla(48,20%,90%,1) 45%,
+      hsla(48,20%,90%,1) 55%,
+      transparent 0
+      );
+  background-size: .05em .05em;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shad-anim 15s linear infinite;
+  }
+
+@keyframes shad-anim {
+0% {background-position: 0 0}
+0% {background-position: 100% -100%}
+}
+
+
+
+
+
 h2 {
 	color: #EF525B;
 	margin: 2% 0 2%;
@@ -27,6 +70,7 @@ h3 {
   text-decoration: underline;
  
     text-align: center;
+    
 }
 h4 {
 	color: #24C2CB;
