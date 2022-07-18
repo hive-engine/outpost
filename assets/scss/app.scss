@@ -1,3 +1,6 @@
+/* General Settings */
+
+
 $enable-rounded: false;
 
 @function encodeColor($string) {
@@ -15,7 +18,12 @@ $enable-rounded: false;
 @import "~bootstrap-vue/src/index.scss";
 
 
-/* Addition by Zero */
+
+
+
+
+/* Typography */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -104,6 +112,19 @@ a {
   color: #EF525B;
   font-family: "Montserrat", Sans-serif;
 }
+
+
+
+
+.text {
+
+  padding: 0.5rem;
+  
+  }
+
+
+
+
 .cineadvert {
   a {
       margin: auto;
@@ -116,12 +137,7 @@ a {
 }
 
 
-
-.text {
-
-padding: 0.5rem;
-
-}
+/* Design Elements */
 
 
 .header-strip {
@@ -203,18 +219,14 @@ padding: 0.5rem;
     100% {opacity:1;}
   }
 
+
   .featured {
     display: grid;
     gap: 15px;
     padding-bottom: 1.5rem;
 
-    .infocard {
-      background-color: transparent;
-      background-image: url("https://job.kurier.at/template/prototypes/Ebene_1.png"), linear-gradient(
-              180deg, #1E2329 50%, #0B2C3D 100%);
-      background-size: cover;
-      background-position: center;
-    }
+
+
 
     @media screen and (min-width: 1200px) {
       grid-template-columns: 50% auto;
@@ -268,8 +280,7 @@ padding: 0.5rem;
 }
 
 
-/* Addition by Zero */
-
+/* Cards & Containers */
 
 .card {
   background-color: #2d333b;
@@ -307,6 +318,14 @@ padding: 0.5rem;
 }
 
 
+.infocard {
+  background-color: transparent;
+  background-image: url("https://job.kurier.at/template/prototypes/Ebene_1.png"), linear-gradient(
+          180deg, #1E2329 50%, #0B2C3D 100%);
+  background-size: cover;
+  background-position: center;
+}
+
 
 .cinetvcardcontainer {
 
@@ -326,6 +345,11 @@ padding: 0.5rem;
 }
 
 
+
+/* Badge Tweaks */
+
+
+
 .badge {
   border-radius: 0.5rem;
   a {
@@ -338,6 +362,8 @@ padding: 0.5rem;
   border-radius: 0.5rem;
 }
 
+
+/* Image Tweaks */
 
 
 img:hover {
