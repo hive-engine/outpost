@@ -10,8 +10,8 @@
             <div class="fade-in-text">
               <h1>What is Cine TV?</h1>
             </div>
-            <p>It is a supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
-            <h4>Current CINE Price: {{ getUSDPrice(1) }}</h4>
+            <p>We are a supportive Hive-based platform for people to explore their passion for cinema, tv and theater through the creative process of blogging and earn crypto while doing so.</p>
+            <h4>Current CINE Price:<span style="color: #EF525B;"> {{ getUSDPrice(1) }}</span></h4>
             <div class="d-flex justify-content-between align-items-center">
 
               <div style="display: inline-block;">
