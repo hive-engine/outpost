@@ -19,6 +19,8 @@ LasseCash is a cryptocurrency with zero fees and 3 second transactions, social m
 
 LasseCash is a so-called OUTPOST (first in history) build by Hive Engine, based on Lasse Ehlers' ideas ( @lasseehlers ). Carlos Serrano ( @zaxan ) is the main graphics designer.
 
+The Hive blockchain is the foundation layer-one blockchain for Hive Engine and therefore the foundation for the OUTPOST LasseCash.
+
 Proof of brain rewards
 --
 
@@ -26,7 +28,7 @@ The basic reward system is "proof of brain" blogging, whereas you can earn LASSE
 
 The powerdown time is 26 payments every 7 day over 6 months, this is made to incentivize longterm mentality. Furthermore the payout ratio on blog posts is 90% LASSECASH POWER and 10% LASSECASH, this is another huge difference from Hive, other tribes and other OUTPOSTs.
 
-When you post from www.lassecash.com you can use 20 tags as an opposit most if not all other condensor sites that has only 8-10 tags avaliable. Www.lassecash.com has no banners/ads, most if not all competitors has banners/ads.
+When you post from www.lassecash.com you can use 20 tags as an opposit to most if not all other condensor sites that has only 8-10 tags avaliable. Www.lassecash.com has no banners/ads, most if not all competitors has banners/ads.
 
 
 
