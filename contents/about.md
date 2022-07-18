@@ -43,6 +43,8 @@ Diesel pool rewards are paid out every day, depending on how much liquidity you 
 
 There is a bonus applied for long term liquidity providers. You get 1% extra per day you hold the liquidity in the contract, up till 30 days. If you hold longer then 30 days, you will get 30% extra rewards each day. In other words, when you provide liquidity long term, you get more rewards.
 
+All liquidity can be added and removed instantly with no fee.
+
 
 NFT platform
 --
