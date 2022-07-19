@@ -6,46 +6,63 @@
           <img src="/logo.png" class="logo">
         </b-navbar-brand>
         <b-navbar-nav class="d-none d-lg-flex">
-          <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
+          <b-nav-item v-if="$auth.loggedIn" :to="{ name: 'user-feed', params: { user: $auth.user.username } }">
             Feed
           </b-nav-item>
-          <b-nav-item :to="{name:'sort', params:{sort:'trending'}}">
+          <b-nav-item :to="{ name: 'sort', params: { sort: 'trending' } }">
             Explore
           </b-nav-item>
-          <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
+          <b-nav-item
+            v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''"
+            :to="{ name: 'sort', params: { sort: 'curated' } }"
+          >
             Curator's Pick
           </b-nav-item>
-          <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
+          <b-nav-item v-if="$config.NFT_ENABLED" :to="{ name: 'nfts' }">
             NFTs
           </b-nav-item>
-          <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
+          <b-nav-item v-if="$config.DTF_ENABLED" :to="{ name: 'proposals' }">
             Proposals
           </b-nav-item>
-          <b-nav-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
+          <b-nav-item v-if="$config.POOL_ENABLED" :to="{ name: 'pool' }">
             Pool
           </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto align-items-center">
-          <b-nav-item v-if="$config.NFT_ENABLED && $route.name && ($route.name.startsWith('nfts') || ['user-collection', 'user-gallery', 'user-collection-series', 'user-gallery-series'].includes($route.name))" link-classes="navbar-btn rounded" @click.prevent="$bvModal.show('activityModal')">
+          <b-nav-item
+            v-if="$config.NFT_ENABLED && $route.name && ($route.name.startsWith('nfts') || ['user-collection', 'user-gallery', 'user-collection-series', 'user-gallery-series'].includes($route.name))"
+            link-classes="navbar-btn rounded"
+            @click.prevent="$bvModal.show('activityModal')"
+          >
             <fa-icon icon="shopping-basket" />
 
             <div class="cart-item-count badge badge-primary">
               {{ cart.length }}
             </div>
           </b-nav-item>
-
+          <b-nav-item :to="{ name: 'search' }" link-classes="navbar-btn rounded">
+            <fa-icon icon="search" />
+          </b-nav-item>
           <template v-if="$auth.loggedIn">
-            <b-nav-item :to="{ name:'publish' }" link-classes="navbar-btn rounded">
+            <b-nav-item :to="{ name: 'publish' }" link-classes="navbar-btn rounded">
               <fa-icon icon="pencil-alt" />
             </b-nav-item>
 
             <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
-                  <b-avatar :src="`https://images.hive.blog/u/${$auth.user.username}/avatar`" variant="dark" size="32px" class="mr-2" />
+                  <b-avatar
+                    :src="`https://images.hive.blog/u/${$auth.user.username}/avatar`"
+                    variant="dark"
+                    size="32px"
+                    class="mr-2"
+                  />
 
-                  <div>{{ $auth.user.username }} <fa-icon class="ml-1" icon="angle-down" /></div>
+                  <div>
+                    {{ $auth.user.username }}
+                    <fa-icon class="ml-1" icon="angle-down" />
+                  </div>
                 </div>
 
                 <div id="voting_power">
@@ -54,27 +71,27 @@
                 </div>
               </template>
 
-              <b-dropdown-item v-if="$auth.user.username === issuer" :to="{ name:'dashboard' }">
+              <b-dropdown-item v-if="$auth.user.username === issuer" :to="{ name: 'dashboard' }">
                 Dashboard
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{ name:'user', params: {user: $auth.user.username} }">
+              <b-dropdown-item :to="{ name: 'user', params: { user: $auth.user.username } }">
                 Profile
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{ name:'user-comments', params: {user: $auth.user.username} }">
+              <b-dropdown-item :to="{ name: 'user-comments', params: { user: $auth.user.username } }">
                 Comments
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{ name:'user-replies', params: {user: $auth.user.username} }">
+              <b-dropdown-item :to="{ name: 'user-replies', params: { user: $auth.user.username } }">
                 Replies
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{ name:'user-wallet', params: {user: $auth.user.username} }">
+              <b-dropdown-item :to="{ name: 'user-wallet', params: { user: $auth.user.username } }">
                 Wallet
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{ name:'user-settings', params: {user: $auth.user.username} }">
+              <b-dropdown-item :to="{ name: 'user-settings', params: { user: $auth.user.username } }">
                 Settings
               </b-dropdown-item>
 
@@ -106,7 +123,7 @@
     </b-navbar>
 
     <b-tooltip v-if="$auth.loggedIn" target="voting_power" placement="bottom">
-      Voting Power: {{ (voting_power /100).toFixed(2) }}%<br>
+      Voting Power: {{ (voting_power / 100).toFixed(2) }}%<br>
       Downvoting Power: {{ (downvoting_power / 100).toFixed(2) }}%
     </b-tooltip>
 
@@ -142,5 +159,4 @@ export default {
 </script>
 
 <style>
-
 </style>

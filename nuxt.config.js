@@ -170,7 +170,7 @@ export default {
     component: 'fa',
     suffix: true,
     icons: {
-      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faRedoAlt', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt', 'faEye'],
+      solid: ['faUsers', 'faLink', 'faMapMarkedAlt', 'faCheck', 'faArrowRight', 'faPlus', 'faHeart', 'faHeartBroken', 'faTimes', 'faUndo', 'faRedo', 'faPencilAlt', 'faCircleNotch', 'faSortAmountDown', 'faCommentAlt', 'faRetweet', 'faRedoAlt', 'faEllipsisH', 'faAngleUp', 'faAngleDown', 'faAngleRight', 'faAngleLeft', 'faVideo', 'faMusic', 'faTags', 'faList', 'faShoppingCart', 'faCartPlus', 'faCartArrowDown', 'faChevronUp', 'faChevronDown', 'faShoppingBasket', 'faExclamationCircle', 'faSync', 'faPercent', 'faLongArrowAltUp', 'faLongArrowAltDown', 'faInfoCircle', 'faBars', 'faExternalLinkAlt', 'faEye', 'faSearch'],
       regular: ['faMoon', 'faSun', 'faTimesCircle', 'faComments', 'faCommentAlt'],
       brands: []
     }
@@ -240,6 +240,7 @@ export default {
           'https://hcaptcha.com',
           'https://*.hcaptcha.com',
           'localhost:8080',
+          'https://cinesearch.deta.dev',
           config.OUTPOST_ONBOARD_API,
           ...config.NODES
         ],

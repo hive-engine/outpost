@@ -1,0 +1,139 @@
+<template>
+  <div>
+    <div class="page-header pb-0">
+      <b-container>
+        <h2>Search</h2>
+        <br>
+      </b-container>
+
+      <b-container>
+        <div>
+          <b-input-group>
+            <b-form-input v-model="searchQuery" type="text" placeholder="Search a post..." @keyup.enter="search" />
+
+            <b-input-group-append>
+              <b-button variant="outline-secondary" @click.prevent="search">
+                <fa-icon icon="search" />
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </div>
+      </b-container>
+      <br>
+
+      <!-- <b-nav align="center" pills class="bg-light mt-3">
+        <b-nav-item :active="$route.name === 'nfts-market'" :to="{name:'nfts-market'}">
+          Posts
+        </b-nav-item>
+      </b-nav> -->
+    </div>
+
+    <div class="search-results">
+      <template v-if="loading">
+        <loading />
+      </template>
+
+      <template v-if="searched">
+        <p v-if="searchResults.length <= 0" class="text-center text-muted font-weight-bold">
+          No matching results found!
+        </p>
+
+        <template v-else-if="posts.length > 0">
+          <div v-for="(post,i) of posts" :key="i">
+            <post-summary :post="post" />
+          </div>
+        </template>
+      </template>
+    </div>
+  </div>
+</template>
+
+<script>
+import postIndex from '@/mixins/postIndex'
+
+export default {
+  name: 'Search',
+
+  mixins: [postIndex],
+
+  data () {
+    return {
+      searchQuery: '',
+      inputActive: false,
+      searched: false,
+      searchResults: [],
+      posts: [],
+      params: {},
+      endpoint: 'search'
+    }
+  },
+
+  async fetch () {
+    if (this.searchQuery.length > 0) {
+      this.resultsFor = this.searchQuery
+
+      this.params = {
+        keyword: this.searchQuery
+      }
+
+      this.loading = true
+
+      this.searchResults = await this.searchPosts({ endpoint: this.endpoint, params: this.params })
+
+      this.loading = false
+      this.searched = true
+    }
+  },
+  mounted () {
+    if (this.searchQuery.length > 0) {
+      this.searchActive()
+    }
+  },
+
+  methods: {
+    async search () {
+      if (this.searchQuery.length <= 0) { return }
+
+      if (this.searchQuery.length > 0) {
+        this.params = {
+          keyword: this.searchQuery
+        }
+
+        this.loading = true
+        this.posts = []
+        this.searchResults = await this.$axios.$get('https://cinesearch.deta.dev/searchByTitle', { params: this.params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
+        // this.searchResults.map(async (r) => {
+        //   let postData = {}
+        //   postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
+        //   postData.permlink = r.permlink
+        //   console.log(postData.permlink)
+        //   this.posts.push(postData)
+        // })
+        // for (let i = 0; i < this.searchResults.length; i += 1) {
+        //   const postData = await this.fetchPost({ author: this.searchResults[i].author, permlink: this.searchResults[i].permlink })
+        //   postData.permlink = this.searchResults[i].permlink
+        //   this.posts.push(postData)
+        // }
+        this.searchResults.forEach(async (r) => {
+          let postData = {}
+          postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
+          postData.permlink = r.permlink
+          console.log(postData.permlink)
+          this.posts.push(postData)
+        })
+
+        console.log(this.searchResults)
+        console.log(this.posts)
+        // this.searchResults = await this.searchPosts({ endpoint: this.endpoint, params: this.params })
+
+        this.loading = false
+        this.searched = true
+      }
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>
