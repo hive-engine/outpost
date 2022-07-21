@@ -2,7 +2,7 @@
 title: Philosophy, Inventions and Information
 ---
 
-# **Philosophy, Inventions and Information**
+# **Philosophy, Endorsements, Related tokens, Time-line and Inventions**
 
 <center>![philoso.jpg](https://files.peakd.com/file/peakd-hive/lasseehlers/23wX7v8tYz5dSamuMbr7dU4HoNJe4NXS4j65VQpRqUvofvT61rcaxQ6GYkTET35jwNqMr.jpg)</center>
 
@@ -26,11 +26,95 @@ https://www.lassecash.com/@lasseehlers/flat-earth-proof-1-my-first-flat-earth-pr
 
 
 
+## **Endorsements**
+
+Lasse Ehlers endorse Richard Heart related products, especially these:
+
+Best buy right now:
+
+HEDRON
+
+General endorsement of:
+
+HED, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
+
+
+
+## **Related tokens**
+
+
+Lasse Ehlers came up with the ideas for 6 other LasseCash related tokens:
+
+PUPPY - meme-token
+LASSIE - meme-token
+
+BABYJESUS - incentive-token
+JESUS - incentive-token
+CREATOR - incentive-token
+
+ACASH/ANGELOCASH - brand for potentially new OUTPOST, right now a speculation on whether or not Angelo will create the OUTPOST.
+
+
+
+## **Time-line**
+
+Most significant events within my cryptocurrency journey in posts or notes:
+
+
+30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
+
+9/6-2021: https://www.lassecash.com/@lasseehlers/lassecash-first-outpost-in-history
+
+9/6-2021: https://www.lassecash.com/@lasseehlers/contrary-to-popular-opinion-decentralized-ownership-might-be-is-a-myth
+
+25/5-2021: https://www.lassecash.com/@ironshield/lassecash-the-unsung-hero-of-crypto
+
+1/5-2021: https://www.lassecash.com/@lasseehlers/biggest-eth-fork-in-history
+
+27/4-2021: https://www.lassecash.com/flatearth/@lasseehlers/level
+
+7/3-2021: https://www.lassecash.com/@lasseehlers/lassecash-has-diesel-pool
+
+8/2-2021: https://www.lassecash.com/@lasseehlers/cryptocurrencies-are-anarchocapitalistic
+ 
+9/9-2020: https://www.lassecash.com/@lasseehlers/i-donated-1-million-lassecash-to-hive-engine-team
+ 
+27/6-2020: https://www.lassecash.com/@lasseehlers/my-tribute-to-murray-ruthbard
+
+12/4-2020: https://www.lassecash.com/@lasseehlers/lassecash-token-swaped-to-hive
+
+20/3-2020: https://www.lassecash.com/@lasseehlers/freedom
+
+18/3-2020: http://hive.blog/communityfork/@hiveio/announcing-the-launch-of-hive-blockchain
+
+2/3-2020: https://www.lassecash.com/@lasseehlers/hostile-take-over-of-steem
+
+16/2.2020: https://www.lassecash.com/@lasseehlers/i-don-t-like-justin-sun-s-acquisition-of-steemit-inc-fork-his-stake-out-steemcash
+
+16/2-2020: https://www.lassecash.com/@lasseehlers/justin-buying-steem-how-does-it-affect-lassecash-and-what-do-i-think-about-it
+
+2/12.2019: I made many posts about HEX around the launch date, unfortunately I got pressured by Steem Whales, to edit those posts with "deleted" around ½ year later and it seems to me that the tool for showing history of a post on Steem is gone now, so only a programmer can dig out this information from any of the 2 chains, in other words there is proof that I recommended and promoted HEX since launch (HEX which did 10000X in 2 years after launch), but that proof is pretty hard to dig out. So you have to take my word for it, I recommended HEX since day 1 and it went up 10000X in 2 years, I still believe it could do another 10000X and beyond, but today I promote and recommend Richard Heart and Lasse Ehlers related products in general.
+
+16/7-2019: https://www.lassecash.com/@lasseehlers/introduction-to-lassecash-new-social-media
+
+26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
+
+3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. I was also constantly following and testing new experiments, all of them was failures, so looking back it was a very hard and bad period, that I somehow managed to overcome mentally dispite constant failure. It fixed my problems somehow anyway and lead eventually to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life. I believe without this bad period, I would not have known about Hive Engine that basically created the technology that made LasseCash possible and who knows if I had known about HEX if it was not for bad stories beforehand.
+
+3/8-2016: My first post on Steemit.com.
+
+Summer 2015 to summer 2016: Was very broke after I lost all my money previously and had a dire situation where I didnt have any money to experiment with and not much time to focus on cryptocurrency. Looking back then I dont think much interesting happened in the cryptocurrency market in that period, at-least not something that lasted, which is really connected to what I use today.
+
+April 2013 to summer 2015: Experimented with a lot of blockchains and related services, mined coins on Butterfly lap miner and homebuild GPU rack. Programmed a Bitcoin exchange, spend one year to get a permission to setup Bitcoin Exchange, failed eventually, because my bank didnt wanted to make accounts for my company (for the first time ever), so had to give up on making a Bitcoin exchange. Today I am happy it didnt succeeed, because LasseCash is a 10000 times better product, than a centralized Bitcoin exchange. 
+
+April 2013: Discovered Bitcoin and bought 20 of them the same month for $50 each.
+
+
 ## **Inventions**
 
 
 
-Apart from coming up with the ideas for LasseCash and 5 other related tokens, Lasse Ehlers invented 5 new terms:
+Apart from coming up with the ideas for LasseCash and 6 other related tokens, Lasse Ehlers invented 5 new terms:
 
 ### Fiat monster / fiat trash / fiat slave
 
@@ -117,55 +201,3 @@ A hero child is raised by like-minded people, both adults and children and of co
 Proof on the blockchain: https://www.lassecash.com/herochild/@lasseehlers/hero-child
 Buy illustration as NFT: https://tribaldex.com/openhive/TDEX/lasseehlers_hero-child
 
-## **Information**
-
-Most significant events within my cryptocurrency journey in posts or notes:
-
-
-30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
-
-9/6-2021: https://www.lassecash.com/@lasseehlers/lassecash-first-outpost-in-history
-
-9/6-2021: https://www.lassecash.com/@lasseehlers/contrary-to-popular-opinion-decentralized-ownership-might-be-is-a-myth
-
-25/5-2021: https://www.lassecash.com/@ironshield/lassecash-the-unsung-hero-of-crypto
-
-1/5-2021: https://www.lassecash.com/@lasseehlers/biggest-eth-fork-in-history
-
-27/4-2021: https://www.lassecash.com/flatearth/@lasseehlers/level
-
-7/3-2021: https://www.lassecash.com/@lasseehlers/lassecash-has-diesel-pool
-
-8/2-2021: https://www.lassecash.com/@lasseehlers/cryptocurrencies-are-anarchocapitalistic
- 
-9/9-2020: https://www.lassecash.com/@lasseehlers/i-donated-1-million-lassecash-to-hive-engine-team
- 
-27/6-2020: https://www.lassecash.com/@lasseehlers/my-tribute-to-murray-ruthbard
-
-12/4-2020: https://www.lassecash.com/@lasseehlers/lassecash-token-swaped-to-hive
-
-20/3-2020: https://www.lassecash.com/@lasseehlers/freedom
-
-18/3-2020: http://hive.blog/communityfork/@hiveio/announcing-the-launch-of-hive-blockchain
-
-2/3-2020: https://www.lassecash.com/@lasseehlers/hostile-take-over-of-steem
-
-16/2.2020: https://www.lassecash.com/@lasseehlers/i-don-t-like-justin-sun-s-acquisition-of-steemit-inc-fork-his-stake-out-steemcash
-
-16/2-2020: https://www.lassecash.com/@lasseehlers/justin-buying-steem-how-does-it-affect-lassecash-and-what-do-i-think-about-it
-
-2/12.2019: I made many posts about HEX around the launch date, unfortunately I got pressured by Steem Whales, to edit those posts with "deleted" around ½ year later and it seems to me that the tool for showing history of a post on Steem is gone now, so only a programmer can dig out this information from any of the 2 chains, in other words there is proof that I recommended and promoted HEX since launch (HEX which did 10000X in 2 years after launch), but that proof is pretty hard to dig out. So you have to take my word for it, I recommended HEX since day 1 and it went up 10000X in 2 years, I still believe it could do another 10000X and beyond, but today I promote and recommend Richard Heart and Lasse Ehlers related products in general.
-
-16/7-2019: https://www.lassecash.com/@lasseehlers/introduction-to-lassecash-new-social-media
-
-26/4.2019: https://www.lassecash.com/@lasseehlers/airdrop-of-5000-lasse-for-you
-
-3/8-2016 to 26/4-2019: Mostly lost, using posts as therapy, please dont take those posts in this period serious today. I was also constantly following and testing new experiments, all of them was failures, so looking back it was a very hard and bad period, that I somehow managed to overcome mentally dispite constant failure. It fixed my problems somehow anyway and lead eventually to the creation of the token LASSECASH on 26/4-2019, marking a definitive change in my life. I believe without this bad period, I would not have known about Hive Engine that basically created the technology that made LasseCash possible and who knows if I had known about HEX if it was not for bad stories beforehand.
-
-3/8-2016: My first post on Steemit.com.
-
-Summer 2015 to summer 2016: Was very broke after I lost all my money previously and had a dire situation where I didnt have any money to experiment with and not much time to focus on cryptocurrency. Looking back then I dont think much interesting happened in the cryptocurrency market in that period, at-least not something that lasted, which is really connected to what I use today.
-
-April 2013 to summer 2015: Experimented with a lot of blockchains and related services, mined coins on Butterfly lap miner and homebuild GPU rack. Programmed a Bitcoin exchange, spend one year to get a permission to setup Bitcoin Exchange, failed eventually, because my bank didnt wanted to make accounts for my company (for the first time ever), so had to give up on making a Bitcoin exchange. Today I am happy it didnt succeeed, because LasseCash is a 10000 times better product, than a centralized Bitcoin exchange. 
-
-April 2013: Discovered Bitcoin and bought 20 of them the same month for $50 each.
