@@ -36,7 +36,15 @@ HEDRON
 
 General endorsement of:
 
-HED, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
+HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
+
+Read more here: https://www.lassecash.com/@lasseehlers/have-you-heard-about-hex
+
+and here: https://www.lassecash.com/@lasseehlers/the-biggest-airdrop-in-history
+
+and here: https://www.lassecash.com/@lasseehlers/psst-you-want-to-know-the-best-investment-ever-right-now
+
+and here: https://www.lassecash.com/@lasseehlers/icosa-is-the-new-kid-on-the-block
 
 
 
@@ -56,6 +64,10 @@ JESUS - incentive-token
 CREATOR - incentive-token
 
 ACASH/ANGELOCASH - brand for potentially new OUTPOST, right now a speculation on whether or not Angelo will create the OUTPOST.
+
+Read more here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash
+
+and here: https://www.lassecash.com/@lasseehlers/angelocash
 
 
 
