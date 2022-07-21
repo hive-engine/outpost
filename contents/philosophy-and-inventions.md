@@ -46,6 +46,10 @@ and here: https://www.lassecash.com/@lasseehlers/psst-you-want-to-know-the-best-
 
 and here: https://www.lassecash.com/@lasseehlers/icosa-is-the-new-kid-on-the-block
 
+and here: https://www.lassecash.com/@lasseehlers/5x-in-10-days-i-was-right-again
+
+and here: https://www.lassecash.com/@lasseehlers/is-hedron-the-new-best-investment
+
 
 
 ## **Related tokens**
