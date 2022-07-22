@@ -55,7 +55,7 @@
         </div>
         <div>{{ weight }}%</div>
 
-        <a class="cursor-pointer" @click.prevent="show = !show"><fa-icon icon="times" /></v-icon></a>
+        <a class="cursor-pointer" @click.prevent="show = !show"><fa-icon icon="times" /></a>
       </div>
 
       <div class="text-center">
@@ -92,7 +92,7 @@
         </div>
         <div>-{{ dvWeight }}%</div>
 
-        <a class="cursor-pointer" @click.prevent="dvShow = !dvShow"><fa-icon icon="times" /></v-icon></a>
+        <a class="cursor-pointer" @click.prevent="dvShow = !dvShow"><fa-icon icon="times" /></a>
       </div>
 
       <div class="text-center">
