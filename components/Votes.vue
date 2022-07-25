@@ -55,7 +55,7 @@
         </div>
         <div>{{ weight }}%</div>
 
-        <a class="cursor-pointer" @click.prevent="show = !show"><fa-icon icon="times" /></v-icon></a>
+        <a class="cursor-pointer" @click.prevent="show = !show"><fa-icon icon="times" /></a>
       </div>
 
       <div class="text-center">
@@ -92,7 +92,7 @@
         </div>
         <div>-{{ dvWeight }}%</div>
 
-        <a class="cursor-pointer" @click.prevent="dvShow = !dvShow"><fa-icon icon="times" /></v-icon></a>
+        <a class="cursor-pointer" @click.prevent="dvShow = !dvShow"><fa-icon icon="times" /></a>
       </div>
 
       <div class="text-center">
@@ -232,6 +232,7 @@ export default {
 
     voteValue () {
       return getEstimatedVoteValue({
+        currentRshares: this.rshares,
         userData: this.scot_data,
         vp: this.voting_power,
         weight: Number(this.weight),
@@ -242,6 +243,7 @@ export default {
 
     downvoteValue () {
       return getEstimatedVoteValue({
+        currentRshares: this.rshares,
         userData: this.scot_data,
         vp: this.downvoting_power,
         weight: Number(this.dvWeight),

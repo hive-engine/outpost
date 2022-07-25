@@ -1,7 +1,15 @@
-export const getEstimatedVoteValue = ({ userData, vp, weight, tribeConfig, tribeInfo }) => {
-  const rshares = (userData.staked_tokens * 10 ** tribeInfo.precision * Math.min(weight, 10000) * vp) / (10000 * 100)
+export const getEstimatedVoteValue = ({ currentRshares, userData, vp, weight, tribeConfig, tribeInfo }) => {
+  const rshares = (userData.staked_tokens * Math.min(weight, 100) * vp) / (10000 * 100)
 
-  const value = ((Math.max(0, rshares) ** tribeConfig.author_curve_exponent) * tribeInfo.reward_pool) / tribeInfo.pending_rshares
+  const authorCurve = tribeConfig.author_curve_exponent
+  const rewardPool = tribeInfo.reward_pool
+  const pendingClaims = tribeInfo.pending_rshares
 
-  return (value / (10 ** tribeInfo.precision)).toFixed(tribeInfo.precision)
+  const applyCurve = (rshares) => {
+    return ((Number(rshares) ** authorCurve) * rewardPool) / pendingClaims
+  }
+
+  const value = applyCurve(parseFloat(currentRshares) + Math.abs(rshares)) - applyCurve(parseFloat(currentRshares))
+
+  return value.toFixed(tribeInfo.precision)
 }

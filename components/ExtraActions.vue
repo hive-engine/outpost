@@ -64,6 +64,7 @@ export default {
 
     voteValue () {
       return getEstimatedVoteValue({
+        currentRshares: this.post.vote_rshares,
         userData: this.scot_data,
         vp: this.voting_power,
         weight: Number(this.weight),
