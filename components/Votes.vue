@@ -232,6 +232,7 @@ export default {
 
     voteValue () {
       return getEstimatedVoteValue({
+        currentRshares: this.rshares,
         userData: this.scot_data,
         vp: this.voting_power,
         weight: Number(this.weight),
@@ -242,6 +243,7 @@ export default {
 
     downvoteValue () {
       return getEstimatedVoteValue({
+        currentRshares: this.rshares,
         userData: this.scot_data,
         vp: this.downvoting_power,
         weight: Number(this.dvWeight),
