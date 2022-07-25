@@ -460,7 +460,7 @@ export default {
       return {
         transfer: 'Transfer',
         stake: 'Stake',
-        unstake: 'Untake',
+        unstake: 'Unstake',
         delegate: 'Delegate'
       }
     },

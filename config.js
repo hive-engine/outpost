@@ -26,8 +26,8 @@ export const SIDECHAIN_HISTORY_API = 'https://history.hive-engine.com'
 export const NUMBER_OF_UNSTAKE_TRX = 13
 export const MAX_UPLOAD_SIZE = 8
 export const AXIOS_CACHE_CONFIG = {
-  maxAge: 0 * 60 * 1000, // 0 minutes
-  exclude: { query: false }
+  ttl: 0 * 60 * 1000 // 0 minutes
+  // exclude: { query: false }
 }
 export const NFT_ENABLED = false
 export const NFT_SYMBOL = 'PAL'
