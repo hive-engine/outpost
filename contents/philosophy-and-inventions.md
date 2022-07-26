@@ -106,6 +106,8 @@ Most significant events within my cryptocurrency journey in posts or notes:
 
 18/3-2020: http://hive.blog/communityfork/@hiveio/announcing-the-launch-of-hive-blockchain
 
+10/3-2020: https://www.lassecash.com/@lasseehlers/5x-in-10-days-i-was-right-again
+
 2/3-2020: https://www.lassecash.com/@lasseehlers/hostile-take-over-of-steem
 
 16/2.2020: https://www.lassecash.com/@lasseehlers/i-don-t-like-justin-sun-s-acquisition-of-steemit-inc-fork-his-stake-out-steemcash
