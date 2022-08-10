@@ -13,7 +13,7 @@ T-shirt #1, for sale for $50.
 
 T-shirt #2, for sale for $50.
 
-![t shirt 1.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK59kjbPXYbCjYAhRnzTdRaC81j7WeGYmzcp1bBUpBY6VpbY7aDTpwSXwtzx8Wb.jpeg)
+![t shirt 2.1.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AJpoRWcPxZ1VjB6CAC2NJ4X5LcHaCcVdiwyFAKJQW5N1cRarPqziARZBgn88Uuw.jpeg)
 
 T-shirt #3, for sale for $50.
 
