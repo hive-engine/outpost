@@ -11,10 +11,6 @@ T-shirt #1, for sale for $50.
 
 ![t shirt 1.0.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK6ayhodHbooRTZP3HBoh2yTAEyDCgFMDbQrxddQVMxrWU4hzgsx9KbJvExvd4E.jpeg)
 
-T-shirt #2, for sale for $50.
-
-![t shirt 2.1.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AJpoRWcPxZ1VjB6CAC2NJ4X5LcHaCcVdiwyFAKJQW5N1cRarPqziARZBgn88Uuw.jpeg)
-
 T-shirt #3, for sale for $50.
 
 ![t shirt 3.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK2HHTPiMgMFLFAjWyuuX3J3b9uAwwfmmC8MzatBEPbf219Jq5BnERZqpcMH4iZ.jpeg)
@@ -22,10 +18,6 @@ T-shirt #3, for sale for $50.
 T-shirt #4, for sale for $50.
 
 ![t shirt freedom.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK59kjbPXYbCjYAkDqTh4u6UGX26YX3XgzDgeTE53fg18Muc6FSE7GHKpNw44mR.jpeg)
-
-T-shirt #7, for sale for $50.
-
-![t shirt new april 2022.jpeg](https://images.hive.blog/DQmbEsLQ1szZXK29uf5n7C6utkBXZ6NvULQxfZPqb9Bx3SN/t%20shirt%20new%20april%202022.jpeg)
 
 T-shirt #8, for sale for $50.
 
