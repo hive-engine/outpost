@@ -80,6 +80,8 @@ and here: https://www.lassecash.com/@lasseehlers/angelocash
 Most significant events within my cryptocurrency journey in posts or notes:
 
 
+15/8 - 2022: Lost my fortune to a scammer that I thought was Alex the developer/founder of HEDRON and ICOSA. Never give your keys away to anybody and not to any site!
+
 30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
 
 9/6-2021: https://www.lassecash.com/@lasseehlers/lassecash-first-outpost-in-history
