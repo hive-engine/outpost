@@ -9,13 +9,17 @@ T-shirts for sale. The design is made by Lasse Ehlers @lasseehlers and Carlos Se
 
 T-shirt #1, for sale for $99.
 
-![t shirt 1.0.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK6ayhodHbooRTZP3HBoh2yTAEyDCgFMDbQrxddQVMxrWU4hzgsx9KbJvExvd4E.jpeg)
+![preview (3).jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK59k4ZPHGjhDTLzyLfsBKPMaUvCvBSFy3qNQaf71KK4X5Qor6J1MNCTmbq1b6A.jpeg)
 
 T-shirt #2, for sale for $99.
 
-![t shirt 3.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK2HHTPiMgMFLFAjWyuuX3J3b9uAwwfmmC8MzatBEPbf219Jq5BnERZqpcMH4iZ.jpeg)
+![t shirt 1.0.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK6ayhodHbooRTZP3HBoh2yTAEyDCgFMDbQrxddQVMxrWU4hzgsx9KbJvExvd4E.jpeg)
 
 T-shirt #3, for sale for $99.
+
+![t shirt 3.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK2HHTPiMgMFLFAjWyuuX3J3b9uAwwfmmC8MzatBEPbf219Jq5BnERZqpcMH4iZ.jpeg)
+
+T-shirt #4, for sale for $99.
 
 ![t shirt freedom.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK59kjbPXYbCjYAkDqTh4u6UGX26YX3XgzDgeTE53fg18Muc6FSE7GHKpNw44mR.jpeg)
 
