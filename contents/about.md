@@ -55,13 +55,21 @@ A NFT on LasseCash can be an image, an audio file or a video file. This is quite
 
 The first edition costs 1000 LASSECASH and each additional edition costs 100 LASSECASH. There is a 1% fee for trading NFTs on LasseCash. NFTs minted on LasseCash can also be sold on Openhive.
 
+Earn for holding and Burn for upvote (Coming soon)
+--
+
+0.3 million LASSECASH will be distributed per year to accounts that is holding LASSECASH and LASSECASH POWER (25% more to power).
+
+You can burn LASSECASH and get a 150% of that value in return on a specific post, paidout in 10% LASSECASH and 90% LASSECASH POWER, this will reduce the effective inflation of LASSECASH a lot and provide believes with huge extra return.
+
 
 Dynamic inflation
 --
 
 Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST. He aim at only changing the inflation ones a year, but if nessesary it can be done at all times. Changes will always be announced in a post on the blockchain, so there is always full transparency, as there has been since the beginning of this product.
 
-![image.png](https://images.hive.blog/DQmQMNucuAPoNfS8y6Es989nJPKUbyvYfbKWA8C6eRAJWFU/image.png)
+![unknown (1).png](https://files.peakd.com/file/peakd-hive/lasseehlers/23tSym8QDbnC7ALgQNTwXV911pFsmhu8FAGNCTRcByvbPRrRdUpDEi2uWDSqnNt999XF1.png)
+
 
 Max 51 million tokens ever.
 
