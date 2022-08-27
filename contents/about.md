@@ -60,7 +60,7 @@ Earn for holding and burn for upvote (Coming soon)
 
 0.3 million LASSECASH will be distributed per year to accounts that is holding LASSECASH and LASSECASH POWER (25% more to power).
 
-You can burn LASSECASH and get a 150% of that value in return on a specific post, paidout in 10% LASSECASH and 90% LASSECASH POWER, this will reduce the effective inflation of LASSECASH a lot and provide believes with huge extra return.
+You can burn LASSECASH and get a 150% of that value in return on a specific post, paidout in 10% LASSECASH and 90% LASSECASH POWER. This will reduce the effective inflation of LASSECASH a lot and provide believers with huge extra return.
 
 
 Dynamic inflation
