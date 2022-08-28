@@ -55,14 +55,6 @@ A NFT on LasseCash can be an image, an audio file or a video file. This is quite
 
 The first edition costs 1000 LASSECASH and each additional edition costs 100 LASSECASH. There is a 1% fee for trading NFTs on LasseCash. NFTs minted on LasseCash can also be sold on Openhive.
 
-Earn for holding and burn for upvote (Coming soon)
---
-
-0.3 million LASSECASH will be distributed per year to accounts that is holding LASSECASH and LASSECASH POWER (25% more to power).
-
-You can burn LASSECASH and get a 150% of that value in return on a specific post, paidout in 10% LASSECASH and 90% LASSECASH POWER. This will reduce the effective inflation of LASSECASH a lot and provide believers with huge extra return.
-
-
 Dynamic inflation
 --
 
