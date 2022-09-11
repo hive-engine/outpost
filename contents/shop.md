@@ -17,11 +17,11 @@ T-shirt #2, for sale for $99.
 
 T-shirt #3, for sale for $99.
 
-![t shirt 3.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK2HHTPiMgMFLFAjWyuuX3J3b9uAwwfmmC8MzatBEPbf219Jq5BnERZqpcMH4iZ.jpeg)
+![t shirt freedom.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK59kjbPXYbCjYAkDqTh4u6UGX26YX3XgzDgeTE53fg18Muc6FSE7GHKpNw44mR.jpeg)
 
 T-shirt #4, for sale for $99.
 
-![t shirt freedom.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK59kjbPXYbCjYAkDqTh4u6UGX26YX3XgzDgeTE53fg18Muc6FSE7GHKpNw44mR.jpeg)
+![t shirt 3.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AK2HHTPiMgMFLFAjWyuuX3J3b9uAwwfmmC8MzatBEPbf219Jq5BnERZqpcMH4iZ.jpeg)
 
 T-shirt #5, for sale for $99.
 
