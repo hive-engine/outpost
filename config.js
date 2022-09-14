@@ -1,16 +1,16 @@
 import { version } from './package.json'
 
-export const TOKEN = 'PAL'
+export const TOKEN = 'SLOTHBUZZ'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.palnet.io'
-export const APP_TITLE = 'PALnet'
-export const APP = `palnet/${version}`
+export const APP_DOMAIN = 'https://www.sloth.buzz'
+export const APP_TITLE = 'sloth.buzz'
+export const APP = `slothbuzz/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
 export const IMAGE_UPLOAD_SERVER = 'https://images.hive.blog'
 export const NODES = ['https://api.hive.blog', 'https://api.deathwing.me', 'https://rpc.ausbit.dev', 'https://api.ha.deathwing.me']
-export const COMMUNITY_CATEGORY = 'hive-110490'
+export const COMMUNITY_CATEGORY = 'hive-179927'
 export const AUTO_ADD_COMMUNITY = true
-export const SCOT_TAG = 'palnet'
+export const SCOT_TAG = 'slothbuzz'
 export const SCOT_TAG_FIRST = true
 export const MAX_TAG = 10
 export const ADD_COMMEMT_FOOTER = true
@@ -29,13 +29,13 @@ export const AXIOS_CACHE_CONFIG = {
   ttl: 0 * 60 * 1000 // 0 minutes
   // exclude: { query: false }
 }
-export const NFT_ENABLED = true
+export const NFT_ENABLED = false
 export const NFT_SYMBOL = 'PAL'
 export const NFT_MARKETPLACE = 'palnet'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
-export const DTF_ENABLED = true
+export const DTF_ENABLED = false
 export const DTF_ID = 'PAL:PAL'
-export const POOL_ENABLED = true
+export const POOL_ENABLED = false
 export const IPFS_GATEWAY = 'https://ipfs.tribaldex.com'
 export const OUTPOST_ONBOARD = false
 export const OUTPOST_ONBOARD_API = 'https://onboard-api.tribaldex.com'
