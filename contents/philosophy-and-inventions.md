@@ -18,11 +18,15 @@ Lasse Ehlers acknowledge Murray Rothbard as the philosopher who first formulated
 
 Lasse Ehlers believed since he saw Bitcoin and read the white paper in April 2013, that blockchain technology has the potential (that it is almost imminent and sure that it will happen) to end the Illuminati system/satanism/banking system/statism which he knew since 2004 destroy a lot of peoples lifes. **LasseCash and related products is Lasse Ehlers' implementations, to end these horrors on the flat earth.**
 
-Lasse Ehlers learned first about the ideas about that the earth could be flat in 2016, by 2017 he was convinced. Back then there was many relevant videos on the internet on the topic, but most of those videos has been censored. Here are two flat earth proofs formulated by Lasse Ehlers:
+Lasse Ehlers learned first about the ideas about that the earth could be flat in 2016, by 2017 he was convinced. Back then there was many relevant videos on the internet on the topic, but most of those videos has been censored. Here are three flat earth proofs formulated by Lasse Ehlers:
+
+https://www.lassecash.com/@lasseehlers/flat-earth-proof
 
 https://www.lassecash.com/@lasseehlers/earth-is-flat
 
 https://www.lassecash.com/@lasseehlers/flat-earth-proof-1-my-first-flat-earth-proof-debunking-ball-earther-mathias-kp-who-made-the-turning-torso-ball-proof-video
+
+
 
 
 
