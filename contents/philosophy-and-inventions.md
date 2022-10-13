@@ -34,10 +34,6 @@ https://www.lassecash.com/@lasseehlers/flat-earth-proof-1-my-first-flat-earth-pr
 
 Lasse Ehlers endorse Richard Heart related products, especially these:
 
-Best buy right now:
-
-HEDRON
-
 General endorsement of:
 
 HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
