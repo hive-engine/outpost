@@ -32,9 +32,7 @@ https://www.lassecash.com/@lasseehlers/flat-earth-proof-1-my-first-flat-earth-pr
 
 ## **Endorsements**
 
-Lasse Ehlers endorse Richard Heart related products, especially these:
-
-General endorsement of:
+Lasse Ehlers endorse HEX related products, especially these:
 
 HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
 
