@@ -20,7 +20,7 @@ export const SCOT_QUERY_LIMIT = 10
 export const CURATED_FEED = false
 export const CURATED_FEED_ACCOUNT = 'tribe-dev'
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
-export const SIDECHAIN_RPC = 'https://ha.herpc.dtools.dev'
+export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'
 export const SIDECHAIN_HISTORY_API = 'https://history.hive-engine.com'
 export const NUMBER_OF_UNSTAKE_TRX = 14
@@ -29,9 +29,9 @@ export const AXIOS_CACHE_CONFIG = {
   ttl: 0 * 60 * 1000 // 0 minutes
   // exclude: { query: false }
 }
-export const NFT_ENABLED = false
-export const NFT_SYMBOL = 'PAL'
-export const NFT_MARKETPLACE = 'palnet'
+export const NFT_ENABLED = true
+export const NFT_SYMBOL = 'BTUNES'
+export const NFT_MARKETPLACE = 'blocktunes'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = false
 export const DTF_ID = 'PAL:PAL'
