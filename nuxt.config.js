@@ -241,6 +241,7 @@ export default {
           'https://api.marketplace.tribaldex.com',
           'https://hcaptcha.com',
           'https://*.hcaptcha.com',
+          'https://enginerpc.com',
           'localhost:8080',
           config.OUTPOST_ONBOARD_API,
           ...config.NODES
