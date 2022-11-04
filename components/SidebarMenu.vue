@@ -26,7 +26,7 @@
       </b-list-group-item>
 
       <b-list-group-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
-        NFTs
+       $MUSIC NFTs
       </b-list-group-item>
 
       <b-list-group-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
