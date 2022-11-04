@@ -40,6 +40,25 @@
 
     <b-list-group class="mt-3" flush>
       <b-list-group-item class="font-weight-bold" disabled>
+        Main Site
+      </b-list-group-item>
+      
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net`">
+       Home <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/music/`">
+       Music <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
+       Merch <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nfts/`">
+       All NFTs <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      
+
+      
+      <b-list-group-item class="font-weight-bold" disabled>
         Trade
       </b-list-group-item>
 
