@@ -69,6 +69,8 @@ ACASH/ANGELOCASH - brand for potentially new OUTPOST, right now a speculation on
 
 Read more here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash
 
+and here: https://www.lassecash.com/@lasseehlers/puppy-got-a-rewarding-diesel-pool
+
 and here: https://www.lassecash.com/@lasseehlers/angelocash
 
 
