@@ -31,7 +31,7 @@
             Curator's Pick
           </b-nav-item>
           <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
-            NFTs
+           $MUSIC NFTs
           </b-nav-item>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
             Proposals
