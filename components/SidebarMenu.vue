@@ -52,8 +52,8 @@
       <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
        Merch <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nfts/`">
-       All NFTs <fa-icon icon="external-link-alt" />
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nft-collection/`">
+       Polygon NFTs <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
 
