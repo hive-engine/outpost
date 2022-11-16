@@ -46,14 +46,20 @@
       <b-list-group-item target="_blank" :href="`https://blocktunes.net`">
        Home <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nft-collection/`">
+       Polygon NFTs <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/music/`">
        Music <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
        Merch <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nft-collection/`">
-       Polygon NFTs <fa-icon icon="external-link-alt" />
+      <b-list-group-item target="_blank" :href="`https://discord.gg/EA5rG9GdPG`">
+       Discord <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://twitter.com/BlockTunesDAO`">
+       Twitter <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
 
@@ -63,7 +69,7 @@
       </b-list-group-item>
 
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
-        Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
+        Trade ${{ $config.TOKEN }} Token <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
