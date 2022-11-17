@@ -92,6 +92,7 @@ export default {
 
   methods: {
     async search () {
+      this.posts = []
       if (this.searchQuery.length <= 0) { return }
 
       if (this.searchQuery.length > 0) {
@@ -100,31 +101,21 @@ export default {
         }
 
         this.loading = true
-        this.posts = []
         this.searchResults = await this.$axios.$get('https://cinesearch.deta.dev/searchByTitle', { params: this.params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
-        // this.searchResults.map(async (r) => {
-        //   let postData = {}
-        //   postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
-        //   postData.permlink = r.permlink
-        //   console.log(postData.permlink)
-        //   this.posts.push(postData)
-        // })
-        // for (let i = 0; i < this.searchResults.length; i += 1) {
-        //   const postData = await this.fetchPost({ author: this.searchResults[i].author, permlink: this.searchResults[i].permlink })
-        //   postData.permlink = this.searchResults[i].permlink
-        //   this.posts.push(postData)
-        // }
-        this.searchResults.forEach(async (r) => {
+        this.posts = await Promise.all(this.searchResults.map(async (r) => {
           let postData = {}
           postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
           postData.permlink = r.permlink
-          console.log(postData.permlink)
-          this.posts.push(postData)
-        })
-
-        console.log(this.searchResults)
-        console.log(this.posts)
-        // this.searchResults = await this.searchPosts({ endpoint: this.endpoint, params: this.params })
+          return postData
+        }))
+        // this.searchResults.forEach(async (r) => {
+        //   let postData = {}
+        //   postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
+        //   postData.permlink = r.permlink
+        //   postData.createdUnix = Math.round((new Date(r.created)).getTime() / 1000)
+        //   console.log(postData.permlink)
+        //   beforeSort.push(postData)
+        // })
 
         this.loading = false
         this.searched = true

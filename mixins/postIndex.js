@@ -26,7 +26,7 @@ export default {
         const index = posts.findIndex(p => p.author === author && p.permlink === permlink)
 
         if (index) {
-          await self.sleep(30 * 1000)
+          await self.sleep(10 * 1000)
 
           const [post] = await Promise.all([
             self.fetchPost({ author, permlink }),
