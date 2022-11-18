@@ -20,6 +20,7 @@ export default {
     const self = this
 
     this.$eventBus.$on(['upvote-successful', 'downvote-successful', 'unvote-successful'], async ({ type, author, permlink, weight }) => {
+      this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
       if (type === 'post') {
         const posts = self.posts.slice()
 
@@ -36,8 +37,6 @@ export default {
           posts.splice(index, 1, post)
 
           self.posts = posts
-
-          this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
         }
       }
     })

@@ -55,7 +55,7 @@
         </div>
         <div>{{ weight }}%</div>
 
-        <a class="cursor-pointer" @click.prevent="show = !show"><fa-icon icon="times" /></v-icon></a>
+        <a class="cursor-pointer" @click.prevent="show = !show"><fa-icon icon="times" /></a>
       </div>
 
       <div class="text-center">
@@ -92,7 +92,7 @@
         </div>
         <div>-{{ dvWeight }}%</div>
 
-        <a class="cursor-pointer" @click.prevent="dvShow = !dvShow"><fa-icon icon="times" /></v-icon></a>
+        <a class="cursor-pointer" @click.prevent="dvShow = !dvShow"><fa-icon icon="times" /></a>
       </div>
 
       <div class="text-center">
@@ -287,7 +287,16 @@ export default {
   mounted () {
     const self = this
 
-    this.$eventBus.$on(['vote-acknowledgement', 'transaction-broadcast-error'], ({ author, permlink, data }) => {
+    this.$eventBus.$on(['vote-acknowledgement'], ({ author, permlink, data }) => {
+      this.votes.push({ voter: self.$auth.user.username, percent: self.weight })
+      if (self.author === author && self.permlink === permlink) {
+        self.pending = false
+      } else if (data && self.author === data.author && self.permlink === data.permlink) {
+        self.pending = false
+      }
+    })
+
+    this.$eventBus.$on(['transaction-broadcast-error'], ({ author, permlink, data }) => {
       if (self.author === author && self.permlink === permlink) {
         self.pending = false
       } else if (data && self.author === data.author && self.permlink === data.permlink) {
