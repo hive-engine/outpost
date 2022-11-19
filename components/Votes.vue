@@ -7,7 +7,7 @@
           <fa-icon v-else icon="circle-notch" class="fa-spin" />
         </button>
 
-        <button v-else class="btn-vote" @click.prevent="requestBroadcastVote({author, permlink, weight: 0})">
+        <button v-else class="btn-vote" @click.prevent="unvote = true; requestBroadcastVote({author, permlink, weight: 0})">
           <fa-icon icon="heart" class="text-info" />
         </button>
 
@@ -22,7 +22,7 @@
           <fa-icon v-else icon="circle-notch" class="fa-spin" />
         </button>
 
-        <button v-else class="btn-vote" @click.prevent="requestBroadcastVote({author, permlink, weight: 0})">
+        <button v-else class="btn-vote" @click.prevent="unvote = true; requestBroadcastVote({author, permlink, weight: 0})">
           <fa-icon icon="heart-broken" class="text-danger" />
         </button>
 
@@ -164,6 +164,7 @@ export default {
       weight: 100,
       show: false,
       pending: false,
+      unVote: false,
       dvWeight: 100,
       dvShow: false,
       dvPending: false
@@ -289,7 +290,15 @@ export default {
 
     this.$eventBus.$on(['vote-acknowledgement'], ({ author, permlink, data }) => {
       if (self.author === author && self.permlink === permlink) {
-        this.votes.push({ voter: self.$auth.user.username, percent: self.weight, token: 'CINE' })
+        if (self.unvote) {
+          const value = this.votes.findIndex(d => d.voter === self.$auth.user.username)
+          if (value >= 0) {
+            this.votes.splice(value, 1)
+          }
+          self.unVote = false
+        } else {
+          this.votes.push({ voter: self.$auth.user.username, percent: self.weight, token: 'CINE' })
+        }
         self.pending = false
       } else if (data && self.author === data.author && self.permlink === data.permlink) {
         self.pending = false
