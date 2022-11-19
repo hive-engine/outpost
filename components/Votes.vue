@@ -288,8 +288,8 @@ export default {
     const self = this
 
     this.$eventBus.$on(['vote-acknowledgement'], ({ author, permlink, data }) => {
-      this.votes.push({ voter: self.$auth.user.username, percent: self.weight })
       if (self.author === author && self.permlink === permlink) {
+        this.votes.push({ voter: self.$auth.user.username, percent: self.weight, token: 'CINE' })
         self.pending = false
       } else if (data && self.author === data.author && self.permlink === data.permlink) {
         self.pending = false
