@@ -102,12 +102,17 @@ export default {
 
         this.loading = true
         this.searchResults = await this.$axios.$get('https://cinesearch.deta.dev/searchByTitle', { params: this.params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
-        this.posts = await Promise.all(this.searchResults.map(async (r) => {
+        const query = await Promise.all(this.searchResults.map(async (r) => {
           let postData = {}
           postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
-          postData.permlink = r.permlink
+          if (postData) {
+            postData.permlink = r.permlink
+          }
+          console.log(postData)
           return postData
         }))
+        this.posts = query.filter(item => item)
+        console.log(this.posts)
         // this.searchResults.forEach(async (r) => {
         //   let postData = {}
         //   postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
