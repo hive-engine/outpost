@@ -26,7 +26,9 @@ https://www.lassecash.com/@lasseehlers/earth-is-flat
 
 https://www.lassecash.com/@lasseehlers/flat-earth-proof-1-my-first-flat-earth-proof-debunking-ball-earther-mathias-kp-who-made-the-turning-torso-ball-proof-video
 
+Best flat earth documentary till date:
 
+[![image.png](https://images.hive.blog/DQmUzxvVKpNmhdhfzMYVRuMoawbXws8YgZfC5UWBcfqwmUF/image.png)](https://odysee.com/@ODDTV:b/level-(2021)-first-flat-earth:6)
 
 
 
