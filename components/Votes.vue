@@ -301,6 +301,15 @@ export default {
         }
         self.pending = false
       } else if (data && self.author === data.author && self.permlink === data.permlink) {
+        if (self.unvote) {
+          const value = this.votes.findIndex(d => d.voter === self.$auth.user.username)
+          if (value >= 0) {
+            this.votes.splice(value, 1)
+          }
+          self.unVote = false
+        } else {
+          this.votes.push({ voter: self.$auth.user.username, percent: self.weight, token: 'CINE' })
+        }
         self.pending = false
       }
     })

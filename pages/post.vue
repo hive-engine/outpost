@@ -339,8 +339,9 @@ export default {
     ...mapActions('user', ['fetchAccountScotData']),
 
     async onVote ({ type, author, permlink, weight }) {
+      this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
       await this.sleep(30 * 1000)
-
+      console.log('this one')
       const [content] = await Promise.all([
         this.fetchPost({ author, permlink }),
         this.fetchAccountScotData()
@@ -358,8 +359,6 @@ export default {
 
         this.discussions[authorperm] = newData
       }
-
-      this.$eventBus.$emit('vote-acknowledgement', { type, author, permlink, weight })
     },
 
     onComment (data) {
