@@ -55,25 +55,19 @@ and here: https://www.lassecash.com/@lasseehlers/is-hedron-the-new-best-investme
 ## **Related tokens**
 
 
-Lasse Ehlers came up with the ideas for 6 other LasseCash related tokens:
-
-PUPPY - meme-token
-
-LASSIE - meme-token
-
-BABYJESUS - incentive-token
-
-JESUS - incentive-token
-
-CREATOR - incentive-token
-
-ACASH/ANGELOCASH - brand for potentially new OUTPOST, right now a speculation on whether or not Angelo will create the OUTPOST.
+Lasse Ehlers came up with the ideas for 21 other LasseCash related tokens.
 
 Read more here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash
+
+and here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash-2-0
+
+and here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash-3-0
 
 and here: https://www.lassecash.com/@lasseehlers/puppy-got-a-rewarding-diesel-pool
 
 and here: https://www.lassecash.com/@lasseehlers/angelocash
+
+
 
 
 
