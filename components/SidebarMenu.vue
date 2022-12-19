@@ -46,10 +46,10 @@
       <b-list-group-item target="_blank" :href="`https://blocktunes.net`">
        Home <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nft-collection/`">
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nft-collection/blocktunes-nfts/`">
        Polygon NFTs <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/music/`">
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
        Music <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
