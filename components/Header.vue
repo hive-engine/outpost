@@ -66,6 +66,9 @@
               <b-dropdown-item :href="`https://blocktunes.net/pro-artists/`">
                 See All Artists
               </b-dropdown-item>
+              <b-dropdown-item :href="`https://blocktunes.net/artist-central/`">
+                Artist Central
+              </b-dropdown-item>
               <b-dropdown-item :href="`https://blocktunes.net/product/artist-sign-up-fee/`">
                 PRO Artist Sign Up
               </b-dropdown-item>
