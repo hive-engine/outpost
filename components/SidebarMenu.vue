@@ -12,8 +12,11 @@
       <b-list-group-item class="font-weight-bold" disabled>
         Menu
       </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net`">
+       Home <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
       
-      <b-list-group-item target="_blank" :href="`https://hive.blocktunes.net/@blocktunes`">
+      <b-list-group-item :href="`https://hive.blocktunes.net/@blocktunes`">
        Blog
       </b-list-group-item>
 
@@ -29,10 +32,15 @@
         Curator's Pick
       </b-list-group-item>
 
-      <b-list-group-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
-       $MUSIC NFTs
+      <b-list-group-item :href="`https://blocktunes.net/nfts`">
+        NFTs
       </b-list-group-item>
-
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
+       Music <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
+       Merch <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
       <b-list-group-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
         Proposals
       </b-list-group-item>
@@ -44,19 +52,6 @@
 
     <b-list-group class="mt-3" flush>
       
-      
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net`">
-       Home <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nfts/`">
-       NFTs <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
-       Music <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
-       Merch <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
       <b-list-group-item class="font-weight-bold" disabled>
         Social Links
       </b-list-group-item>
