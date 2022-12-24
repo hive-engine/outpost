@@ -35,11 +35,14 @@
       <b-list-group-item :href="`https://blocktunes.net/nfts`">
         NFTs
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
-       Music <fa-icon icon="external-link-alt" />
+      <b-list-group-item :href="`https://blocktunes.net/product-category/blocktunes-music/`">
+       Music
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
-       Merch <fa-icon icon="external-link-alt" />
+      <b-list-group-item :href="`https://blocktunes.net/product-category/merchandise/`">
+       Merch
+      </b-list-group-item>
+       <b-list-group-item :href="`https://blocktunes.net/pro-artists/`">
+       PRO Artists
       </b-list-group-item>
       <b-list-group-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
         Proposals
