@@ -21,7 +21,7 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="d-none d-lg-flex">
-          <b-nav-item :to="{name:'user-feed', params:{user: 'blocktunes'}}">
+          <b-nav-item :href="`https://hive.blocktunes.net/@blocktunes/`">
             Blog
           </b-nav-item>
           <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
