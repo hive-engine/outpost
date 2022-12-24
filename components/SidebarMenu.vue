@@ -12,9 +12,13 @@
       <b-list-group-item class="font-weight-bold" disabled>
         Menu
       </b-list-group-item>
+      
+      <b-list-group-item target="_blank" :href="`https://hive.blocktunes.net/@blocktunes`">
+       Blog
+      </b-list-group-item>
 
       <b-list-group-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
-        Feed
+        My Feed
       </b-list-group-item>
 
       <b-list-group-item :to="{name:'sort', params:{sort:'trending'}}">
@@ -39,21 +43,22 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
-      <b-list-group-item class="font-weight-bold" disabled>
-        Main Site
-      </b-list-group-item>
+      
       
       <b-list-group-item target="_blank" :href="`https://blocktunes.net`">
        Home <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nft-collection/blocktunes-nfts/`">
-       BlockTunes NFTs on Polygon <fa-icon icon="external-link-alt" />
+      <b-list-group-item target="_blank" :href="`https://blocktunes.net/nfts/`">
+       NFTs <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
        Music <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
        Merch <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item class="font-weight-bold" disabled>
+        Social Links
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://discord.gg/EA5rG9GdPG`">
        Discord <fa-icon icon="external-link-alt" />
