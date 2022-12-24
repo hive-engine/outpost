@@ -56,9 +56,23 @@
                 External NFT Gallery
               </b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item :href="`https://blocktunes.net/pro-artists/`">
-             PRO Artists
-          </b-nav-item>
+          <b-nav-item-dropdown variant="link" no-caret right>
+              <template #button-content>
+                <div class="d-flex align-items-center">
+                 PRO Artists <fa-icon class="ml-1" icon="angle-down" />
+                </div>
+              </template>
+
+              <b-dropdown-item :href="`https://blocktunes.net/pro-artists/`">
+                See All Artists
+              </b-dropdown-item>
+              <b-dropdown-item :href="`https://blocktunes.net/product/artist-sign-up-fee/`">
+                PRO Artist Sign Up
+              </b-dropdown-item>
+              <b-dropdown-item :href="`https://blocktunes.net/my-account/`">
+                PRO Artist Account Login
+              </b-dropdown-item>
+          </b-nav-item-dropdown>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
             Proposals
           </b-nav-item>
