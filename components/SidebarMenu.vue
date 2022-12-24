@@ -54,6 +54,9 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+      <b-list-group-item :href="`https://blocktunes.net/media-kit/`">
+       Media Kit
+      </b-list-group-item>
       
       <b-list-group-item class="font-weight-bold" disabled>
         Social Links
@@ -64,9 +67,7 @@
       <b-list-group-item target="_blank" :href="`https://twitter.com/BlockTunesDAO`">
        Twitter <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      
 
-      
       <b-list-group-item class="font-weight-bold" disabled>
         Trade
       </b-list-group-item>
@@ -74,6 +75,9 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade ${{ $config.TOKEN }} Token <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://wleo.io/hbd-polygon/`">
+       HBD-Polygon Bridge <fa-icon icon="external-link-alt" />
+       </b-list-group-item>
     </b-list-group>
 
     <template #footer>
