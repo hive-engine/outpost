@@ -30,6 +30,12 @@
           <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
             Curator's Pick
           </b-nav-item>
+          <b-nav-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
+             Music <fa-icon icon="external-link-alt" />
+          </b-nav-item>
+          <b-nav-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
+             Merch <fa-icon icon="external-link-alt" />
+          </b-nav-item>
           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
@@ -47,12 +53,6 @@
                 External NFT Gallery <fa-icon icon="external-link-alt" />
               </b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
-             Music <fa-icon icon="external-link-alt" />
-          </b-nav-item>
-          <b-nav-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
-             Merch <fa-icon icon="external-link-alt" />
-          </b-nav-item>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
             Proposals
           </b-nav-item>
