@@ -21,8 +21,8 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="d-none d-lg-flex">
-          <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
-            My Feed
+          <b-nav-item :to="{name:'user-feed', params:{user: 'blocktunes'}}">
+            Blog
           </b-nav-item>
           <b-nav-item :to="{name:'sort', params:{sort:'trending'}}">
             Explore
@@ -53,6 +53,9 @@
                 External NFT Gallery
               </b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
+            My Feed
+          </b-nav-item>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
             Proposals
           </b-nav-item>
