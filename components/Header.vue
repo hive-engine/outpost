@@ -22,7 +22,7 @@
 
         <b-navbar-nav class="d-none d-lg-flex">
           <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
-            Feed
+            My Feed
           </b-nav-item>
           <b-nav-item :to="{name:'sort', params:{sort:'trending'}}">
             Explore
