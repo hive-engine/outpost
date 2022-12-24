@@ -32,7 +32,7 @@
         Curator's Pick
       </b-list-group-item>
 
-      <b-list-group-item :href="`https://blocktunes.net/nfts`">
+      <b-list-group-item :href="`https://blocktunes.net/nft-collections/`">
         NFTs
       </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/product-category/blocktunes-music/`">
