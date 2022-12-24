@@ -30,11 +30,11 @@
           <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
             Curator's Pick
           </b-nav-item>
-          <b-nav-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/`">
-             Music <fa-icon icon="external-link-alt" />
+          <b-nav-item :href="`https://blocktunes.net/product-category/blocktunes-music/`">
+             Music
           </b-nav-item>
-          <b-nav-item target="_blank" :href="`https://blocktunes.net/product-category/merchandise/`">
-             Merch <fa-icon icon="external-link-alt" />
+          <b-nav-item :href="`https://blocktunes.net/product-category/merchandise/`">
+             Merch
           </b-nav-item>
           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
@@ -46,11 +46,11 @@
               <b-dropdown-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
                 $MUSIC NFTs
               </b-dropdown-item>
-              <b-dropdown-item target="_blank" :href="`https://blocktunes.net/nft-collection/blocktunes-nfts/`">
-                BlockTunes NFTs on Polygon <fa-icon icon="external-link-alt" />
+              <b-dropdown-item :href="`https://blocktunes.net/nft-collection/blocktunes-nfts/`">
+                BlockTunes NFTs on Polygon
               </b-dropdown-item>
-              <b-dropdown-item target="_blank" :href="`https://blocktunes.net/product-category/blocktunes-music/external-nft-gallery/`">
-                External NFT Gallery <fa-icon icon="external-link-alt" />
+              <b-dropdown-item :href="`https://blocktunes.net/product-category/blocktunes-music/external-nft-gallery/`">
+                External NFT Gallery
               </b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
