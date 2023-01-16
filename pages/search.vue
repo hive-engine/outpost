@@ -99,29 +99,21 @@ export default {
         this.params = {
           keyword: this.searchQuery
         }
-
         this.loading = true
-        this.searchResults = await this.$axios.$get('https://cinesearch.deta.dev/searchByTitle', { params: this.params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
-        const query = await Promise.all(this.searchResults.map(async (r) => {
-          let postData = {}
-          postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
-          if (postData) {
-            postData.permlink = r.permlink
-          }
-          console.log(postData)
-          return postData
-        }))
-        this.posts = query.filter(item => item)
-        console.log(this.posts)
-        // this.searchResults.forEach(async (r) => {
-        //   let postData = {}
-        //   postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
-        //   postData.permlink = r.permlink
-        //   postData.createdUnix = Math.round((new Date(r.created)).getTime() / 1000)
-        //   console.log(postData.permlink)
-        //   beforeSort.push(postData)
-        // })
-
+        const request = await this.$axios.$get('https://cinesearch.deta.dev/searchByTitle', { params: this.params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
+        if (request && request.length > 0) {
+          this.searchResults = request
+          const query = await Promise.all(this.searchResults.map(async (r) => {
+            let postData = {}
+            postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
+            console.log(postData)
+            if (postData) {
+              postData.permlink = r.permlink
+            }
+            return postData
+          }))
+          this.posts = query.filter(item => item)
+        }
         this.loading = false
         this.searched = true
       }
