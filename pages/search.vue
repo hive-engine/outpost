@@ -34,7 +34,7 @@
       </template>
 
       <template v-if="searched">
-        <p v-if="searchResults.length <= 0" class="text-center text-muted font-weight-bold">
+        <p v-if="!searchResults.length > 0" class="text-center text-muted font-weight-bold">
           No matching results found!
         </p>
 
