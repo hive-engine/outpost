@@ -73,7 +73,7 @@
           </b-card>
           <b-card class="card featurecard cineadvert">
             <div class="d-flex justify-content-between align-items-center">
-              <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"></img></a>
+              <a href="https://brofi.io/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"></img></a>
             </div>
             <p><em>Advertisement</em></p>
           </b-card>
