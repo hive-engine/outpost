@@ -109,14 +109,12 @@ export default {
         this.searchResults = []
         this.searchError = false
         const request = await axios.get('https://cinesearch.deta.dev/searchByTitle', { params: this.params })
-        console.log(request)
         if (request.status === 200) {
           if (request.data.length > 0) {
             this.searchResults = request.data
             const query = await Promise.all(this.searchResults.map(async (r) => {
               let postData = {}
               postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
-              console.log(postData)
               if (postData) {
                 postData.permlink = r.permlink
               }
