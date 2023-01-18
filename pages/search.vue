@@ -27,8 +27,7 @@
         </b-nav-item>
       </b-nav> -->
     </div>
-
-    <div class="search-results">
+    <div class="search-results mt-3 mb-5">
       <template v-if="loading">
         <loading />
       </template>
@@ -36,6 +35,10 @@
       <template v-if="searched">
         <p v-if="!searchResults.length > 0" class="text-center text-muted font-weight-bold">
           No matching results found!
+        </p>
+
+        <p v-if="!searchResults.length > 0 && searchError === true" class="text-center text-muted font-weight-bold">
+          We had some problems finding your results. It might be that we have some technical issues or it might be that you used an extremely common phrase. Try again with a different search term!
         </p>
 
         <template v-else-if="posts.length > 0">
@@ -49,6 +52,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import postIndex from '@/mixins/postIndex'
 
 export default {
@@ -62,6 +66,7 @@ export default {
       inputActive: false,
       searched: false,
       searchResults: [],
+      searchError: false,
       posts: [],
       params: {},
       endpoint: 'search'
@@ -100,19 +105,27 @@ export default {
           keyword: this.searchQuery
         }
         this.loading = true
-        const request = await this.$axios.$get('https://cinesearch.deta.dev/searchByTitle', { params: this.params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
-        if (request && request.length > 0) {
-          this.searchResults = request
-          const query = await Promise.all(this.searchResults.map(async (r) => {
-            let postData = {}
-            postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
-            console.log(postData)
-            if (postData) {
-              postData.permlink = r.permlink
-            }
-            return postData
-          }))
-          this.posts = query.filter(item => item)
+        this.searched = false
+        this.searchResults = []
+        this.searchError = false
+        const request = await axios.get('https://cinesearch.deta.dev/searchByTitle', { params: this.params })
+        console.log(request)
+        if (request.status === 200) {
+          if (request.data.length > 0) {
+            this.searchResults = request.data
+            const query = await Promise.all(this.searchResults.map(async (r) => {
+              let postData = {}
+              postData = await this.fetchPost({ author: r.author, permlink: r.permlink })
+              console.log(postData)
+              if (postData) {
+                postData.permlink = r.permlink
+              }
+              return postData
+            }))
+            this.posts = query.filter(item => item)
+          }
+        } else {
+          this.searchError = true
         }
         this.loading = false
         this.searched = true
