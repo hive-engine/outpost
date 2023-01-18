@@ -12,7 +12,16 @@
             </div>
             <p>We are a supportive platform for people to explore their passion for cinema, tv and theater and earn crypto.  Incentivizing your passion for film, through the integration of blogging on the Hive blockchain.</p>
             <p><em>Watch. Write. Publish. Earn.</em></p>
-            <h4>Current CINE Price:<span style="color: #EF525B;"> {{ getUSDPrice(1) }}</span></h4>
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="display: inline-block;">
+                <h4>Current CINE Price:<span style="color: #EF525B;"> {{ getUSDPrice(1) }}</span></h4>
+              </div>
+              <div style="display: inline-block;">
+                <h4>Current HIVE Price:<span style="color: #EF525B;"> {{ getHivePrice(1) }}</span></h4>
+              </div>
+              <div style="display: inline-block;">
+              </div>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
 
               <div style="display: inline-block;">
@@ -30,7 +39,7 @@
               <a href="https://discord.gg/U4K8EYAayB" target="_blank">Join the Cine TV Discord</a>
 
             </div>
-  <div style="display: inline-block;">
+            <div style="display: inline-block;">
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -219,7 +228,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('nftmarketplace', ['settings', 'token_price'])
+    ...mapGetters('nftmarketplace', ['settings', 'token_price', 'hive_price'])
   },
 
   methods: {
@@ -227,6 +236,10 @@ export default {
 
     getUSDPrice (hivePrice) {
       return `$${Number(Number(hivePrice) * this.token_price).toFixed(3)}`
+    },
+
+    getHivePrice (hivePrice) {
+      return `$${Number(Number(this.hive_price)).toFixed(3)}`
     },
 
     timers: {
