@@ -108,7 +108,7 @@ export default {
         this.searched = false
         this.searchResults = []
         this.searchError = false
-        const request = await axios.get('https://cinesearch.deta.dev/searchByTitle', { params: this.params })
+        const request = await axios.get('https://cinesearch.hivedata.live/searchByTitle', { params: this.params })
         if (request.status === 200) {
           if (request.data.length > 0) {
             this.searchResults = request.data
