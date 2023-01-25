@@ -10,9 +10,18 @@
             <div class="fade-in-text">
               <h1>What is Cine TV?</h1>
             </div>
-            <p><em>"Say hello to my little friend!</em></p>
-            <p>We are a supportive Hive-based platform for people to explore their passion for Cinema, TV and Theater through the creative process of blogging and earn crypto while doing so.</p>
-            <h4>Current CINE Price:<span style="color: #EF525B;"> {{ getUSDPrice(1) }}</span></h4>
+            <p>We are a supportive platform for people to explore their passion for cinema, tv and theater and earn crypto.  Incentivizing your passion for film, through the integration of blogging on the Hive blockchain.</p>
+            <p><em>Watch. Write. Publish. Earn.</em></p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="display: inline-block;">
+                <h4>Current CINE Price:<span style="color: #EF525B;"> {{ getUSDPrice(1) }}</span></h4>
+              </div>
+              <div style="display: inline-block;">
+                <h4>Current HIVE Price:<span style="color: #EF525B;"> {{ getHivePrice(1) }}</span></h4>
+              </div>
+              <div style="display: inline-block;">
+              </div>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
 
               <div style="display: inline-block;">
@@ -29,9 +38,8 @@
               </svg>
               <a href="https://discord.gg/U4K8EYAayB" target="_blank">Join the Cine TV Discord</a>
 
-
             </div>
-  <div style="display: inline-block;">
+            <div style="display: inline-block;">
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,14 +67,13 @@
               </svg>
               <a href="https://www.instagram.com/cinetv_project/" target="_blank">Cine TV on Instagram</a>
 
-
              </div>
 
             </div>
           </b-card>
           <b-card class="card featurecard cineadvert">
             <div class="d-flex justify-content-between align-items-center">
-              <a href="https://themancaveproject.com/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"></img></a>
+              <a href="https://brofi.io/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"></img></a>
             </div>
             <p><em>Advertisement</em></p>
           </b-card>
@@ -117,16 +124,11 @@
           </b-col>
         </b-row>
 
-
 <div>
 
- <img src="https://cinetv.hivedata.live/logo.png" alt="CineTV Logo" class="logo"> 
+ <img src="https://cinetv.hivedata.live/logo.png" alt="CineTV Logo" class="logo">
 
   </div>
-
-
-
-
 
       </template>
     </b-container>
@@ -226,7 +228,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('nftmarketplace', ['settings', 'token_price'])
+    ...mapGetters('nftmarketplace', ['settings', 'token_price', 'hive_price'])
   },
 
   methods: {
@@ -234,6 +236,10 @@ export default {
 
     getUSDPrice (hivePrice) {
       return `$${Number(Number(hivePrice) * this.token_price).toFixed(3)}`
+    },
+
+    getHivePrice (hivePrice) {
+      return `$${Number(Number(this.hive_price)).toFixed(3)}`
     },
 
     timers: {
