@@ -46,6 +46,10 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+      
+      <b-list-group-item target="_blank" href="https://www.thiagore.info">
+        ThiagoRe Info <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
     </b-list-group>
 
     <template #footer>
