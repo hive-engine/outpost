@@ -101,7 +101,7 @@
 
           <div class="mr-2">
             <nuxt-link class="btn text-nowrap" :to="{name:'user-post', hash:'#comments', params:{ user: post.author, post:post.permlink }}">
-              <fa-icon :icon="['far', 'comments']" /> {{ post.children }}
+              <fa-icon :icon="['far', 'comments']" /> <span class="comments-number">{{ post.children }}</span>
             </nuxt-link>
           </div>
 
