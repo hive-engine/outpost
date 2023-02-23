@@ -42,7 +42,7 @@ https://xen.network
 https://xen.network/mainnet/xenft
 https://xenturbo.io/xen-monitor/claim
 
-Lasse Ehlers also endorse (secundary to XEN) HEX related products, especially these:
+Lasse Ehlers also endorse (secundary to XEN) HEX and HEX related products, especially these:
 
 HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
 
