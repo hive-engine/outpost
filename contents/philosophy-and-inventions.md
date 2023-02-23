@@ -34,7 +34,15 @@ Best flat earth documentary till date:
 
 ## **Endorsements**
 
-Lasse Ehlers endorse HEX related products, especially these:
+Lasse Ehlers endorse XEN, XeNFTs and related products.
+
+Relevant websites:
+
+https://xen.network
+https://xen.network/mainnet/xenft
+https://xenturbo.io/xen-monitor/claim
+
+Lasse Ehlers also endorse (secundary to XEN) HEX related products, especially these:
 
 HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
 
