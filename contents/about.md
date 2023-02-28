@@ -39,7 +39,9 @@ Diesel pool rewards
 
 If you provide liquidity to the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
 
-Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE/LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
+The SWAP.HIVE:LASSECASH pool currently pays over 30% APY, whereas the LASSECASH:PUPPY pool pays over 110% APY.
+
+Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE:LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
 
 There is a bonus applied for long term liquidity providers. You get 1% extra per day you hold the liquidity in the contract, up till 30 days. If you hold longer then 30 days, you will get 30% extra rewards each day. In other words, when you provide liquidity long term, you get more rewards.
 
