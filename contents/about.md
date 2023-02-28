@@ -39,7 +39,7 @@ Diesel pool rewards
 
 If you provide liquidity to the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
 
-The SWAP.HIVE:LASSECASH pool currently pays over 30% APY, whereas the LASSECASH:PUPPY pool pays over 110% APY.
+The SWAP.HIVE:LASSECASH pool currently pays over 30% APY, whereas the LASSECASH:PUPPY pool pays over 110% APY. You can watch the APYs in realtime here: https://beeswap.dcity.io/swap?pools&search=lassecash
 
 Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE:LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
 
