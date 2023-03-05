@@ -46,9 +46,23 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      
+    </b-list-group>
+
+    <b-list-group class="mt-3" flush>
+      <b-list-group-item class="font-weight-bold" disabled>
+        Others
+      </b-list-group-item>
+
       <b-list-group-item target="_blank" href="https://www.thiagore.info">
         ThiagoRe Info <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://uswap.app">
+        Bridge Hive <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://global.transak.com">
+        Buy Hive <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
