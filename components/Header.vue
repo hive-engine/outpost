@@ -3,7 +3,7 @@
     <b-navbar fixed="top" type="light" variant="light">
       <b-container fluid>
         <b-navbar-brand to="/">
-          <img src="/logo.png" class="logo">
+          <img :src="$colorMode.value === 'light' ? '/logo.png': '/logo-dark.png'" class="logo">
         </b-navbar-brand>
 
         <b-navbar-nav class="d-none d-md-flex">
