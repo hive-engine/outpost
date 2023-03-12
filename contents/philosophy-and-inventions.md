@@ -88,7 +88,11 @@ and here: https://www.lassecash.com/@lasseehlers/angelocash
 
 ## **Time-line**
 
-Most significant events within my cryptocurrency journey in posts or notes:
+Most significant events within Lasse Ehlers' cryptocurrency journey in posts or notes:
+
+12/3-2023: https://www.lassecash.com/@lasseehlers/lasse-ehlers-fully-endorse-xen
+
+16/9-2022: Lasse Ehlers speak at HiveFest7: https://www.youtube.com/live/DZ9MpQQoPu4?feature=share&t=6500
 
 30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
 
