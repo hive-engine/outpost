@@ -92,7 +92,7 @@ Most significant events within Lasse Ehlers' cryptocurrency journey in posts or 
 
 12/3-2023: https://www.lassecash.com/@lasseehlers/lasse-ehlers-fully-endorse-xen
 
-16/9-2022: Lasse Ehlers speak at HiveFest7: https://www.youtube.com/live/DZ9MpQQoPu4?feature=share&t=6500
+16/9-2022: Lasse Ehlers spoke at HiveFest7: https://www.youtube.com/live/DZ9MpQQoPu4?feature=share&t=6500
 
 30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
 
