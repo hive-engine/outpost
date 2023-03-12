@@ -42,6 +42,8 @@ https://xen.network
 https://xen.network/mainnet/xenft
 https://xenturbo.io/xen-monitor/claim
 
+https://github.com/atomizexyz/litepaper (FENIX, which is build on top of XEN, I recommend it a lot)
+
 Lasse Ehlers also endorse (secundary to XEN) HEX and HEX related products, especially these:
 
 HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
