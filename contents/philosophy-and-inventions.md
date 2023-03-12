@@ -2,36 +2,10 @@
 title: Philosophy, Inventions and Information
 ---
 
-# **Endorsements, Philosophy, Related tokens, Time-line and Inventions**
+# **Philosophy, Endorsements, Related tokens, Time-line and Inventions**
 
 
-## **Endorsements**
 
-Lasse Ehlers endorse XEN, XeNFTs and related products.
-
-Relevant websites:
-
-https://xen.network
-https://xen.network/mainnet/xenft
-https://xenturbo.io/xen-monitor/claim
-
-https://github.com/atomizexyz/litepaper (FENIX, which is build on top of XEN, strong recommendation)
-
-Lasse Ehlers also endorse (secundary to XEN) HEX and HEX related products, especially these:
-
-HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
-
-Read more here: https://www.lassecash.com/@lasseehlers/have-you-heard-about-hex
-
-and here: https://www.lassecash.com/@lasseehlers/the-biggest-airdrop-in-history
-
-and here: https://www.lassecash.com/@lasseehlers/psst-you-want-to-know-the-best-investment-ever-right-now
-
-and here: https://www.lassecash.com/@lasseehlers/icosa-is-the-new-kid-on-the-block
-
-and here: https://www.lassecash.com/@lasseehlers/5x-in-10-days-i-was-right-again
-
-and here: https://www.lassecash.com/@lasseehlers/is-hedron-the-new-best-investment
 
 
 
@@ -63,7 +37,33 @@ Best flat earth documentary till date:
 
 
 
+## **Endorsements**
 
+Lasse Ehlers endorse XEN, XeNFTs and related products.
+
+Relevant websites:
+
+https://xen.network
+https://xen.network/mainnet/xenft
+https://xenturbo.io/xen-monitor/claim
+
+https://github.com/atomizexyz/litepaper (FENIX, which is build on top of XEN, strong recommendation)
+
+Lasse Ehlers also endorse (secundary to XEN) HEX and HEX related products, especially these:
+
+HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
+
+Read more here: https://www.lassecash.com/@lasseehlers/have-you-heard-about-hex
+
+and here: https://www.lassecash.com/@lasseehlers/the-biggest-airdrop-in-history
+
+and here: https://www.lassecash.com/@lasseehlers/psst-you-want-to-know-the-best-investment-ever-right-now
+
+and here: https://www.lassecash.com/@lasseehlers/icosa-is-the-new-kid-on-the-block
+
+and here: https://www.lassecash.com/@lasseehlers/5x-in-10-days-i-was-right-again
+
+and here: https://www.lassecash.com/@lasseehlers/is-hedron-the-new-best-investment
 
 
 
