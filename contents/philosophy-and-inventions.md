@@ -38,7 +38,7 @@ https://xenturbo.io/xen-monitor/claim
 
 https://github.com/atomizexyz/litepaper (FENIX, which is build on top of XEN, strong recommendation)
 
-Lasse Ehlers also endorse (secundary to XEN) HEX and HEX related products, especially these:
+
 
 
 
