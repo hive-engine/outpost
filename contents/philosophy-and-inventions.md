@@ -15,7 +15,7 @@ title: Philosophy, Inventions and Information
 ## **Philosophy**
 
 
-Lasse Ehlers identify as an anarchocapitalist and flat earther, he learned about the philosophy of anarchocapitalism from Stefan Molyneux' videos in 2010, but it was first in April 2013, when he saw Bitcoin, that he believed anarchocapitalism was possible in practicallity. Eventhough Stefan Molyneux is ignorant to the truth about that the earth is flat, Lasse Ehlers acknowledge him as one of the biggest philosophers of our time, if not the biggest, especially for his work with spreading awareness of the philosophy of anarchocapitalism.
+Lasse Ehlers identify as an anarchocapitalist <! -- and flat earther  -->, he learned about the philosophy of anarchocapitalism from Stefan Molyneux' videos in 2010, but it was first in April 2013, when he saw Bitcoin, that he believed anarchocapitalism was possible in practicallity. Eventhough Stefan Molyneux is ignorant to the truth about that the earth is flat, Lasse Ehlers acknowledge him as one of the biggest philosophers of our time, if not the biggest, especially for his work with spreading awareness of the philosophy of anarchocapitalism.
 
 Lasse Ehlers believes that we need to use our real identity in order to create a free society, this idea originates from Stefan Molyneux and he might be the one who came up with the idea and/or formulated it the first time. Lasse Ehlers therefore advocating using your real name on the internet, if everyone did it and used cryptocurrencies all the time, then Illuminati's statism systems (based on satanism) would very fast come to an end. Lasse Ehlers believe anarchocapitalism will happen, that it is inevitably after the creation of Bitcoin and Blockchain technology.
 
@@ -23,7 +23,7 @@ Lasse Ehlers acknowledge Murray Rothbard as the philosopher who first formulated
 
 Lasse Ehlers believed since he saw Bitcoin and read the white paper in April 2013, that blockchain technology has the potential (that it is almost imminent and sure that it will happen) to end the Illuminati system/satanism/banking system/statism which he knew since 2004 destroy a lot of peoples lifes. **LasseCash and related products is Lasse Ehlers' implementations, to end these horrors on the flat earth.**
 
-Lasse Ehlers learned first about the ideas about that the earth could be flat in 2016, by 2017 he was convinced. Back then there was many relevant videos on the internet on the topic, but most of those videos has been censored. Here are three flat earth proofs formulated by Lasse Ehlers:
+<! -- Lasse Ehlers learned first about the ideas about that the earth could be flat in 2016, by 2017 he was convinced. Back then there was many relevant videos on the internet on the topic, but most of those videos has been censored. Here are three flat earth proofs formulated by Lasse Ehlers:
 
 https://www.lassecash.com/@lasseehlers/flat-earth-proof
 
@@ -34,7 +34,7 @@ https://www.lassecash.com/@lasseehlers/flat-earth-proof-1-my-first-flat-earth-pr
 Best flat earth documentary till date:
 
 [![image.png](https://images.hive.blog/DQmUzxvVKpNmhdhfzMYVRuMoawbXws8YgZfC5UWBcfqwmUF/image.png)](https://odysee.com/@ODDTV:b/level-(2021)-first-flat-earth:6)
-
+ -->
 
 
 ## **Endorsements**
