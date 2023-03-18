@@ -83,6 +83,8 @@ Most significant events within Lasse Ehlers' cryptocurrency journey in posts or 
 
 16/9-2022: Lasse Ehlers spoke at HiveFest7: https://www.youtube.com/live/DZ9MpQQoPu4?feature=share&t=6500
 
+15/8-2022: Lost my fortune to a scammer that I thought was Alex the developer/founder of HEDRON and ICOSA. Never give your keys away to anybody and not to any site! Yes, I know how stupid of an action this was, I dont really have any defence for this, can only say that I was half asleep and had fomo on entering the WAATSA, in that process I was so stupid to give my keys to a scam site amd lost my fortune.
+
 30/6-2022: https://www.lassecash.com/@lasseehlers/let-me-protect-you-in-the-strong-bear-market-again
 
 9/6-2021: https://www.lassecash.com/@lasseehlers/lassecash-first-outpost-in-history
