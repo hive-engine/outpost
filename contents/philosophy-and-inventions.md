@@ -40,19 +40,6 @@ https://github.com/atomizexyz/litepaper (FENIX, which is build on top of XEN, st
 
 Lasse Ehlers also endorse (secundary to XEN) HEX and HEX related products, especially these:
 
-HEX, PULSE, PULSEX, LIQUIDLOANS, HEDRON, ICOSA
-
-Read more here: https://www.lassecash.com/@lasseehlers/have-you-heard-about-hex
-
-and here: https://www.lassecash.com/@lasseehlers/the-biggest-airdrop-in-history
-
-and here: https://www.lassecash.com/@lasseehlers/psst-you-want-to-know-the-best-investment-ever-right-now
-
-and here: https://www.lassecash.com/@lasseehlers/icosa-is-the-new-kid-on-the-block
-
-and here: https://www.lassecash.com/@lasseehlers/5x-in-10-days-i-was-right-again
-
-and here: https://www.lassecash.com/@lasseehlers/is-hedron-the-new-best-investment
 
 
 
