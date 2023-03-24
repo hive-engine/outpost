@@ -39,13 +39,46 @@
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+      <!--
       <b-list-group-item class="font-weight-bold" disabled>
         Trade
       </b-list-group-item>
+      -->
+      
+      <b-list-group-item :to="{name:'about'}">
+        About
+      </b-list-group-item>
+      
+      <b-list-group-item :to="{name:'principle'}">
+        Principles
+      </b-list-group-item>
+      
+      <b-list-group-item :to="{name:'faq'}">
+        How-To Guides
+      </b-list-group-item>
+      
+      <b-list-group-item :to="{name:'promo'}">
+        Promotions and Discounts
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'supporters'}">
+        Supporters
+      </b-list-group-item>
 
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
-        Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
+        Buy {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+
+      <b-list-group-item :to="{name:'tos'}">
+        Terms of Service
+      </b-list-group-item>
+
+      <!-- area to add sidebar menu buttons -->
+      <!--
+      <b-list-group-item target="_blank" :href="``">
+        New Added Sidebar Menu Button
+      </b-list-group-item>
+      -->
     </b-list-group>
 
     <template #footer>
