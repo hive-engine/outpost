@@ -57,7 +57,7 @@
         How-To Guides
       </b-list-group-item>
       
-      <b-list-group-item :to="{name:'principles'}">
+      <b-list-group-item :to="{name:'updates'}">
         Updates
       </b-list-group-item>
       
