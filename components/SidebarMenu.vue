@@ -49,16 +49,16 @@
         About
       </b-list-group-item>
       
-      <b-list-group-item :to="{name:'principle'}">
+      <b-list-group-item :to="{name:'principles'}">
         Principles
       </b-list-group-item>
       
-      <b-list-group-item :to="{name:'faq'}">
+      <b-list-group-item :to="{name:'faqs'}">
         How-To Guides
       </b-list-group-item>
       
       <b-list-group-item :to="{name:'promo'}">
-        Promotions and Discounts
+        Promos and Discounts
       </b-list-group-item>
 
       <b-list-group-item :to="{name:'supporters'}">

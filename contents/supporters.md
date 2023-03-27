@@ -12,28 +12,36 @@ title: Supporters
 
 <br />
 
-## Bronze (Tier I)
+## Bronze (Tier I): 
+
+### Faith, Leandro, Angela, Merlyn
 
 <br />
 
-## Silver (Tier II)
+## Silver (Tier II): 
+
+### Dessa
 
 <br />
 
-## Gold (Tier III)
+## Gold (Tier III): 
+
+### Noel, Fe
 
 <br />
 
-## Platinum (Tier IV)
+## Platinum (Tier IV): 
+
+### Ian
 
 <br />
 
-## Diamond (Tier V)
+## Diamond (Tier V): 
 
-### @doctorgen
+### @doctorgen, Jhun
 
 <br />
 
-#### Note: The names displayed in this page are only those who agreed for their names to be publicly displayed.
+#### Note: The names displayed in this page are only those who agreed and did not confirm their disagreement for their names to be publicly displayed.
 
 
