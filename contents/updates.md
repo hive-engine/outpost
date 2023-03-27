@@ -1,5 +1,5 @@
 ---
-title: Update
+title: Updates
 ---
 
 # Honourarium (HON) Utility Tokens
