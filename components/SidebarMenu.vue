@@ -57,7 +57,11 @@
         How-To Guides
       </b-list-group-item>
       
-      <b-list-group-item :to="{name:'promo'}">
+      <b-list-group-item :to="{name:'principles'}">
+        Updates
+      </b-list-group-item>
+      
+      <b-list-group-item :to="{name:'promos'}">
         Promos and Discounts
       </b-list-group-item>
 
