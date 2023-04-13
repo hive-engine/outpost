@@ -21,8 +21,7 @@ Lasse Ehlers believes that we need to use our real identity in order to create a
 
 Lasse Ehlers acknowledge Murray Rothbard as the philosopher who first formulated the philosophy of anarchocapitalism. Lasse Ehlers also gives credit to Jeff Berwick for spreading the word about anarchocapitalism over the internet for many years. 
 
-Lasse Ehlers believed since he saw Bitcoin and read the white paper in April 2013, that blockchain technology will end the central banking system.
-
+Lasse Ehlers believed since he saw Bitcoin and read the white paper in April 2013, that blockchain technology has the potential (that it is almost imminent and sure that it will happen) to end the Illuminati system/satanism/banking system/statism which he knew since 2004 destroy a lot of peoples lifes. **LasseCash and related products is Lasse Ehlers' implementations, to end these horrors on the flat earth.**
 
 
 
