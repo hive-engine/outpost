@@ -38,7 +38,7 @@ Best flat earth documentary till date:
 
 ## **Endorsements**
 
-Lasse Ehlers endorse XEN, XeNFTs and related products.
+Lasse Ehlers endorse XEN, XeNFTs, X1, DBXEN, XLON, FENIX and related products.
 
 Relevant websites:
 
