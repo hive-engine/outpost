@@ -27,7 +27,7 @@
       <template v-else>
         <markdown-viewer :text="comment.body" />
 
-        <div v-if="!showReplyEditor" class="d-flex align-items-center small font-weight-bold">
+        <div v-if="!showReplyEditor" class="comment-footer d-flex align-items-center small font-weight-bold">
           <votes
             :author="comment.author"
             :permlink="comment.permlink"

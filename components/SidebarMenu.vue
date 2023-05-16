@@ -49,17 +49,6 @@
     </b-list-group>
 
     <template #footer>
-      <div class="text-center pb-2 d-md-none">
-        <b-button size="sm" @click.prevent="changeColorMode">
-          <template v-if="$colorMode.value === 'light'">
-            <fa-icon :icon="['far', 'moon']" /> Dark Mode
-          </template>
-
-          <template v-else>
-            <fa-icon :icon="['far', 'sun']" /> Light Mode
-          </template>
-        </b-button>
-      </div>
     </template>
   </b-sidebar>
 </template>
@@ -70,11 +59,7 @@ export default {
 
   methods: {
     changeColorMode () {
-      if (this.$colorMode.value === 'dark') {
-        this.$colorMode.preference = 'light'
-      } else {
-        this.$colorMode.preference = 'dark'
-      }
+      this.$colorMode.preference = 'dark'
     }
   }
 }

@@ -76,7 +76,7 @@ h3 {
   font-weight: 600;
   margin: 0 0 2%;
   text-decoration: underline;
- 
+
     text-align: center;
 
 }
@@ -98,14 +98,10 @@ font-weight: 800;
 
 
 p {
-	text-align: left;
 	line-height: 1.5;
   color: white;
   font-family: "Lora", Sans-serif;
   font-size: 1em;
-  font-weight: 600;
-  padding-left: 2rem;
-  padding-right: 2rem;
 }
 
 a {
@@ -113,7 +109,9 @@ a {
   font-family: "Montserrat", Sans-serif;
 }
 
-
+.comment-footer {
+  clear:both;
+}
 
 
 .text {
@@ -121,7 +119,7 @@ a {
   font-family: "Lora", Sans-serif;
   font-size: 1em;
   padding: 0.5rem;
-  
+
   }
 
   .logo {
@@ -337,6 +335,11 @@ a {
           180deg, #1E2329 50%, #0B2C3D 100%);
   background-size: cover;
   background-position: center;
+  p {
+    font-weight: 600;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 
@@ -349,7 +352,7 @@ a {
 
 
 .cinetvcardcontainer:hover {
-  
+
   border-radius: 2rem;
 
   border-top: 0.2rem solid gray;
@@ -360,9 +363,6 @@ a {
 
 
 /* Badge Tweaks */
-
-
-
 .badge {
   border-radius: 0.5rem;
   a {
@@ -371,27 +371,20 @@ a {
 }
 
 .badge-success {
-  
   border-radius: 0.5rem;
 }
 
-
-/* Image Tweaks */
-
-
-img:hover {
-
-
-
+/** Images on home page and feed pages have a zoom in effect. */
+.homepage img:hover, .sort-page img:hover, .user-feed img:hover{
 	opacity: 1.0;
 	transition-duration: 0.5s;
 	transform: scale(1.25);
 	transition: transform .5s;
-
-
 }
 
-
+.markdown-view img {
+  margin-bottom: 10px;
+}
 
 @import "./light-mode";
 @import "./dark-mode";

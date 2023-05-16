@@ -75,7 +75,7 @@
           <div class="post-highlights">
             <post-summary v-if="latestNewspaper.length!=0" :post="latestNewspaper" type="latest" heading="Latest Newspaper" />
             <post-summary v-if="latestContest.length!=0" :post="latestContest" type="latest" heading="Latest Contest" />
-            <post-summary v-if="latestWritingPrompt.length!=0" :post="latestWritingPrompt" type="latest" heading="Latest Writing Prompt" />
+            <post-summary v-if="latestCineKids.length!=0" :post="latestCineKids" type="latest" heading="Latest Cine Kids" />
           </div>
         </div>
 
@@ -153,7 +153,7 @@ export default {
       created: [],
       latestNewspaper: [],
       latestContest: [],
-      latestWritingPrompt: [],
+      latestCineKids: [],
       trendingIsCurated: false
     }
   },
@@ -197,8 +197,8 @@ export default {
     }
 
     for (const featuredPost of featured) {
-      if (featuredPost.tags.includes('writingprompt')) {
-        this.latestWritingPrompt = featuredPost
+      if (featuredPost.tags.includes('cinekids')) {
+        this.latestCineKids = featuredPost
         break
       }
     }
