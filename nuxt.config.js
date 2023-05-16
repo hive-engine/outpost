@@ -50,6 +50,7 @@ export default {
     '@/plugins/chain.js',
     '@/plugins/event-bus.client.js',
     '@/plugins/global-mixins.js',
+    '@/plugins/vue-gtag.js',
     '@/plugins/mavon-editor.client.js',
     '@/plugins/nftmarketplace.js',
     '@/plugins/scot-api.js',
