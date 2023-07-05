@@ -40,15 +40,12 @@ Best flat earth documentary till date:
 
 Lasse Ehlers (primarily) endorse XEN, XeNFTs, X1, VMPX and related products.
 
-Relevant websites:
+Relevant website:
 
 https://xen.network
-https://xen.network/mainnet/xenft
-https://xenturbo.io/xen-monitor/claim
 
-https://github.com/atomizexyz/litepaper (FENIX, which is build on top of XEN, strong recommendation)
 
-Lasse Ehlers (secondarily) endorse HEX, PULSE, PULSEX and related products.
+Lasse Ehlers (secondarily) endorse HEX, PULSE, PULSEX and related products. (Are maybe changing my views on these products, to the point where I might not endorse them in the future, I need time to decide.)
 
 
 
