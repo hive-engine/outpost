@@ -29,9 +29,9 @@ export const AXIOS_CACHE_CONFIG = {
   ttl: 0 * 60 * 1000 // 0 minutes
   // exclude: { query: false }
 }
-export const NFT_ENABLED = false
-export const NFT_SYMBOL = 'PAL'
-export const NFT_MARKETPLACE = 'palnet'
+export const NFT_ENABLED = true
+export const NFT_SYMBOL = 'THIA'
+export const NFT_MARKETPLACE = 'thiagore'
 export const NFT_MARKETPLACE_API = 'https://api.marketplace.tribaldex.com'
 export const DTF_ENABLED = false
 export const DTF_ID = 'PAL:PAL'
