@@ -51,6 +51,7 @@ export default {
     '@/plugins/event-bus.client.js',
     '@/plugins/global-mixins.js',
     '@/plugins/vue-gtag.js',
+    '@/plugins/adsense.js',
     '@/plugins/mavon-editor.client.js',
     '@/plugins/nftmarketplace.js',
     '@/plugins/scot-api.js',

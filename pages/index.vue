@@ -64,19 +64,16 @@
             </div>
           </b-card>
           <b-card class="card featurecard cineadvert">
-             <!-- <div class="d-flex justify-content-between align-items-center">
+            <!-- <div class="d-flex justify-content-between align-items-center">
               <a href="https://brofi.io/" target="_blank"><img src="https://images.hive.blog/p/5CEvyaWxjaEsGBjBmhYRswxkQmS518AyZ7YA3VGVDLfLw6zq7KQPTRkovKE6q3oDAVgHUrSPbhQeM3PSv?width=200&height=200"></img></a>
             </div>
             <p><em>Advertisement</em></p> -->
-            <script async
-              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5975884733498941"
-              crossorigin="anonymous"></script>
-            <!-- Square Box Cine TV -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5975884733498941"
-              data-ad-slot="1110907001" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            <Adsense
+              data-ad-client="ca-pub-5975884733498941"
+              data-ad-slot="1110907001"
+              data-ad-format="auto"
+              :data-full-width-responsive="true"
+            />
           </b-card>
         </div>
 
