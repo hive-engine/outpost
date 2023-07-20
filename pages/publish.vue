@@ -168,7 +168,7 @@
                   <div class="permlink-preview ml-2">
                     {{ linkPreview }}
                   </div>
-                  <a href="#" class="d-inline-block ml-2" @click.prevent="editPermlink = true"><fa-icon icon="pencil-alt" style="width:20px" /></v-icon></a>
+                  <a href="#" class="d-inline-block ml-2" @click.prevent="editPermlink = true"><fa-icon icon="pencil-alt" style="width:20px" /></a>
                 </div>
 
                 <b-form-group
@@ -276,6 +276,15 @@
           </template>
         </b-modal>
       </template>
+      <br>
+      <div>
+        <Adsense
+          data-ad-client="ca-pub-5975884733498941"
+          data-ad-slot="1110907001"
+          data-ad-format="auto"
+          :data-full-width-responsive="true"
+        />
+      </div>
     </b-container>
   </div>
 </template>

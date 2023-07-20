@@ -43,7 +43,14 @@
     </div>
 
     <nuxt-child />
-
+    <div>
+      <Adsense
+        data-ad-client="ca-pub-5975884733498941"
+        data-ad-slot="1110907001"
+        data-ad-format="auto"
+        :data-full-width-responsive="true"
+      />
+    </div>
     <activity-modal />
   </div>
 </template>

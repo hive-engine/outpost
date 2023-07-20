@@ -21,6 +21,15 @@
       </b-container>
       <br>
 
+      <div>
+        <Adsense
+          data-ad-client="ca-pub-5975884733498941"
+          data-ad-slot="1110907001"
+          data-ad-format="auto"
+          :data-full-width-responsive="true"
+        />
+      </div>
+      <br>
       <!-- <b-nav align="center" pills class="bg-light mt-3">
         <b-nav-item :active="$route.name === 'nfts-market'" :to="{name:'nfts-market'}">
           Posts
