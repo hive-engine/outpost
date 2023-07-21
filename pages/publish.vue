@@ -168,7 +168,7 @@
                   <div class="permlink-preview ml-2">
                     {{ linkPreview }}
                   </div>
-                  <a href="#" class="d-inline-block ml-2" @click.prevent="editPermlink = true"><fa-icon icon="pencil-alt" style="width:20px" /></v-icon></a>
+                  <a href="#" class="d-inline-block ml-2" @click.prevent="editPermlink = true"><fa-icon icon="pencil-alt" style="width:20px" /></a>
                 </div>
 
                 <b-form-group
