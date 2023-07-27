@@ -78,9 +78,6 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade ${{ $config.TOKEN }} Token <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://wleo.io/hbd-polygon/`">
-       HBD-Polygon Bridge <fa-icon icon="external-link-alt" />
-       </b-list-group-item>
     </b-list-group>
 
     <template #footer>
