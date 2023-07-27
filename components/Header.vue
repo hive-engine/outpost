@@ -21,6 +21,9 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="d-none d-lg-flex">
+          <b-nav-item :href="`https://blocktunes.net`">
+           Home
+          </b-nav-item>
           <b-nav-item :href="`https://hive.blocktunes.net/@blocktunes/`">
             Blog
           </b-nav-item>
@@ -48,9 +51,6 @@
 
               <b-dropdown-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
                 $MUSIC NFTs
-              </b-dropdown-item>
-              <b-dropdown-item :href="`https://blocktunes.net/nft-collection/blocktunes-nfts/`">
-                BlockTunes NFTs on Polygon
               </b-dropdown-item>
               <b-dropdown-item :href="`https://blocktunes.net/product-category/blocktunes-music/external-nft-gallery/`">
                 External NFT Gallery
