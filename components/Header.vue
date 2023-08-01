@@ -50,24 +50,28 @@
                 ForSale
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'contests'}}">
-                Contests
+              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forhire'}}">
+                For Hire
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'services'}}">
-                Services
+              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'nowhiring'}}">
+                Now Hiring
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'gigs'}}">
-                Gigs
+              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'contest'}}">
+                Contest
               </b-dropdown-item>
 
-              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'events'}}">
-                Events
+              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'event'}}">
+                Event
               </b-dropdown-item>
 
               <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'fundraising'}}">
                 Fundraising
+              </b-dropdown-item>
+
+             <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'housing'}}">
+                Housing
               </b-dropdown-item>
             </b-nav-item-dropdown>
  
