@@ -47,7 +47,7 @@
               </template>
 
               <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forsale'}}">
-                ForSale
+                For Sale
               </b-dropdown-item>
 
               <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forhire'}}">
