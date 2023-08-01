@@ -43,23 +43,23 @@
       <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forsale'}}">
         ForSale
       </b-list-group-item>
-      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'contests'}}">
-        Contests
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forhire'}}">
+        For Hire
       </b-list-group-item>
-      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'services'}}">
-        Services
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'nowhiring'}}">
+        Now Hiring
       </b-list-group-item>
-      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'gigs'}}">
-        Gigs
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'contest'}}">
+        Contest
       </b-list-group-item>
-      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'events'}}">
-        Events
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'event'}}">
+        Event
       </b-list-group-item>
       <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'fundraising'}}">
         Fundraising
       </b-list-group-item>
-      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'hivecommerce'}}">
-        HiveCommerce
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'housing'}}">
+        Housing
       </b-list-group-item>
     </b-list-group>
 
