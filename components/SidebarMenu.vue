@@ -41,7 +41,7 @@
        Categories
       </b-list-group-item>
       <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forsale'}}">
-        ForSale
+        For Sale
       </b-list-group-item>
       <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forhire'}}">
         For Hire
