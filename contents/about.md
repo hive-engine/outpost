@@ -21,7 +21,7 @@ LasseCash is a so-called OUTPOST (first in history) build by Hive Engine, based 
 
 The Hive blockchain is the foundation layer-one blockchain for Hive Engine and therefore the foundation for the OUTPOST LasseCash.
 
-Proof of brain rewards
+Proof of Brain Rewards
 --
 
 The basic reward system is "proof of brain" blogging, whereas you can earn LASSECASH and LASSECASH POWER for creating blog posts on LasseCash. We have tweaked the parametres of the Scot.Bot. to be better than Hive and better than competing tribes and OUTPOSTs. All text is stored on the Hive blockchain and is therefore censorship resistant.
@@ -34,30 +34,30 @@ When you post from www.lassecash.com you can use 20 tags as an opposit to most i
 
 
 
-Diesel pool rewards
+Diesel Pool Rewards
 --
 
-If you provide liquidity to the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stabile and responsible way. 
+If you provide liquidity to the SWAP.HIVE:LASSECASH pool, you will earn Diesel pool rewards. We aim at providing high rewards on our pool, in a stable and responsible way. 
 
 The SWAP.HIVE:LASSECASH pool currently pays over 30% APY, whereas the LASSECASH:PUPPY pool pays over 110% APY. You can watch the APYs in realtime here: https://beeswap.dcity.io/swap?pools&search=lassecash
 
-Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE:LASSECASH pool. The share procentage you have of the total liquidity will decide the share of the daily liquidity rewards.
+Diesel pool rewards are paid out every day, depending on how much liquidity you provide to the SWAP.HIVE:LASSECASH pool. The share percentage you have of the total liquidity will decide the share of the daily liquidity rewards.
 
 There is a bonus applied for long term liquidity providers. You get 1% extra per day you hold the liquidity in the contract, up till 30 days. If you hold longer then 30 days, you will get 30% extra rewards each day. In other words, when you provide liquidity long term, you get more rewards.
 
 All liquidity can be added and removed instantly with no fee.
 
 
-NFT platform
+NFT Platform
 --
 
 LasseCash also enables you to mint your own NFTs. We prefer NFTs that contain or relate to anarchy, crypto and/or truth content, but other themes are also welcomed. You have to apply to be whitelisted and we usually respond fast. There are terms in place, if you violate those terms you can be blacklisted with no refund. We aim at providing the best NFT platform in the whole cryptocurrency market.
 
-A NFT on LasseCash can be an image, an audio file or a video file. This is quite unique, most other NFT platforms dont provide all three options at the same time.
+A NFT on LasseCash can be an image file, an audio file or a video file. This is quite unique, most other NFT platforms dont provide all three options at the same time.
 
 The first edition costs 1000 LASSECASH and each additional edition costs 100 LASSECASH. There is a 1% fee for trading NFTs on LasseCash. NFTs minted on LasseCash can also be sold on Openhive.
 
-Dynamic inflation
+Dynamic Inflation
 --
 
 Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST. He aim at only changing the inflation ones a year, but if nessesary it can be done at all times. Changes will always be announced in a post on the blockchain, so there is always full transparency, as there has been since the beginning of this product.
