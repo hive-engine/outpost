@@ -108,7 +108,7 @@
               Sign up
             </b-nav-item>
 
-            <b-nav-item v-else target="_blank" href="https://hiveonboard.com/?ref=lasseehlers">
+            <b-nav-item v-else target="_blank" href="https://signup.hive.io">
               Sign up
             </b-nav-item>
           </template>
