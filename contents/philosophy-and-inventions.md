@@ -19,7 +19,7 @@ Lasse Ehlers identify as an anarchocapitalist and flat earther, he learned about
 
 Lasse Ehlers believes that we need to use our real identity in order to create a free society, this idea originates from Stefan Molyneux and he might be the one who came up with the idea and/or formulated it the first time. Lasse Ehlers therefore advocating using your real name on the internet, if everyone did it and used cryptocurrencies all the time, then Illuminati's statism systems (based on satanism) would very fast come to an end. Lasse Ehlers believe anarchocapitalism will happen, that it is inevitably after the creation of Bitcoin and Blockchain technology.
 
-Lasse Ehlers acknowledge Murray Rothbard as the philosopher who first formulated the philosophy of anarchocapitalism. Lasse Ehlers also gives credit to Jeff Berwick for spreading the word about anarchocapitalism over the internet for many years. 
+Lasse Ehlers acknowledge Murray Rothbard as the philosopher who first formulated the philosophy of anarchocapitalism. Lasse Ehlers also gives credit to Jeff Berwick for spreading the word about anarchocapitalism over the internet for many years (eventhough his contribution today is less impactful and that he allegedly have scammed people in the past). 
 
 Lasse Ehlers believed since he saw Bitcoin and read the white paper in April 2013, that blockchain technology has the potential (that it is almost imminent and sure that it will happen) to end the Illuminati system/satanism/banking system/statism which he knew since 2004 destroy a lot of peoples lifes. **LasseCash and related products is Lasse Ehlers' implementations, to end these horrors on the flat earth.**
 
