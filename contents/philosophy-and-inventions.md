@@ -45,7 +45,7 @@ Relevant website:
 https://xen.network
 
 
-Lasse Ehlers (secondarily) endorse HEX, PULSE, PULSEX and related products. (Are maybe changing my views on these products, to the point where I might not endorse them in the future, I need time to decide.)
+Lasse Ehlers (secondarily) endorse HEX, PULSE, PULSEX and related products. 
 
 
 
