@@ -35,6 +35,9 @@ Best flat earth documentary till date:
 
 [![image.png](https://images.hive.blog/DQmUzxvVKpNmhdhfzMYVRuMoawbXws8YgZfC5UWBcfqwmUF/image.png)](https://odysee.com/@ODDTV:b/level-(2021)-first-flat-earth:6)
 
+Very good short Flat Earth video:
+
+https://www.lassecash.com/@lasseehlers/there-is-no-curvature-on-flat-earth
 
 ## **Endorsements**
 
