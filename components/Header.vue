@@ -45,6 +45,20 @@
           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
+                 Store <fa-icon class="ml-1" icon="angle-down" />
+                </div>
+              </template>
+
+              <b-dropdown-item :href="`https://blocktunes.net/product-category/blocktunes-music/`">
+                Music
+              </b-dropdown-item>
+              <b-dropdown-item :href="`https://blocktunes.net/product-category/merchandise/`">
+                Merch
+              </b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown variant="link" no-caret right>
+              <template #button-content>
+                <div class="d-flex align-items-center">
                  NFTs <fa-icon class="ml-1" icon="angle-down" />
                 </div>
               </template>
@@ -76,6 +90,9 @@
                 PRO Artist Account Login
               </b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item :href="`https://blocktunes.net/review-submission-form/`">
+            Submit
+          </b-nav-item>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
             Proposals
           </b-nav-item>
