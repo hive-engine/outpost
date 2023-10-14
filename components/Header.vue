@@ -36,12 +36,6 @@
           <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
             Curator's Pick
           </b-nav-item>
-          <b-nav-item :href="`https://blocktunes.net/product-category/blocktunes-music/`">
-             Music
-          </b-nav-item>
-          <b-nav-item :href="`https://blocktunes.net/product-category/merchandise/`">
-             Merch
-          </b-nav-item>
           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
