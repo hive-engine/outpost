@@ -41,13 +41,15 @@
       <b-list-group-item :href="`https://blocktunes.net/product-category/merchandise/`">
        Merch
       </b-list-group-item>
-       <b-list-group-item :href="`https://blocktunes.net/pro-artists/`">
+      <b-list-group-item :href="`https://blocktunes.net/pro-artists/`">
        PRO Artists
       </b-list-group-item>
       <b-list-group-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
-        Proposals
+        Submit
       </b-list-group-item>
-
+      <b-list-group-item :href="`https://blocktunes.net/pro-artists/`">
+        Pool
+      </b-list-group-item>
       <b-list-group-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
         Pool
       </b-list-group-item>
