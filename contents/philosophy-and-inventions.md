@@ -41,17 +41,27 @@ https://www.lassecash.com/@lasseehlers/there-is-no-curvature-on-flat-earth
 
 ## **Endorsements**
 
-Lasse Ehlers (primarily) endorse XEN, XeNFTs, X1, VMPX and related products.
+Lasse Ehlers (primarily) endorse Titan X.
+
+Relevant website: https://app.titanx.win
+
+Lasse Ehlers (secondarily) XEN, XeNFTs, X1, VMPX and related products.
 
 Relevant website:
 
 https://xen.network
 
+Lasse Ehlers (thirdly) endorse HEX, PULSE, PULSEX and related products. 
 
-Lasse Ehlers (secondarily) endorse HEX, PULSE, PULSEX and related products. 
+Relevant websites:
 
+https://hex.com
 
+https://pulsechain.com
 
+https://pulsex.com
+
+https://bridge.pulsechain.com/
 
 ## **Related tokens**
 
