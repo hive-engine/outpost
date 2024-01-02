@@ -61,6 +61,9 @@
       <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'housing'}}">
         Housing
       </b-list-group-item>
+      <b-list-group-item :to="{name:'sort-tag', params:{ sort:'created', tag:'wanted'}}">
+        Wanted
+      </b-list-group-item>
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
