@@ -73,6 +73,9 @@
              <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'housing'}}">
                 Housing
               </b-dropdown-item>
+            <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'wanted'}}">
+                Wanted
+              </b-dropdown-item>
             </b-nav-item-dropdown>
  
         </b-navbar-nav>
