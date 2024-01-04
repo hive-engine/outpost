@@ -91,6 +91,42 @@
       </b-list-group-item>
     </b-list-group>
 
+    <b-list-group class="mt-3" flush>
+       <b-list-group-item class="font-weight-bold" disabled>
+       Classified Post Templates
+      </b-list-group-item>
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/for-sale-category-post-template-for-hivelist-classifieds">
+        For Sale <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/for-hire-category-post-template-for-the-hivelist-classifieds">
+        For Hire <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/hivelist-post-rzt5h5">
+        Now Hiring <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/contest-post-template-for-the-hivelist-classifieds">
+        Contest <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/event-post-template-for-the-hivelist-classifieds-netwo">
+        Event <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/fundraising-template-for-the-hivelist-classifieds">
+        Fundraising <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/housin-template-for-the-hivelist-classifieds">
+        Housing <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/wanted-template-for-the-hivelist-classifieds">
+        Wanted <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+
     <template #footer>
       <div class="text-center pb-2 d-md-none">
         <b-button size="sm" @click.prevent="changeColorMode">
