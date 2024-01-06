@@ -2,7 +2,7 @@
 title: Philosophy, Inventions and Information
 ---
 
-# **Philosophy, Endorsements, Related tokens, Time-line and Inventions**
+# **Philosophy, Endorsements, Related tokens and Inventions**
 
 
 
