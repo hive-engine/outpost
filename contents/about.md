@@ -15,6 +15,8 @@ We are rewarding anarchy, crypto and truth content.
 
 Token launch date: Jun 28, 2019.
 
+16/9-2022: Lasse Ehlers spoke at HiveFest7: https://www.youtube.com/live/DZ9MpQQoPu4?feature=share&t=6500
+
 LasseCash is a cryptocurrency with zero fees and 3 second transactions, social media with rewards which is censorship resistant and a NFT platform. All of this is an economy that rewards Anarchy, Crypto and Truth. In blockchain we trust.
 
 LasseCash is a so-called OUTPOST (first in history) build by Hive Engine, based on Lasse Ehlers' ideas ( @lasseehlers ). Carlos Serrano ( @zaxan ) is the main graphics designer.
