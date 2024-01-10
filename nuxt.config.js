@@ -85,8 +85,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    'cookie-universal-nuxt',
-    '@/modules/axios-cache.js'
+    'cookie-universal-nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -105,6 +104,12 @@ export default {
       config.module.rules.push({
         test: /contents\/[\w-]+\.md$/,
         loader: 'raw-loader'
+      })
+
+      config.module.rules.push({
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
       })
     },
 
@@ -243,6 +248,7 @@ export default {
           'https://*.hcaptcha.com',
           'localhost:8080',
           'https://cinesearch.deta.dev',
+          config.SIDECHAIN_RPC,
           config.OUTPOST_ONBOARD_API,
           ...config.NODES
         ],

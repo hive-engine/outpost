@@ -1,6 +1,6 @@
 {
   "name": "outpost",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Blogging platform built on top of Hive and Hive-Engine, connected to a customizable reward pool to link people with a common interest. Outposts also include an NFT marketplace, own DTF, and Diesel Pool.",
   "keywords": [
@@ -30,7 +30,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@privyid/nuxt-csrf": "^1.0.0",
     "axios": "^0.26.1",
-    "axios-cache-adapter": "^2.7.3",
+    "axios-cache-interceptor": "^0.10.6",
     "body-parser": "^1.20.0",
     "bootstrap": "4.6.1",
     "bootstrap-vue": "^2.21.2",

@@ -1,13 +1,7 @@
-import { setupCache } from 'axios-cache-adapter'
+import { setupCache } from 'axios-cache-interceptor'
 
-export default function ({ $config, $axios, app, ssrContext }) {
-  if (process.server) {
-    $axios.defaults.adapter = ssrContext.$axiosCache.adapter
-  } else {
-    const { adapter } = setupCache($config.AXIOS_CACHE_CONFIG)
-
-    $axios.defaults.adapter = adapter
-  }
+export default function ({ $axios, app }) {
+  $axios = setupCache($axios)
 
   $axios.onRequest((config) => {
     const token = app.$csrfToken()
