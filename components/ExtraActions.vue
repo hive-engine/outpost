@@ -144,6 +144,14 @@ export default {
           okTitle: 'Promote'
         }).then((value) => {
           if (value) {
+            if (!this.amount || this.amount === '' || Number(this.amount) === 0) {
+              return self.$notify({
+                title: 'Error',
+                type: 'error',
+                text: 'Invalid promotion amount.'
+              })
+            }
+
             if (this.balance < this.amount) {
               return self.$notify({
                 title: 'Error',
