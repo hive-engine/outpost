@@ -237,7 +237,7 @@
 
             <td>
               {{ proposal.title }}<br>
-              <span class="text-muted">Recipient:</span> Distribution Contract #{{ proposal.payout.contractPayload.distId }}<br>
+              <span class="text-muted">Recipient:</span> Distribution Contract #{{ proposal.payout.contractPayload.distId }}</span><br>
               <span class="text-muted">Started:</span> {{ proposal.started ? 'Yes' : 'No' }}<br>
               <span class="text-muted">Paying:</span> {{ proposal.started && proposal.approvalWeight > Number(proposal.fund.voteThreshold) ? 'Yes' : 'No' }}<br>
               <span class="text-muted">Duration:</span> {{ proposal.startDateFormated }} - {{ proposal.endDateFormated }} ({{ proposal.duration }} days)

@@ -19,21 +19,28 @@
             Reblog
           </b-dropdown-item-button>
 
-          <b-dropdown-item-button v-if="$auth.loggedIn && type === 'post'" @click.prevent="showPromoteModal">
+          <b-dropdown-item-button v-if="type === 'post'" @click="$bvModal.show('promotePost')">
             Promote
           </b-dropdown-item-button>
         </b-dropdown>
       </div>
     </div>
+
+    <promote :author="author" :permlink="permlink" />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { getEstimatedVoteValue } from '@/utils/scot'
+import Promote from '@/components/modals/Promote.vue'
 
 export default {
   name: 'ExtraActions',
+
+  components: {
+    Promote
+  },
 
   props: {
     post: { type: Object, required: true }
@@ -43,10 +50,7 @@ export default {
     return {
       weight: 100,
       show: false,
-      pending: false,
-
-      amount: '',
-      balance: 0
+      pending: false
     }
   },
 
@@ -81,10 +85,6 @@ export default {
       return this.post.permlink
     },
 
-    authorperm () {
-      return `@${this.author}/${this.permlink}`
-    },
-
     deletable () {
       return this.post.vote_rshares <= 0 && this.post.children === 0
     },
@@ -95,81 +95,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('post', ['requestBroadcastReblog', 'requestEditPost', 'requestBroadcastDelete', 'requestPromotePost']),
-
-    async showPromoteModal () {
-      try {
-        const balance = await this.$sidechain.getBalance(this.$auth.user.username, this.$config.TOKEN)
-
-        if (balance) {
-          this.balance = Number(balance.balance)
-        }
-
-        const h = this.$createElement
-
-        const titleVNode = h('div', { domProps: { innerHTML: 'Promote Post' } })
-
-        const self = this
-
-        const messageVNode = h('div', { class: [''] }, [
-          h('p', { class: [] }, [`Burn ${this.$config.TOKEN} to advertize this post in the promoted contents section.`]),
-          h('b-form-group', { class: ['mt-3'], props: { label: 'Post' } }, [
-            h('b-form-input', { props: { readonly: true, value: this.authorperm } })
-          ]),
-          h('b-form-group', { class: ['mt-3'], props: { label: 'Balance' } }, [
-            h('div',
-              {
-                class: ['d-inline-block ']
-              },
-              [`${this.balance} ${this.$config.TOKEN}`]
-            )
-          ]),
-          h('b-form-group', { class: ['mt-3'], props: { label: 'Amount' } }, [
-            h('b-input-group', { props: { append: this.$config.TOKEN } }, [
-              h('b-form-input',
-                {
-                  props: { number: true, type: 'number', value: self.amount },
-                  on: { input (value) { self.amount = value } }
-                }
-              )
-            ])
-          ])
-        ])
-
-        this.$bvModal.msgBoxConfirm([messageVNode], {
-          title: [titleVNode],
-          centered: true,
-          size: 'md',
-          hideHeaderClose: false,
-          okTitle: 'Promote'
-        }).then((value) => {
-          if (value) {
-            if (!this.amount || this.amount === '' || Number(this.amount) === 0) {
-              return self.$notify({
-                title: 'Error',
-                type: 'error',
-                text: 'Invalid promotion amount.'
-              })
-            }
-
-            if (this.balance < this.amount) {
-              return self.$notify({
-                title: 'Error',
-                type: 'error',
-                text: 'You do not have enough balance.'
-              })
-            }
-
-            this.requestPromotePost({ memo: this.authorperm, amount: this.amount })
-
-            this.amount = ''
-          }
-        })
-          .catch(error => console.log(error))
-      } catch {
-        //
-      }
-    }
+    ...mapActions('post', ['requestBroadcastReblog', 'requestEditPost', 'requestBroadcastDelete'])
   }
 }
 </script>

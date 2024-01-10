@@ -41,21 +41,12 @@ export default {
         }
       }
     })
-
-    this.$eventBus.$on('post-promotion-successful', ({ memo }) => {
-      self.$notify({
-        title: 'Success',
-        type: 'success',
-        text: `Successfully promoted ${memo}`
-      })
-    })
   },
 
   beforeDestroy () {
     this.posts = []
 
     this.$eventBus.$off(['upvote-successful', 'downvote-successful', 'unvote-successful'])
-    this.$eventBus.$off('post-promotion-successful')
   },
 
   methods: {

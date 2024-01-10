@@ -17,7 +17,7 @@
 
     <template v-else-if="config.tokensAvailable <= 0">
       <b-alert variant="warning" class="text-center mt-5 mb-5" show>
-        We do not have enough account creation tokens at the moment. Please check back later.
+        We do not have enough account creation tokens at the momemnt. Please check back later.
       </b-alert>
     </template>
 
