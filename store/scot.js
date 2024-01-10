@@ -63,8 +63,8 @@ export const actions = {
 
     try {
       let posts = (endpoint === 'curated')
-        ? await this.$axios.$get('/api/v1/curated', { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 15 * 60 * 1000 } })
-        : await this.$scot.$get(endpoint, { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, maxAge: 5 * 60 * 1000 } })
+        ? await this.$axios.$get('/api/v1/curated', { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, ttl: 15 * 60 * 1000 } })
+        : await this.$scot.$get(endpoint, { params, cache: { ...this.$config.AXIOS_CACHE_CONFIG, ttl: 5 * 60 * 1000 } })
 
       posts = posts.map((post) => {
         post.estimated_payout_value = toFixedWithoutRounding((post.pending_token || post.total_payout_value) / 10 ** rootState.tribe_info.precision, rootState.tribe_info.precision)
