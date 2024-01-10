@@ -1,13 +1,10 @@
-import { setupCache } from 'axios-cache-adapter'
+import { setupCache } from 'axios-cache-interceptor'
 
 export default ({ $config, $axios }, inject) => {
-  const { adapter } = setupCache($config.AXIOS_CACHE_CONFIG)
-
-  const SCOTAPI = $axios.create({
+  const SCOTAPI = setupCache($axios.create({
     baseURL: $config.SCOT_API,
-    adapter,
     withCredentials: false
-  })
+  }))
 
   SCOTAPI.onRequest((config) => {
     const params = { ...config.params, token: $config.TOKEN }
