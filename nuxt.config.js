@@ -241,6 +241,7 @@ export default {
           'https://hcaptcha.com',
           'https://*.hcaptcha.com',
           'localhost:8080',
+          config.SIDECHAIN_RPC,
           config.OUTPOST_ONBOARD_API,
           ...config.NODES
         ],
