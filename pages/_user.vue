@@ -145,6 +145,7 @@ export default {
     childRoutes () {
       return [
         { name: 'user', title: 'Blog', show: true },
+        { name: 'user-scheduledposts', title: 'Scheduled posts', show: true },
         { name: 'user-comments', title: 'Comments', show: true },
         { name: 'user-replies', title: 'Replies', show: true },
         { name: 'user-followers', title: 'Connections', show: true },

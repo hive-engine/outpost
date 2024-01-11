@@ -37,6 +37,87 @@
             <b-button variant="secondary" block @click.prevent="$bvModal.show('smartLock')">
               SmartLock
             </b-button>
+            <hr>
+            <b-button v-b-toggle.collapse-1 variant="outline-primary" class="ouline-0 border-0 fw-bold fs-3">
+              SignUp
+            </b-button>
+            <b-collapse id="collapse-1">
+              <small :style="{ color: 'green' }">Free but requires verification</small>
+              <a
+                type="button"
+                href="https://leofinance.io/signup"
+                target="_blank"
+                rel="noreferrer"
+                class="btn btn-primary "
+                :style="{
+                  backgroundColor:'white',
+                  color:'#999999',
+                  width:'100%',
+                  marginTop:'20px',
+                  border:'1px solid #999999',
+                  borderRadius:'0',
+                }"
+              >
+                SignUp with LeoFinance
+              </a>
+              <small>then click the "Create a Hive Account".</small>
+              <a
+                type="button"
+                href="https://ecency.com/signup"
+                target="_blank"
+                rel="noreferrer"
+                class="btn btn-primary "
+                :style="{
+                  backgroundColor:'white',
+                  color:'#999999',
+                  width:'100%',
+                  marginTop:'20px',
+                  border:'1px solid #999999',
+                  borderRadius:'0',
+                }"
+              >SignUp with Ecency
+              </a>
+              <a
+                type="button"
+                href="https://hiveonboard.com/create-account"
+                target="_blank"
+                rel="noreferrer"
+                class="btn btn-primary "
+                :style="{
+                  backgroundColor:'white',
+                  color:'#999999',
+                  width:'100%',
+                  marginTop:'20px',
+                  border:'1px solid #999999',
+                  borderRadius:'0',
+                }"
+              >SignUp with HiveOnBoard
+              </a>
+              <hr
+                class="mx-auto"
+                :style="{
+                  width:'50%',
+                  marginTop:'20px',
+                  marginBottom:'10px'
+                }"
+              >
+              <small :style="{ color: 'green' }">SignUp instantly with a cost of $2.45</small>
+              <a
+                type="button"
+                href="https://discoverhive.com"
+                target="_blank"
+                rel="noreferrer"
+                class="btn btn-primary "
+                :style="{
+                  backgroundColor:'white',
+                  color:'#999999',
+                  width:'100%',
+                  border:'1px solid #999999',
+                  borderRadius:'0',
+                }"
+              >SignUp with Discover Hive
+              </a>
+            </b-collapse>
           </div>
         </div>
       </template>

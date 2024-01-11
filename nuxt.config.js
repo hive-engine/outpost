@@ -52,13 +52,11 @@ export default {
     '@/plugins/sidechain.js',
     '@/plugins/vue-lazyload.js',
     '@/plugins/vue-notification.js',
-    '@/plugins/vue-plyr.client.js',
     '@/plugins/vue-timeago.js',
     '@/plugins/vue-timers.client.js',
-    '@/plugins/vuelidate.js'
+    '@/plugins/vuelidate.js',
+    { src: '@/plugins/node-cron.js', mode: 'server'}
   ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: false,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -84,7 +82,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: config.APP_DOMAIN,
+    baseURL: config.DEV_API,
     credentials: true
   },
 
@@ -212,6 +210,7 @@ export default {
         ],
         'connect-src': [
           "'self'",
+          'http://localhost:3001',
           'wss://ws.beechat.hive-engine.com',
           'https://beechat.hive-engine.com',
           'https://history.hive-engine.com',
@@ -225,6 +224,7 @@ export default {
           'securepubads.g.doubleclick.net',
           'https://api.steemit.com',
           'https://api.hive.blog',
+          'https://honouree.com/api/v1/login',
           'api.blocktrades.us',
           'https://hivesigner.com',
           'https://pagead2.googlesyndication.com',
@@ -241,7 +241,7 @@ export default {
           'https://api.marketplace.tribaldex.com',
           'https://hcaptcha.com',
           'https://*.hcaptcha.com',
-          'localhost:8080',
+          'http://localhost:8080',
           config.OUTPOST_ONBOARD_API,
           ...config.NODES
         ],
@@ -272,7 +272,7 @@ export default {
           autoFetch: false
         },
         endpoints: {
-          login: { url: '/api/v1/login', method: 'post' },
+          login: { url: '/login', method: 'post' },
           logout: { url: '/api/v1/logout', method: 'post' },
           user: { url: '/api/v1/me', method: 'post' },
           csrf: false

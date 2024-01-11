@@ -9,7 +9,7 @@
     <Header />
 
     <Nuxt />
-
+    <CronPost />
     <Login />
     <SignUp v-if="$config.OUTPOST_ONBOARD" />
 
@@ -32,12 +32,14 @@ import { mapActions } from 'vuex'
 import BackToTop from 'vue-backtotop'
 import Header from '@/components/Header.vue'
 import Login from '@/components/modals/Login.vue'
+import CronPost from '@/components/modals/CronPost.vue'
 
 export default {
   name: 'MainLayout',
 
   components: {
     BackToTop,
+    CronPost,
     Header,
     Login,
     SignUp: () => import(/* webpackChunkName: "SignUpModal" */ '@/components/modals/SignUp.vue'),

@@ -1,16 +1,15 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 import axios from 'axios'
 import csurf from 'csurf'
-import cors from 'cors'
+// import cors from 'cors'
 import { differenceInMinutes } from 'date-fns'
 import { Client, cryptoUtils, utils, Signature } from '@hiveio/dhive'
 import * as config from '../config'
+import cronblogsRouter from './cronblogs';
 
 const app = express()
-
 const hiveClient = new Client(config.NODES)
 
 const csurfProtection = csurf({ cookie: true })
@@ -30,8 +29,8 @@ const fetchPost = async ({ author, permlink }) => {
   return data[config.TOKEN]
 }
 
-app.set('trust proxy', 1)
-app.use(bodyParser.json())
+app.set('trust proxy', 1);
+app.use(express.json());  // Use built-in feature of Express, an alternaive to bodyParser
 app.use(cookieSession({
   name: 'session',
   secret: process.env.SESSION_SECRET || 'mySuperSecretSessionSecret',
@@ -41,7 +40,15 @@ app.use(cookieSession({
 }))
 app.use(cookieParser())
 
-app.use(cors())
+// app.use(cors())
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-csrf-token');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+app.use('/api/cronblogs', cronblogsRouter);
 
 app.get('/', (req, res) => {
   res.json({
@@ -51,17 +58,6 @@ app.get('/', (req, res) => {
 
 app.post('/login', csurfProtection, async (req, res) => {
   const { username, sig, ts, smartlock } = req.body
-
-  if (process.env.NODE_ENV === 'production') {
-    const timeDifference = differenceInMinutes(Date.now(), ts)
-
-    if (timeDifference >= 3) {
-      return res.json({
-        message:
-          'Provided timestamp is invalid or too old. Please check that your system clock has the correct date and time.'
-      }).status(401)
-    }
-  }
 
   try {
     const [account] = await hiveClient.database.getAccounts([username])
@@ -203,11 +199,11 @@ app.get('/curated', async (req, res) => {
 
 module.exports = app
 
-if (require.main === module) {
+// if (require.main === module) {
   const port = process.env.PORT || 3001
 
   app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`API server listening on port ${port}`)
   })
-}
+// }

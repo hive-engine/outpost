@@ -214,6 +214,12 @@
 
         <div class="action-buttons bg-light">
           <b-container fluid>
+            <b-form-group label="date" label-sr-only description="">
+              <b-form-input v-model.trim="date" type="date" placeholder="scheduled post date" />
+            </b-form-group>
+            <b-form-group label="time" label-sr-only description="">
+              <b-form-input v-model.trim="time" type="time" placeholder="scheduled post time" />
+            </b-form-group>
             <b-button size="lg" variant="primary" :disabled="!$auth.loggedIn" @click.prevent="publishPost">
               {{ isEditing ? 'Update' : 'Publish' }} <fa-icon icon="arrow-right" />
             </b-button>
@@ -286,6 +292,7 @@ import getSlug from 'speakingurl'
 import sanitize from 'sanitize-html'
 import { Remarkable } from 'remarkable'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import axios from 'axios'
 import HtmlReady from '@/utils/HtmlReady'
 import { escapeHTML, isHtmlTest, allTags } from '@/utils'
 import sanitizeConfig, { allowedTags } from '@/utils/sanitize-config'
@@ -316,6 +323,8 @@ export default {
       permlink: '',
       tags: [],
       summary: '',
+      date: '',
+      time: '',
       author: '',
       toolbarOptions: {
         bold: true,
@@ -505,12 +514,39 @@ export default {
     removeBeneficiary (index) {
       this.beneficiaries.splice(index, 1)
     },
+    async persistDateTime2Mongodb () {
+      const payload = {
+        date: this.date,
+        time: this.time,
+        permlink: this.permlink,
+        title: this.title,
+        body: this.body,
+        author: this.author,
+        parent_permlink: '',
+        json_metadata: '',
+        parent_author: ''
+      }
+      try {
+        await axios.post(`${process.env.POST}`, payload)
+
+        // Reset input fields upon posting
+        // this.cronBlogs = JSON.parse(JSON.stringify({ ...this.cronBlogs, ...Object.keys(this.cronBlogs).reduce((acc, key) => ({ ...acc, [key]: '' }), {}) }));
+
+        return this.$notify({
+          title: 'Scheduled Post',
+          text: 'New date and time have been added!',
+          type: 'success'
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
 
     publishPost () {
       this.$v.$touch()
 
       if (!this.$v.$invalid) {
-        const { title, permlink, body, tags, selectedCoverImage, payoutType, beneficiaries } = this
+        const { title, permlink, body, tags, date, time, selectedCoverImage, payoutType, beneficiaries } = this
 
         const isHtml = isHtmlTest(body)
 
@@ -591,16 +627,20 @@ export default {
           })
         }
 
-        this.requestBroadcastPost({
-          title,
-          permlink,
-          body,
-          metadata: meta,
-          payout_type: payoutType,
-          beneficiaries,
-          post_type: 'post',
-          edit: this.isEditing
-        })
+        if (this.date && this.time) {
+          this.persistDateTime2Mongodb()
+        } else {
+          this.requestBroadcastPost({
+            title,
+            permlink,
+            body,
+            metadata: meta,
+            payout_type: payoutType,
+            beneficiaries,
+            post_type: 'post',
+            edit: this.isEditing
+          })
+        }
       }
     },
 

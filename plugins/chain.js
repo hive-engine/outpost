@@ -1,7 +1,7 @@
 import { Asset, Client, PrivateKey, PublicKey, cryptoUtils, utils } from '@hiveio/dhive'
 
 export default ({ app, $config }, inject) => {
-  let rpcNode = app.$cookies.get('mainchain_rpc') || $config.NODES[0]
+  let rpcNode = app.$cookies.get('mainchain_rpc') || $config.NODES[0] // api.deathwing.me
 
   rpcNode = Array.from(new Set([rpcNode, ...$config.NODES]))
 
