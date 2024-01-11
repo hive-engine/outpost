@@ -44,29 +44,33 @@
         Trade
       </b-list-group-item>
       -->
-      
+
       <b-list-group-item :to="{name:'about'}">
         About
       </b-list-group-item>
-      
+
       <b-list-group-item :to="{name:'principles'}">
         Principles
       </b-list-group-item>
-      
+
       <b-list-group-item :to="{name:'faqs'}">
         How-To Guides
       </b-list-group-item>
-      
+
       <b-list-group-item :to="{name:'updates'}">
         Updates
       </b-list-group-item>
-      
+
       <b-list-group-item :to="{name:'promos'}">
         Promos and Discounts
       </b-list-group-item>
 
       <b-list-group-item :to="{name:'supporters'}">
         Supporters
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'team'}">
+        Team
       </b-list-group-item>
 
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
