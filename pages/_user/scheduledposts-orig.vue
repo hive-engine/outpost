@@ -6,7 +6,7 @@
           Schedules Booked
         </div>
         <div v-if="Object.keys(cronBlogs).length > 0" class="card-body">
-          <div class="table-responsive text-center">
+          <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -16,16 +16,18 @@
                   <th id="time_th">
                     Time
                   </th>
-                  <th id="th_post">
+                  <th id="post_th">
                     Post
                   </th>
-                  <th id="th_title">
+                  <th id="title_th">
                     Title
                   </th>
-                  <th id="th_permlink">
-                    Permalink
+                  <th id="permlink_th">
+                    Permlink
                   </th>
-                  <th>Delete</th>
+                  <th id="delete_th">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -105,22 +107,36 @@ export default {
 </script>
 
   <style>
-  th, td {
-  text-align: center;
+  .table {
+  width: 70% !important;
   }
-
-  #th_post {
-  width: 25%;
-  }
-  #th_title {
-  width: 25%;
-  }
-  #th_permlink {
-  width: 35%;
-  }
-
   #date_th {
+  width: 12% !important;
   white-space: nowrap;
+  }
+  #time_th {
+  width: 12% !important;
+  white-space: nowrap;
+  }
+  #post_th {
+  width: 18% !important;
+  white-space: nowrap;
+  }
+  #title_th {
+  width: 12% !important;
+  white-space: nowrap;
+  }
+  #permlink_th {
+  width: 12% !important;
+  white-space: nowrap;
+  }
+  #delete_th {
+  width: 12% !important;
+  white-space: nowrap;
+  }
+
+  #date_td {
+  width: 15% !important;
   }
 
   tbody tr td:nth-child(3) {
@@ -132,6 +148,6 @@ export default {
   }
 
   .table {
-  text-align: center;
+  text-align: left;
   }
   </style>
