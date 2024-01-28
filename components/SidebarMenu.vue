@@ -74,8 +74,8 @@
         Home <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://hivelist.io/list-token">
-        LIST Token <fa-icon icon="external-link-alt" />
+      <b-list-group-item target="_blank" href="https://hivelist.io/tokenomics">
+        Tokenomics <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
       <b-list-group-item target="_blank" href="https://hivelist.store">
