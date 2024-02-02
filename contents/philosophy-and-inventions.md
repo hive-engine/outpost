@@ -41,7 +41,7 @@ Very good short Flat Earth video:
 
 https://www.lassecash.com/@lasseehlers/there-is-no-curvature-on-flat-earth
 
-## **Endorsements**
+## **Endorsement**
 
 Lasse Ehlers endorse Titan X.
 
