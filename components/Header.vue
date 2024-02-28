@@ -21,14 +21,14 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="d-none d-lg-flex">
-            <b-nav-item target="_blank" href="https://hivelist.io">
-              Home <fa-icon icon="external-link-alt" />
+            <b-nav-item href="https://hivelist.io">
+              Home
             </b-nav-item>
-            <b-nav-item target="_blank" href="https://hivelist.io/tokenomics">
-              Tokenomics <fa-icon icon="external-link-alt" />
+            <b-nav-item href="https://hivelist.io/tokenomics">
+              Tokenomics
             </b-nav-item>
-            <b-nav-item target="_blank" href="https://hivelist.store">
-              Store <fa-icon icon="external-link-alt" />
+            <b-nav-item href="https://hivelist.store">
+              Store
             </b-nav-item>
            <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
