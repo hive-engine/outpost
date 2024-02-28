@@ -70,16 +70,6 @@
         Wanted
       </b-list-group-item>
     </b-list-group>
-      
-    <b-list-group class="d-lg-none" flush>
-      <b-list-group-item class="font-weight-bold" disabled>
-        Trade
-      </b-list-group-item>
-
-      <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
-        Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-    </b-list-group>
 
     <b-list-group class="mt-3" flush>
        <b-list-group-item class="font-weight-bold" disabled>
@@ -116,6 +106,15 @@
       <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/wanted-template-for-the-hivelist-classifieds">
         Wanted <fa-icon icon="external-link-alt" />
       </b-list-group-item>
+
+      <b-list-group-item class="font-weight-bold" disabled>
+        Trade
+      </b-list-group-item>
+
+      <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
+        Trade {{ $config.TOKEN }} <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+    </b-list-group>
 
     <template #footer>
       <div class="text-center pb-2 d-md-none">
