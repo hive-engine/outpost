@@ -21,30 +21,30 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="d-none d-lg-flex">
-          <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
-            Feed
-          </b-nav-item>
-          <b-nav-item :to="{name:'sort', params:{sort:'trending'}}">
-            Explore
-          </b-nav-item>
-          <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
-            Curator's Pick
-          </b-nav-item>
-          <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
-            NFTs
-          </b-nav-item>
-          <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
-            Proposals
-          </b-nav-item>
-          <b-nav-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
-            Pool
-          </b-nav-item>
-          <b-nav-item-dropdown variant="link" no-caret right>
+            <b-nav-item target="_blank" href="https://hivelist.io">
+              Home <fa-icon icon="external-link-alt" />
+            </b-nav-item>
+            <b-nav-item target="_blank" href="https://hivelist.io/tokenomics">
+              Tokenomics <fa-icon icon="external-link-alt" />
+            </b-nav-item>
+            <b-nav-item target="_blank" href="https://hivelist.store">
+              Store <fa-icon icon="external-link-alt" />
+            </b-nav-item>
+           <b-nav-item-dropdown variant="link" no-caret right>
               <template #button-content>
                 <div class="d-flex align-items-center">
-                 Classifieds Categories <fa-icon class="ml-1" icon="angle-down" />
+                 Classifieds <fa-icon class="ml-1" icon="angle-down" />
                 </div>
               </template>
+              <b-dropdown-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
+                Feed
+              </b-dropdown-item>
+              <b-dropdown-item :to="{name:'sort', params:{sort:'trending'}}">
+                Explore
+              </b-dropdown-item>
+              <b-dropdown-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
+                Curator's Pick
+              </b-dropdown-item>
 
               <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'forsale'}}">
                 For Sale
@@ -76,7 +76,18 @@
             <b-dropdown-item :to="{name:'sort-tag', params:{ sort:'created', tag:'wanted'}}">
                 Wanted
               </b-dropdown-item>
-            </b-nav-item-dropdown>
+          </b-nav-item-dropdown>
+          
+          <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
+            NFTs
+          </b-nav-item>
+          <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
+            Proposals
+          </b-nav-item>
+          <b-nav-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
+            Pool
+          </b-nav-item>
+         
  
         </b-navbar-nav>
 
