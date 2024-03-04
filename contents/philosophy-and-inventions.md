@@ -43,9 +43,13 @@ https://www.lassecash.com/@lasseehlers/there-is-no-curvature-on-flat-earth
 
 ## **Endorsement**
 
-Lasse Ehlers endorse Titan X.
+Lasse Ehlers endorse Titan X, XEN and Richard Heart Ecosystem (HEX, PULSE, PULSEX and more).
 
-https://app.titanx.win
+[Titan X](https://app.titanx.win)
+
+[Xen](https://xen.network/)
+
+[Hex](https://hex.com)
 
 ## **Related tokens**
 
