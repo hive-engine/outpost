@@ -35,6 +35,9 @@
       <b-list-group-item :href="`https://blocktunes.net/nft-collections/`">
         NFTs
       </b-list-group-item>
+      <b-list-group-item :href="`https://blocktunes.net/services/`">
+        Services
+      </b-list-group-item>
       <b-list-group-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
         Pool
       </b-list-group-item>
