@@ -36,17 +36,9 @@
           <b-nav-item v-if="$config.CURATED_FEED && $config.CURATED_FEED_ACCOUNT !== ''" :to="{name:'sort', params:{sort:'curated'}}">
             Curator's Pick
           </b-nav-item>
-          <b-nav-item-dropdown variant="link" no-caret right>
-              <template #button-content>
-                <div class="d-flex align-items-center">
-                 NFTs <fa-icon class="ml-1" icon="angle-down" />
-                </div>
-              </template>
-
-              <b-dropdown-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
-                Hive NFTs
-              </b-dropdown-item>
-          </b-nav-item-dropdown>
+          <b-nav-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
+            NFTs
+          </b-nav-item>  
           <b-nav-item :href="`https://blocktunes.net/services/`">
             Services
           </b-nav-item>
