@@ -47,7 +47,9 @@
                 Hive NFTs
               </b-dropdown-item>
           </b-nav-item-dropdown>
-        
+          <b-nav-item :href="`https://blocktunes.net/services/`">
+            Services
+          </b-nav-item>
           <b-nav-item v-if="$config.DTF_ENABLED" :to="{name:'proposals'}">
             Proposals
           </b-nav-item>
