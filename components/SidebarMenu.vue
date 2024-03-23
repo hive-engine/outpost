@@ -32,7 +32,7 @@
         Curator's Pick
       </b-list-group-item>
 
-      <b-list-group-item :href="`https://blocktunes.net/nft-collections/`">
+      <b-list-group-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
         NFTs
       </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/services/`">
