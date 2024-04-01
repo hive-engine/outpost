@@ -2,7 +2,7 @@
 title: Philosophy, Inventions and Information
 ---
 
-# **Philosophy, Endorsements, Related tokens and Inventions**
+# **Philosophy, Endorsements and Inventions**
 
 
 
@@ -51,20 +51,7 @@ Lasse Ehlers endorse Titan X, XEN and Richard Heart Ecosystem (HEX, PULSE, PULSE
 
 [Hex](https://hex.com)
 
-## **Related tokens**
 
-
-Lasse Ehlers came up with the ideas for 21 other LasseCash related tokens.
-
-Read more here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash
-
-and here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash-2-0
-
-and here: https://www.lassecash.com/@lasseehlers/related-tokens-to-lassecash-3-0
-
-and here: https://www.lassecash.com/@lasseehlers/puppy-got-a-rewarding-diesel-pool
-
-and here: https://www.lassecash.com/@lasseehlers/angelocash
 
 
 
