@@ -18,7 +18,7 @@
       <b-list-group-item target="_blank" href="https://hivelist.io/tokenomics">
         Tokenomics <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" href="https://hivelist.store">
+      <b-list-group-item target="_blank" href="https://store.hivelist.io">
         Store <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
