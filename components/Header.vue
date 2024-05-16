@@ -27,7 +27,7 @@
             <b-nav-item href="https://hivelist.io/tokenomics">
               Tokenomics
             </b-nav-item>
-            <b-nav-item href="https://hivelist.store">
+            <b-nav-item href="https://store.hivelist.io">
               Store
             </b-nav-item>
            <b-nav-item-dropdown variant="link" no-caret right>
