@@ -69,7 +69,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:3001/api/cronblogs/fetchBlogsFromMongo');
+        const response = await axios.get('http://13.212.183.88/api/v1/cronblogs/fetchBlogsFromMongo');
         const data = response.data;
         console.log('mongo data = ',data);
         this.cronBlogs = data;
@@ -80,7 +80,7 @@ export default {
 
     async submitBlog() {
       try {
-        const response = await axios.post('http://localhost:3001/api/cronblogs/insertBlog', {
+        const response = await axios.post('http://13.212.183.88/api/v1/cronblogs/insertBlog', {
           date: this.cronBlogs.date,
           time: this.cronBlogs.time,
           post: this.cronBlogs.post
@@ -94,7 +94,7 @@ export default {
 
     async deleteBlog(id) {
       try {
-        const path = `http://localhost:3001/api/cronblogs/deleteBlogsFromMongo/${id}`
+        const path = `http://13.212.183.88/api/v1/cronblogs/deleteBlogsFromMongo/${id}`
         const response = await axios.delete(path)
         this.fetchData();
       } catch ( error ) {

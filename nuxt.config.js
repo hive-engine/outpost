@@ -55,7 +55,7 @@ export default {
     '@/plugins/vue-timeago.js',
     '@/plugins/vue-timers.client.js',
     '@/plugins/vuelidate.js',
-    { src: '@/plugins/node-cron.js', mode: 'server'}
+    { src: '@/plugins/node-cron.js', mode: 'server' }
   ],
   components: false,
 
@@ -183,9 +183,9 @@ export default {
     HS_API_KEY: process.env.HS_API_KEY
   },
 
-  serverMiddleware: {
-    '/api/v1': '~/api'
-  },
+  serverMiddleware: [{
+    '/api/v1': '~/api', handler: '~/api/index.js', path: '/api'
+  }],
 
   render: {
     csp: {
@@ -241,7 +241,7 @@ export default {
           'https://api.marketplace.tribaldex.com',
           'https://hcaptcha.com',
           'https://*.hcaptcha.com',
-          'http://localhost:8080',
+          'http://localhost:3000',
           config.OUTPOST_ONBOARD_API,
           ...config.NODES
         ],
@@ -272,7 +272,7 @@ export default {
           autoFetch: false
         },
         endpoints: {
-          login: { url: '/login', method: 'post' },
+          login: { url: '/api/v1/login', method: 'post' },
           logout: { url: '/api/v1/logout', method: 'post' },
           user: { url: '/api/v1/me', method: 'post' },
           csrf: false
@@ -294,7 +294,7 @@ export default {
 
   server: {
     port: 8080,
-    host: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost'
+    host: 'localhost'
   },
 
   router: {

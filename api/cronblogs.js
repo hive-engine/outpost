@@ -29,7 +29,7 @@ const blogSchema = new Schema({
   time: String,
 });
 
-const BlogModel = mongoose.model('comment', blogSchema);
+const BlogModel = mongoose.models.comment || mongoose.model('comment', blogSchema);
 
 router.get('/fetchBlogsFromMongo', async (req, res) => {
   try {
@@ -43,31 +43,31 @@ router.get('/fetchBlogsFromMongo', async (req, res) => {
 
 router.post('/insertBlog', async (req, res) => {
   const {
-      time, 
-      body, 
-      parent_permlink, 
-      permlink, 
+      time,
+      body,
+      parent_permlink,
+      permlink,
       title,
       json_metadata,
       parent_author
   } = req.body;
-  
+
   const date = moment(req.body.date).format('MMM DD, YYYY');
 
   const newBlog = new BlogModel({
-    date, 
-    time, 
-    parent_permlink, 
-    permlink, 
-    title, 
+    date,
+    time,
+    parent_permlink,
+    permlink,
+    title,
     body,
     json_metadata,
     parent_author
   });
 
   try {
-    await newBlog.save();
-    res.status(200).json({ message: 'Blog post inserted successfully' });
+    const data = await newBlog.save();
+    res.status(200).json({ message: 'Blog post inserted successfully', data: data });
   } catch (err) {
      console.error(err);
      res.status(500).json({ message: 'Failed to insert blog post' });

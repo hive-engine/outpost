@@ -214,7 +214,9 @@
 
         <div class="action-buttons bg-light">
           <b-container fluid>
-            <b-form-group label="date" label-sr-only description="">
+            <b-form-group label="date" label-sr-only description="" class="text-left">
+              <b-badge variant="warning">Every schedule post time should have minimum 5 minutes difference</b-badge>
+
               <b-form-input v-model.trim="date" type="date" placeholder="scheduled post date" />
             </b-form-group>
             <b-form-group label="time" label-sr-only description="">
@@ -308,6 +310,7 @@ export default {
   },
 
   middleware: 'authenticated',
+
 
   asyncData ({ req }) {
     return {
@@ -532,16 +535,17 @@ export default {
         // Reset input fields upon posting
         // this.cronBlogs = JSON.parse(JSON.stringify({ ...this.cronBlogs, ...Object.keys(this.cronBlogs).reduce((acc, key) => ({ ...acc, [key]: '' }), {}) }));
 
+        this.$router.push({ name: 'user-scheduledposts', params: { user: this.$auth.user.username } });
+
         return this.$notify({
           title: 'Scheduled Post',
-          text: 'New date and time have been added!',
+          text: 'Schedule post have been added!',
           type: 'success'
         })
       } catch (error) {
         console.error(error)
       }
     },
-
     publishPost () {
       this.$v.$touch()
 
@@ -683,7 +687,6 @@ export default {
         return !/(?:\*[\w\s]*\*|#[\w\s]*#|_[\w\s]*_|~[\w\s]*~|\]\s*\(|\]\s*\[)/.test(value)
       }
     },
-
     body: {
       required,
       validateSize: (v) => {

@@ -25,7 +25,7 @@ To change the default link preview image (`cover.png`), favicon (`favicon.ico`),
 
 `NODE_ENV` - For production, please set it to `production`, for development set it to `development`
 
-`APP_DOMAIN` - Domain name of your Outpost instance. For development, it could be - http://localhost:8080
+`APP_DOMAIN` - Domain name of your Outpost instance. For development, it could be - http://localhost:3000
 
 `SESSION_SECRET` - A password like string to encrypt user session. If you have Node JS installed you can generate one using this command - `node -e "console.log(require('crypto').randomBytes(32).toString('hex'));"`
 
@@ -39,7 +39,7 @@ To change the default link preview image (`cover.png`), favicon (`favicon.ico`),
 $ npm install
 ```
 
-### Serve with hot reload at localhost:8080
+### Serve with hot reload at localhost:3000
 
 ```bash
 $ npm run dev
