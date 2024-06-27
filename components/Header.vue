@@ -85,7 +85,10 @@
             Proposals
           </b-nav-item>
           <b-nav-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
-            Pool
+            Swap
+          </b-nav-item>
+          <b-nav-item href="https://hivelist.org/@hivelist">
+              Blog
           </b-nav-item>
          
  
