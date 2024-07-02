@@ -45,10 +45,10 @@
 
     <b-list-group class="mt-3" flush>
       <b-list-group-item class="font-weight-bold" disabled>
-        EVM Based NFTs and Smart Contracts
+        EVM NFTs and Smart Contracts
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.dexkit.app/`">
-       Launch EVM App
+       LAUNCH EVM APP
       </b-list-group-item>
       
       <b-list-group-item class="font-weight-bold" disabled>
