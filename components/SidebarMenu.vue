@@ -35,15 +35,19 @@
       <b-list-group-item v-if="$config.NFT_ENABLED" :to="{name:'nfts'}">
         NFTs
       </b-list-group-item>
-      <b-list-group-item :href="`https://blocktunes.net/services/`">
-        Services
-      </b-list-group-item>
       <b-list-group-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
         Pool
       </b-list-group-item>
     </b-list-group>
 
     <b-list-group class="mt-3" flush>
+
+      <b-list-group-item class="font-weight-bold" disabled>
+        Trade on Tribaldex
+      </b-list-group-item>
+      <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
+        Trade ${{ $config.TOKEN }} Token <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
       <b-list-group-item class="font-weight-bold" disabled>
         EVM NFTs and Smart Contracts
       </b-list-group-item>
@@ -52,7 +56,10 @@
       </b-list-group-item>
       
       <b-list-group-item class="font-weight-bold" disabled>
-        Social Links
+        Links
+      </b-list-group-item>
+      <b-list-group-item :href="`https://blocktunes.net/services/`">
+        Services
       </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/media-kit/`">
        Media Kit
@@ -65,14 +72,6 @@
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://www.facebook.com/blocktunes`">
        Facebook <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-
-      <b-list-group-item class="font-weight-bold" disabled>
-        Trade
-      </b-list-group-item>
-
-      <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
-        Trade ${{ $config.TOKEN }} Token <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
