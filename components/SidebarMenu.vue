@@ -52,17 +52,17 @@
         EVM NFTs and Smart Contracts
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://blocktunes.dexkit.app/`">
-       LAUNCH EVM APP
+       Launch EVM App <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
       <b-list-group-item class="font-weight-bold" disabled>
         Links
       </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/services/`">
-        Services
+        Services <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/media-kit/`">
-       Media Kit
+       Media Kit <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://discord.gg/EA5rG9GdPG`">
        Discord <fa-icon icon="external-link-alt" />
