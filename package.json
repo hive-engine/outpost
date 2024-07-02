@@ -45,7 +45,7 @@
     "diff-match-patch": "^1.0.5",
     "express": "^4.17.3",
     "mavon-editor": "^2.10.4",
-    "nuxt": "^2.15.8",
+    "nuxt": "^2.18.1",
     "remarkable": "^2.0.1",
     "sanitize-html": "^2.7.0",
     "speakingurl": "^14.0.1",
@@ -83,8 +83,8 @@
     "sass-loader": "10.2.1"
   },
   "engines": {
-    "node": ">=14.x <17",
-    "npm": ">=7.x"
+    "node": "20.x",
+    "npm": "10.x"
   },
   "repository": {
     "type": "git",

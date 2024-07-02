@@ -233,6 +233,7 @@ export default {
           'https://api.openhive.network',
           'https://ha.herpc.dtools.dev',
           'https://ha.smt-api.dtools.dev',
+          'https://enginerpc.com',
           'https://marketplace.tribaldex.com',
           'https://cdn.plyr.io',
           'https://api.coingecko.com',
