@@ -56,7 +56,7 @@
       </b-list-group-item>
       
       <b-list-group-item class="font-weight-bold" disabled>
-        Links
+        Main Links
       </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/`">
         Back to Main > <fa-icon icon="external-link-alt" />
