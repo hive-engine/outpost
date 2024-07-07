@@ -51,7 +51,7 @@
       <b-list-group-item class="font-weight-bold" disabled>
         EVM NFTs and Smart Contracts
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://blocktunes.dexkit.app/`">
+      <b-list-group-item target="_blank" :href="`https://app.blocktunes.net/`">
        Launch EVM App <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       
