@@ -21,7 +21,7 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="d-none d-lg-flex">
-          <b-nav-item :href="`https://blocktunes.net`">
+          <b-nav-item :href="`https://hive.blocktunes.net`">
            Home
           </b-nav-item>
           <b-nav-item :href="`https://hive.blocktunes.net/@blocktunes/`">
