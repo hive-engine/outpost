@@ -58,6 +58,9 @@
       <b-list-group-item class="font-weight-bold" disabled>
         Links
       </b-list-group-item>
+      <b-list-group-item :href="`https://blocktunes.net/`">
+        Back to Main > <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/services/`">
         Services <fa-icon icon="external-link-alt" />
       </b-list-group-item>
