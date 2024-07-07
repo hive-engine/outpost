@@ -70,11 +70,8 @@
       <b-list-group-item target="_blank" :href="`https://discord.gg/EA5rG9GdPG`">
        Discord <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://twitter.com/BlockTunesDAO`">
-       Twitter <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://www.facebook.com/blocktunes`">
-       Facebook <fa-icon icon="external-link-alt" />
+      <b-list-group-item target="_blank" :href="`https://twitter.com/BlockTunesnet`">
+       X <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
