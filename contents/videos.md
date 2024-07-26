@@ -4,6 +4,10 @@ title: Videos
 
 # Videos
 
+Swim little mermaid by “the troot” (Best truth music/musicvideo)
+
+https://youtu.be/03phJzem8wk?si=B4cW0CYC-2LZ-ZE3
+
 New world order/Illuminati
 
 https://www.youtube.com/watch?v=J97xIKLZUrs
