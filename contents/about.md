@@ -15,7 +15,9 @@ We are rewarding anarchy, crypto and truth content.
 
 Token launch date: Jun 28, 2019.
 
-16/9-2022: Lasse Ehlers spoke at HiveFest7: https://www.youtube.com/live/DZ9MpQQoPu4?feature=share&t=6500
+16/9-2022: Lasse Ehlers spoke at HiveFest7: https://youtu.be/jEgCz1vbSu8?si=aOnGyQjH3pCAXq5s
+
+Old promo video: https://www.youtube.com/watch?v=vHp5UkPBx70
 
 LasseCash is a cryptocurrency with zero fees and 3 second transactions, social media with rewards which is censorship resistant and a NFT platform. All of this is an economy that rewards Anarchy, Crypto and Truth. In blockchain we trust.
 
