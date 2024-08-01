@@ -65,7 +65,7 @@ Main links:
 
 
 
-Apart from coming up with the ideas for LasseCash and 6 other related tokens, Lasse Ehlers invented 5 new terms:
+Apart from coming up with the ideas for LasseCash, Lasse Ehlers invented 5 new terms:
 
 ### Fiat monster / fiat trash / fiat slave
 
