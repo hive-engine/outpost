@@ -99,19 +99,25 @@
             </b-nav-item-dropdown>
           </template>
 
-          <template v-else>
-            <b-nav-item @click.prevent="$bvModal.show('loginModal')">
-              Login
-            </b-nav-item>
+<template>
 
-            <b-nav-item v-if="$config.OUTPOST_ONBOARD" @click.prevent="$bvModal.show('signupModal')">
-              Sign up
-            </b-nav-item>
+    <b-nav-item @click.prevent="$bvModal.show('loginModal')">
+      Login
+    </b-nav-item>
 
-            <b-nav-item v-else target="_blank" href="https://signup.hive.io">
-              Sign up
-            </b-nav-item>
-          </template>
+    <b-nav-item v-if="$config.OUTPOST_ONBOARD" @click.prevent="$bvModal.show('signupModal')">
+      Sign up
+    </b-nav-item>
+
+    <b-nav-item v-else target="_blank" :href="targetUrl">
+      Sign up
+    </b-nav-item>
+
+</template>
+
+<style scoped>
+/* Add your styles here if needed */
+</style>
 
           <b-nav-item v-b-toggle.sidebar-menu link-classes="ml-2 mr-0 navbar-btn rounded">
             <fa-icon icon="bars" />
@@ -136,7 +142,10 @@ export default {
   computed: {
     ...mapGetters(['issuer']),
     ...mapGetters('user', ['voting_power', 'downvoting_power']),
-    ...mapGetters('nftmarketplace', ['cart'])
+    ...mapGetters('nftmarketplace', ['cart']),
+    targetUrl () {
+      return Math.random() < 0.5 ? this.urlA : this.urlB
+    }
   },
 
   methods: {
@@ -147,7 +156,15 @@ export default {
         this.$colorMode.preference = 'dark'
       }
     }
+  },
+
+  data () {
+    return {
+      urlA: 'https://inleo.io/signup?referral=borniet',
+      urlB: 'https://inleo.io/signup?referral=bradleyarrow'
+    }
   }
+
 }
 </script>
 
