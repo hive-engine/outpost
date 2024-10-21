@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'CTP'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.ctptalk.com'
+export const APP_DOMAIN = 'https://www.ctptalk.io'
 export const APP_TITLE = 'CTPtalk'
 export const APP = `outpost/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
