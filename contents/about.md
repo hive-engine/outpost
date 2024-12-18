@@ -23,7 +23,7 @@ We are rewarding anarchy, crypto and truth content.
 
 Token launch date: Jun 28, 2019.
 
-Anarchy = AnarchoCapitalism which is a 100% peaceful philosophy (as an opposit to AnarchoCommunism which is often portait in mainstream media and movies with burning cars).
+Anarchy = AnarchoCapitalism which is a 100% peaceful philosophy (as an opposit to AnarchoCommunism which is often portayed in mainstream media and movies with burning cars).
 
 16/9-2022: Lasse Ehlers spoke at HiveFest7: https://youtu.be/jEgCz1vbSu8?si=aOnGyQjH3pCAXq5s
 
