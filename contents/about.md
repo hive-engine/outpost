@@ -8,7 +8,7 @@ title: Welcome
 
 <center>![lassecash.png](https://images.hive.blog/DQmV33fUKy6nypLvVhtTRxXkAFxGqTAN9pQpFoYH5QHcP1z/lassecash.png)</center>
 
-Short About the currency LASSECASH
+Short about the currency LASSECASH
 --
 
 Its GREEN DAY 1, 3 seconds transactions and no fee. (most cryptocurrencies and blockchains have fees and Bitcoin pollute like Sweden or Finland (the pollution grows with new and more miners)).
