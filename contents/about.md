@@ -8,12 +8,22 @@ title: Welcome
 
 <center>![lassecash.png](https://images.hive.blog/DQmV33fUKy6nypLvVhtTRxXkAFxGqTAN9pQpFoYH5QHcP1z/lassecash.png)</center>
 
+Short About the currency LASSECASH
+--
+
+Its GREEN DAY 1, 3 seconds transactions and no fee. (most cryptocurrencies and blockchains have fees and Bitcoin pollute like Sweden or Finland (the pollution grows with new and more miners)).
+
+*LasseCash er grøn dag 1, har intet gebyr og 3 sekunders transaktioner. (De fleste kryptovalutaer og blockchains har gebyrer og Bitcoin forurener lige så meget som et land som Sverige eller Finland (og forureningen vokser mere flere 'minere'))*
+
+
 Welcome to LasseCash
 --
 
 We are rewarding anarchy, crypto and truth content.
 
 Token launch date: Jun 28, 2019.
+
+Anarchy = AnarchoCapitalism which is a 100% peaceful philosophy (as an opposit to AnarchoCommunism which is often portait in mainstream media and movies with burning cars).
 
 16/9-2022: Lasse Ehlers spoke at HiveFest7: https://youtu.be/jEgCz1vbSu8?si=aOnGyQjH3pCAXq5s
 
