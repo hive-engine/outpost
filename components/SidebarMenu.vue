@@ -43,8 +43,12 @@
         About
       </b-list-group-item>
 
-      <b-list-group-item :to="{name:'philosophy-and-inventions'}">
-        Philosophy and Inventions
+      <b-list-group-item :to="{name:'music'}">
+        Music
+      </b-list-group-item>
+
+      <b-list-group-item :to="{name:'philosophy-and-endorsement'}">
+        Philosophy and Endorsement
       </b-list-group-item>
 
       <b-list-group-item :to="{name:'videos'}">
@@ -65,10 +69,6 @@
 
       <b-list-group-item :to="{name:'lasseehlers-nfts'}">
         Lasse Ehlers NFTs
-      </b-list-group-item>
-
-      <b-list-group-item :to="{name:'cash'}">
-        Cash
       </b-list-group-item>
     </b-list-group>
 

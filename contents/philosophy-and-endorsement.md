@@ -4,16 +4,6 @@ title: Endorsement, Philosophy and Inventions
 
 # **Philosophy and Endorsement**
 
-
-
-
-
-
-
-
-
-
-
 ## **Philosophy**
 
 
