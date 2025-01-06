@@ -99,7 +99,7 @@
             </b-nav-item-dropdown>
           </template>
 
-<template>
+<template v-if!="$auth.loggedIn">
 
     <b-nav-item @click.prevent="$bvModal.show('loginModal')">
       Login
