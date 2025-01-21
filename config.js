@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'ONEUP'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.1up.zone'
+export const APP_DOMAIN = 'https://1up.crypto-dreamr.com'
 export const APP_TITLE = '1UP - Play2Earn & NFTs'
 export const APP = `oneup/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
