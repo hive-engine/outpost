@@ -90,6 +90,9 @@
           <b-nav-item href="https://hivelist.org/@hivelist">
               Blog
           </b-nav-item>
+          <b-nav-item href="https://store.hivelist.io/ads-by-hivelist/">
+             Promote
+          </b-nav-item>
          
  
         </b-navbar-nav>
