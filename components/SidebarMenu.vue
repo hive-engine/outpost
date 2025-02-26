@@ -32,6 +32,12 @@
       <b-list-group-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
         Swap
       </b-list-group-item>
+      <b-list-group-item target="_blank" href="https://hivelist.org/@hivelist/">
+        Blog <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
+      <b-list-group-item target="_blank" href="https://store.hivelist.io/ads-by-hivelist/">
+        Promote <fa-icon icon="external-link-alt" />
+      </b-list-group-item>
       
        <b-list-group-item class="font-weight-bold" disabled>
        Classifieds
