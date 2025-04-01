@@ -44,7 +44,7 @@ To order, please send LASSECASH equivalent to ~$99 (per t-shirt you order) to @l
  T-shirt #4, for sale for $99.
 
  
- ![titanx.jpeg](https://files.peakd.com/file/peakd-hive/lasseehlers/AJmvw7PcE6JSJvoHiFD9GZ649qffAT5p4YXkSrtUPWA4WYkNUcpzQAQKEF4ARKd.jpeg)
+ ![preview 8.jpeg](https://images.hive.blog/DQmdMkYCRwH6ZoxwxL7G9KeTY9N1RYEFYVi4ar1JS7kbyRu/preview%20(8).jpeg)
  
  
  
