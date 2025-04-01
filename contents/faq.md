@@ -7,14 +7,11 @@ title: FAQ
 ## <span id="Do_I_need_wallet">Do I need an account to use LasseCash?</span>
 Yes, you need a Hive account, there are several ways to [create a Hive account](https://signup.hive.io).
 
-## <span id="What_is_lassecash">Why is my post not showing up at Google?</span>
-The old condensor site worked very well at indexing posts on Google, unfortunately that is still being worked on, on the new OUTPOST site www.lassecash.com , we believe it will work again at one point in the future.
-
-## <span id="What_is_lassecash">Is there an App/dApp for LasseCash/Hive Engine/Hive?</span>
-Yes, there is a trusted App for phones for that, but it only works for transfering LASSECASH and other HE tokens, full secure funcionality is on www.lassecash.com and other trusted sites like peakd.com . Www.lassecash.com gives the best experience. Note that transaction time on the App/dApp is around 14 seconds, whereas it is 3/6 seconds on www.lassecash.com and related sites, depending on the function used.
+## <span id="What_is_lassecash">Is there an App/dApp for smartphone to transfer LasseCash tokens?</span>
+Yes, you can use "Hive Keychain" for smartphone to transfer LasseCash tokens.
 
 ## <span id="What_is_lassecash">What is the easiest way to buy LASSECASH?</span>
-The DEX hive-engine.com provide the ability to deposit older cryptocurrencies like forinstance Bitcoin, Ethereum or Litecoin (among others), after depositing then you can swap those for SWAP.HIVE which you can buy LASSECASH for. That is the easiest route to buy LASSECASH. It also works the other way of-course, so you can also sell LASSECASH for older cryptocurrencies on the same site. LASSECASH are exchanged on many Hive-engine based DEXs and in the SWAP.HIVE:LASSECASH diesel pool.
+We recommend Tribaldex.com for swapping and trading LasseCash tokens. There are 20+ sites where you can do this though.
 
 ## <span id="What_is_lassecash">Why is LasseCash not prober listed on coinranking sites and why is there only a 3 months graph of the LasseCash price available?</span>
 The three biggest coinranking sites: Coinmarketcap.com, coingecko.com and Nomics.com have all been contacted by us and they are not willing to put in the work necessary to list Hive Engine tokens like LasseCash probably. Fortunately Hiveland is a solution that is being worked on, which will both list all Hive Engine tokens probably and provide more advanced price graphs: https://hiveland.live/  https://hive.blog/hive-139531/@doze/hiveland-dhf-proposal
