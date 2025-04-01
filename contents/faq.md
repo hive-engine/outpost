@@ -23,7 +23,7 @@ LasseCash is a cryptocurrency with zero fees and 3 second transactions, social m
 Lasse Ehlers ( @lasseehlers ) contributed with the name, idea and face for LasseCash. LasseCash is developed by Hive Engine and Carlos Serrano ( @zaxan ) made most graphics. The community of LasseCash consist of all the soldiers of the LasseCash OUTPOST, who owns the OUTPOST in the form of LASSECASH and LASSECASH POWER.
 
 ## <span of="hive_keys_safe">Are my Hive keys safe on the site? </span>
-We recommend using the browser add-on "Hive keychain" for your Hive keys, when logging in on all Hive Engine related sites, including Www.lassecash.coM. "Hive keychain" is open source and trusted by a large group of people.
+We recommend using the browser add-on "Hive keychain" for your Hive keys, when logging in on all Hive Engine related sites, including Www.lassecash.coM. "Hive Keychain" is open-source and trusted by a large group of people.
 
 ## <span of="hive_keys_safe">Can I accept LASSECASH in my shop or business? </span>
 Yes, all you have to do is make a Hive account (Cost around $3 currently) and there is no fees after that ever on transactions.
