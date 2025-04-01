@@ -13,7 +13,7 @@ Yes, you can use "Hive Keychain" for smartphone to transfer LasseCash tokens.
 ## <span id="What_is_lassecash">What is the easiest way to buy LASSECASH?</span>
 We recommend Tribaldex.com for swapping and trading LasseCash tokens. There are 20+ sites where you can do this though.
 
-## <span id="What_is_lassecash">Why is LasseCash not prober listed on coinranking sites?</span>
+## <span id="What_is_lassecash">Why is LasseCash not proper listed on coinranking sites?</span>
 The three biggest coinranking sites: Coinmarketcap.com, coingecko.com and Nomics.com have all been contacted by us and they are not willing to put in the work necessary to list Hive Engine tokens like LasseCash probably. After the potential migration to VSC (Virtual Smart Chain), it might be easier to get LasseCash listed on coinranking sites.
 
 ## <span id="What_is_lassecash">What is LasseCash?</span>
