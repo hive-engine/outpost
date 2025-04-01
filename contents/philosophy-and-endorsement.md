@@ -12,10 +12,4 @@ LasseCash is build on the philosophy of AnarchoCapitalism which is the most peac
 
 ## **Endorsement**
 
-Lasse Ehlers endorse Titan X ecosystem.
-
-Main links:
-
-[Titan X](https://app.titanx.win)
-
-[TitanXhub](https://www.titanxhub.com/)
+No endorsements at the moment.
