@@ -61,16 +61,13 @@
       <b-list-group-item :href="`https://blocktunes.net/`">
         Back to Main > <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item :href="`https://blocktunes.net/services/`">
-        Services <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/media-kit/`">
        Media Kit <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://discord.gg/EA5rG9GdPG`">
        Discord <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://twitter.com/BlockTunesnet`">
+      <b-list-group-item target="_blank" :href="`https://x.com/BlockTunesnet`">
        X <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
