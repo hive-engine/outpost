@@ -94,8 +94,11 @@ Lasse Ehlers currently holds 4.5 millions (of the 11 million he was given day 1)
 Circulating supplying of 23. april 2025: 
 
 2 million in diesel pool contract
+
 9 million in @lassecash (only for inflation/rewards)
+
 30.5 million (Circulating supply including diesel pool reward contract and @lassecash inflation tokens)
+
 
 30.5 million - 2 million - 9 million = 19.5 million (True circulating supply)
 
