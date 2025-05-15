@@ -32,7 +32,7 @@
       <b-list-group-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
         Swap
       </b-list-group-item>
-      <b-list-group-item target="_blank" href="https://hivelist.org/@hivelist/">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/">
         Blog <fa-icon icon="external-link-alt" />
       </b-list-group-item>
       <b-list-group-item target="_blank" href="https://store.hivelist.io/ads-by-hivelist/">
@@ -81,35 +81,35 @@
        <b-list-group-item class="font-weight-bold" disabled>
        Classified Post Templates
       </b-list-group-item>
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/for-sale-category-post-template-for-hivelist-classifieds">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/for-sale-category-post-template-for-hivelist-classifieds">
         For Sale <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/for-hire-category-post-template-for-the-hivelist-classifieds">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/for-hire-category-post-template-for-the-hivelist-classifieds">
         For Hire <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/hivelist-post-rzt5h5">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/hivelist-post-rzt5h5">
         Now Hiring <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/contest-post-template-for-the-hivelist-classifieds">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/contest-post-template-for-the-hivelist-classifieds">
         Contest <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/event-post-template-for-the-hivelist-classifieds-netwo">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/event-post-template-for-the-hivelist-classifieds-netwo">
         Event <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/fundraising-template-for-the-hivelist-classifieds">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/fundraising-template-for-the-hivelist-classifieds">
         Fundraising <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/housin-template-for-the-hivelist-classifieds">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/housin-template-for-the-hivelist-classifieds">
         Housing <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
-      <b-list-group-item target="_blank" href="https://www.hivelist.org/@hivelist/wanted-template-for-the-hivelist-classifieds">
+      <b-list-group-item target="_blank" href="https://app.hivelist.io/@hivelist/wanted-template-for-the-hivelist-classifieds">
         Wanted <fa-icon icon="external-link-alt" />
       </b-list-group-item>
 
