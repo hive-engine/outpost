@@ -87,7 +87,7 @@
           <b-nav-item v-if="$config.POOL_ENABLED" :to="{name:'pool'}">
             Swap
           </b-nav-item>
-          <b-nav-item href="https://hivelist.org/@hivelist">
+          <b-nav-item href="https://app.hivelist.io/@hivelist">
               Blog
           </b-nav-item>
           <b-nav-item href="https://store.hivelist.io/ads-by-hivelist/">
