@@ -1,5 +1,5 @@
 <template>
-  <div v-if="trending_tags.length > 0" class="tag-scrolling-wrapper">
+  <div v-if="false" class="tag-scrolling-wrapper">
     <div class="slider-nav" @click.prevent="scrollLeft">
       <fa-icon icon="angle-left" />
     </div>
