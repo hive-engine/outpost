@@ -102,7 +102,7 @@
 <template v-else>
 
     <b-nav-item @click.prevent="$bvModal.show('loginModal')">
-      Login
+      Login!
     </b-nav-item>
 
     <b-nav-item v-if="$config.OUTPOST_ONBOARD" @click.prevent="$bvModal.show('signupModal')">
