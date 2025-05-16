@@ -1,3 +1,4 @@
+<!--
 <template>
   <div v-if="trending_tags.length > 0" class="tag-scrolling-wrapper">
     <div class="slider-nav" @click.prevent="scrollLeft">
@@ -15,6 +16,8 @@
     </div>
   </div>
 </template>
+-->
+
 
 <script>
 import { mapGetters } from 'vuex'
