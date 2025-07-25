@@ -42,6 +42,9 @@
           </b-col>
         </b-row>
       </template>
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <img src="https://files.peakd.com/file/peakd-hive/borniet/23y8si1DUraQ4WF6aDfkr3VWbQSEgVgxYty12ULSeuUSJrZwMqCfPrxkXA2Nz9fBt3Ko6.png" alt="Centered Image">
+      </div>
     </b-container>
   </div>
 </template>
