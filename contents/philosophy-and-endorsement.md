@@ -12,4 +12,6 @@ LasseCash is build on the philosophy of AnarchoCapitalism which is the most peac
 
 ## **Endorsement**
 
-No endorsements at the moment.
+Lasse Ehlers endorse the Richard Heart ecosystem, especially https://HEX.com
+
+
