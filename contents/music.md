@@ -13,17 +13,17 @@ https://hive.blog/lyrics/@lasseehlers/lyrics-and-chords-for-now-the-war-is-over-
 
 This page to be edited soon
 
-
 TEST
 
-<table style="border: none; border-collapse: collapse; width: 100%;">
+
+<table style="border: none; border-collapse: collapse; width: 100%; background-color: white;">
   <tr style="border: none;">
-    <td style="border: none; padding: 8px; width: 50%;">Cell 1</td>
-    <td style="border: none; padding: 8px; width: 50%;">Cell 2</td>
+    <td style="border: none; padding: 8px; width: 50%; background-color: white;">Cell 1</td>
+    <td style="border: none; padding: 8px; width: 50%; background-color: white;">Cell 2</td>
   </tr>
   <tr style="border: none;">
-    <td style="border: none; padding: 8px; width: 50%;">Cell 3</td>
-    <td style="border: none; padding: 8px; width: 50%;">Cell 4</td>
+    <td style="border: none; padding: 8px; width: 50%; background-color: white;">Cell 3</td>
+    <td style="border: none; padding: 8px; width: 50%; background-color: white;">Cell 4</td>
   </tr>
 </table>
 
