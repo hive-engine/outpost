@@ -16,14 +16,14 @@ This page to be edited soon
 
 TEST
 
-<table style="border: none; border-collapse: collapse;">
+<table style="border: none; border-collapse: collapse; width: 100%;">
   <tr style="border: none;">
-    <td style="border: none; padding: 8px;">Cell 1</td>
-    <td style="border: none; padding: 8px;">Cell 2</td>
+    <td style="border: none; padding: 8px; width: 50%;">Cell 1</td>
+    <td style="border: none; padding: 8px; width: 50%;">Cell 2</td>
   </tr>
   <tr style="border: none;">
-    <td style="border: none; padding: 8px;">Cell 3</td>
-    <td style="border: none; padding: 8px;">Cell 4</td>
+    <td style="border: none; padding: 8px; width: 50%;">Cell 3</td>
+    <td style="border: none; padding: 8px; width: 50%;">Cell 4</td>
   </tr>
 </table>
 
