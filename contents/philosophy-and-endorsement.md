@@ -12,7 +12,13 @@ LasseCash is build on the philosophy of AnarchoCapitalism which is the most peac
 
 ## **Endorsement**
 
-Lasse Ehlers endorse the Richard Heart ecosystem, especially https://HEX.com
+Lasse Ehlers endorse:
+
+Bitcoin, as the most safe investment.
+
+Richard Heart ecosystem: HEX, PULSE, PULSEX, INC as more experimental and therefore higher risk.
+
+Titan X as experimental and therefore higher risk.
 
 
 ## **Invention of 4 new philosophical terms**
