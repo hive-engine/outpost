@@ -118,7 +118,7 @@ All LasseCash services runs on very little resources and very little power consu
 Future development
 --
 
-We are trying to migrate LasseCash to VSC (Virtual Smart Chain) when that is ready, if that happens then the weakness of Hive Engine is gone and LasseCash might be among the top Freedom Fighter Golds in the world.
+We are trying to migrate LasseCash to MAGI when that is ready, if that happens then the weakness of Hive Engine (Not immutable present and future) is gone and LasseCash might be among the top Freedom Fighter Golds in the world.
 
 
 Legal disclaimer
