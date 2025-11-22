@@ -8,6 +8,8 @@ title: Welcome
 
 <center>![lassecash.png](https://images.hive.blog/DQmV33fUKy6nypLvVhtTRxXkAFxGqTAN9pQpFoYH5QHcP1z/lassecash.png)</center>
 
+NB: LasseCash is highly experimental, use at your own risk.
+
 Short about the cryptocurrency LASSECASH
 --
 
