@@ -7,7 +7,7 @@ title: Endorsement, Philosophy and Inventions
 ## **Philosophy**
 
 
-LasseCash is build on the believe in God and AnarchoCapitalism.
+LasseCash is build on the believe in God (Christianity) and AnarchoCapitalism.
 
 
 ## **Endorsement**
