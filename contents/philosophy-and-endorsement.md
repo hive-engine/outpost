@@ -12,9 +12,7 @@ LasseCash was build on the philosophy of AnarchoCapitalism but Lasse Ehlers bega
 
 ## **Endorsement**
 
-Lasse Ehlers endorse:
-
-Bitcoin and LasseCash.
+Lasse Ehlers leave cryptocurrency.
 
 
 
