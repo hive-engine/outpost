@@ -7,12 +7,12 @@ title: Endorsement, Philosophy and Inventions
 ## **Philosophy**
 
 
-LasseCash was build on the philosophy of AnarchoCapitalism but Lasse Ehlers began to believe in God and is planning to become fully Christian. Lasse Ehlers is regreting promoting AnCap philosophy and devoted himself to God and Jesus. Murray Ruthbard was agnostic and Lasse Ehlers believe in god.
+LasseCash is build on the believe in God and AnarchoCapitalism.
 
 
 ## **Endorsement**
 
-Lasse Ehlers dont endorse cryptocurrency anymore.
+Lasse Ehlers is not endorsing any investments currently.
 
 
 
