@@ -85,6 +85,12 @@ Max 51 million tokens ever.
 20 million LASSECASH for the first 10 years (taken from @lassecash), 20 million LASSECASH forever thereafter (Issued from the tokens unissued) and 11 million was issued to Lasse Ehlers day 1 (for promotion and profits) (Lasse Ehlers has currently ~7 million after extensive activities). Since the inflation is lower than 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, for the remaining inflation up till 20 million, this is just an idea, which is subject to change. Even we have the lowest inflation of all tribes and OUTPOSTs and a low hardcap at 51 million, there is plenty of room to be creative in the future.
 
 
+Distribution
+--
+
+LasseCash is maybe the best distributed crypto product ever in history, check this analysis for proof and details: https://www.lassecash.com/@lasseehlers/conclusion-lassecash-very-decentralized-in-ownership
+
+
 
 Lasse Ehlers as leader of LasseCash
 --
