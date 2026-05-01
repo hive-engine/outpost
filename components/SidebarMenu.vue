@@ -48,27 +48,11 @@
       <b-list-group-item target="_blank" :href="`https://tribaldex.com/trade/${$config.TOKEN}`">
         Trade ${{ $config.TOKEN }} Token <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item class="font-weight-bold" disabled>
-        EVM NFTs and Smart Contracts
-      </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://app.blocktunes.net/`">
-       Launch EVM App <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-      
-      <b-list-group-item class="font-weight-bold" disabled>
-        Main Links
-      </b-list-group-item>
       <b-list-group-item :href="`https://blocktunes.net/`">
         Back to Main > <fa-icon icon="external-link-alt" />
       </b-list-group-item>
-      <b-list-group-item :href="`https://blocktunes.net/media-kit/`">
-       Media Kit <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
       <b-list-group-item target="_blank" :href="`https://discord.gg/EA5rG9GdPG`">
        Discord <fa-icon icon="external-link-alt" />
-      </b-list-group-item>
-      <b-list-group-item target="_blank" :href="`https://x.com/BlockTunesnet`">
-       X <fa-icon icon="external-link-alt" />
       </b-list-group-item>
     </b-list-group>
 
