@@ -24,6 +24,6 @@ https://www.lassecash.com/nfts/official/nftlassecash_official-nft_now-the-war-is
 
 [(Lyrics and chords) : Now the war is over - by Lasse Ehlers](https://hive.blog/lyrics/@lasseehlers/lyrics-and-chords-for-now-the-war-is-over-by-lasse-ehlers)
 
-
+![image.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23w2cudhJWftqXvKmAjrRFep6HcusV1WRPbq9b9svvtN5cExckaCqRmX4SHe2znW3oG9T.png)
 
 </center>
