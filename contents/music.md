@@ -5,13 +5,24 @@ title: Music
 <center>
   
 
+# Blue Moon - by Lasse Ehlers
 
-# New song released
 
-https://www.lassecash.com/nfts/official/nftlassecash_official-nft_now-the-war-is-over-by-lasse-ehlers 
-https://hive.blog/lyrics/@lasseehlers/lyrics-and-chords-for-now-the-war-is-over-by-lasse-ehlers
+[![bluemoon10020.jpg](https://files.peakd.com/file/peakd-hive/lasseehlers/23t773UmMoQ2rr5yGtsoL3vfF1PKLnJSPaED4EnJtYWCncwd6Gajy9xHvxDHDgrMic6Q7.jpg)](https://www.lassecash.com/nfts/official/nftlassecash_official-nft_blue-moon-by-lasse-ehlers)
 
-This page to be edited soon
+
+[(Lyrics and chords) : Blue Moon - by Lasse Ehlers](https://www.lassecash.com/nfts/official/nftlassecash_official-nft_blue-moon-by-lasse-ehlers)
+
+
+
+# Now the war is over - by Lasse Ehlers
+
+
+[![image.png](https://files.peakd.com/file/peakd-hive/lasseehlers/23w2cudhJWftqXvKmAjrRFep6HcusV1WRPbq9b9svvtN5cExckaCqRmX4SHe2znW3oG9T.png)](
+https://www.lassecash.com/nfts/official/nftlassecash_official-nft_now-the-war-is-over-by-lasse-ehlers)
+
+
+[(Lyrics and chords) : Now the war is over - by Lasse Ehlers](https://hive.blog/lyrics/@lasseehlers/lyrics-and-chords-for-now-the-war-is-over-by-lasse-ehlers)
 
 
 
