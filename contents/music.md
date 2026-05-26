@@ -11,6 +11,8 @@ title: Music
 [(Lyrics and chords) : Billy Blue - by Lasse Ehlers](https://www.lassecash.com/@lasseehlers/lyrics-and-chords-billy-blue-by-lasse-ehlers)
 
 
+
+
 [![bluemoon10020.jpg](https://files.peakd.com/file/peakd-hive/lasseehlers/23t773UmMoQ2rr5yGtsoL3vfF1PKLnJSPaED4EnJtYWCncwd6Gajy9xHvxDHDgrMic6Q7.jpg)](https://www.lassecash.com/nfts/official/nftlassecash_official-nft_blue-moon-by-lasse-ehlers)
 
 # Blue Moon - by Lasse Ehlers
