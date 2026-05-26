@@ -4,8 +4,11 @@ title: Music
 
 <center>
   
+[![Billy Blue, post cover.jpeg](https://images.hive.blog/DQmco7n2fmcBcnrs5yRvJM6haAW7FcE85vmWaFUH2Dbx97w/Billy%20Blue,%20post%20cover.jpeg)](https://www.lassecash.com/@nftlassecash/collection/nftlassecash_official-nft_billy-blue-by-lasse-ehlers)
 
+# Billy Blue - by Lasse Ehlers
 
+[(Lyrics and chords) : Billy Blue - by Lasse Ehlers](https://www.lassecash.com/@lasseehlers/lyrics-and-chords-billy-blue-by-lasse-ehlers)
 
 
 [![bluemoon10020.jpg](https://files.peakd.com/file/peakd-hive/lasseehlers/23t773UmMoQ2rr5yGtsoL3vfF1PKLnJSPaED4EnJtYWCncwd6Gajy9xHvxDHDgrMic6Q7.jpg)](https://www.lassecash.com/nfts/official/nftlassecash_official-nft_blue-moon-by-lasse-ehlers)
