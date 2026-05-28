@@ -126,7 +126,7 @@ All LasseCash services runs on very little resources and very little power consu
 Future development
 --
 
-We are trying to migrate LasseCash to MAGI when that is ready, if that happens then the weakness of Hive Engine (Not immutable present and future) is gone and the inflation schedule will be set in stone (with a halving mechanism) so that Lasse Ehlers no longer decideds on inflation and LasseCash might be among the top Freedom Fighter Golds in the world. Also MAGI migration will open up endless oppotunities for builing new stuff on top of LasseCash, like DeFi with zero fees (in any programming language) and all kinds of tools for building the AnarchoCapitalistic society.
+We are trying to migrate LasseCash to MAGI when that is ready, if that happens then the weakness of Hive Engine (Not immutable present and future) is gone and the inflation schedule will be set in stone (with a halving mechanism) so that Lasse Ehlers no longer decides on inflation and LasseCash might be among the top Freedom Fighter Golds in the world. Also MAGI migration will open up endless oppotunities for builing new stuff on top of LasseCash, like DeFi with zero fees (in any programming language) and all kinds of tools for building the AnarchoCapitalistic society.
 
 
 Legal disclaimer
