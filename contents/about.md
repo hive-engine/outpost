@@ -8,6 +8,8 @@ title: Welcome
 
 <center>![lassecash.png](https://images.hive.blog/DQmV33fUKy6nypLvVhtTRxXkAFxGqTAN9pQpFoYH5QHcP1z/lassecash.png)</center>
 
+MAJOR NEWS: **MAGI migration design is now final: https://www.lassecash.com/@lasseehlers/specific-tokenomics-for-magi-migration-final-design**
+
 NB: LasseCash is highly experimental, use at your own risk.
 
 Short about the cryptocurrency LASSECASH
@@ -80,6 +82,8 @@ Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST.
 
 ![inflation.webp](https://images.hive.blog/DQmRhz8nZXipEKakXBWiphCDhmCKEpxpLKPmM6Y3uEkZWtr/inflation.webp)
 
+From 2027 until MAGI migration, the inflation is set to 500000 for pool rewards and 250000 for post rewards. The remaining inflation in @lassecash will be burned at migration to MAGI.
+
 Max 51 million tokens ever.
 
 20 million LASSECASH for the first 10 years (taken from @lassecash), 20 million LASSECASH forever thereafter (Issued from the tokens unissued) and 11 million was issued to Lasse Ehlers day 1 (for promotion and profits) (Lasse Ehlers has currently ~7 million after extensive activities). Since the inflation is lower than 2 million per year until now, we are considering a BIGPAYDAY maybe at the 10 years mark for the top 100 or top 1000 LASSECASH POWER holders, for the remaining inflation up till 20 million, this is just an idea, which is subject to change. Even we have the lowest inflation of all tribes and OUTPOSTs and a low hardcap at 51 million, there is plenty of room to be creative in the future.
@@ -127,6 +131,8 @@ Future development
 --
 
 We are trying to migrate LasseCash to MAGI when that is ready, if that happens then the weakness of Hive Engine (Not immutable present and future) is gone and the inflation schedule will be set in stone (with a halving mechanism) so that Lasse Ehlers no longer decides on inflation and LasseCash might be among the top Freedom Fighter Golds in the world. Also MAGI migration will open up endless oppotunities for builing new stuff on top of LasseCash, like DeFi with zero fees (in any programming language) and all kinds of tools for building the AnarchoCapitalistic society.
+
+**MAGI migration design is now final: https://www.lassecash.com/@lasseehlers/specific-tokenomics-for-magi-migration-final-design**
 
 
 Legal disclaimer
