@@ -16,11 +16,11 @@ A tweaked conversation with grok 3 gave this result:
 
 ## **Philosophy**
 
-LasseCash is built upon the philosophy of a future Anarcho-Capitalist society.
+LasseCash is built upon the philosophy of a future AnarchoCapitalist society.
 
 Furthermore, Lasse Ehlers lives by these principles:
 
-Mental: Anarcho-Capitalism, Christianity and Stoicism.
+Mental: AnarchoCapitalism, Christianity and Stoicism.
 
 Physical: Keto diet, Intermittent fasting and Regular exercise.
 
