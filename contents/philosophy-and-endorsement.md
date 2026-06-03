@@ -16,22 +16,17 @@ A tweaked conversation with grok 3 gave this result:
 
 ## **Philosophy**
 
+LasseCash is built upon the philosophy of a future Anarcho-Capitalist society.
 
-LasseCash is build on the believe in God (Christianity) and AnarchoCapitalism.
+Furthermore, Lasse Ehlers lives by these principles:
 
+Mental: Anarcho-Capitalism, Christianity and Stoicism.
+
+Physical: Keto diet, Intermittent fasting and Regular exercise.
 
 ## **Endorsement**
 
-[![lassecashnew.jpeg](https://images.hive.blog/DQmU1KYsN9pMDWXmXeqJsc9kNC4c4cECVyF3J7hCiysgF1D/lassecashnew.jpeg)](https://www.lassecash.com/@lasseehlers/crypto-is-the-only-way-to-freedom-in-my-view)
-
-Bitcoin
-LasseCash
-Hex
-Pulse
-PulseX
-INC
-ProveX
-ICP (sceptical, but could be interesting?).
+There are no crypto endorsements currently.
 
 
 
