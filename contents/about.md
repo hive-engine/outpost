@@ -96,32 +96,6 @@ LasseCash is maybe the best distributed crypto product ever in history, check th
 
 
 
-Lasse Ehlers as leader of LasseCash
---
-
-Even though LasseCash has been build by Hive Engine and Lasse Ehlers only is a symbolic figure, then Lasse Ehlers is naturally the leader of the LasseCash OUTPOST and will be the one to resolve any potential dispute or drama, since he will always have the biggest stake.
-
-Lasse Ehlers currently holds 4.5 millions (of the 11 million he was given day 1) after extensive activities for the first 6 years.
-
-Circulating supplying of 23. april 2025: 
-
-2 million in diesel pool contract
-
-9 million in @lassecash (only for inflation/rewards)
-
-30.5 million (Circulating supply including diesel pool reward contract and @lassecash inflation tokens)
-
-
-30.5 million - 2 million - 9 million = 19.5 million (True circulating supply)
-
-**Lasse Ehlers** owns 4.5/19.5 million = **23% of circulating supply (Pretty healthy!!)**
-
-
-What happens if Lasse Ehlers dies prematurely?
---
-
-The system-state could be airdropped on to a new OUTPOST, with a new leader and a new name, but the same token distribution and system-state. Its up to the community to find a new leader fit for running a new OUTPOST with a new name and airdropped system-state over to that new OUTPOST.
-
 LasseCash is GREEN ENERGY
 --
 
