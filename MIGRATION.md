@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **P1 DONE. NEXT SESSION: P2** — Express api/index.js → Nitro server/api/* (login/me/logout/search/curated/csp + cookie-session + csrf). Cadence: one phase per session.
+Status: **P2 DONE. NEXT SESSION: P3** — UI layer: bootstrap-vue-next + modal composable ($bvModal replacement), fix auto-confirm debt from P1. Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
@@ -86,3 +86,19 @@ Direct-to-Nuxt3 vs Nuxt Bridge intermediate; Pinia vs Vuex4. See chat.
   * utils/ barrel is PARTIAL (4 pure helpers); markdown/HtmlReady/allTags land in P4. web-crypto +
     triplesec ported (auto-import name-collision WARN encrypt/decrypt is expected + harmless).
   * auth.setUser equivalent: direct authStore.user assignment in user store processLogin.
+
+## P2 notes (server layer — done)
+- Express api/index.js → Nitro server/api/v1/*: index.get (health), login.post (Hive sig
+  verification, ported faithfully incl. legacy response-shape quirks: stale-ts → 200 {message},
+  exception → 200 {error}, bad sig → 401), me.post, logout.post, search.post (HiveSearcher),
+  curated.get (vote-history feed), csp-violation.post.
+- Session: h3 useSession (sealed cookie, name 'session', 90d, secure+lax) via
+  server/utils/session.js — replaces cookie-session. Secret: runtimeConfig.sessionSecret
+  (SESSION_SECRET from .env at build; NUXT_SESSION_SECRET overrides at runtime).
+- CSRF: server/middleware/csrf.js double-submit cookie ('csrf-token', non-httpOnly) checked
+  against X-CSRF-Token header on POST login/logout only (mirrors legacy csurf scope). P1 $api
+  plugin already sends the header.
+- plugins/auth-init.client.js restores session on app load (replaces auth-next auto-fetch).
+- Verified live: all 7 endpoints curl-tested incl. 403-without-CSRF, 401-without-session,
+  legacy error shapes, and a real chain read (dhive getAccounts + getAccountHistory).
+- NOT yet tested: a real Keychain login round-trip (needs browser + UI → P3/P6).
