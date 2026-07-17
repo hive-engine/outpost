@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { cleanError } from '@/utils/clean-error'
 
 export default ({ $config, store }, inject) => {
   const sidechain = {
@@ -13,12 +14,19 @@ export default ({ $config, store }, inject) => {
 
       let result = null
 
-      const query = await axios.post(`${rpcNode}/${endpoint}`, postData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
-      })
+      let query
+
+      try {
+        query = await axios.post(`${rpcNode}/${endpoint}`, postData, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+      } catch (error) {
+        // Reject with a plain, serializable error (prevents @nuxt/devalue SSR crashes).
+        throw cleanError(error)
+      }
 
       result = query.data.result
 

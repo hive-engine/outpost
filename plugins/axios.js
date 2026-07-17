@@ -1,4 +1,5 @@
 import { setupCache } from 'axios-cache-interceptor'
+import { cleanError } from '@/utils/clean-error'
 
 export default function ({ $axios, app }) {
   $axios = setupCache($axios)
@@ -10,4 +11,7 @@ export default function ({ $axios, app }) {
 
     return config
   })
+
+  // Reject with a plain, serializable error (prevents @nuxt/devalue SSR crashes).
+  $axios.onError(error => Promise.reject(cleanError(error)))
 }

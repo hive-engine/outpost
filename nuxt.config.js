@@ -36,6 +36,12 @@ export default {
         },
         {
             src: 'js/ga.js'
+        },
+        {
+            src: '/u.js',
+            defer: true,
+            'data-website-id': 'bab55116-61ad-46a9-818f-d29b209fe8f7',
+            'data-host-url': 'https://www.thebbhproject.com'
         }
       ]
     }
