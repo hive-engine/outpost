@@ -6,6 +6,7 @@ import { decrypt } from '~/utils/triplesec'
 import { useAuthStore } from '~/stores/auth'
 import { useUserStore } from '~/stores/user'
 import { useNftMarketplaceStore } from '~/stores/nftmarketplace'
+import { useUiStore } from '~/stores/ui'
 
 const requestKeychain = (fn, ...args) => {
   return new Promise((resolve) => {
@@ -206,10 +207,8 @@ export const useTribeStore = defineStore('tribe', {
       const client = $chain.getClient()
 
       if (authStore.user.smartlock) {
-        $eventBus.$emit('show-modal', 'broadcast-confirm') // TODO(P3): wire modal
-
-        // TODO(P3): wire modal — was $bvModal.msgBoxConfirm('Are you sure?'); auto-confirms for now
-        Promise.resolve(true)
+        // P3: real confirm dialog (was $bvModal.msgBoxConfirm in legacy)
+        useUiStore().confirm({ message: 'Are you sure?' })
           .then(async (value) => {
             if (value) {
               keyType = keyType.toLocaleLowerCase()
@@ -282,10 +281,8 @@ export const useTribeStore = defineStore('tribe', {
       const client = $chain.getClient()
 
       if (authStore.user.smartlock) {
-        $eventBus.$emit('show-modal', 'broadcast-confirm') // TODO(P3): wire modal
-
-        // TODO(P3): wire modal — was $bvModal.msgBoxConfirm('Are you sure?'); auto-confirms for now
-        Promise.resolve(true)
+        // P3: real confirm dialog (was $bvModal.msgBoxConfirm in legacy)
+        useUiStore().confirm({ message: 'Are you sure?' })
           .then(async (value) => {
             if (value) {
               keyType = keyType.toLocaleLowerCase()
@@ -345,15 +342,10 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     showConfirmation ({ title, message = 'Are you sure?', variant = 'success', okText = 'Yes', cancelText = 'No' }) {
-      const { $eventBus } = useNuxtApp()
-
+      // P3: real confirm dialog (was $bvModal.msgBoxConfirm). Legacy contract kept:
+      // resolve() on OK, reject(new Error('User canceled!')) on cancel/close.
       return new Promise((resolve, reject) => {
-        $eventBus.$emit('show-modal', 'confirmation') // TODO(P3): wire modal
-
-        // TODO(P3): wire modal — was $bvModal.msgBoxConfirm(message, { title, okVariant: variant,
-        // okTitle: okText, cancelTitle: cancelText }); auto-confirms for now. The wired modal must
-        // resolve() on OK and reject(new Error('User canceled!')) on cancel/close.
-        Promise.resolve(true).then((value) => {
+        useUiStore().confirm({ message, title, variant, okText, cancelText }).then((value) => {
           if (value) {
             return resolve()
           }
@@ -367,7 +359,7 @@ export const useTribeStore = defineStore('tribe', {
     showNotification ({ title, message, type = 'success' }) {
       const { $eventBus } = useNuxtApp()
 
-      // TODO(P3): wire notifications (was Vue.notify from vue-notification)
+      // P3: delivered via the notifications plugin bridge (@kyvg/vue3-notification)
       $eventBus.$emit('notify', {
         title,
         type,

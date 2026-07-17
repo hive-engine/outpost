@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **P2 DONE. NEXT SESSION: P3** — UI layer: bootstrap-vue-next + modal composable ($bvModal replacement), fix auto-confirm debt from P1. Cadence: one phase per session.
+Status: **P3 DONE (UI foundation). NEXT SESSION: P4** — mass port: components (84 files, use CONVERSION.md conventions, fan out agents), pages+data fetching, middleware, modals batch (incl. SmartLock), utils barrel completion (HtmlReady/embeds). Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
@@ -102,3 +102,14 @@ Direct-to-Nuxt3 vs Nuxt Bridge intermediate; Pinia vs Vuex4. See chat.
 - Verified live: all 7 endpoints curl-tested incl. 403-without-CSRF, 401-without-session,
   legacy error shapes, and a real chain read (dhive getAccounts + getAccountHistory).
 - NOT yet tested: a real Keychain login round-trip (needs browser + UI → P3/P6).
+
+## P3 notes (UI foundation — done)
+- bootstrap-vue-next 0.45 via @bootstrap-vue-next/nuxt module (manual createBootstrap plugin did NOT register components → empty SSR; the module handles registration/directives/auto-import). Bootstrap 5.3 SCSS compiled through app.scss (webpack ~ prefixes removed; bootstrap-vue Vue2 scss dropped).
+- Modal system: stores/ui.js (modals registry + promise confirm/alert), components/app/ConfirmDialog.vue (global, in layout), plugins/modal-bridge.client.js (event-bus show-modal/hide-modal → registry). P1 AUTO-CONFIRM DEBT FIXED: tribe.showConfirmation + both broadcast confirms now use real dialogs. showUnlockModal still auto-cancels (SmartLock modal ports in P4).
+- Notifications: @kyvg/vue3-notification ( + <notifications> in layout + event-bus notify bridge). FontAwesome via plugin (same 46-icon set, <fa-icon> name kept).
+- Ported reference components: layouts/default.vue, Header.vue (BS4→BS5 classes; stray <style> inside legacy template removed), SidebarMenu.vue (BSidebar→BOffcanvas), modals/Login.vue (vuelidate v2; SmartLock button stubbed w/ notify), app/BackToTop.vue (replaces vue-backtotop), app/ConfirmDialog.vue.
+- Route-name stub pages reserve legacy names: sort, publish, dashboard, user, user-feed, user-comments, user-replies, user-wallet, user-settings (definePageMeta name overrides; real pages in P4).
+- static/ → public/ (git mv). color-mode via @nuxtjs/color-mode (Nuxt3 native), preference light.
+- npm: overrides @vue/composition-api→vue ^3 (vuelidate optional peer). Blanket legacy-peer-deps BREAKS vite hoisting — do not use.
+- Verified: build green; SSR renders navbar (nav links, logo, login/signup items), offcanvas sidebar, inlined BS5+app css; named route sort→/trending resolves; live tribe data still flows.
+- CONVERSION.md written — the mechanical rulebook for the P4 mass port.

@@ -8,7 +8,18 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   modules: [
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@nuxtjs/color-mode',
+    '@bootstrap-vue-next/nuxt'
+  ],
+
+  colorMode: {
+    preference: 'light'
+  },
+
+  css: [
+    'bootstrap-vue-next/dist/bootstrap-vue-next.css',
+    '~/assets/scss/app.scss'
   ],
 
   // Parity with Nuxt 2 `publicRuntimeConfig: { ...config }` — every constant from
