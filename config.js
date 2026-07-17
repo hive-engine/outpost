@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'BBHO'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.thebbhproject.com'
+export const APP_DOMAIN = process.env.APP_DOMAIN || 'https://www.thebbhproject.com'
 export const APP_TITLE = 'The BBH Project'
 export const APP = `bbhproject/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
