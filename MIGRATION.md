@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **assessment complete, foundation pending strategic decision.**
+Status: **P0 DONE (commit 1acdd13). Decisions: direct Nuxt 3, Pinia, bootstrap-vue-next. NEXT SESSION: P1** — plugins→defineNuxtPlugin, mitt event bus, Vuex→Pinia (9 modules), auth composable. Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
