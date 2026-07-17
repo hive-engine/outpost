@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **P0 DONE (commit 1acdd13). Decisions: direct Nuxt 3, Pinia, bootstrap-vue-next. NEXT SESSION: P1** — plugins→defineNuxtPlugin, mitt event bus, Vuex→Pinia (9 modules), auth composable. Cadence: one phase per session.
+Status: **P1 DONE. NEXT SESSION: P2** — Express api/index.js → Nitro server/api/* (login/me/logout/search/curated/csp + cookie-session + csrf). Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
@@ -62,3 +62,27 @@ Status: **P0 DONE (commit 1acdd13). Decisions: direct Nuxt 3, Pinia, bootstrap-v
 
 ## Open strategic decision (blocks P0)
 Direct-to-Nuxt3 vs Nuxt Bridge intermediate; Pinia vs Vuex4. See chat.
+
+## P1 notes (core infra — done)
+- Plugins ported to defineNuxtPlugin: $eventBus (mitt + Vue2-style $on/$off/$emit adapter,
+  array-of-events support), $chain, $sidechain, $scot, $api (replaces @nuxtjs/axios; APP_DOMAIN
+  base + credentials + X-CSRF-Token from 'csrf-token' cookie — cookie is issued by P2 server),
+  $nftm. All with cleanError SSR guard. $scot/$api/$nftm expose $get/$post sugar.
+- Auth: stores/auth.js mirrors @nuxtjs/auth-next surface (loggedIn/user/login({data})/logout/
+  fetchUser) against /api/v1 endpoints; composables/useAuth.js gives the $auth object shape.
+- 9 Vuex modules → Pinia (options API; mutations kept as same-name actions so commit('SET_X')
+  ports as this.SET_X()). store/index.js → stores/tribe.js.
+- Verified E2E: SSR page fetches real tribe info/config from SCOT API through the new stack.
+- Conversion flags to remember:
+  * TODO(P3) modal wiring: tribe.showConfirmation + smartlock/broadcast-confirm paths currently
+    AUTO-CONFIRM (emit show-modal then proceed); showUnlockModal AUTO-CANCELS. Must be wired to
+    real modals in P3 — until then confirmation UX is bypassed. showNotification → $eventBus 'notify'.
+  * Mirror getters dropped (Pinia forbids getter==state name); computed getters kept.
+  * nftmarketplace: state token_price → token_price_raw (getter token_price keeps legacy semantics).
+  * tribe.js commitMutation() helper resolves Vuex mutation-path strings ('user/UPDATE_FOLLOWING',
+    'nftmarketplace/EMPTY_CART') from broadcast payloads to Pinia store actions.
+  * Buffer imported explicitly in stores/user.js (Vite has no global polyfill); triplesec is CJS →
+    default-import + destructure in utils/triplesec.js.
+  * utils/ barrel is PARTIAL (4 pure helpers); markdown/HtmlReady/allTags land in P4. web-crypto +
+    triplesec ported (auto-import name-collision WARN encrypt/decrypt is expected + harmless).
+  * auth.setUser equivalent: direct authStore.user assignment in user store processLogin.
