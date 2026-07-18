@@ -37,7 +37,7 @@ export const useDaoStore = defineStore('dao', {
     },
 
     async fetchFund () {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
       const config = useRuntimeConfig().public
 
       try {
@@ -50,7 +50,7 @@ export const useDaoStore = defineStore('dao', {
     },
 
     async fetchProposals (query) {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       try {
         const limit = 1000
@@ -79,7 +79,7 @@ export const useDaoStore = defineStore('dao', {
     },
 
     async fetchApprovals (query = {}) {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       const limit = 1000
       const results = []
@@ -104,7 +104,7 @@ export const useDaoStore = defineStore('dao', {
     },
 
     async fetchProposalApprovals ({ id, fundId }) {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       const approvals = await this.fetchApprovals({ to: id })
 
@@ -133,7 +133,7 @@ export const useDaoStore = defineStore('dao', {
     },
 
     async fetchApprovalWeight () {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       const [account] = await $sidechain.getDTFAccounts({ account: useAuthStore().user.username })
 
@@ -151,7 +151,7 @@ export const useDaoStore = defineStore('dao', {
     },
 
     async fetchTokens () {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       const limit = 1000
       const results = []

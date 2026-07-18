@@ -47,7 +47,7 @@ export const useScotStore = defineStore('scot', {
     },
 
     async fetchPosts ({ endpoint, params = {} }) {
-      const { $scot, $api } = useNuxtApp()
+      const { $scot, $api } = this.$nuxt
       const config = useRuntimeConfig().public
       const tribeStore = useTribeStore()
 
@@ -122,7 +122,7 @@ export const useScotStore = defineStore('scot', {
     },
 
     async fetchPost ({ author, permlink }) {
-      const { $scot } = useNuxtApp()
+      const { $scot } = this.$nuxt
       const tribeStore = useTribeStore()
 
       let post = {}
@@ -150,7 +150,7 @@ export const useScotStore = defineStore('scot', {
     },
 
     async fetchThread ({ author, permlink }) {
-      const { $scot } = useNuxtApp()
+      const { $scot } = this.$nuxt
       const tribeStore = useTribeStore()
 
       let posts = []
@@ -179,7 +179,7 @@ export const useScotStore = defineStore('scot', {
     },
 
     async fetchTrendingTags () {
-      const { $scot } = useNuxtApp()
+      const { $scot } = this.$nuxt
 
       try {
         const tags = await $scot.$get('get_trending_tags')
@@ -191,7 +191,7 @@ export const useScotStore = defineStore('scot', {
     },
 
     async fetchCommunities (communities) {
-      const { $chain } = useNuxtApp()
+      const { $chain } = this.$nuxt
 
       try {
         const client = $chain.getClient()
@@ -207,7 +207,7 @@ export const useScotStore = defineStore('scot', {
     },
 
     async fetchAccounts (accounts) {
-      const { $chain } = useNuxtApp()
+      const { $chain } = this.$nuxt
 
       try {
         const data = await $chain.getClient().database.getAccounts(accounts)

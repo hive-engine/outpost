@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **P3 DONE (UI foundation). NEXT SESSION: P4** — mass port: components (84 files, use CONVERSION.md conventions, fan out agents), pages+data fetching, middleware, modals batch (incl. SmartLock), utils barrel completion (HtmlReady/embeds). Cadence: one phase per session.
+Status: **P4 MOSTLY DONE — core site browsable. NEXT SESSION: P5** — fix /hot + /wallet 500s (SSR null guards / sort-endpoint map), port deferred surfaces (NFT/DTF/pool pages+components — disabled in BBH config), lenient HTML parser for HtmlReady, plyr, cosmetic dup-import warnings. Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
@@ -113,3 +113,16 @@ Direct-to-Nuxt3 vs Nuxt Bridge intermediate; Pinia vs Vuex4. See chat.
 - npm: overrides @vue/composition-api→vue ^3 (vuelidate optional peer). Blanket legacy-peer-deps BREAKS vite hoisting — do not use.
 - Verified: build green; SSR renders navbar (nav links, logo, login/signup items), offcanvas sidebar, inlined BS5+app css; named route sort→/trending resolves; live tribe data still flows.
 - CONVERSION.md written — the mechanical rulebook for the P4 mass port.
+
+## P4 notes (mass port — core browsable)
+- 4 parallel agent batches (content-utils, display components, interactive+SmartLock, pages+middleware). Batch B (display) died on a Fable-5 credits limit at its summary but had written all 8 files; finished/fixed inline.
+- KEY integration fixes (systemic, unblocked everything):
+  1. components pathPrefix:false in nuxt.config — legacy uses filename tags (<post-summary>), Nuxt3 default dir-prefixes (CardsPostSummary) → tags rendered as empty unresolved elements. THE big one.
+  2. services-bridge.js pinia plugin attaches markRaw() to every store; stores use this. instead of useNuxtApp() (which throws "instance unavailable" after await during SSR). event-bus.client→event-bus (universal so  exists in SSR).
+  3. tribe-init.js plugin runs tribe.init() globally (replaces nuxtServerInit) → tribe_config populated app-wide.
+  4. pages:extend hook assigns legacy route names by file path (definePageMeta name doesn't extract from Options <script>; @[user] folder auto-names with @). All {name:"user-post"} links now resolve.
+  5. homepage rewritten to idiomatic useAsyncData-returns-data (external-ref pattern left arrays empty).
+  6. HtmlReady catch now falls back to preprocessed HTML (was blanking) — @xmldom 0.9 strict-throws on sloppy Hive post HTML; rendering errors 0 now. TODO(P5): lenient parser.
+  7. static/: [static].vue catch-all shadowed /:sort → replaced with explicit faq.vue/tos.vue + StaticContent.vue.
+- Verified 200: /, /trending, /created, post, profile, /comments /replies /followers /following /feed, /faq /tos, /dashboard, /login — all with REAL Hive data + working links/titles. Auth redirects (settings, publish → 302) correct. 404 correct.
+- KNOWN 500s (P5): /hot (sort→endpoint shape), /@user/wallet (SSR auth.user null guard). Deferred (disabled in BBH config, not ported): NFT/DTF/pool pages+components, dao/dashboard modals, SignUp. SmartLock ported but pincode UI is a basic input (TODO P5). Mavon uploadImages uses v2 internals (needs runtime check).

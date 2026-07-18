@@ -194,7 +194,7 @@ export const usePostStore = defineStore('post', {
     },
 
     async requestEditPost ({ author, permlink }) {
-      const { $chain } = useNuxtApp()
+      const { $chain } = this.$nuxt
 
       try {
         const content = await $chain.client.hivemind.call('get_post', { author, permlink })

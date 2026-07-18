@@ -37,12 +37,14 @@
 
           <!-- TODO(P4): SmartLock modal (legacy components/modals/SmartLock.vue, 372 lines)
                not yet ported — button informs the user instead of silently failing. -->
-          <b-button variant="secondary" class="w-100" @click.prevent="smartLockUnavailable">
+          <b-button variant="secondary" class="w-100" @click.prevent="ui.showModal('smartLock')">
             SmartLock
           </b-button>
         </div>
       </div>
     </b-modal>
+
+    <SmartLock :callback="smartLockLogin" :key-types="['posting', 'active']" />
   </div>
 </template>
 
@@ -55,6 +57,7 @@ import { required, minLength, maxLength } from '@vuelidate/validators'
 import { useAuthStore } from '~/stores/auth'
 import { useUserStore } from '~/stores/user'
 import { useUiStore } from '~/stores/ui'
+import SmartLock from '~/components/modals/SmartLock.vue'
 
 const { $eventBus, $notify } = useNuxtApp()
 const auth = useAuthStore()
@@ -83,10 +86,6 @@ const logMeIn = async () => {
 
 const smartLockLogin = async (user, wif) => {
   await userStore.loginWithKey({ username: user, wif })
-}
-
-const smartLockUnavailable = () => {
-  $notify({ title: 'Not available yet', type: 'warn', text: 'SmartLock login returns after the migration (use Keychain for now).' })
 }
 
 // Legacy beforeMount auto-login: remembered username + smartlock key or Keychain retry

@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     // Legacy signature: this.$auth.login({ data: { username, ts, sig, smartlock } })
     async login ({ data }) {
-      const { $api } = useNuxtApp()
+      const { $api } = this.$nuxt
 
       this.busy = true
 
@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', {
 
     // Restore session from the http-only cookie (called on app init / navigation)
     async fetchUser () {
-      const { $api } = useNuxtApp()
+      const { $api } = this.$nuxt
 
       try {
         const result = await $api.$post('/api/v1/me')
@@ -53,7 +53,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout () {
-      const { $api } = useNuxtApp()
+      const { $api } = this.$nuxt
 
       try {
         await $api.$post('/api/v1/logout')

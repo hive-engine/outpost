@@ -5,7 +5,7 @@ import { useTribeStore } from '~/stores/tribe'
 export const useTransactionStore = defineStore('transaction', {
   actions: {
     async validateTransaction (trxId) {
-      const { $chain, $sidechain, $eventBus } = useNuxtApp()
+      const { $chain, $sidechain, $eventBus } = this.$nuxt
 
       let error = false
       let trx = null

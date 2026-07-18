@@ -84,7 +84,7 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     async fetchTokenInfoAndConfig () {
-      const { $scot } = useNuxtApp()
+      const { $scot } = this.$nuxt
 
       try {
         const [info, config] = await Promise.all([
@@ -108,7 +108,7 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     async requestBroadcastMultipleJson () {
-      const { $chain, $eventBus } = useNuxtApp()
+      const { $chain, $eventBus } = this.$nuxt
       const authStore = useAuthStore()
 
       const { username } = authStore.user
@@ -199,7 +199,7 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     requestBroadcastJson ({ id, json, message, eventName, emitData, mutation, mutationData, keyType = 'Posting' }) {
-      const { $chain, $eventBus } = useNuxtApp()
+      const { $chain, $eventBus } = this.$nuxt
       const authStore = useAuthStore()
 
       const { username } = authStore.user
@@ -273,7 +273,7 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     requestBroadcastOps ({ operations, emitEvent, emitData, mutation, mutationData, keyType = 'Posting' }) {
-      const { $chain, $eventBus } = useNuxtApp()
+      const { $chain, $eventBus } = this.$nuxt
       const authStore = useAuthStore()
 
       const { username } = authStore.user
@@ -357,7 +357,7 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     showNotification ({ title, message, type = 'success' }) {
-      const { $eventBus } = useNuxtApp()
+      const { $eventBus } = this.$nuxt
 
       // P3: delivered via the notifications plugin bridge (@kyvg/vue3-notification)
       $eventBus.$emit('notify', {
@@ -368,7 +368,7 @@ export const useTribeStore = defineStore('tribe', {
     },
 
     showUnlockModal (keyType) {
-      const { $eventBus } = useNuxtApp()
+      const { $eventBus } = this.$nuxt
       const { username } = useAuthStore().user
       let pin = '' // eslint-disable-line prefer-const
 

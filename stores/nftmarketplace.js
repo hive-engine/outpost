@@ -88,7 +88,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchSettings (forced = false) {
-      const { $nftm } = useNuxtApp()
+      const { $nftm } = this.$nuxt
       const config = useRuntimeConfig().public
 
       try {
@@ -103,7 +103,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchHivePrice () {
-      const { $api } = useNuxtApp()
+      const { $api } = this.$nuxt
 
       try {
         const result = await $api.$get('https://api.coingecko.com/api/v3/simple/price?ids=HIVE&vs_currencies=USD')
@@ -117,7 +117,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchTokenPrice () {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       if (!this.settings || this.settings.currency === 'SWAP.HIVE') {
         return
@@ -135,7 +135,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchForSale (query) {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       try {
         const limit = 1000
@@ -181,7 +181,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchCollection (query) {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       try {
         const limit = 1000
@@ -219,7 +219,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchInstances (ids) {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       try {
         let nfts = await $sidechain.getNFTInstances({ symbol: this.settings.nft_symbol, _id: { $in: ids } })
@@ -233,7 +233,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchSeriesInfo (seriesNames) {
-      const { $nftm } = useNuxtApp()
+      const { $nftm } = this.$nuxt
 
       const cachedSeries = Object.keys(this.series_info)
 
@@ -255,7 +255,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async fetchUserInfo () {
-      const { $nftm } = useNuxtApp()
+      const { $nftm } = this.$nuxt
       const config = useRuntimeConfig().public
 
       try {
@@ -285,7 +285,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async requestUpdateProfile (data) {
-      const { $nftm, $eventBus } = useNuxtApp()
+      const { $nftm, $eventBus } = this.$nuxt
 
       try {
         await $nftm.$post('users/profile', data)
@@ -297,7 +297,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async requestApplyForWhitelist () {
-      const { $nftm, $eventBus } = useNuxtApp()
+      const { $nftm, $eventBus } = this.$nuxt
 
       try {
         await $nftm.$post('users/whitelist/apply')
@@ -359,7 +359,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async validateTokenIssuance (trxId) {
-      const { $chain, $nftm, $eventBus } = useNuxtApp()
+      const { $chain, $nftm, $eventBus } = this.$nuxt
 
       let trx = null
       let count = 0
@@ -664,7 +664,7 @@ export const useNftMarketplaceStore = defineStore('nftmarketplace', {
     },
 
     async requestProcessApplication ({ username, action, value }) {
-      const { $nftm, $eventBus } = useNuxtApp()
+      const { $nftm, $eventBus } = this.$nuxt
 
       try {
         const { success } = await $nftm.$post('admin/whitelist', { username, action, value })

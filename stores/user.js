@@ -88,7 +88,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async loginWithKey ({ username, wif, nftmarketplace = false }) {
-      const { $chain } = useNuxtApp()
+      const { $chain } = this.$nuxt
 
       if (!username) { return }
 
@@ -136,7 +136,7 @@ export const useUserStore = defineStore('user', {
         }
       } else {
         try {
-          const { $nftm } = useNuxtApp()
+          const { $nftm } = this.$nuxt
           const config = useRuntimeConfig().public
 
           const data = await $nftm.$post('auth/login', { username, ts, sig, site: config.NFT_MARKETPLACE })
@@ -149,7 +149,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async fetchAccountScotData () {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
       const config = useRuntimeConfig().public
       const authStore = useAuthStore()
 
@@ -182,7 +182,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async fetchFollowers () {
-      const { $chain } = useNuxtApp()
+      const { $chain } = this.$nuxt
       const authStore = useAuthStore()
 
       const limit = 1000
@@ -210,7 +210,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async fetchFollowing () {
-      const { $chain } = useNuxtApp()
+      const { $chain } = this.$nuxt
       const authStore = useAuthStore()
 
       const limit = 1000
@@ -238,7 +238,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async uploadFile (file) {
-      const { $chain, $api } = useNuxtApp()
+      const { $chain, $api } = this.$nuxt
       const config = useRuntimeConfig().public
       const authStore = useAuthStore()
 

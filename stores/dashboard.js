@@ -14,7 +14,7 @@ export const useDashboardStore = defineStore('dashboard', {
 
   actions: {
     REQUEST_EDIT ({ type, payload }) {
-      const { $eventBus } = useNuxtApp()
+      const { $eventBus } = this.$nuxt
 
       switch (type) {
         case 'smt':
@@ -62,7 +62,7 @@ export const useDashboardStore = defineStore('dashboard', {
     },
 
     REQUEST_CREATE_PROPOSAL (payload) {
-      const { $eventBus } = useNuxtApp()
+      const { $eventBus } = this.$nuxt
 
       this.fund = payload
 
@@ -192,7 +192,7 @@ export const useDashboardStore = defineStore('dashboard', {
     },
 
     async fetchMarketPools () {
-      const { $sidechain } = useNuxtApp()
+      const { $sidechain } = this.$nuxt
 
       const limit = 1000
       const results = []
