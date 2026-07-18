@@ -42,7 +42,9 @@
   "devDependencies": {
     "@bootstrap-vue-next/nuxt": "^0.45.8",
     "nuxt": "^3.21.8",
-    "sass": "^1.101.0"
+    "playwright-core": "^1.61.1",
+    "sass": "^1.101.0",
+    "vite-plugin-node-polyfills": "^0.28.0"
   },
   "overrides": {
     "@vue/composition-api": {

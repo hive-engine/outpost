@@ -1,5 +1,6 @@
 // Nuxt 3 config — migration in progress (see MIGRATION.md).
 // Ported incrementally; legacy Nuxt 2 config preserved at legacy/nuxt.config.js.old
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import * as tribeConfig from './config'
 
 export default defineNuxtConfig({
@@ -46,6 +47,16 @@ export default defineNuxtConfig({
   ignore: ['legacy/**'],
 
   hooks: {
+    // webpack 4 (Nuxt 2) injected a global Buffer; Vite does not. dhive/triplesec/
+    // signing reference global Buffer in the browser. Polyfill it — CLIENT BUILD ONLY
+    // (on the server Node already has Buffer; polyfilling there breaks SSR).
+    'vite:extendConfig' (config, { isClient }) {
+      if (isClient) {
+        config.plugins = config.plugins || []
+        config.plugins.push(nodePolyfills({ include: ['buffer'], globals: { Buffer: true, process: false, global: false } }))
+      }
+    },
+
     // Assign the legacy route names by file path. definePageMeta({ name }) only
     // extracts reliably from <script setup>; these pages keep Options-API <script>,
     // and the `@[user]` folder auto-names routes with an `@`, breaking {name:'user-*'}

@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **P5 core DONE — all core routes 200. NEXT SESSION: P6** — SSR/hydration parity pass (click-through on staging, real Keychain login test), CSP, then deferred NFT/DTF/pool surfaces (disabled in BBH). Optional polish: lenient HTML parser, plyr, cosmetic dup-import warnings. Cadence: one phase per session.
+Status: **P6 DONE — Nuxt3 migration LIVE on dev.thebbhproject.com for browser testing. AWAITING: owner Keychain test (login/upvote/comment). NEXT: P7** — promote to bbhproject→prod once approved; then deferred NFT/DTF/pool + CSP + hydration-polish. Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
@@ -132,3 +132,11 @@ Direct-to-Nuxt3 vs Nuxt Bridge intermediate; Pinia vs Vuex4. See chat.
 - /wallet 500 (sortByModelResolved.value?.filter is not a function): bootstrap-vue-next BTable sort-by expects an array, legacy passed string sort-by="timestamp"/sort-desc → removed those props (data is API-pre-sorted) on both wallet b-tables. Also made wallet load() client-only (import.meta.client) so dynamic chain balance reads don't block SSR.
 - Census 200: /, /trending /hot /created /payout, post, profile, /comments /replies /followers /following /feed, /wallet, /faq /tos, /dashboard, /login. HtmlReady rendering-error fallback holding (0 blank bodies).
 - Deferred/optional (P6+): lenient HTML parser to reduce @xmldom throw-rate (current fallback is adequate); vue-plyr replacement (only in deferred NFT/video surfaces); cosmetic build warnings (useColorMode dup from bvn+color-mode; encrypt/decrypt dup auto-import from triplesec+web-crypto — harmless, code uses explicit aliased imports).
+
+## P6 notes (browser validation + staging deploy)
+- DEPLOYED the Nuxt3 build to dev.thebbhproject.com: outpost-dev.service ExecStart now  (Nitro), builds via ~/outpost-dev-rebuild.sh (sources .env → APP_DOMAIN=dev, PORT=8082). Same-origin /api/v1/* served by Nitro. Basic-auth (bbhdev) + noindex still on. (Nuxt2 staging replaced — restore via  + revert service ExecStart if ever needed.)
+- FIXED: Buffer is not defined (client) — webpack polyfilled global Buffer, Vite does not; dhive/triplesec/signing need it. vite-plugin-node-polyfills scoped to CLIENT build only via hooks.vite:extendConfig (server has real Buffer; polyfilling there breaks SSR). Critical for Keychain signing.
+- FIXED hydration mismatches: Header targetUrl Math.random()→useState (server pick reused on client); Timeago now-reference→shared useState(ssr-now) so SSR/first-client render match.
+- Headless (playwright-core chromium) hydration check (hydration-check.mjs, gitignored): PASS homepage render, app hydrates, 30 real feed cards, LOGIN MODAL OPENS, SPA nav, post pages. Dev-server run showed 0 hydration mismatches; prod build shows ~4 residual NON-FATAL mismatches (Vue recovers by client re-render; app fully functional) — minor polish TODO.
+- CANNOT test headlessly (needs Keychain browser extension): real login, upvote, comment, post — OWNER must validate in a real browser.
+- DEFERRED: CSP (report-only, non-blocking; port legacy render.csp to a Nitro header later), residual hydration-mismatch polish, lenient HTML parser, plyr.

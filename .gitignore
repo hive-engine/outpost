@@ -92,3 +92,4 @@ DEPLOYMENT.md
 
 .output
 .nuxt
+hydration-check.mjs

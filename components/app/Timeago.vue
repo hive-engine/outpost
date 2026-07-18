@@ -15,11 +15,16 @@ const props = defineProps({
 
 const toDate = () => (props.datetime instanceof Date ? props.datetime : new Date(props.datetime))
 
+// Reference "now" is captured once on the server and reused on the client (useState),
+// so the SSR and first client render produce identical relative strings — otherwise
+// server-now vs client-now differ and Vue reports a hydration mismatch.
+const now = useState('ssr-now', () => Date.now())
+
 const text = ref('')
 const iso = computed(() => toDate().toISOString())
 
-const refresh = () => {
-  text.value = formatDistanceToNowStrict(toDate(), { addSuffix: true })
+const refresh = (ref = now.value) => {
+  text.value = formatDistanceToNowStrict(toDate(), { addSuffix: true, roundingMethod: 'floor', now: ref })
 }
 
 refresh()
@@ -27,9 +32,12 @@ refresh()
 let timer = null
 
 onMounted(() => {
+  // switch to the real current time after hydration, then keep it fresh
+  refresh(Date.now())
+
   if (props.autoUpdate) {
     const seconds = props.autoUpdate === true ? 60 : Number(props.autoUpdate)
-    timer = setInterval(refresh, seconds * 1000)
+    timer = setInterval(() => refresh(Date.now()), seconds * 1000)
   }
 })
 

@@ -148,7 +148,9 @@ const ui = useUiStore()
 
 const urlA = 'https://inleo.io/signup?referral=borniet'
 const urlB = 'https://inleo.io/signup?referral=bradleyarrow'
-const targetUrl = computed(() => (Math.random() < 0.5 ? urlA : urlB))
+// useState: the random pick happens once on the server and is reused on the client,
+// so the rendered href matches (a plain Math.random() computed mismatches on hydration).
+const targetUrl = useState('signup-referral-url', () => (Math.random() < 0.5 ? urlA : urlB))
 
 const changeColorMode = () => {
   colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
