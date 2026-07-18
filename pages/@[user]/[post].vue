@@ -187,11 +187,20 @@ export default {
         discussions.value = d
         permlinks.value = Object.keys(d)
       } catch (e) {
-        throw createError({ statusCode: 404, statusMessage: 'Content was not found!' })
+        // Not found / RPC error — validated at setup level below.
       }
 
       return true
     })
+
+    // Validate AFTER useAsyncData resolves, at setup level. A `throw createError`
+    // inside the useAsyncData callback is only captured into its error ref (render
+    // continues with an undefined post -> 500 on {{ post.title }}); thrown here it
+    // properly aborts to a 404. Covers both fetch failures and get_discussion
+    // succeeding without the requested post (some comment permlinks / hivemind quirks).
+    if (!discussions.value[`${route.params.user}/${route.params.post}`]) {
+      throw createError({ statusCode: 404, statusMessage: 'Content was not found!' })
+    }
 
     const currentPost = computed(() => {
       const { user: author, post: permlink } = route.params
