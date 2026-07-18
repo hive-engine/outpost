@@ -177,8 +177,6 @@
           :fields="historyTableFields"
           :items="history"
           fixed
-          sort-by="timestamp"
-          :sort-desc="true"
           show-empty
           empty-text="There are no history to show"
         >
@@ -354,7 +352,7 @@
     </b-modal>
 
     <b-modal id="delegationsModal" v-model="ui.modals.delegationsModal" centered size="lg" title="Delegations" hide-footer>
-      <b-table :items="tokenDelegations" hover sort-by="updated" sort-desc>
+      <b-table :items="tokenDelegations" hover>
         <template #cell(created)="{item}">
           <timeago :datetime="item.created" :title="item.created.toLocaleString()" />
         </template>
@@ -509,7 +507,12 @@ export default {
   },
 
   async created () {
-    await this.load()
+    // Wallet balances are dynamic, user-specific chain reads — fetch client-side only.
+    // Awaiting them in created() during SSR blocks/500s the render; the template shows
+    // a spinner (loading=true) on the server and fills in on the client.
+    if (import.meta.client) {
+      await this.load()
+    }
   },
 
   mounted () {

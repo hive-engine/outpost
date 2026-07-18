@@ -64,6 +64,10 @@ export const useScotStore = defineStore('scot', {
           ? await $api.$get('/api/v1/curated', { params, cache: { ...config.AXIOS_CACHE_CONFIG, ttl: 15 * 60 * 1000 } })
           : await $scot.$get(endpoint, { params, cache: { ...config.AXIOS_CACHE_CONFIG, ttl: 5 * 60 * 1000 } })
 
+        // Some SCOT endpoints (e.g. get_discussions_by_hot) intermittently return a
+        // non-array (empty object / error payload); guard so .map doesn't throw.
+        if (!Array.isArray(posts)) { posts = [] }
+
         posts = posts.map((post) => {
           const isPaidout = new Date(`${post.cashout_time}Z`).getTime() < Date.now()
 

@@ -1,7 +1,7 @@
 # Nuxt 2 / Vue 2 → Nuxt 3 / Vue 3 migration
 
 Branch: `migration/nuxt3` (off `dev`). Worked/tested on dev.thebbhproject.com staging.
-Status: **P4 MOSTLY DONE — core site browsable. NEXT SESSION: P5** — fix /hot + /wallet 500s (SSR null guards / sort-endpoint map), port deferred surfaces (NFT/DTF/pool pages+components — disabled in BBH config), lenient HTML parser for HtmlReady, plyr, cosmetic dup-import warnings. Cadence: one phase per session.
+Status: **P5 core DONE — all core routes 200. NEXT SESSION: P6** — SSR/hydration parity pass (click-through on staging, real Keychain login test), CSP, then deferred NFT/DTF/pool surfaces (disabled in BBH). Optional polish: lenient HTML parser, plyr, cosmetic dup-import warnings. Cadence: one phase per session.
 
 ## Assessment (from codebase scan, 2026-07-17)
 
@@ -126,3 +126,9 @@ Direct-to-Nuxt3 vs Nuxt Bridge intermediate; Pinia vs Vuex4. See chat.
   7. static/: [static].vue catch-all shadowed /:sort → replaced with explicit faq.vue/tos.vue + StaticContent.vue.
 - Verified 200: /, /trending, /created, post, profile, /comments /replies /followers /following /feed, /faq /tos, /dashboard, /login — all with REAL Hive data + working links/titles. Auth redirects (settings, publish → 302) correct. 404 correct.
 - KNOWN 500s (P5): /hot (sort→endpoint shape), /@user/wallet (SSR auth.user null guard). Deferred (disabled in BBH config, not ported): NFT/DTF/pool pages+components, dao/dashboard modals, SignUp. SmartLock ported but pincode UI is a basic input (TODO P5). Mavon uploadImages uses v2 internals (needs runtime check).
+
+## P5 notes (500 fixes — all core routes green)
+- /hot 500 (posts.map not a function): get_discussions_by_hot intermittently returns a non-array → added Array.isArray guard in stores/scot.js fetchPosts. Also root cause of the residual: PostSummary sort-tag link had undefined tag (post.parent_permlink empty on some hot posts) → "Missing required param tag" SSR throw → guarded with v-if="post.parent_permlink".
+- /wallet 500 (sortByModelResolved.value?.filter is not a function): bootstrap-vue-next BTable sort-by expects an array, legacy passed string sort-by="timestamp"/sort-desc → removed those props (data is API-pre-sorted) on both wallet b-tables. Also made wallet load() client-only (import.meta.client) so dynamic chain balance reads don't block SSR.
+- Census 200: /, /trending /hot /created /payout, post, profile, /comments /replies /followers /following /feed, /wallet, /faq /tos, /dashboard, /login. HtmlReady rendering-error fallback holding (0 blank bodies).
+- Deferred/optional (P6+): lenient HTML parser to reduce @xmldom throw-rate (current fallback is adequate); vue-plyr replacement (only in deferred NFT/video surfaces); cosmetic build warnings (useColorMode dup from bvn+color-mode; encrypt/decrypt dup auto-import from triplesec+web-crypto — harmless, code uses explicit aliased imports).

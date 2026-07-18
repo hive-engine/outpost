@@ -54,7 +54,7 @@
               Promoted
             </b-badge>
 
-            <b-badge variant="success" class="text-uppercase" tag="div">
+            <b-badge v-if="post.parent_permlink" variant="success" class="text-uppercase" tag="div">
               <nuxt-link class="d-inline-block p-1" :to="{name:'sort-tag', params:{sort:'trending', tag: post.parent_permlink}}">
                 {{ getCommunity(post.parent_permlink) }}
               </nuxt-link>
