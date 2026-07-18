@@ -1,6 +1,6 @@
 <template>
   <header>
-    <b-navbar fixed="top" variant="light" container="fluid">
+    <b-navbar fixed="top" variant="light" container="fluid" class="navbar-light">
       <!-- bootstrap-vue-next's <b-navbar> already renders its own .container-fluid
            (a direct navbar child, which BS5 makes flex). A nested <b-container> here
            would be a block container → brand + nav lists stack vertically. -->
