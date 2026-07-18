@@ -1,10 +1,12 @@
 <template>
   <header>
-    <b-navbar fixed="top" variant="light">
-      <b-container fluid>
-        <b-navbar-brand to="/">
-          <img src="/logo.png" class="logo">
-        </b-navbar-brand>
+    <b-navbar fixed="top" variant="light" container="fluid">
+      <!-- bootstrap-vue-next's <b-navbar> already renders its own .container-fluid
+           (a direct navbar child, which BS5 makes flex). A nested <b-container> here
+           would be a block container → brand + nav lists stack vertically. -->
+      <b-navbar-brand to="/">
+        <img src="/logo.png" class="logo">
+      </b-navbar-brand>
 
         <b-navbar-nav class="d-none d-md-flex">
           <client-only>
@@ -117,7 +119,6 @@
             <fa-icon icon="bars" />
           </b-nav-item>
         </b-navbar-nav>
-      </b-container>
     </b-navbar>
 
     <b-tooltip v-if="auth.loggedIn" target="voting_power" placement="bottom">

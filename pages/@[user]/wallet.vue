@@ -351,7 +351,7 @@
       </template>
     </b-modal>
 
-    <b-modal id="delegationsModal" v-model="ui.modals.delegationsModal" centered size="lg" title="Delegations" hide-footer>
+    <b-modal id="delegationsModal" v-model="ui.modals.delegationsModal" centered size="lg" title="Delegations" no-footer>
       <b-table :items="tokenDelegations" hover>
         <template #cell(created)="{item}">
           <timeago :datetime="item.created" :title="item.created.toLocaleString()" />

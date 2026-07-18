@@ -4,10 +4,15 @@
 // pool, etc.) is populated before any page/component reads it.
 import { useTribeStore } from '~/stores/tribe'
 
-export default defineNuxtPlugin(async () => {
-  const tribe = useTribeStore()
+export default defineNuxtPlugin({
+  name: 'tribe-init',
+  // After services-bridge so the tribe store gets `this.$nuxt` (its init() uses $scot).
+  dependsOn: ['services-bridge'],
+  async setup () {
+    const tribe = useTribeStore()
 
-  if (!tribe.tribe_config) {
-    await tribe.init()
+    if (!tribe.tribe_config) {
+      await tribe.init()
+    }
   }
 })

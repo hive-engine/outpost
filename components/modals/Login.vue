@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <b-modal v-model="ui.modals.loginModal" title="Login" hide-footer centered>
+    <b-modal v-model="ui.modals.loginModal" title="Login" no-footer centered>
       <div class="pt-md-3 pb-md-3 pe-md-5 ps-md-5">
         <div class="form-group">
           <b-form-input v-model.trim="username" placeholder="Hive username" :state="v$.username.$dirty ? !v$.username.$error : null" @keyup.enter="logMeIn" />

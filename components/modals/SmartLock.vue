@@ -1,6 +1,6 @@
 <template>
   <div class="smartLock">
-    <b-modal id="smartLock" v-model="ui.modals.smartLock" title="SmartLock" hide-footer centered>
+    <b-modal id="smartLock" v-model="ui.modals.smartLock" title="SmartLock" no-footer centered>
       <b-row v-if="Object.keys(smartLockAccounts).length > 0" class="mb-3">
         <b-col v-for="(account,i) in Object.keys(smartLockAccounts)" :key="i" md="6" class="mb-2">
           <div class="account-link bg-light" @click.prevent="unlockAccount(account)">
@@ -33,7 +33,7 @@
       v-model="ui.modals.smartLockAddAccount"
       title="Add Account"
       centered
-      hide-footer
+      no-footer
       hide-backdrop
       no-close-on-backdrop
     >
@@ -90,7 +90,7 @@
       v-model="ui.modals.smartLockUnlockAccount"
       title="Unlock Account"
       centered
-      hide-footer
+      no-footer
       hide-backdrop
       no-close-on-backdrop
     >
