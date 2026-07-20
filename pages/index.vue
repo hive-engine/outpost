@@ -172,8 +172,8 @@ const ago = (created) => {
 }
 .home-card:hover { transform: translateY(-4px); border-color: rgba(245, 184, 0, 0.5); box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(224, 31, 38, 0.15); }
 .home-thumb { position: relative; flex: 1; min-height: 90px; background-size: cover; background-position: center; }
-.home-thumb-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(8,8,12,.9)); }
-.home-card-body { position: relative; padding: .85rem 1rem 1rem; }
+.home-thumb-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 25%, rgba(8,8,12,.55) 60%, rgba(8,8,12,.97)); }
+.home-card-body { position: relative; padding: .85rem 1rem 1rem; background: rgba(8,8,12,.85); margin-top: -1px; }
 .tile-lg .home-card-body { padding: 1.2rem 1.4rem 1.4rem; }
 .home-author { display: flex; align-items: center; gap: .45rem; font-size: .8rem; color: var(--w3-muted); margin-bottom: .4rem; }
 .home-author img { width: 22px; height: 22px; border-radius: 50%; }
@@ -183,7 +183,7 @@ const ago = (created) => {
 .home-meta { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
 .home-pill { font-size: .78rem; padding: .3rem .7rem; border-radius: 999px; font-weight: 700; color: var(--w3-gold); background: rgba(245, 184, 0, 0.12); border: 1px solid rgba(245, 184, 0, 0.35); box-shadow: 0 0 16px rgba(245, 184, 0, 0.18); }
 .home-pill b { color: #fff; }
-.home-mini { font-size: .8rem; color: var(--w3-muted); }
+.home-mini { font-size: .8rem; color: #e4e4e7; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
 
 .home-more { text-align: center; padding-bottom: 3rem; }
 .home-more a { font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: .85rem; }

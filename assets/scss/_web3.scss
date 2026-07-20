@@ -127,3 +127,32 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grote
 // muted text
 .text-muted { color: var(--w3-muted) !important; }
 hr { border-color: var(--w3-border); }
+
+// ── mavon-editor (reply / post editor) → dark ─────────────────────────────────
+.v-note-wrapper {
+  background: var(--w3-bg-2) !important;
+  border-color: var(--w3-border) !important;
+  color: var(--w3-text) !important;
+}
+.v-note-wrapper .v-note-op {
+  background: var(--w3-panel-2) !important;
+  border-bottom: 1px solid var(--w3-border) !important;
+}
+.v-note-wrapper .v-note-op .op-icon,
+.v-note-wrapper .v-note-op .op-icon.fa,
+.v-note-wrapper .op-btn-divider { color: var(--w3-text) !important; }
+.v-note-wrapper .v-note-op .op-icon:hover { color: var(--w3-gold) !important; }
+.v-note-wrapper .v-note-panel,
+.v-note-wrapper .v-note-edit,
+.v-note-wrapper .v-note-show { background: var(--w3-bg-2) !important; }
+.v-note-wrapper .content-input-wrapper,
+.v-note-wrapper .auto-textarea-wrapper,
+.v-note-wrapper .auto-textarea-input,
+.v-note-wrapper textarea {
+  background: var(--w3-bg-2) !important;
+  color: var(--w3-text) !important;
+  -webkit-text-fill-color: var(--w3-text) !important;
+  caret-color: var(--w3-gold);
+}
+.v-note-wrapper .auto-textarea-input::placeholder { color: var(--w3-muted) !important; }
+.v-note-wrapper .v-note-show .v-show-content { background: var(--w3-bg-2) !important; color: var(--w3-text) !important; }

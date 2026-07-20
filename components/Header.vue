@@ -115,7 +115,7 @@
             </b-nav-item>
           </template>
 
-          <b-nav-item v-b-toggle.sidebar-menu link-classes="ms-2 me-0 navbar-btn rounded">
+          <b-nav-item link-classes="ms-2 me-0 navbar-btn rounded" @click.prevent="ui.showModal('sidebarMenu')">
             <fa-icon icon="bars" />
           </b-nav-item>
         </b-navbar-nav>
