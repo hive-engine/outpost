@@ -119,6 +119,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grote
 .table { color: var(--w3-text); --bs-table-bg: transparent; --bs-table-color: var(--w3-text); }
 .list-group-item { background: transparent !important; color: var(--w3-text); border-color: var(--w3-border) !important; }
 
+// The sort/feed page header creates its own stacking context (it has a filter),
+// which traps its dropdown at the header's root-level z-order — the post cards that
+// follow in the DOM then paint over it. Lift the whole header above the post list.
+.page-header { position: relative; z-index: 30; }
+
 // Dropdown menus — high z-index so they never get lost behind post content /
 // the sticky action bar / glass panels (which create stacking contexts).
 .dropdown-menu {

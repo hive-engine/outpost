@@ -55,7 +55,7 @@
       </b-container>
     </div>
 
-    <b-nav v-if="!isPostView" align="center" pills class="bg-light">
+    <b-nav v-if="!isPostView" align="center" pills class="profile-tabs">
       <template v-for="(route, i) of childRoutes">
         <b-nav-item v-if="route.show" :key="i" :to="{name: route.name, params: {user: $route.params.user}}" :active="route.name === $route.name || (route.name === 'user-followers' && $route.name === 'user-following')">
           {{ route.title }}
@@ -264,3 +264,45 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.profile-cover {
+  min-height: 240px;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem 0 1.6rem;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.profile-cover :deep(h4) { font-size: 1.8rem; font-weight: 700; margin: 0; text-shadow: 0 2px 12px rgba(0,0,0,.6); }
+.profile-cover :deep(a) { color: #ffe08a !important; text-decoration: none; }
+.profile-cover :deep(a:hover) { color: #fff !important; }
+.profile-cover :deep(.b-avatar) { border: 3px solid var(--w3-gold); box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+
+/* tab bar — dark glass pills (replaces the white bg-light band) */
+.profile-tabs {
+  position: relative;
+  z-index: 2;
+  gap: .3rem;
+  padding: .7rem clamp(1rem, 4vw, 2rem);
+  background: rgba(8,8,12,.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--w3-border);
+  margin-bottom: 1.5rem;
+}
+.profile-tabs :deep(.nav-link) {
+  color: var(--w3-muted) !important;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: .45rem 1.1rem;
+}
+.profile-tabs :deep(.nav-link:hover) { color: var(--w3-text) !important; background: var(--w3-panel-2); }
+.profile-tabs :deep(.nav-link.active) {
+  color: #1a1206 !important;
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important;
+  box-shadow: 0 0 18px rgba(245,184,0,.3);
+}
+</style>

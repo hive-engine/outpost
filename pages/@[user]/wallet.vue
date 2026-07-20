@@ -579,9 +579,13 @@ export default {
         requests.push(this.fetchPendingRewards())
       }
 
-      await Promise.all(requests)
-
-      this.loading = false
+      // allSettled + finally: a single failing balance fetch (or an RPC rate-limit)
+      // must never leave the wallet stuck on the loading spinner.
+      try {
+        await Promise.allSettled(requests)
+      } finally {
+        this.loading = false
+      }
     },
 
     async fetchChainBalance () {
