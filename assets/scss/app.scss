@@ -18,3 +18,6 @@ $enable-rounded: false;
 
 @import "./light-mode";
 @import "./dark-mode";
+
+// Web3 Bold theme — loaded last so it overrides the legacy light/dark styles.
+@import "./web3";

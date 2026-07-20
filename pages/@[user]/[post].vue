@@ -157,10 +157,11 @@ export default {
     const route = useRoute()
     const { $chain } = useNuxtApp()
 
-    const discussions = ref({})
-    const permlinks = ref([])
-
-    await useAsyncData(`post-${route.params.user}-${route.params.post}`, async () => {
+    // useAsyncData must RETURN the discussions (not set a ref as a side effect):
+    // the returned value is serialized to the client, so on hydration the callback
+    // does NOT re-run and any side-effect ref would stay empty -> the 404 guard would
+    // wrongly fire client-side. Returning the data keeps it available on both sides.
+    const { data } = await useAsyncData(`post-${route.params.user}-${route.params.post}`, async () => {
       try {
         const client = $chain.getClient()
 
@@ -184,20 +185,18 @@ export default {
           }
         })
 
-        discussions.value = d
-        permlinks.value = Object.keys(d)
+        return d
       } catch (e) {
-        // Not found / RPC error — validated at setup level below.
+        return null
       }
-
-      return true
     })
 
-    // Validate AFTER useAsyncData resolves, at setup level. A `throw createError`
-    // inside the useAsyncData callback is only captured into its error ref (render
-    // continues with an undefined post -> 500 on {{ post.title }}); thrown here it
-    // properly aborts to a 404. Covers both fetch failures and get_discussion
-    // succeeding without the requested post (some comment permlinks / hivemind quirks).
+    const discussions = computed(() => data.value || {})
+    const permlinks = computed(() => Object.keys(data.value || {}))
+
+    // Validate at setup level (throw here aborts to a proper 404, whereas a throw
+    // inside the useAsyncData callback is only captured). Covers fetch failures and
+    // get_discussion succeeding without the requested post (comment permlinks/quirks).
     if (!discussions.value[`${route.params.user}/${route.params.post}`]) {
       throw createError({ statusCode: 404, statusMessage: 'Content was not found!' })
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <div class="profile-cover" :style="backgroundOverlay">
+    <div v-if="!isPostView" class="profile-cover" :style="backgroundOverlay">
       <b-container fluid="lg">
         <b-row no-gutters>
           <b-col md="8" lg="10">
@@ -55,7 +55,7 @@
       </b-container>
     </div>
 
-    <b-nav align="center" pills class="bg-light">
+    <b-nav v-if="!isPostView" align="center" pills class="bg-light">
       <template v-for="(route, i) of childRoutes">
         <b-nav-item v-if="route.show" :key="i" :to="{name: route.name, params: {user: $route.params.user}}" :active="route.name === $route.name || (route.name === 'user-followers' && $route.name === 'user-following')">
           {{ route.title }}
@@ -164,6 +164,12 @@ export default {
   computed: {
     ...mapState(useTribeStore, ['muting_account']),
     ...mapState(useUserStore, ['following']),
+
+    // A single post (/@user/:post) is nested under this profile wrapper by Nuxt file
+    // routing, but should render standalone — hide the profile cover + tab nav for it.
+    isPostView () {
+      return this.$route.name === 'user-post'
+    },
 
     account () {
       return this.data?.account || {}

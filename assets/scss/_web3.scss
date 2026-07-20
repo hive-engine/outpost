@@ -1,0 +1,129 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Web3 Bold — site-wide dark theme (design rollout D1). Loaded LAST so it wins.
+// ─────────────────────────────────────────────────────────────────────────────
+:root {
+  --w3-red: #e01f26;
+  --w3-gold: #f5b800;
+  --w3-bg: #08080c;
+  --w3-bg-2: #0e0e14;
+  --w3-panel: rgba(255, 255, 255, 0.045);
+  --w3-panel-2: rgba(255, 255, 255, 0.07);
+  --w3-border: rgba(255, 255, 255, 0.10);
+  --w3-text: #f4f4f5;
+  --w3-muted: #a1a1aa;
+
+  --bs-body-bg: var(--w3-bg);
+  --bs-body-color: var(--w3-text);
+  --bs-border-color: var(--w3-border);
+}
+
+html, body {
+  background: var(--w3-bg) !important;
+  color: var(--w3-text);
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+// aurora glow behind everything
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(55vw 55vw at 12% -8%, rgba(224, 31, 38, 0.22), transparent 60%),
+    radial-gradient(45vw 45vw at 92% -2%, rgba(245, 184, 0, 0.16), transparent 55%),
+    radial-gradient(40vw 40vw at 65% 30%, rgba(123, 47, 247, 0.12), transparent 60%);
+  filter: blur(24px);
+}
+
+.mono, .w3-mono { font-family: 'JetBrains Mono', monospace; }
+
+// offset content below the fixed navbar
+.app-container { padding-top: 64px; }
+
+// Links
+a { color: var(--w3-gold); }
+a:hover { color: #ffd34d; }
+
+// Headings keep the display font
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; }
+
+// ── Cards → glass panels ──────────────────────────────────────────────────────
+.card {
+  background: var(--w3-panel) !important;
+  border: 1px solid var(--w3-border) !important;
+  border-radius: 18px !important;
+  color: var(--w3-text);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.card-header, .card-footer { background: transparent !important; border-color: var(--w3-border) !important; }
+
+// ── Navbar → dark glass ───────────────────────────────────────────────────────
+.navbar.bg-light, .navbar {
+  background: rgba(8, 8, 12, 0.72) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--w3-border);
+}
+.navbar .nav-link { color: var(--w3-muted) !important; font-weight: 500; }
+.navbar .nav-link:hover, .navbar .nav-link.router-link-exact-active { color: var(--w3-text) !important; }
+.navbar-btn {
+  border: 1px solid var(--w3-border) !important;
+  background: var(--w3-panel) !important;
+  color: var(--w3-text) !important;
+}
+.navbar-btn:hover { background: var(--w3-panel-2) !important; border-color: rgba(245, 184, 0, 0.5) !important; }
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+.btn { border-radius: 10px; font-weight: 600; }
+.btn-success {
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important;
+  border: 0 !important;
+  color: #1a1206 !important;
+  box-shadow: 0 0 22px rgba(245, 184, 0, 0.3);
+}
+.btn-success:hover { filter: brightness(1.05); color: #1a1206 !important; }
+.btn-primary, .btn-info {
+  background: linear-gradient(135deg, var(--w3-red), #ff5a3c) !important;
+  border: 0 !important;
+  color: #fff !important;
+}
+.btn-secondary { background: var(--w3-panel-2) !important; border: 1px solid var(--w3-border) !important; color: var(--w3-text) !important; }
+.btn-link { color: var(--w3-gold) !important; }
+
+// ── Forms ─────────────────────────────────────────────────────────────────────
+.form-control, .form-select, .custom-select {
+  background: var(--w3-panel) !important;
+  border: 1px solid var(--w3-border) !important;
+  color: var(--w3-text) !important;
+}
+.form-control::placeholder { color: var(--w3-muted); }
+.form-control:focus { border-color: rgba(245, 184, 0, 0.6) !important; box-shadow: 0 0 0 0.2rem rgba(245, 184, 0, 0.15) !important; }
+
+// ── Badges / reward pills ─────────────────────────────────────────────────────
+.badge.text-bg-secondary, .b-form-tag { background: var(--w3-panel-2) !important; color: var(--w3-muted) !important; border: 1px solid var(--w3-border); }
+
+// ── Modals / offcanvas → dark glass ───────────────────────────────────────────
+.modal-content, .offcanvas {
+  background: var(--w3-bg-2) !important;
+  color: var(--w3-text);
+  border: 1px solid var(--w3-border) !important;
+  border-radius: 18px;
+}
+.modal-header, .modal-footer { border-color: var(--w3-border) !important; }
+.btn-close { filter: invert(1) grayscale(1) brightness(1.6); }
+
+// ── Tables / lists ────────────────────────────────────────────────────────────
+.table { color: var(--w3-text); --bs-table-bg: transparent; --bs-table-color: var(--w3-text); }
+.list-group-item { background: transparent !important; color: var(--w3-text); border-color: var(--w3-border) !important; }
+
+// Dropdown menus
+.dropdown-menu { background: var(--w3-bg-2) !important; border: 1px solid var(--w3-border) !important; }
+.dropdown-item { color: var(--w3-text) !important; }
+.dropdown-item:hover { background: var(--w3-panel-2) !important; color: var(--w3-gold) !important; }
+
+// muted text
+.text-muted { color: var(--w3-muted) !important; }
+hr { border-color: var(--w3-border); }
