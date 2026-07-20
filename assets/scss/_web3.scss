@@ -119,8 +119,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grote
 .table { color: var(--w3-text); --bs-table-bg: transparent; --bs-table-color: var(--w3-text); }
 .list-group-item { background: transparent !important; color: var(--w3-text); border-color: var(--w3-border) !important; }
 
-// Dropdown menus
-.dropdown-menu { background: var(--w3-bg-2) !important; border: 1px solid var(--w3-border) !important; }
+// Dropdown menus — high z-index so they never get lost behind post content /
+// the sticky action bar / glass panels (which create stacking contexts).
+.dropdown-menu {
+  background: var(--w3-bg-2) !important;
+  border: 1px solid var(--w3-border) !important;
+  z-index: 1080 !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,.6);
+}
 .dropdown-item { color: var(--w3-text) !important; }
 .dropdown-item:hover { background: var(--w3-panel-2) !important; color: var(--w3-gold) !important; }
 
@@ -156,3 +162,87 @@ hr { border-color: var(--w3-border); }
 }
 .v-note-wrapper .auto-textarea-input::placeholder { color: var(--w3-muted) !important; }
 .v-note-wrapper .v-note-show .v-show-content { background: var(--w3-bg-2) !important; color: var(--w3-text) !important; }
+
+// ── Markdown post/comment body → readable dark prose ──────────────────────────
+.markdown-view {
+  color: #e6e6e9;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  h1, h2, h3, h4, h5, h6 { color: #fff; font-weight: 700; line-height: 1.25; margin: 2rem 0 .8rem; letter-spacing: -0.01em; }
+  h1 { font-size: 1.9rem; } h2 { font-size: 1.55rem; } h3 { font-size: 1.3rem; } h4 { font-size: 1.12rem; }
+
+  p { margin: 0 0 1.2rem; }
+
+  a { color: var(--w3-gold); text-decoration: none; border-bottom: 1px solid rgba(245,184,0,.35); }
+  a:hover { border-bottom-color: var(--w3-gold); }
+
+  img { max-width: 100%; height: auto; border-radius: 12px; margin: 1rem 0; display: block; }
+
+  blockquote {
+    margin: 1.4rem 0; padding: .6rem 1.2rem;
+    border-left: 3px solid var(--w3-gold);
+    background: rgba(245,184,0,.05); border-radius: 0 8px 8px 0;
+    color: #c9c9cf;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  ul, ol { margin: 0 0 1.2rem; padding-left: 1.5rem; }
+  li { margin-bottom: .4rem; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace; font-size: .88em;
+    background: rgba(255,255,255,.08); padding: .15em .45em; border-radius: 6px; color: #ffd9a0;
+  }
+  pre {
+    background: #050508 !important; border: 1px solid var(--w3-border);
+    border-radius: 12px; padding: 1.1rem 1.3rem; overflow-x: auto; margin: 1.4rem 0;
+  }
+  pre code { background: none; padding: 0; color: #e6e6e9; }
+
+  hr { border: 0; border-top: 1px solid var(--w3-border); margin: 2rem 0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .95rem; }
+  th, td { border: 1px solid var(--w3-border); padding: .6rem .8rem; text-align: left; }
+  th { background: var(--w3-panel-2); }
+
+  .phishy { color: var(--w3-red); }
+  iframe, .embed-responsive { max-width: 100%; border-radius: 12px; margin: 1.2rem 0; }
+  .embed-responsive-16by9 { position: relative; aspect-ratio: 16/9; }
+  .embed-responsive-16by9 iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+}
+
+// ── Comments → threaded cards ─────────────────────────────────────────────────
+.post-comments {
+  .media { display: flex; gap: .75rem; margin-bottom: 1rem; align-items: flex-start; }
+  .media-aside img, .media-aside .b-avatar { flex-shrink: 0; }
+  .media-body { flex: 1; min-width: 0; }
+
+  .comment {
+    background: var(--w3-panel);
+    border: 1px solid var(--w3-border);
+    border-radius: 14px;
+    padding: .85rem 1.1rem;
+  }
+  .comment .markdown-view { font-size: .98rem; line-height: 1.65; margin-top: .5rem; }
+  .comment .markdown-view p:last-child { margin-bottom: 0; }
+  .comment .markdown-view img { max-width: 360px; }
+
+  // comment meta (author + time)
+  .comment > time, .comment .small { color: var(--w3-muted); font-size: .82rem; }
+
+  // action row
+  .comment .cursor-pointer { color: var(--w3-muted) !important; text-decoration: none; }
+  .comment .cursor-pointer:hover { color: var(--w3-gold) !important; }
+  .comment .d-flex.align-items-center.small { margin-top: .7rem; gap: .3rem; }
+
+  // nested replies: indent + thread line
+  .media-body .media {
+    margin-top: 1rem; margin-bottom: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--w3-border);
+  }
+  .media-body .media:hover { border-left-color: rgba(245,184,0,.35); }
+}

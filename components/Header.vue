@@ -8,20 +8,6 @@
         <img src="/logo.png" class="logo">
       </b-navbar-brand>
 
-        <b-navbar-nav class="d-none d-md-flex">
-          <client-only>
-            <b-nav-item @click.prevent="changeColorMode">
-              <template v-if="colorMode.value === 'light'">
-                <fa-icon :icon="['far', 'moon']" />
-              </template>
-
-              <template v-else>
-                <fa-icon :icon="['far', 'sun']" />
-              </template>
-            </b-nav-item>
-          </client-only>
-        </b-navbar-nav>
-
         <b-navbar-nav class="d-none d-lg-flex">
           <b-nav-item v-if="auth.loggedIn" :to="{ name: 'user-feed', params: { user: auth.user.username } }">
             Feed
@@ -140,7 +126,6 @@ import { useNftMarketplaceStore } from '~/stores/nftmarketplace'
 import { useUiStore } from '~/stores/ui'
 
 const config = useRuntimeConfig().public
-const colorMode = useColorMode()
 const auth = useAuthStore()
 const userStore = useUserStore()
 const tribe = useTribeStore()
@@ -152,8 +137,4 @@ const urlB = 'https://inleo.io/signup?referral=bradleyarrow'
 // useState: the random pick happens once on the server and is reused on the client,
 // so the rendered href matches (a plain Math.random() computed mismatches on hydration).
 const targetUrl = useState('signup-referral-url', () => (Math.random() < 0.5 ? urlA : urlB))
-
-const changeColorMode = () => {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
 </script>

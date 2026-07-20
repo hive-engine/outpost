@@ -44,13 +44,6 @@
       <div class="sm-section">
         <a class="sm-link" target="_blank" :href="`https://tribaldex.com/trade/${config.TOKEN}`">💱 <span>Trade {{ config.TOKEN }}</span></a>
       </div>
-
-      <div class="sm-foot">
-        <button class="sm-toggle" @click.prevent="changeColorMode">
-          <template v-if="colorMode.value === 'light'"><fa-icon :icon="['far', 'moon']" /> Dark mode</template>
-          <template v-else><fa-icon :icon="['far', 'sun']" /> Light mode</template>
-        </button>
-      </div>
     </div>
   </b-offcanvas>
 </template>
@@ -65,7 +58,6 @@ import { useScotStore } from '~/stores/scot'
 import { useUiStore } from '~/stores/ui'
 
 const config = useRuntimeConfig().public
-const colorMode = useColorMode()
 const auth = useAuthStore()
 const userStore = useUserStore()
 const tribe = useTribeStore()
@@ -80,7 +72,6 @@ const vp = computed(() => Math.round((userStore.voting_power || 0) / 100))
 const tags = computed(() => (scot.trending_tags || []).slice(0, 10))
 
 const close = () => ui.hideModal('sidebarMenu')
-const changeColorMode = () => { colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark' }
 </script>
 
 <style scoped>
