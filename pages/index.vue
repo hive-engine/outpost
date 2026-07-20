@@ -158,11 +158,15 @@ const ago = (created) => {
 
 .home-loading { text-align: center; padding: 4rem; }
 
-.home-grid { display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; margin: 1.5rem 0 3rem; }
+.home-grid { display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 215px; margin: 1.5rem 0 3rem; }
 .tile-lg { grid-column: span 2; grid-row: span 2; }
 .tile-wide { grid-column: span 2; }
 .tile-sm { grid-column: span 1; }
-@media (max-width: 820px) { .home-grid { grid-template-columns: repeat(2, 1fr); } .tile-lg, .tile-wide { grid-column: span 2; } }
+@media (max-width: 820px) {
+  .home-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 250px; }
+  .tile-lg, .tile-wide { grid-column: span 2; }
+  .tile-lg { grid-row: span 2; }
+}
 
 .home-card {
   position: relative; border-radius: 20px; overflow: hidden; text-decoration: none; color: inherit;
@@ -171,7 +175,8 @@ const ago = (created) => {
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 .home-card:hover { transform: translateY(-4px); border-color: rgba(245, 184, 0, 0.5); box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 40px rgba(224, 31, 38, 0.15); }
-.home-thumb { position: relative; flex: 1; min-height: 90px; background-size: cover; background-position: center; }
+.home-thumb { position: relative; flex: 1 1 auto; min-height: 55px; background-size: cover; background-position: center; }
+.home-card-body { flex: 0 0 auto; }
 .home-thumb-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 25%, rgba(8,8,12,.55) 60%, rgba(8,8,12,.97)); }
 .home-card-body { position: relative; padding: .85rem 1rem 1rem; background: rgba(8,8,12,.85); margin-top: -1px; }
 .tile-lg .home-card-body { padding: 1.2rem 1.4rem 1.4rem; }
