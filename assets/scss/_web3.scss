@@ -139,6 +139,48 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grote
 .text-muted { color: var(--w3-muted) !important; }
 hr { border-color: var(--w3-border); }
 
+// ── D4 polish: remaining bootstrap variants ───────────────────────────────────
+// Outline buttons → gold (used by the Followers/Following toggle etc.)
+.btn-outline-primary, .btn-outline-secondary, .btn-outline-info {
+  color: var(--w3-gold) !important; border-color: rgba(245,184,0,.4) !important; background: transparent !important;
+}
+.btn-outline-primary:hover, .btn-outline-primary.active,
+.btn-outline-secondary:hover, .btn-outline-secondary.active,
+.btn-outline-info:hover, .btn-outline-info.active {
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important; color: #1a1206 !important; border-color: transparent !important;
+}
+.btn-warning { background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important; border: 0 !important; color: #1a1206 !important; }
+.btn-danger { background: linear-gradient(135deg, var(--w3-red), #ff5a3c) !important; border: 0 !important; color: #fff !important; }
+
+// Badges
+.badge.text-bg-warning, .badge.bg-warning { background: rgba(245,184,0,.15) !important; color: var(--w3-gold) !important; }
+.badge.text-bg-info, .badge.bg-info { background: rgba(10,207,254,.14) !important; color: #6fd6ff !important; }
+.badge.text-bg-danger, .badge.bg-danger { background: rgba(224,31,38,.16) !important; color: #ff8a8a !important; }
+.badge.text-bg-success, .badge.bg-success { background: rgba(0,245,160,.12) !important; color: #4ee6a8 !important; }
+
+// Progress bars, spinners, alerts
+.progress { background: rgba(255,255,255,.08) !important; }
+.progress-bar { background: linear-gradient(90deg, var(--w3-gold), var(--w3-red)) !important; }
+.spinner-border, .spinner-grow { color: var(--w3-gold) !important; }
+.alert { background: var(--w3-panel) !important; border: 1px solid var(--w3-border) !important; color: var(--w3-text); border-radius: 12px; }
+.alert-info { border-color: rgba(10,207,254,.3) !important; }
+.alert-warning { border-color: rgba(245,184,0,.3) !important; }
+.alert-danger { border-color: rgba(224,31,38,.3) !important; }
+
+// Form checks / radios / switches
+.form-check-input { background-color: var(--w3-panel-2) !important; border-color: var(--w3-border) !important; }
+.form-check-input:checked { background-color: var(--w3-gold) !important; border-color: var(--w3-gold) !important; }
+
+// Button groups
+.btn-group > .btn { border-radius: 0; }
+.btn-group > .btn:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+.btn-group > .btn:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+
+// Tabs
+.nav-tabs { border-color: var(--w3-border); }
+.nav-tabs .nav-link { color: var(--w3-muted); border: 0; }
+.nav-tabs .nav-link.active { color: var(--w3-gold); background: transparent; border-bottom: 2px solid var(--w3-gold); }
+
 // ── mavon-editor (reply / post editor) → dark ─────────────────────────────────
 .v-note-wrapper {
   background: var(--w3-bg-2) !important;

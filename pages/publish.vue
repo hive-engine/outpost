@@ -59,7 +59,7 @@
               </b-card-title>
 
               <b-form-group label="Title" label-sr-only>
-                <b-form-input v-model="title" placeholder="Title" />
+                <b-form-input v-model="title" placeholder="Post title…" class="post-title-input" />
               </b-form-group>
 
               <div class="post-editor">
@@ -701,3 +701,22 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.create-post { padding: 1.5rem clamp(1rem, 3vw, 2rem) 6rem; }
+.create-post :deep(.post-title-input) {
+  font-size: 1.6rem;
+  font-weight: 700;
+  border: 0 !important;
+  background: transparent !important;
+  padding-left: 0;
+}
+.create-post :deep(.post-title-input::placeholder) { color: var(--w3-muted); }
+.create-post :deep(.card) { margin-bottom: 1.2rem; }
+/* fixed publish action bar */
+.create-post :deep(.action-buttons) {
+  background: rgba(8,8,12,.9) !important;
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--w3-border);
+}
+</style>
