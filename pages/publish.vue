@@ -58,6 +58,27 @@
                 </template>
               </b-card-title>
 
+              <div v-if="!isEditing" class="drafts-bar">
+                <b-button size="sm" variant="secondary" :disabled="!hasContent" @click.prevent="saveDraft">
+                  <fa-icon icon="check" v-if="draftSaved" /> {{ draftSaved ? 'Saved!' : 'Save draft' }}
+                </b-button>
+
+                <b-dropdown v-if="drafts.length" size="sm" variant="link" no-caret>
+                  <template #button-content>
+                    <fa-icon icon="list" /> Drafts ({{ drafts.length }})
+                  </template>
+                  <b-dropdown-item v-for="d in drafts" :key="d.id" @click.prevent="applyDraft(d)">
+                    <div class="draft-item">
+                      <span class="draft-title">{{ d.title || 'Untitled draft' }}</span>
+                      <span class="draft-time">{{ draftAgo(d.savedAt) }}</span>
+                      <a class="draft-del" title="Delete draft" @click.stop.prevent="deleteDraft(d.id)">✕</a>
+                    </div>
+                  </b-dropdown-item>
+                </b-dropdown>
+
+                <span v-if="autoSavedAt" class="draft-auto">Auto-saved {{ draftAgo(autoSavedAt) }}</span>
+              </div>
+
               <b-form-group label="Title" label-sr-only>
                 <b-form-input v-model="title" placeholder="Post title…" class="post-title-input" />
               </b-form-group>
@@ -326,6 +347,11 @@ export default {
     return {
       loading: false,
 
+      // Local drafts (browser-stored)
+      drafts: [],
+      draftSaved: false,
+      autoSavedAt: null,
+
       category: '',
       title: '',
       body: '',
@@ -380,11 +406,27 @@ export default {
 
     linkPreview () {
       return `https://${this.host}/@${this.auth.user.username}/${this.permlink ? this.permlink : '...'}`
+    },
+
+    hasContent () {
+      return !!(this.title.trim() || (this.body && this.body.trim()) || this.summary.trim())
+    },
+
+    draftUser () {
+      return this.auth.loggedIn ? this.auth.user.username : 'anon'
+    },
+    draftStoreKey () {
+      return `bbh-drafts-${this.draftUser}`
+    },
+    autoStoreKey () {
+      return `bbh-draft-auto-${this.draftUser}`
     }
   },
 
   watch: {
     async title (v) {
+      this.queueAutoSave()
+
       if (!this.customPermlink && !this.isEditing) {
         let permlink = getSlug(v)
         let post
@@ -401,7 +443,11 @@ export default {
 
         this.permlink = permlink
       }
-    }
+    },
+
+    body () { this.queueAutoSave() },
+    summary () { this.queueAutoSave() },
+    tags: { handler () { this.queueAutoSave() }, deep: true }
   },
 
   created () {
@@ -423,6 +469,12 @@ export default {
   mounted () {
     const self = this
 
+    // Restore any locally-saved drafts / auto-saved work (client-only).
+    if (!this.isEditing) {
+      this.loadDrafts()
+      this.restoreAutoDraft()
+    }
+
     this.multipleImageUploader = setInterval(async () => {
       if (self.images.length > 0 && !this.awaitingUpload) {
         this.awaitingUpload = true
@@ -437,6 +489,9 @@ export default {
       if (postType === 'post') {
         self.loading = true
 
+        // Published successfully — clear the auto-saved draft.
+        self.clearAutoDraft()
+
         await self.sleep(30 * 1000)
 
         if (edit) {
@@ -450,6 +505,7 @@ export default {
 
   beforeUnmount () {
     clearInterval(this.multipleImageUploader)
+    clearTimeout(this._draftTimer)
 
     this.$eventBus.$off(['post-publish-successful', 'post-edit-successful'])
   },
@@ -460,6 +516,78 @@ export default {
 
     sleep (ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
+    },
+
+    // ── Local drafts (browser localStorage) ──────────────────────────────────
+    draftSnapshot () {
+      return { title: this.title, body: this.body, tags: [...this.tags], summary: this.summary, savedAt: Date.now() }
+    },
+
+    queueAutoSave () {
+      if (this.isEditing || !import.meta.client) { return }
+      clearTimeout(this._draftTimer)
+      this._draftTimer = setTimeout(() => this.autoSaveDraft(), 800)
+    },
+
+    autoSaveDraft () {
+      if (this.isEditing || !this.hasContent || !import.meta.client) { return }
+      try {
+        const snap = this.draftSnapshot()
+        localStorage.setItem(this.autoStoreKey, JSON.stringify(snap))
+        this.autoSavedAt = snap.savedAt
+      } catch { /* storage full / disabled */ }
+    },
+
+    saveDraft () {
+      if (!this.hasContent) { return }
+      const draft = { ...this.draftSnapshot(), id: Date.now() }
+      this.drafts = [draft, ...this.drafts].slice(0, 20)
+      this.persistDrafts()
+      this.draftSaved = true
+      setTimeout(() => { this.draftSaved = false }, 2000)
+    },
+
+    applyDraft (d) {
+      this.title = d.title || ''
+      this.body = d.body || ''
+      this.tags = [...(d.tags || [])]
+      this.summary = d.summary || ''
+    },
+
+    deleteDraft (id) {
+      this.drafts = this.drafts.filter(d => d.id !== id)
+      this.persistDrafts()
+    },
+
+    persistDrafts () {
+      try { localStorage.setItem(this.draftStoreKey, JSON.stringify(this.drafts)) } catch { /* ignore */ }
+    },
+
+    loadDrafts () {
+      try { this.drafts = JSON.parse(localStorage.getItem(this.draftStoreKey) || '[]') } catch { this.drafts = [] }
+    },
+
+    restoreAutoDraft () {
+      try {
+        const d = JSON.parse(localStorage.getItem(this.autoStoreKey) || 'null')
+        if (d && (d.title || d.body)) {
+          this.applyDraft(d)
+          this.autoSavedAt = d.savedAt
+        }
+      } catch { /* ignore */ }
+    },
+
+    clearAutoDraft () {
+      try { localStorage.removeItem(this.autoStoreKey) } catch { /* ignore */ }
+      this.autoSavedAt = null
+    },
+
+    draftAgo (ts) {
+      const s = Math.max(1, Math.round((Date.now() - ts) / 1000))
+      if (s < 60) { return 'just now' }
+      if (s < 3600) { return Math.round(s / 60) + 'm ago' }
+      if (s < 86400) { return Math.round(s / 3600) + 'h ago' }
+      return Math.round(s / 86400) + 'd ago'
     },
 
     saveCustomPermlink () {
@@ -713,6 +841,12 @@ export default {
 }
 .create-post :deep(.post-title-input::placeholder) { color: var(--w3-muted); }
 .create-post :deep(.card) { margin-bottom: 1.2rem; }
+.drafts-bar { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.drafts-bar .draft-auto { color: var(--w3-muted); font-size: .8rem; margin-left: auto; }
+.draft-item { display: flex; align-items: center; gap: .6rem; min-width: 240px; }
+.draft-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
+.draft-time { color: var(--w3-muted); font-size: .78rem; }
+.draft-del { color: var(--w3-red) !important; text-decoration: none; }
 /* fixed publish action bar */
 .create-post :deep(.action-buttons) {
   background: rgba(8,8,12,.9) !important;
