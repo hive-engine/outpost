@@ -76,18 +76,25 @@ export default {
 
     const account = config.CHATS_ACCOUNT
     const containersToLoad = Number(config.CHATS_CONTAINERS_TO_LOAD) || 3
+    const prefix = config.CHATS_CONTAINER_PREFIX || ''
 
     const { data, pending, refresh } = await useAsyncData(`chats-${account}`, async () => {
       const client = $chain.getClient()
 
-      // 1. The account's recent posts ARE the containers (newest first).
-      const containers = await client.hivemind.call('get_account_posts', {
+      // 1. The account's recent posts ARE the containers (newest first). When a
+      // prefix is configured (shared account) keep only permlinks matching it, so
+      // the account's normal blog posts are never treated as containers.
+      const recent = await client.hivemind.call('get_account_posts', {
         sort: 'posts',
         account,
-        limit: containersToLoad
+        limit: prefix ? 30 : containersToLoad
       })
 
-      if (!Array.isArray(containers) || containers.length === 0) {
+      const containers = (Array.isArray(recent) ? recent : [])
+        .filter(p => !prefix || p.permlink.startsWith(prefix))
+        .slice(0, containersToLoad)
+
+      if (containers.length === 0) {
         return { chats: [], container: null }
       }
 

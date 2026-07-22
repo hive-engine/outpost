@@ -1,0 +1,35 @@
+# Reference systemd unit + timer for the daily Chats container roll.
+# Install (once the account + posting key are set in scripts/chats.env):
+#
+#   sudo cp scripts/chats-container.service /etc/systemd/system/
+#   sudo cp scripts/chats-container.timer   /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now chats-container.timer
+#   systemctl list-timers chats-container.timer
+#
+# (Below are the two unit file bodies — split them into the two filenames above.)
+
+# ===== /etc/systemd/system/chats-container.service =====
+[Unit]
+Description=Create today's BBH Chats container post
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/outpost-dev
+EnvironmentFile=/home/ubuntu/outpost-dev/scripts/chats.env
+ExecStart=/usr/bin/node /home/ubuntu/outpost-dev/scripts/chats-container.mjs
+
+# ===== /etc/systemd/system/chats-container.timer =====
+[Unit]
+Description=Roll the BBH Chats container daily
+
+[Timer]
+# 00:05 UTC each day, plus once at boot if the day's run was missed.
+OnCalendar=*-*-* 00:05:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

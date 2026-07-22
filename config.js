@@ -29,6 +29,12 @@ export const CHATS_ENABLED = true
 export const CHATS_ACCOUNT = process.env.CHATS_ACCOUNT || 'peak.snaps'
 export const CHATS_CONTAINERS_TO_LOAD = 3 // aggregate the N most-recent containers
 export const CHATS_TAG = 'bbh-chat' // tag stamped on every Chat's json_metadata
+// When CHATS_ACCOUNT is a shared/existing account, container posts are identified
+// by this permlink prefix so the account's *normal* posts are never mistaken for
+// containers. Empty string = treat every recent post as a container (peak.snaps
+// demo, whose blog is only containers). The container cron creates permlinks like
+// `${CHATS_CONTAINER_PREFIX}YYYY-MM-DD`.
+export const CHATS_CONTAINER_PREFIX = process.env.CHATS_CONTAINER_PREFIX || ''
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

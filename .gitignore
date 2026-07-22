@@ -93,3 +93,6 @@ DEPLOYMENT.md
 .output
 .nuxt
 hydration-check.mjs
+
+# Chats container cron secrets (account posting key)
+scripts/chats.env
