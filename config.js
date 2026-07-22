@@ -19,6 +19,16 @@ export const SCOT_API = 'https://smt-api.enginerpc.com'
 export const SCOT_QUERY_LIMIT = 10
 export const CURATED_FEED = false
 export const CURATED_FEED_ACCOUNT = 'tribe-dev'
+// --- Chats: short-form feed (Snaps/Threads/Waves-style) ---------------------
+// Chats are top-level comments on rolling "container" posts published by
+// CHATS_ACCOUNT. The account's recent posts ARE the containers (newest = active).
+// TODO(owner): before prod, point CHATS_ACCOUNT at the BBH-controlled chats
+// account and enable the daily-container cron. Defaults to peak.snaps so the
+// feed shows live short-form content during dev/testing.
+export const CHATS_ENABLED = true
+export const CHATS_ACCOUNT = process.env.CHATS_ACCOUNT || 'peak.snaps'
+export const CHATS_CONTAINERS_TO_LOAD = 3 // aggregate the N most-recent containers
+export const CHATS_TAG = 'bbh-chat' // tag stamped on every Chat's json_metadata
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

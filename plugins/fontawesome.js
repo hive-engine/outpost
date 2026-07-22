@@ -10,7 +10,7 @@ import {
   faAngleDown, faAngleRight, faAngleLeft, faVideo, faMusic, faTags, faList,
   faShoppingCart, faCartPlus, faCartArrowDown, faChevronUp, faChevronDown,
   faShoppingBasket, faExclamationCircle, faSync, faPercent, faLongArrowAltUp,
-  faLongArrowAltDown, faInfoCircle, faBars, faExternalLinkAlt, faEye
+  faLongArrowAltDown, faInfoCircle, faBars, faExternalLinkAlt, faEye, faReply
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faMoon, faSun, faTimesCircle, faComments, faCommentAlt as farCommentAlt
@@ -27,7 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     faAngleDown, faAngleRight, faAngleLeft, faVideo, faMusic, faTags, faList,
     faShoppingCart, faCartPlus, faCartArrowDown, faChevronUp, faChevronDown,
     faShoppingBasket, faExclamationCircle, faSync, faPercent, faLongArrowAltUp,
-    faLongArrowAltDown, faInfoCircle, faBars, faExternalLinkAlt, faEye,
+    faLongArrowAltDown, faInfoCircle, faBars, faExternalLinkAlt, faEye, faReply,
     faMoon, faSun, faTimesCircle, faComments, farCommentAlt
   )
 
