@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useTribeStore } from '~/stores/tribe'
+import { useUiStore } from '~/stores/ui'
 
 // Identity getters from the Vuex module (fund, proposal, distribution, smt, pool)
 // are dropped — Pinia exposes state directly under the same names.
@@ -14,60 +15,25 @@ export const useDashboardStore = defineStore('dashboard', {
 
   actions: {
     REQUEST_EDIT ({ type, payload }) {
-      const { $eventBus } = this.$nuxt
+      const ui = useUiStore()
 
-      switch (type) {
-        case 'smt':
-          this.smt = payload
-
-          // TODO(P3): wire modal
-          $eventBus.$emit('show-modal', 'manageSMTModal')
-
-          break
-
-        case 'pool':
-          this.pool = payload
-
-          // TODO(P3): wire modal
-          $eventBus.$emit('show-modal', 'manageMiningPoolModal')
-
-          break
-
-        case 'fund':
-          this.fund = payload
-
-          // TODO(P3): wire modal
-          $eventBus.$emit('show-modal', 'updateDaoModal')
-
-          break
-
-        case 'distribution':
-          this.distribution = payload
-
-          // TODO(P3): wire modal
-          $eventBus.$emit('show-modal', 'updateDistributionModal')
-
-          break
-
-        case 'proposal':
-          this.proposal = payload
-
-          // TODO(P3): wire modal
-          $eventBus.$emit('show-modal', 'updateProposalModal')
-
-          break
-
-        default:
+      const modalByType = {
+        smt: 'manageSMTModal',
+        pool: 'manageMiningPoolModal',
+        fund: 'updateDaoModal',
+        distribution: 'updateDistributionModal',
+        proposal: 'updateProposalModal'
       }
+
+      if (type in this.$state) { this[type] = payload }
+
+      const modalId = modalByType[type]
+      if (modalId) { ui.showModal(modalId) }
     },
 
     REQUEST_CREATE_PROPOSAL (payload) {
-      const { $eventBus } = this.$nuxt
-
       this.fund = payload
-
-      // TODO(P3): wire modal
-      $eventBus.$emit('show-modal', 'createProposalModal')
+      useUiStore().showModal('createProposalModal')
     },
 
     async requestActivate ({ type, id, active }) {
