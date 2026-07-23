@@ -102,36 +102,76 @@ export default {
       return out
     }
 
+    // Container candidates. When a prefix is set (BBH) we derive the permlinks
+    // DETERMINISTICALLY from the date scheme (`${prefix}YYYY-MM-DD`, UTC) and
+    // resolve them via get_discussion — which is reliable, unlike
+    // bridge.get_account_posts, whose dhive routing errors intermittently by node
+    // (that flakiness is what made the compose target null and the button dead).
+    const buildCandidates = async (client) => {
+      if (prefix) {
+        const now = new Date()
+        const out = []
+        for (let i = 0; i < containersToLoad; i++) {
+          const d = new Date(now)
+          d.setUTCDate(now.getUTCDate() - i)
+          out.push({ author: account, permlink: `${prefix}${d.toISOString().slice(0, 10)}` })
+        }
+        return out
+      }
+      // No prefix (demo/generic): best-effort account posts as containers.
+      try {
+        const recent = await client.hivemind.call('get_account_posts', { sort: 'posts', account, limit: containersToLoad })
+        return (Array.isArray(recent) ? recent : []).slice(0, containersToLoad).map(p => ({ author: p.author, permlink: p.permlink }))
+      } catch {
+        return []
+      }
+    }
+
     const { data, pending, refresh } = await useAsyncData(`chats-${account}`, async () => {
       const client = $chain.getClient()
+      const candidates = await buildCandidates(client)
 
-      const recent = await client.hivemind.call('get_account_posts', {
-        sort: 'posts',
-        account,
-        limit: prefix ? 30 : containersToLoad
-      })
-
-      const containers = (Array.isArray(recent) ? recent : [])
-        .filter(p => !prefix || p.permlink.startsWith(prefix))
-        .slice(0, containersToLoad)
-
-      if (containers.length === 0) {
+      if (candidates.length === 0) {
         return { chats: [], container: null }
       }
 
-      const lists = await Promise.all(containers.map(c => fetchDirectChildren(client, c)))
-      const chats = lists.flat()
+      // Resolve each candidate via get_discussion; keep the ones that exist on-chain.
+      const results = await Promise.all(candidates.map(async (c) => {
+        const raw = await client.hivemind
+          .call('get_discussion', { author: c.author, permlink: c.permlink })
+          .catch(() => null)
+
+        const exists = !!(raw && raw[`${c.author}/${c.permlink}`])
+        const children = []
+
+        if (exists) {
+          Object.values(raw).forEach((node) => {
+            if (node.parent_author === c.author && node.parent_permlink === c.permlink) {
+              if (typeof node.json_metadata === 'string') {
+                try { node.json_metadata = JSON.parse(node.json_metadata) } catch { node.json_metadata = {} }
+              }
+              children.push(node)
+            }
+          })
+        }
+
+        return { container: c, exists, children }
+      }))
+
+      const existing = results.filter(r => r.exists)
+      const chats = existing.flatMap(r => r.children)
 
       chats.sort((a, b) => new Date(`${b.created}Z`) - new Date(`${a.created}Z`))
 
-      const container = { author: containers[0].author, permlink: containers[0].permlink }
+      // Compose target = newest existing container (candidates are today-first).
+      const container = existing[0]?.container || null
 
       return { chats, container }
     }, { default: () => ({ chats: [], container: null }) })
 
     useHead({ title: 'Chats' })
 
-    return { config, auth, data, pending, refresh, account, fetchDirectChildren }
+    return { config, auth, data, pending, refresh, account, fetchDirectChildren, $chain }
   },
 
   data () {
@@ -173,6 +213,12 @@ export default {
 
   mounted () {
     this.$eventBus.$on('comment-publish-successful', this.onPublished)
+    // Reset the posting state if the broadcast fails or the user cancels Keychain.
+    this.$eventBus.$on('transaction-broadcast-error', this.onBroadcastError)
+
+    // If the container didn't resolve during SSR (transient RPC hiccup), retry
+    // once on the client so the composer has a valid target.
+    if (!this.container) { this.refresh() }
 
     // Poll the live container for fresh chats (client-only).
     this.pollTimer = setInterval(this.pollNew, 30000)
@@ -180,6 +226,7 @@ export default {
 
   beforeUnmount () {
     this.$eventBus.$off('comment-publish-successful', this.onPublished)
+    this.$eventBus.$off('transaction-broadcast-error', this.onBroadcastError)
     if (this.pollTimer) { clearInterval(this.pollTimer) }
   },
 
@@ -212,6 +259,10 @@ export default {
       }
     },
 
+    onBroadcastError () {
+      this.posting = false
+    },
+
     showNew () {
       // Move pending into the live feed (dedupe against our own optimistic ones).
       const have = new Set(this.localChats.map(c => `${c.author}/${c.permlink}`))
@@ -221,8 +272,19 @@ export default {
       if (import.meta.client) { window.scrollTo({ top: 0, behavior: 'smooth' }) }
     },
 
-    onComposerSubmit ({ body, images }) {
-      if (!this.container || this.posting) { return }
+    async onComposerSubmit ({ body, images }) {
+      if (this.posting) { return }
+
+      // Container must be resolved to post into. If it's missing (rare — RPC
+      // hiccup or the daily container not created yet), retry once, then tell the
+      // user instead of failing silently.
+      if (!this.container) {
+        await this.refresh()
+        if (!this.container) {
+          this.$notify({ title: 'Just a moment', type: 'warn', text: "Couldn't reach today's Chats container. Please refresh and try again." })
+          return
+        }
+      }
 
       let finalBody = body
       if (images && images.length) {
