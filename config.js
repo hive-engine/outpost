@@ -26,7 +26,7 @@ export const CURATED_FEED_ACCOUNT = 'tribe-dev'
 // account and enable the daily-container cron. Defaults to peak.snaps so the
 // feed shows live short-form content during dev/testing.
 export const CHATS_ENABLED = true
-export const CHATS_ACCOUNT = process.env.CHATS_ACCOUNT || 'peak.snaps'
+export const CHATS_ACCOUNT = process.env.CHATS_ACCOUNT || 'thebbhproject'
 export const CHATS_CONTAINERS_TO_LOAD = 3 // aggregate the N most-recent containers
 export const CHATS_TAG = 'bbh-chat' // tag stamped on every Chat's json_metadata
 // When CHATS_ACCOUNT is a shared/existing account, container posts are identified
@@ -34,7 +34,7 @@ export const CHATS_TAG = 'bbh-chat' // tag stamped on every Chat's json_metadata
 // containers. Empty string = treat every recent post as a container (peak.snaps
 // demo, whose blog is only containers). The container cron creates permlinks like
 // `${CHATS_CONTAINER_PREFIX}YYYY-MM-DD`.
-export const CHATS_CONTAINER_PREFIX = process.env.CHATS_CONTAINER_PREFIX || ''
+export const CHATS_CONTAINER_PREFIX = process.env.CHATS_CONTAINER_PREFIX || 'bbh-chats-'
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'
