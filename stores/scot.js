@@ -35,7 +35,14 @@ export const useScotStore = defineStore('scot', {
 
       data.forEach((c) => {
         if (!accounts[c.name]) {
-          accounts[c.name] = { ...c, reputation: calculateReputation(Number(c.reputation)) }
+          // c._reputation = real hivemind display reputation (bridge.get_profile).
+          // Fall back to the consensus field only if it's a pre-HF21 raw value;
+          // otherwise default to 25 (Hive's baseline) — never show a bogus 0.
+          const reputation = (c._reputation != null)
+            ? Math.round(Number(c._reputation))
+            : (Number(c.reputation) > 0 ? calculateReputation(Number(c.reputation)) : 25)
+
+          accounts[c.name] = { ...c, reputation }
         }
       })
 
@@ -214,7 +221,22 @@ export const useScotStore = defineStore('scot', {
       const { $chain } = this.$nuxt
 
       try {
-        const data = await $chain.getClient().database.getAccounts(accounts)
+        const client = $chain.getClient()
+
+        // Reputation was moved from blockchain consensus to hivemind (HF21), so
+        // database.getAccounts().reputation is 0 for everyone now. Fetch the real
+        // display reputation from hivemind (bridge.get_profile) in parallel.
+        const [data, profiles] = await Promise.all([
+          client.database.getAccounts(accounts),
+          Promise.all(accounts.map(a => client.hivemind.call('get_profile', { account: a }).catch(() => null)))
+        ])
+
+        const repByName = {}
+        accounts.forEach((name, i) => {
+          if (profiles[i] && profiles[i].reputation != null) { repByName[name] = profiles[i].reputation }
+        })
+
+        data.forEach((d) => { if (repByName[d.name] != null) { d._reputation = repByName[d.name] } })
 
         this.SET_ACCOUNTS(data)
       } catch {

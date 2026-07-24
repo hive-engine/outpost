@@ -71,6 +71,7 @@
 //   unchanged (Nuxt 3 plugin provides expose them on `this`).
 // - BS5: font-weight-bold → fw-bold, mr-3 → me-3.
 import { mapState, mapActions } from 'pinia'
+import { calculateReputation } from '~/utils'
 import { useAuthStore } from '~/stores/auth'
 import { useTribeStore } from '~/stores/tribe'
 import { useScotStore } from '~/stores/scot'
@@ -176,8 +177,13 @@ export default {
       const account = this.accounts[author]
 
       const rep = account ? account.reputation : this.reputation
+      const n = Number(rep)
 
-      return rep.toFixed(0)
+      if (!Number.isFinite(n) || n === 0) { return 25 }
+
+      // Handle either a raw blockchain reputation (huge) or an already-computed
+      // hivemind display value (small).
+      return Math.abs(n) > 1e6 ? calculateReputation(n) : Math.round(n)
     },
 
     toggleAuthorCard (e) {
