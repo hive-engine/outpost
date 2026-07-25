@@ -6,6 +6,8 @@
       </div>
     </div>
 
+    <HiveStatusBanner />
+
     <Header />
 
     <slot />

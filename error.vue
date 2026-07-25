@@ -4,8 +4,8 @@
     <div class="err-inner">
       <div class="err-code mono">{{ error.statusCode || 500 }}</div>
       <h1 class="err-title">{{ title }}</h1>
-      <p class="err-msg">{{ error.statusMessage || error.message || 'Something went wrong.' }}</p>
-      <button class="err-btn" @click="handleError">← Back to the feed</button>
+      <p class="err-msg">{{ message }}</p>
+      <button class="err-btn" @click="handleError">{{ isRpc ? '↻ Try again' : '← Back to the feed' }}</button>
     </div>
   </div>
 </template>
@@ -14,9 +14,26 @@
 // Web3 Bold themed error page (replaces the default light Nuxt error page).
 const props = defineProps({ error: { type: Object, default: () => ({}) } })
 
-const title = computed(() => (props.error.statusCode === 404 ? 'Lost in the chain' : 'Something broke'))
+// A Hive RPC / network outage (503, or a message mentioning hive/rpc/network) is
+// shown as a distinct, reassuring state — "it's the Hive network, not us".
+const isRpc = computed(() => props.error.statusCode === 503 || /hive|rpc|network/i.test(props.error.statusMessage || ''))
 
-const handleError = () => clearError({ redirect: '/' })
+const title = computed(() => {
+  if (isRpc.value) { return 'Hive network unavailable' }
+  return props.error.statusCode === 404 ? 'Lost in the chain' : 'Something broke'
+})
+
+const message = computed(() => {
+  if (isRpc.value) {
+    return "We can't reach the Hive network right now — this is a Hive RPC-node issue, not the site itself. Please try again in a moment."
+  }
+  return props.error.statusMessage || props.error.message || 'Something went wrong.'
+})
+
+const handleError = () => {
+  if (isRpc.value && import.meta.client) { window.location.reload(); return }
+  clearError({ redirect: '/' })
+}
 
 useHead({ title: `${props.error.statusCode || 'Error'} · The BBH Project` })
 </script>
