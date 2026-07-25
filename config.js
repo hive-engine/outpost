@@ -2,7 +2,7 @@ import { version } from './package.json'
 
 export const TOKEN = 'BBHO'
 export const IS_HIVE = true
-export const APP_DOMAIN = 'https://www.thebbhproject.com'
+export const APP_DOMAIN = process.env.APP_DOMAIN || 'https://www.thebbhproject.com'
 export const APP_TITLE = 'The BBH Project'
 export const APP = `bbhproject/${version}`
 export const IMAGES_CDN = 'https://images.hive.blog/'
@@ -19,6 +19,22 @@ export const SCOT_API = 'https://smt-api.enginerpc.com'
 export const SCOT_QUERY_LIMIT = 10
 export const CURATED_FEED = false
 export const CURATED_FEED_ACCOUNT = 'tribe-dev'
+// --- Chats: short-form feed (Snaps/Threads/Waves-style) ---------------------
+// Chats are top-level comments on rolling "container" posts published by
+// CHATS_ACCOUNT. The account's recent posts ARE the containers (newest = active).
+// TODO(owner): before prod, point CHATS_ACCOUNT at the BBH-controlled chats
+// account and enable the daily-container cron. Defaults to peak.snaps so the
+// feed shows live short-form content during dev/testing.
+export const CHATS_ENABLED = true
+export const CHATS_ACCOUNT = process.env.CHATS_ACCOUNT || 'thebbhproject'
+export const CHATS_CONTAINERS_TO_LOAD = 3 // aggregate the N most-recent containers
+export const CHATS_TAG = 'bbh-chat' // tag stamped on every Chat's json_metadata
+// When CHATS_ACCOUNT is a shared/existing account, container posts are identified
+// by this permlink prefix so the account's *normal* posts are never mistaken for
+// containers. Empty string = treat every recent post as a container (peak.snaps
+// demo, whose blog is only containers). The container cron creates permlinks like
+// `${CHATS_CONTAINER_PREFIX}YYYY-MM-DD`.
+export const CHATS_CONTAINER_PREFIX = process.env.CHATS_CONTAINER_PREFIX || 'bbh-chats-'
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

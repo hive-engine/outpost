@@ -1,10 +1,10 @@
 <template>
   <div class="smartLock">
-    <b-modal id="smartLock" title="SmartLock" hide-footer centered>
+    <b-modal id="smartLock" v-model="ui.modals.smartLock" title="SmartLock" no-footer centered>
       <b-row v-if="Object.keys(smartLockAccounts).length > 0" class="mb-3">
         <b-col v-for="(account,i) in Object.keys(smartLockAccounts)" :key="i" md="6" class="mb-2">
           <div class="account-link bg-light" @click.prevent="unlockAccount(account)">
-            <b-avatar :src="`https://images.hive.blog/u/${account}/avatar`" variant="dark" class="border mr-1" />
+            <b-avatar :src="`https://images.hive.blog/u/${account}/avatar`" variant="dark" class="border me-1" />
             @{{ account }}
             <a href="#" class="remove-account" @click.stop.prevent="removeAccount(account)">
               <fa-icon icon="times" />
@@ -14,7 +14,7 @@
       </b-row>
 
       <b-card no-body class="bg-light text-muted">
-        <ul class="p-3 pl-4 m-0">
+        <ul class="p-3 ps-4 m-0">
           <li>Account names and corresponding keys are stored in your browser</li>
           <li>Keys are never sent over any network</li>
           <li>Keys are encrypted and usable only when unlocked via PIN CODE</li>
@@ -22,7 +22,7 @@
       </b-card>
 
       <div class="text-center mt-3">
-        <b-button variant="info" @click.prevent="$bvModal.show('smartLockAddAccount')">
+        <b-button variant="info" @click.prevent="ui.showModal('smartLockAddAccount')">
           Add Account
         </b-button>
       </div>
@@ -30,13 +30,14 @@
 
     <b-modal
       id="smartLockAddAccount"
+      v-model="ui.modals.smartLockAddAccount"
       title="Add Account"
       centered
-      hide-footer
+      no-footer
       hide-backdrop
       no-close-on-backdrop
     >
-      <b-alert dismissible variant="warning" :show="showError">
+      <b-alert v-model="showError" dismissible variant="warning">
         {{ error }}
       </b-alert>
 
@@ -44,21 +45,38 @@
         <b-form-input v-model.trim="username" />
       </b-form-group>
 
-      <template v-for="(key, k) of keyTypes">
-        <b-form-group :key="k" :label="`Hive Private ${key} Key`" label-class="text-capitalize">
+      <template v-for="(key, k) of keyTypes" :key="k">
+        <b-form-group :label="`Hive Private ${key} Key`" label-class="text-capitalize">
           <b-form-input v-model="keys[key]" trim type="password" />
         </b-form-group>
       </template>
 
       <b-form-group label="Password">
         <div class="text-center">
-          <PincodeInput v-model="password" :length="5" :secure="true" placeholder="0" />
+          <!-- TODO(P5): nicer pincode UI (legacy used vue-pincode-input, Vue 2 only) -->
+          <input
+            v-model="password"
+            type="password"
+            inputmode="numeric"
+            maxlength="5"
+            placeholder="•••••"
+            autocomplete="off"
+            class="form-control d-inline-block text-center pincode-input"
+          >
         </div>
       </b-form-group>
 
       <b-form-group label="Confirm Password">
         <div class="text-center">
-          <pincode-input v-model="cpassword" :length="5" :secure="true" placeholder="0" />
+          <input
+            v-model="cpassword"
+            type="password"
+            inputmode="numeric"
+            maxlength="5"
+            placeholder="•••••"
+            autocomplete="off"
+            class="form-control d-inline-block text-center pincode-input"
+          >
         </div>
       </b-form-group>
 
@@ -69,24 +87,33 @@
 
     <b-modal
       id="smartLockUnlockAccount"
+      v-model="ui.modals.smartLockUnlockAccount"
       title="Unlock Account"
       centered
-      hide-footer
+      no-footer
       hide-backdrop
       no-close-on-backdrop
     >
-      <b-alert dismissible variant="warning" :show="showError">
+      <b-alert v-model="showError" dismissible variant="warning">
         {{ error }}
       </b-alert>
 
       <div class="text-center">
         <b-avatar :src="`https://images.hive.blog/u/${unlockingAccount}/avatar`" size="100px" variant="dark" class="border" />
-        <div class="font-weight-bold mt-2">
+        <div class="fw-bold mt-2">
           @{{ unlockingAccount }}
         </div>
 
         <b-form-group label="Password" class="mt-3">
-          <PincodeInput v-model="unlockingPassword" :length="5" :secure="true" placeholder="0" />
+          <input
+            v-model="unlockingPassword"
+            type="password"
+            inputmode="numeric"
+            maxlength="5"
+            placeholder="•••••"
+            autocomplete="off"
+            class="form-control d-inline-block text-center pincode-input"
+          >
         </b-form-group>
 
         <b-button variant="info" class="mt-3" @click.prevent="unlockAccount()">
@@ -98,8 +125,20 @@
 </template>
 
 <script>
-import { encrypt, decrypt } from '@/utils/triplesec'
-import { encrypt as WCEncrypt } from '@/utils/web-crypto'
+// Ported from legacy/components/modals/SmartLock.vue (Options API kept).
+// - b-modal ids (smartLock / smartLockAddAccount / smartLockUnlockAccount, exactly as
+//   legacy) → v-model="ui.modals.<id>" via useUiStore; $bvModal.show/hide → ui.show/hideModal.
+// - The legacy 'bv::modal::show' root listener (reload accounts + clear stale errors on
+//   open) → watchers on ui.modals.* below.
+// - $root.$on/$emit('smartlock-loggedin') → $eventBus (adapter API unchanged).
+// - vue-pincode-input (Vue 2 only) → minimal inline inputs, see TODO(P5) in template.
+// - process.client → import.meta.client; mr-1→me-1, pl-4→ps-4, font-weight-bold→fw-bold (BS5).
+// - Crypto flow unchanged: triplesec encrypt/decrypt for at-rest keys in localStorage
+//   ('smartlock-accounts'), web-crypto re-encrypt with the per-session OTP
+//   (sessionStorage 'smartlock-otp') into sessionStorage 'smartlock-<user>-<keyType>'.
+import { encrypt, decrypt } from '~/utils/triplesec'
+import { encrypt as WCEncrypt } from '~/utils/web-crypto'
+import { useUiStore } from '~/stores/ui'
 
 export default {
   name: 'SmartLock',
@@ -128,16 +167,40 @@ export default {
     }
   },
 
+  computed: {
+    ui () {
+      return useUiStore()
+    }
+  },
+
   watch: {
     async unlockingPassword (value) {
       if (value.length === 5) {
         await this.unlockAccount()
       }
+    },
+
+    // Legacy listened to the BootstrapVue root event 'bv::modal::show' — gone in
+    // bootstrap-vue-next; watching the ui-store modal flags is the equivalent.
+    'ui.modals.smartLock' (value) {
+      if (value) {
+        this.loadAccounts()
+
+        this.clearError()
+      }
+    },
+
+    'ui.modals.smartLockAddAccount' (value) {
+      if (value) { this.clearError() }
+    },
+
+    'ui.modals.smartLockUnlockAccount' (value) {
+      if (value) { this.clearError() }
     }
   },
 
   created () {
-    if (process.client && !sessionStorage.getItem('smartlock-otp')) {
+    if (import.meta.client && !sessionStorage.getItem('smartlock-otp')) {
       const otp = Math.random().toString(36).substring(2)
 
       sessionStorage.setItem('smartlock-otp', otp)
@@ -153,29 +216,27 @@ export default {
   },
 
   mounted () {
-    const self = this
+    this.$eventBus.$on('smartlock-loggedin', this.onLoggedIn)
+  },
 
-    this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
-      if (modalId === 'smartLock') {
-        self.loadAccounts()
-      }
-
-      if (modalId === 'smartLock' || modalId === 'smartLockAddAccount' || modalId === 'smartLockUnlockAccount') {
-        this.error = ''
-        this.showError = false
-      }
-    })
-
-    this.$root.$on('smartlock-loggedin', () => {
-      this.$root.$bvModal.hide('smartLock')
-      this.$root.$bvModal.hide('smartLockAddAccount')
-      this.$root.$bvModal.hide('smartLockUnlockAccount')
-    })
+  beforeUnmount () {
+    this.$eventBus.$off('smartlock-loggedin', this.onLoggedIn)
   },
 
   methods: {
+    onLoggedIn () {
+      this.ui.hideModal('smartLock')
+      this.ui.hideModal('smartLockAddAccount')
+      this.ui.hideModal('smartLockUnlockAccount')
+    },
+
+    clearError () {
+      this.error = ''
+      this.showError = false
+    },
+
     loadAccounts () {
-      if (process.client) {
+      if (import.meta.client) {
         this.smartLockAccounts = {}
 
         const accounts = localStorage.getItem('smartlock-accounts')
@@ -240,8 +301,8 @@ export default {
         this.unlockingAccount = username
         this.unlockingPassword = ''
 
-        this.$bvModal.hide('smartLockAddAccount')
-        this.$bvModal.show('smartLockUnlockAccount')
+        this.ui.hideModal('smartLockAddAccount')
+        this.ui.showModal('smartLockUnlockAccount')
       } else {
         try {
           this.buttonBusy = true
@@ -263,9 +324,9 @@ export default {
             sessionStorage.setItem(storageKey, wcEncrypted)
           }
 
-          this.$root.$emit('smartlock-loggedin')
+          this.$eventBus.$emit('smartlock-loggedin')
 
-          this.$bvModal.hide('smartLockUnlockAccount')
+          this.ui.hideModal('smartLockUnlockAccount')
 
           this.callback(this.unlockingAccount, sessionStorage.getItem(`smartlock-${this.unlockingAccount}-${this.keyTypes[0]}`))
         } catch (e) {
@@ -368,5 +429,10 @@ export default {
       width: 16px;
     }
   }
+}
+
+.pincode-input {
+  max-width: 10rem;
+  letter-spacing: 0.5rem;
 }
 </style>

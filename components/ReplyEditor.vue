@@ -16,7 +16,7 @@
         @imgAdd="imgAdd"
       />
 
-      <div class="text-right">
+      <div class="text-end">
         <b-button v-if="cancel" variant="secondary" @click.prevent="cancelAction">
           <fa-icon icon="times" /> Cancel
         </b-button>
@@ -36,13 +36,22 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+// Ported from legacy/components/ReplyEditor.vue (Options API kept).
+// Vuex → Pinia (user → useUserStore, post → usePostStore); beforeDestroy → beforeUnmount;
+// text-right → text-end (BS5). mavon-editor v3 keeps the same v-model/@imgAdd/$img2Url
+// surface — NOTE: uploadMultipleImages also uses the internal
+// $refs.toolbar_left.$imgDelByFilename API; verify it still exists in mavon-editor v3.
+// NOTE: depends on utils not yet ported: ~/utils/HtmlReady, ~/utils/sanitize-config and
+// escapeHTML/isHtmlTest/allTags in ~/utils, plus ~/components/MarkdownViewer.vue.
+import { mapActions } from 'pinia'
 import { Remarkable } from 'remarkable'
 import sanitize from 'sanitize-html'
-import HtmlReady from '@/utils/HtmlReady'
-import { escapeHTML, isHtmlTest, allTags } from '@/utils'
-import sanitizeConfig, { allowedTags } from '@/utils/sanitize-config'
-import MarkdownViewer from '@/components/MarkdownViewer.vue'
+import HtmlReady from '~/utils/HtmlReady'
+import { escapeHTML, isHtmlTest, allTags } from '~/utils'
+import sanitizeConfig, { allowedTags } from '~/utils/sanitize-config'
+import MarkdownViewer from '~/components/MarkdownViewer.vue'
+import { useUserStore } from '~/stores/user'
+import { usePostStore } from '~/stores/post'
 
 const remarkable = new Remarkable({ html: true, breaks: true })
 
@@ -117,15 +126,15 @@ export default {
     })
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.multipleImageUploader)
 
     this.$eventBus.$off(['comment-publish-successful', 'comment-edit-successful'])
   },
 
   methods: {
-    ...mapActions('user', ['uploadFile']),
-    ...mapActions('post', ['requestBroadcastPost']),
+    ...mapActions(useUserStore, ['uploadFile']),
+    ...mapActions(usePostStore, ['requestBroadcastPost']),
 
     requestReply () {
       const { body } = this
@@ -211,7 +220,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

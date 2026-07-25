@@ -1,3 +1,8 @@
+// Utils barrel — full port from legacy/utils/index.js.
+// P1 shipped the pure helpers the Pinia stores need (calculateReputation,
+// toFixedWithoutRounding, arrayChunk, hasNsfwTag); P4 completes the barrel with the
+// markdown/HtmlReady/tag helpers (which drag in remarkable + @xmldom/xmldom).
+
 import { Remarkable } from 'remarkable'
 import HtmlReady from '@/utils/HtmlReady'
 import { AUTO_ADD_COMMUNITY, COMMUNITY_CATEGORY, SCOT_TAG_FIRST, SCOT_TAG, MAX_TAG } from '@/config'

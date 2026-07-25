@@ -10,8 +10,8 @@
       </nuxt-link> reblogged
     </div>
 
-    <b-media>
-      <template v-if="thumbnail" #aside>
+    <div class="media">
+      <div v-if="thumbnail" class="media-aside align-self-start">
         <div v-if="!shouldShowPost" class="text-center mx-auto mt-4">
           <b-badge variant="danger">
             NSFW
@@ -27,62 +27,64 @@
             </picture>
           </nuxt-link>
         </template>
-      </template>
+      </div>
 
-      <div class="d-flex justify-content-between mb-2">
-        <div class="d-flex">
-          <b-avatar v-if="shouldShowPost" :src="`${$config.IMAGES_CDN}u/${post.author}/avatar`" variant="dark" size="40px" class="mr-2" />
+      <div class="media-body">
+        <div class="d-flex justify-content-between mb-2">
+          <div class="d-flex">
+            <b-avatar v-if="shouldShowPost" :src="`${config.IMAGES_CDN}u/${post.author}/avatar`" variant="dark" size="40px" class="me-2" />
 
-          <div class="d-flex flex-column">
-            <div>
-              <nuxt-link class="font-weight-bold" :to="{name:'user', params:{user:post.author}}">
-                @{{ post.author }}
-              </nuxt-link>
+            <div class="d-flex flex-column">
+              <div>
+                <nuxt-link class="fw-bold" :to="{name:'user', params:{user:post.author}}">
+                  @{{ post.author }}
+                </nuxt-link>
 
-              <b-badge variant="info">
-                {{ getReputation(post.author) }}
-              </b-badge>
+                <b-badge variant="info">
+                  {{ getReputation(post.author) }}
+                </b-badge>
+              </div>
+
+              <timeago class="small" :datetime="createdAt" :title="createdAt.toLocaleString()" :auto-update="60" />
             </div>
+          </div>
 
-            <timeago class="small" :datetime="createdAt" :title="createdAt.toLocaleString()" :auto-update="60" />
+          <div v-if="type !== 'comments'" class="text-end">
+            <b-badge v-if="post.score_promoted > 0" variant="warning" class="text-uppercase p-2" tag="div">
+              Promoted
+            </b-badge>
+
+            <b-badge v-if="post.parent_permlink" variant="success" class="text-uppercase" tag="div">
+              <nuxt-link class="d-inline-block p-1" :to="{name:'sort-tag', params:{sort:'trending', tag: post.parent_permlink}}">
+                {{ getCommunity(post.parent_permlink) }}
+              </nuxt-link>
+            </b-badge>
           </div>
         </div>
 
-        <div v-if="type !== 'comments'" class="text-right">
-          <b-badge v-if="post.score_promoted > 0" variant="warning" class="text-uppercase p-2" tag="div">
-            Promoted
-          </b-badge>
-
-          <b-badge variant="success" class="text-uppercase" tag="div">
-            <nuxt-link class="d-inline-block p-1" :to="{name:'sort-tag', params:{sort:'trending', tag: post.parent_permlink}}">
-              {{ getCommunity(post.parent_permlink) }}
+        <template v-if="!shouldShowPost">
+          <template v-if="auth.loggedIn">
+            <a class="cursor-pointer" @click.prevent="showNsfw = true">Reveal this post</a> or adjust your <nuxt-link :to="{name:'user-settings', params:{user:auth.user.username}}">
+              display preferences
             </nuxt-link>
-          </b-badge>
-        </div>
-      </div>
+          </template>
 
-      <template v-if="!shouldShowPost">
-        <template v-if="$auth.loggedIn">
-          <a class="cursor-pointer" @click.prevent="showNsfw = true">Reveal this post</a> or adjust your <nuxt-link :to="{name:'user-settings', params:{user:$auth.user.username}}">
-            display preferences
-          </nuxt-link>
+          <template v-else>
+            <a class="cursor-pointer" @click.prevent="showNsfw = true">Reveal this post</a>
+          </template>
         </template>
 
         <template v-else>
-          <a class="cursor-pointer" @click.prevent="showNsfw = true">Reveal this post</a>
+          <nuxt-link :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}" class="h6">
+            {{ post.title }}
+          </nuxt-link>
+
+          <nuxt-link class="text-reset text-break d-block" :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}">
+            {{ extractBodySummary(post.desc) }}
+          </nuxt-link>
         </template>
-      </template>
-
-      <template v-else>
-        <nuxt-link :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}" class="h6">
-          {{ post.title }}
-        </nuxt-link>
-
-        <nuxt-link class="text-reset text-break d-block" :to="{ name:'user-post', params: { user: post.author, post: post.permlink }}">
-          {{ extractBodySummary(post.desc) }}
-        </nuxt-link>
-      </template>
-    </b-media>
+      </div>
+    </div>
 
     <template #footer>
       <div class="d-flex justify-content-between align-items-center">
@@ -96,7 +98,7 @@
             :is-comment="!post.main_post"
           />
 
-          <div class="mr-2">
+          <div class="me-2">
             <nuxt-link class="btn text-nowrap" :to="{name:'user-post', hash:'#comments', params:{ user: post.author, post:post.permlink }}">
               <fa-icon :icon="['far', 'comments']" /> {{ post.children }}
             </nuxt-link>
@@ -112,12 +114,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// Ported from legacy/components/cards/PostSummary.vue.
+// - <b-media> → plain BS4 media markup (bootstrap-vue-next has no BMedia; the
+//   #aside template becomes .media-aside, default slot becomes .media-body —
+//   styled by the app scss).
+// - Vuex: root tribe_info → useTribeStore, scot getters → useScotStore.
+// - $cookies.get('nsfw_pref') → useCookie in setup(); $config/$auth → setup().
+// - <timeago> → local Timeago drop-in; BS5 mr-*→me-*, font-weight-bold→fw-bold,
+//   text-right→text-end.
+// TODO(P4): ExtraActions (legacy/components/ExtraActions.vue) is not ported yet —
+// this import resolves once that batch lands.
+import { mapState } from 'pinia'
 import { proxifyImageUrl } from '@/utils/proxify-url'
 import { extractImageLink, extractBodySummary } from '@/utils/extract-content'
 import Votes from '@/components/Votes.vue'
 import ExtraActions from '@/components/ExtraActions.vue'
 import Payout from '@/components/Payout.vue'
+import Timeago from '~/components/app/Timeago.vue'
+import { useAuthStore } from '~/stores/auth'
+import { useTribeStore } from '~/stores/tribe'
+import { useScotStore } from '~/stores/scot'
 
 export default {
   name: 'PostSummary',
@@ -125,13 +141,22 @@ export default {
   components: {
     Votes,
     Payout,
-    ExtraActions
+    ExtraActions,
+    Timeago
   },
 
   props: {
     post: { type: Object, required: true },
     user: { type: String, default: 'null' },
     type: { type: String, default: 'feed' }
+  },
+
+  setup () {
+    const config = useRuntimeConfig().public
+    const auth = useAuthStore()
+    const nsfwCookie = useCookie('nsfw_pref')
+
+    return { config, auth, nsfwCookie }
   },
 
   data () {
@@ -142,8 +167,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['tribe_info']),
-    ...mapGetters('scot', ['communities', 'accounts']),
+    ...mapState(useTribeStore, ['tribe_info']),
+    ...mapState(useScotStore, ['communities', 'accounts']),
 
     thumbnail () {
       return extractImageLink(this.post.json_metadata, this.post.desc)
@@ -187,7 +212,7 @@ export default {
   },
 
   created () {
-    this.nsfwPref = this.$cookies.get('nsfw_pref') || 'warn'
+    this.nsfwPref = this.nsfwCookie || 'warn'
   },
 
   methods: {
@@ -217,7 +242,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

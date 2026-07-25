@@ -1,17 +1,17 @@
 <template>
   <div class="login">
-    <b-modal id="loginModal" title="Login" hide-footer centered>
-      <template #default>
-        <div class="pt-md-3 pb-md-3 pr-md-5 pl-md-5">
-          <div class="form-group">
-            <b-form-input v-model.trim="username" placeholder="Hive username" :state="$v.username.$dirty ? !$v.username.$error : null" @keyup.enter="logMeIn" />
-          </div>
+    <b-modal v-model="ui.modals.loginModal" title="Login" no-footer centered>
+      <div class="pt-md-3 pb-md-3 pe-md-5 ps-md-5">
+        <div class="form-group">
+          <b-form-input v-model.trim="username" placeholder="Hive username" :state="v$.username.$dirty ? !v$.username.$error : null" @keyup.enter="logMeIn" />
+        </div>
 
-          <div class="text-center">
-            <b-button variant="success" block @click="logMeIn">
-              Login with Keychain
-            </b-button>
+        <div class="text-center">
+          <b-button variant="success" class="w-100" @click="logMeIn">
+            Login with Keychain
+          </b-button>
 
+          <client-only>
             <template v-if="!isKeychain">
               <p class="small mt-3 mb-0">
                 Download Hive Keychain for
@@ -32,114 +32,86 @@
                 </li>
               </ul>
             </template>
-            <hr>
+          </client-only>
+          <hr>
 
-            <b-button variant="secondary" block @click.prevent="$bvModal.show('smartLock')">
-              SmartLock
-            </b-button>
-          </div>
+          <!-- TODO(P4): SmartLock modal (legacy components/modals/SmartLock.vue, 372 lines)
+               not yet ported — button informs the user instead of silently failing. -->
+          <b-button variant="secondary" class="w-100" @click.prevent="ui.showModal('smartLock')">
+            SmartLock
+          </b-button>
         </div>
-      </template>
+      </div>
     </b-modal>
 
-    <smart-lock :callback="smartLockLogin" :key-types="['posting','active']" />
+    <SmartLock :callback="smartLockLogin" :key-types="['posting', 'active']" />
   </div>
 </template>
 
-<script>
-import { mapActions } from 'vuex'
-import { required, minLength, maxLength } from 'vuelidate/lib/validators'
-import SmartLock from '@/components/modals/SmartLock.vue'
+<script setup>
+// Ported from legacy/components/modals/Login.vue.
+// vuelidate 0.7 ($v) → @vuelidate/core (v$); b-modal id + $bvModal → ui.modals
+// v-model; block buttons → w-100 (BS5); $root.$on('smartlock-loggedin') → $eventBus.
+import { useVuelidate } from '@vuelidate/core'
+import { required, minLength, maxLength } from '@vuelidate/validators'
+import { useAuthStore } from '~/stores/auth'
+import { useUserStore } from '~/stores/user'
+import { useUiStore } from '~/stores/ui'
+import SmartLock from '~/components/modals/SmartLock.vue'
 
-export default {
-  name: 'LoginModal',
+const { $eventBus, $notify } = useNuxtApp()
+const auth = useAuthStore()
+const userStore = useUserStore()
+const ui = useUiStore()
 
-  components: {
-    SmartLock
-  },
+const username = ref('')
 
-  data () {
-    return {
-      username: ''
-    }
-  },
+const rules = {
+  username: { required, minLength: minLength(3), maxLength: maxLength(16) }
+}
 
-  computed: {
-    isKeychain () {
-      return !!window.hive_keychain
-    }
-  },
+const v$ = useVuelidate(rules, { username })
 
-  async beforeMount () {
-    if (!this.$auth.loggedIn) {
-      const self = this
-      this.username = localStorage.getItem('username')
+const isKeychain = computed(() => import.meta.client && !!window.hive_keychain)
 
-      if (this.username) {
-        const wif = localStorage.getItem(`smartlock-${this.username}`)
+const logMeIn = async () => {
+  v$.value.$touch()
 
-        if (wif) {
-          await this.smartLockLogin(this.username, wif)
-        } else if (!window.hive_keychain) {
-          new Promise(resolve => setTimeout(resolve, 500)).then(() => {
-            if (!window.hive_keychain) {
-              new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
-                if (!window.hive_keychain) {
-                  return
-                }
+  if (window.hive_keychain && !v$.value.$invalid) {
+    await userStore.login({ username: username.value })
 
-                self.logMeIn()
-              })
-            } else {
-              self.logMeIn()
-            }
-          })
-        } else {
-          self.logMeIn()
-        }
-      }
-    }
-  },
-
-  mounted () {
-    this.$root.$on('smartlock-loggedin', () => {
-      this.$root.$bvModal.hide('loginModal')
-    })
-  },
-
-  methods: {
-    ...mapActions('user', ['login', 'loginWithKey']),
-
-    async logMeIn () {
-      this.$v.$touch()
-
-      if (window.hive_keychain && !this.$v.$invalid) {
-        await this.login({ username: this.username })
-
-        this.$bvModal.hide('loginModal')
-      }
-    },
-
-    async smartLockLogin (username, wif) {
-      const data = {
-        username,
-        wif
-      }
-
-      await this.loginWithKey(data)
-    }
-  },
-
-  validations: {
-    username: {
-      required,
-      minLength: minLength(3),
-      maxLength: maxLength(16)
-    }
+    ui.hideModal('loginModal')
   }
 }
+
+const smartLockLogin = async (user, wif) => {
+  await userStore.loginWithKey({ username: user, wif })
+}
+
+// Legacy beforeMount auto-login: remembered username + smartlock key or Keychain retry
+onBeforeMount(async () => {
+  if (!auth.loggedIn) {
+    username.value = localStorage.getItem('username') || ''
+
+    if (username.value) {
+      const wif = localStorage.getItem(`smartlock-${username.value}`)
+
+      if (wif) {
+        await smartLockLogin(username.value, wif)
+      } else if (!window.hive_keychain) {
+        // Keychain injects late on some browsers — retry twice
+        setTimeout(() => {
+          if (window.hive_keychain) { return logMeIn() }
+          setTimeout(() => { if (window.hive_keychain) { logMeIn() } }, 1000)
+        }, 500)
+      } else {
+        logMeIn()
+      }
+    }
+  }
+})
+
+onMounted(() => {
+  $eventBus.$on('smartlock-loggedin', () => ui.hideModal('loginModal'))
+})
 </script>
-
-<style>
-
-</style>

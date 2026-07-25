@@ -20,18 +20,27 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// Ported from legacy/components/Payout.vue.
+// Vuex root mapGetters(['tribe_info']) → Pinia mapState(useTribeStore).
+// <timeago> global component (vue-timeago) → local Timeago drop-in.
+import { mapState } from 'pinia'
 import { toFixedWithoutRounding } from '@/utils'
+import { useTribeStore } from '~/stores/tribe'
+import Timeago from '~/components/app/Timeago.vue'
 
 export default {
   name: 'Payout',
+
+  components: {
+    Timeago
+  },
 
   props: {
     post: { type: Object, required: true }
   },
 
   computed: {
-    ...mapGetters(['tribe_info']),
+    ...mapState(useTribeStore, ['tribe_info']),
 
     cashoutTime () {
       return this.post.cashout_time ? new Date(`${this.post.cashout_time}Z`) : new Date()
@@ -43,7 +52,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

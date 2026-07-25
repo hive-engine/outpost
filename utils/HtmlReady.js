@@ -1,6 +1,16 @@
 // Adapted from https://github.com/hive-engine/nitrous/blob/master/src/shared/HtmlReady.js
 
-import xmldom from 'xmldom'
+// NOTE (Nuxt 2 -> 3 port): this tree uses @xmldom/xmldom ^0.9 (NOT the old `xmldom`).
+// The 0.8+ line is stricter than the old package:
+//   - `parseFromString(str)` REQUIRES a mimeType argument ('text/html' here).
+//   - `parseFromString` returns a Document (nodeType 9); `replaceChild`/`insertBefore`
+//     REJECT document nodes ("Hierarchy request error: Unexpected node type 9 for
+//     parent node type 1"). We insert `.documentElement` of the parsed document instead.
+//   - the old `{ errorHandler: { warning, error } }` constructor option is gone;
+//     use `{ onError }` to silence parse errors.
+// Cross-document inserts (a node parsed from one Document inserted into another) are
+// accepted by @xmldom 0.9 without importNode, so no importNode dance is needed here.
+import * as xmldom from '@xmldom/xmldom'
 import * as Phishing from '@/utils/phishing'
 import linksRe, { any as linksAny } from '@/utils/links'
 import { proxifyImageUrl } from '@/utils/proxify-url'
@@ -9,7 +19,7 @@ import { EmbeddedPlayerEmbedNode, preprocessHtml } from '@/utils/embeds'
 
 const noop = () => {}
 
-const DOMParser = new xmldom.DOMParser({ errorHandler: { warning: noop, error: noop } })
+const DOMParser = new xmldom.DOMParser({ onError: noop })
 const XMLSerializer = new xmldom.XMLSerializer()
 
 export const getPhishingWarningMessage = () => 'Link expanded to plain text; beware of a potential phishing attempt'
@@ -65,10 +75,13 @@ function iframe (state, child) {
     child.parentNode.getAttribute('class') === 'embed-responsive embed-responsive-16by9'
   ) { return }
   const html = XMLSerializer.serializeToString(child)
-  child.parentNode.replaceChild(
-    DOMParser.parseFromString(`<div class="embed-responsive embed-responsive-16by9">${html}</div>`),
-    child
+  // @xmldom 0.9: parseFromString returns a Document node (type 9) which replaceChild
+  // rejects; insert its `.documentElement` (the wrapper <div>) instead.
+  const wrapperDoc = DOMParser.parseFromString(
+    `<div class="embed-responsive embed-responsive-16by9">${html}</div>`,
+    'text/html'
   )
+  child.parentNode.replaceChild(wrapperDoc.documentElement, child)
 }
 
 function img (state, child) {
@@ -129,9 +142,13 @@ function linkifyNode (child, state) {
     )
 
     if (mutate && content !== data) {
-      const newChild = DOMParser.parseFromString(
-        `<span>${content}</span>`
+      // @xmldom 0.9: use `.documentElement` (the <span>), not the Document, so
+      // replaceChild does not throw "Unexpected node type 9".
+      const newDoc = DOMParser.parseFromString(
+        `<span>${content}</span>`,
+        'text/html'
       )
+      const newChild = newDoc.documentElement
       child.parentNode.replaceChild(newChild, child)
       return newChild
     }
@@ -230,14 +247,22 @@ export default function (html, { mutate = true, hideImages = false } = {}) {
   state.links = new Set()
 
   try {
-    const doc = DOMParser.parseFromString(preprocessHtml(html), 'text/html')
+    // @xmldom 0.9 enforces a single root element: rendered markdown is typically a
+    // run of sibling top-level nodes (multiple <p>, an <iframe>, etc.), which the old
+    // `xmldom` tolerated but 0.9 rejects with "Only one element can be added...".
+    // Parse inside a neutral wrapper element, then operate on / serialize its children.
+    const doc = DOMParser.parseFromString(
+      `<htmlready-root>${preprocessHtml(html)}</htmlready-root>`,
+      'text/html'
+    )
+    const root = doc.documentElement
 
-    traverse(doc, state)
+    traverse(root, state)
 
     if (mutate) {
       if (hideImages) {
         for (const image of Array.from(
-          doc.getElementsByTagName('img')
+          root.getElementsByTagName('img')
         )) {
           const pre = doc.createElement('pre')
           pre.setAttribute('class', 'image-url-only')
@@ -247,23 +272,36 @@ export default function (html, { mutate = true, hideImages = false } = {}) {
           image.parentNode.replaceChild(pre, image)
         }
       } else {
-        proxifyImages(doc)
+        proxifyImages(root)
       }
     }
 
     // console.log('state', state)
     if (!mutate) { return state }
 
+    // Serialize the whole wrapper once (so the xhtml namespace is declared a single
+    // time on the wrapper, not repeated on every child) and strip the wrapper tags —
+    // this yields the wrapper's innerHTML with no xmlns pollution on the children.
+    const inner = root
+      ? XMLSerializer.serializeToString(root)
+        .replace(/^<htmlready-root[^>]*>/, '')
+        .replace(/<\/htmlready-root>$/, '')
+      : ''
+
     return {
-      html: doc ? XMLSerializer.serializeToString(doc) : '',
+      html: inner,
       ...state
     }
   } catch (error) {
-    // xmldom error is bad
-    console.error(
-      'rendering error',
-      JSON.stringify({ error: error.message, html })
-    )
-    return { html: '' }
+    // @xmldom 0.9 is strict and throws on the sloppy HTML common in real Hive posts
+    // (<center> inside <p>, unclosed tags, etc.) that browsers/old xmldom tolerated.
+    // Rather than blanking the post body, fall back to the pre-processed markup — it's
+    // still run through sanitize-html downstream, so it's safe; only the link/embed
+    // enhancement is skipped for this post. TODO(P5): swap in a lenient HTML parser.
+    if (mutate) {
+      return { html: preprocessHtml(html), ...state }
+    }
+
+    return state
   }
 }

@@ -1,75 +1,79 @@
 <template>
   <div class="app-container">
-    <div v-if="$config.SIDECHAIN_ID !== 'ssc-mainnet-hive'" class="bg-info">
+    <div v-if="config.SIDECHAIN_ID !== 'ssc-mainnet-hive'" class="bg-info">
       <div class="container-fluid text-center">
         <fa-icon icon="exclamation-circle" /> The website is currently running on Hive-Engine Testnet!
       </div>
     </div>
 
+    <HiveStatusBanner />
+
     <Header />
 
-    <Nuxt />
+    <slot />
 
     <Login />
-    <SignUp v-if="$config.OUTPOST_ONBOARD" />
+    <!-- TODO(P4): SignUp modal (OUTPOST_ONBOARD is false for BBH) -->
 
-    <sidebar-menu />
+    <SidebarMenu />
 
-    <notifications :duration="15000" />
+    <ConfirmDialog />
 
     <client-only>
-      <back-to-top bottom="50px" right="50px">
-        <b-button variant="info" class="btn-to-top">
-          <fa-icon icon="chevron-up" />
-        </b-button>
-      </back-to-top>
+      <notifications :duration="15000" />
+      <BackToTop />
     </client-only>
   </div>
 </template>
 
-<script>
-import { mapActions } from 'vuex'
-import BackToTop from 'vue-backtotop'
-import Header from '@/components/Header.vue'
-import Login from '@/components/modals/Login.vue'
+<script setup>
+// Ported from legacy/layouts/default.vue.
+// - <Nuxt/> -> <slot/>; vue-timers -> setInterval; $auth.$storage.watchState -> watch()
+// - vue-backtotop -> components/app/BackToTop.vue
+import Header from '~/components/Header.vue'
+import Login from '~/components/modals/Login.vue'
+import SidebarMenu from '~/components/SidebarMenu.vue'
+import ConfirmDialog from '~/components/app/ConfirmDialog.vue'
+import BackToTop from '~/components/app/BackToTop.vue'
+import { useAuthStore } from '~/stores/auth'
+import { useUserStore } from '~/stores/user'
+import { useScotStore } from '~/stores/scot'
 
-export default {
-  name: 'MainLayout',
+const config = useRuntimeConfig().public
+const auth = useAuthStore()
+const userStore = useUserStore()
+const scotStore = useScotStore()
 
-  components: {
-    BackToTop,
-    Header,
-    Login,
-    SignUp: () => import(/* webpackChunkName: "SignUpModal" */ '@/components/modals/SignUp.vue'),
-    SidebarMenu: () => import(/* webpackChunkName: "SidebarMenu" */ '@/components/SidebarMenu.vue')
-  },
+// Legacy fetch(): trending tags for the sidebar/nav
+await useAsyncData('layout-trending-tags', async () => {
+  await scotStore.fetchTrendingTags()
+  return true
+})
 
-  async fetch () {
-    await this.fetchTrendingTags()
-  },
+let scotDataTimer = null
 
-  async mounted () {
-    if (this.$auth.loggedIn) {
-      await Promise.all([this.fetchFollowers(), this.fetchFollowing()])
-    }
-
-    this.$auth.$storage.watchState('loggedIn', (loggedIn) => {
-      if (!loggedIn) {
-        this.$cookies.remove('nftm_access_token')
-        this.$cookies.remove('nftm_refresh_token')
-      }
-    })
-  },
-
-  methods: {
-    ...mapActions('user', ['fetchAccountScotData', 'fetchFollowers', 'fetchFollowing']),
-    ...mapActions('scot', ['fetchTrendingTags'])
-  },
-
-  timers: {
-    fetchAccountScotData: { time: 3 * 60 * 1000, autostart: true, immediate: true, repeat: true }
+onMounted(async () => {
+  if (auth.loggedIn) {
+    await Promise.all([userStore.fetchFollowers(), userStore.fetchFollowing()])
   }
-}
+
+  // Legacy vue-timers: fetchAccountScotData every 3 min, immediate
+  const tick = () => { if (auth.loggedIn) { userStore.fetchAccountScotData() } }
+  tick()
+  scotDataTimer = setInterval(tick, 3 * 60 * 1000)
+})
+
+onUnmounted(() => {
+  if (scotDataTimer) { clearInterval(scotDataTimer) }
+})
+
+// Legacy $auth.$storage.watchState('loggedIn', ...): clear NFT tokens on logout
+watch(() => auth.loggedIn, (loggedIn) => {
+  if (!loggedIn) {
+    useCookie('nftm_access_token').value = null
+    useCookie('nftm_refresh_token').value = null
+  }
+})
 </script>
 
 <style>

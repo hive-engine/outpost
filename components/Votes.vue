@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="d-flex align-items-center">
-      <div class="d-flex align-items-center mr-4">
-        <button v-if="!isUpvoted" :id="`${id}-vote`" class="btn-vote" :disabled="!$auth.loggedIn">
+      <div class="d-flex align-items-center me-4">
+        <button v-if="!isUpvoted" :id="`${id}-vote`" class="btn-vote" :disabled="!auth.loggedIn">
           <fa-icon v-if="!pending" icon="heart" />
           <fa-icon v-else icon="circle-notch" class="fa-spin" />
         </button>
@@ -16,8 +16,8 @@
         </div>
       </div>
 
-      <div class="d-flex align-items-center mr-4">
-        <button v-if="!isDownvoted" :id="`${id}-downvote`" class="btn-vote" :disabled="!$auth.loggedIn">
+      <div class="d-flex align-items-center me-4">
+        <button v-if="!isDownvoted" :id="`${id}-downvote`" class="btn-vote" :disabled="!auth.loggedIn">
           <fa-icon v-if="!dvPending" icon="heart-broken" />
           <fa-icon v-else icon="circle-notch" class="fa-spin" />
         </button>
@@ -34,15 +34,15 @@
 
     <b-popover
       v-if="!isUpvoted"
-      :show.sync="show"
-      triggers="click blur"
+      v-model="show"
+      click
       placement="right"
       :target="`${id}-vote`"
-      custom-class="vote-weight-popover"
+      class="vote-weight-popover"
       @show="onPopoverShow"
     >
       <div class="d-flex align-items-center justify-content-between">
-        <div class="mr-2 w-75">
+        <div class="me-2 w-75">
           <b-form-input
             v-model="weight"
             debounce="100"
@@ -64,22 +64,22 @@
         </b-button>
 
         <div class="mt-2">
-          Estimated vote value: {{ voteValue }} {{ $config.TOKEN }}
+          Estimated vote value: {{ voteValue }} {{ config.TOKEN }}
         </div>
       </div>
     </b-popover>
 
     <b-popover
       v-if="!isDownvoted"
-      :show.sync="dvShow"
-      triggers="click blur"
+      v-model="dvShow"
+      click
       placement="right"
       :target="`${id}-downvote`"
-      custom-class="vote-weight-popover"
+      class="vote-weight-popover"
       @show="onPopoverShow"
     >
       <div class="d-flex align-items-center justify-content-between">
-        <div class="mr-2 w-75">
+        <div class="me-2 w-75">
           <b-form-input
             v-model="dvWeight"
             debounce="100"
@@ -101,12 +101,12 @@
         </b-button>
 
         <div class="mt-2">
-          Estimated vote value: {{ downvoteValue }} {{ $config.TOKEN }}
+          Estimated vote value: {{ downvoteValue }} {{ config.TOKEN }}
         </div>
       </div>
     </b-popover>
 
-    <b-popover v-if="upVotes.length > 0" triggers="hover focus" placement="bottom" :target="`${id}-upvotes`" custom-class="votes-preview-popover">
+    <b-popover v-if="upVotes.length > 0" hover focus placement="bottom" :target="`${id}-upvotes`" class="votes-preview-popover">
       <template #title>
         Vote values
       </template>
@@ -124,7 +124,7 @@
       </template>
     </b-popover>
 
-    <b-popover v-if="downVotes.length > 0" triggers="hover focus" placement="bottom" :target="`${id}-downvotes`" custom-class="votes-preview-popover">
+    <b-popover v-if="downVotes.length > 0" hover focus placement="bottom" :target="`${id}-downvotes`" class="votes-preview-popover">
       <template #title>
         Vote values
       </template>
@@ -144,8 +144,22 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+// Ported from legacy/components/Votes.vue (Options API kept).
+// - b-popover: `:show.sync` → `v-model` (bootstrap-vue-next models visibility via
+//   modelValue; there is no `show` prop), `triggers="click blur"` → `click` prop
+//   (blur/outside-click auto-close is built in), `triggers="hover focus"` →
+//   `hover focus` props, `custom-class` → `class`.
+// - $auth.$storage.get/setUniversal (nuxt/auth universal storage) → localStorage
+//   (only touched in client-only code paths: watchers + popover show).
+// - $eventBus.$off now passes the stored handler so unmounting one Votes instance
+//   no longer detaches every other instance's listener (legacy detached all).
+// - Vuex: root getters → useTribeStore, user → useUserStore, post actions → usePostStore.
+import { mapState, mapActions } from 'pinia'
 import { getEstimatedVoteValue } from '@/utils/scot'
+import { useAuthStore } from '~/stores/auth'
+import { useTribeStore } from '~/stores/tribe'
+import { useUserStore } from '~/stores/user'
+import { usePostStore } from '~/stores/post'
 
 export default {
   name: 'Votes',
@@ -159,6 +173,13 @@ export default {
     isComment: { type: Boolean, default: false }
   },
 
+  setup () {
+    const config = useRuntimeConfig().public
+    const auth = useAuthStore()
+
+    return { config, auth }
+  },
+
   data () {
     return {
       weight: 100,
@@ -166,13 +187,14 @@ export default {
       pending: false,
       dvWeight: 100,
       dvShow: false,
-      dvPending: false
+      dvPending: false,
+      voteAckHandler: null
     }
   },
 
   computed: {
-    ...mapGetters(['tribe_config', 'tribe_info']),
-    ...mapGetters('user', ['voting_power', 'downvoting_power', 'scot_data']),
+    ...mapState(useTribeStore, ['tribe_config', 'tribe_info']),
+    ...mapState(useUserStore, ['voting_power', 'downvoting_power', 'scot_data']),
 
     votes () {
       const votes = this.activeVotes
@@ -200,8 +222,8 @@ export default {
       const self = this
       let voted = false
 
-      if (this.$auth.loggedIn) {
-        voted = this.votes.find(v => v.voter === self.$auth.user.username && v.percent > 0)
+      if (this.auth.loggedIn) {
+        voted = this.votes.find(v => v.voter === self.auth.user.username && v.percent > 0)
       }
 
       return voted
@@ -211,8 +233,8 @@ export default {
       const self = this
       let voted = false
 
-      if (this.$auth.loggedIn) {
-        voted = this.votes.find(v => v.voter === self.$auth.user.username && v.percent < 0)
+      if (this.auth.loggedIn) {
+        voted = this.votes.find(v => v.voter === self.auth.user.username && v.percent < 0)
       }
 
       return voted
@@ -253,16 +275,16 @@ export default {
     },
 
     voteWeightKey () {
-      if (this.$auth.loggedIn) {
-        return this.isComment ? `voteweight-${this.$auth.user.username}-comment` : `voteweight-${this.$auth.user.username}-post`
+      if (this.auth.loggedIn) {
+        return this.isComment ? `voteweight-${this.auth.user.username}-comment` : `voteweight-${this.auth.user.username}-post`
       }
 
       return ''
     },
 
     downvoteWeightKey () {
-      if (this.$auth.loggedIn) {
-        return this.isComment ? `downvoteweight-${this.$auth.user.username}-comment` : `downvoteweight-${this.$auth.user.username}-post`
+      if (this.auth.loggedIn) {
+        return this.isComment ? `downvoteweight-${this.auth.user.username}-comment` : `downvoteweight-${this.auth.user.username}-post`
       }
 
       return ''
@@ -271,14 +293,14 @@ export default {
 
   watch: {
     weight (value, oldValue) {
-      if (value !== oldValue) {
-        this.$auth.$storage.setUniversal(this.voteWeightKey, value)
+      if (value !== oldValue && import.meta.client) {
+        localStorage.setItem(this.voteWeightKey, value)
       }
     },
 
     dvWeight (value, oldValue) {
-      if (value !== oldValue) {
-        this.$auth.$storage.setUniversal(this.downvoteWeightKey, value)
+      if (value !== oldValue && import.meta.client) {
+        localStorage.setItem(this.downvoteWeightKey, value)
       }
     }
   },
@@ -286,34 +308,32 @@ export default {
   mounted () {
     const self = this
 
-    this.$eventBus.$on(['vote-acknowledgement', 'transaction-broadcast-error'], ({ author, permlink, data }) => {
+    this.voteAckHandler = ({ author, permlink, data }) => {
       if (self.author === author && self.permlink === permlink) {
         self.pending = false
       } else if (data && self.author === data.author && self.permlink === data.permlink) {
         self.pending = false
       }
-    })
+    }
+
+    this.$eventBus.$on(['vote-acknowledgement', 'transaction-broadcast-error'], this.voteAckHandler)
   },
 
-  beforeDestroy () {
-    this.$eventBus.$off(['vote-acknowledgement', 'transaction-broadcast-error'])
+  beforeUnmount () {
+    this.$eventBus.$off(['vote-acknowledgement', 'transaction-broadcast-error'], this.voteAckHandler)
   },
 
   methods: {
-    ...mapActions('post', ['requestBroadcastVote']),
+    ...mapActions(usePostStore, ['requestBroadcastVote']),
 
     applyRewardsCurve (rShares) {
       return ((Math.max(0, rShares) ** this.tribe_config.author_curve_exponent) * this.tribe_info.reward_pool) / this.tribe_info.pending_rshares
     },
 
     onPopoverShow () {
-      this.weight = this.$auth.$storage.getUniversal(this.voteWeightKey) || 100
-      this.dvWeight = this.$auth.$storage.getUniversal(this.downvoteWeightKey) || 100
+      this.weight = Number(localStorage.getItem(this.voteWeightKey)) || 100
+      this.dvWeight = Number(localStorage.getItem(this.downvoteWeightKey)) || 100
     }
   }
 }
 </script>
-
-<style>
-
-</style>

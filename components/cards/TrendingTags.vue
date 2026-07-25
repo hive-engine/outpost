@@ -17,7 +17,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// Ported from legacy/components/cards/TrendingTags.vue.
+// Vuex mapGetters('scot', ['trending_tags']) → Pinia mapState(useScotStore).
+// Note: legacy template is wrapped in v-if="false" (component is disabled
+// upstream) — kept as-is for a mechanical port.
+import { mapState } from 'pinia'
+import { useScotStore } from '~/stores/scot'
 
 export default {
   name: 'TrendingTags',
@@ -27,7 +32,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('scot', ['trending_tags'])
+    ...mapState(useScotStore, ['trending_tags'])
   },
 
   methods: {
@@ -41,7 +46,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

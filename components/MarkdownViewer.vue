@@ -1,4 +1,9 @@
 <script>
+// Ported from legacy/components/MarkdownViewer.vue.
+// Vue 3 render(): `h` is no longer a render argument — imported from 'vue' and
+// still passed through to embeds' generateMd (same createElement signature).
+// domProps.innerHTML → flat `innerHTML` prop.
+import { h } from 'vue'
 import { Remarkable } from 'remarkable'
 import sanitize from 'sanitize-html'
 import HtmlReady from '@/utils/HtmlReady'
@@ -20,7 +25,7 @@ const remarkableToSpec = new Remarkable({
 })
 
 export default {
-  name: 'MarkdownViwer',
+  name: 'MarkdownViewer',
 
   props: {
     className: { type: String, default: 'markdown-viewer' },
@@ -32,7 +37,7 @@ export default {
     breaks: { type: Boolean, default: true }
   },
 
-  render (h) {
+  render () {
     let { text } = this
 
     let html = false
@@ -108,7 +113,7 @@ export default {
         }
       }
 
-      sections.push(h('div', { key: checksum(section), domProps: { innerHTML: section } }))
+      sections.push(h('div', { key: checksum(section), innerHTML: section }))
 
       idx += 1
     }
@@ -117,7 +122,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

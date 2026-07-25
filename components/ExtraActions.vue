@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="d-flex align-items-center">
-      <div class="mr-2">
+      <div class="me-2">
         <b-dropdown variant="link" no-caret dropup>
           <template #button-content>
             <fa-icon icon="ellipsis-h" />
           </template>
 
-          <b-dropdown-item-button v-if="$auth.loggedIn && $auth.user.username === author" @click.prevent="requestEditPost({author, permlink})">
+          <b-dropdown-item-button v-if="loggedIn && user.username === author" @click.prevent="requestEditPost({author, permlink})">
             Edit
           </b-dropdown-item-button>
 
-          <b-dropdown-item-button v-if="deletable && $auth.loggedIn && $auth.user.username === author" @click.prevent="requestBroadcastDelete({author, permlink, type: 'post'})">
+          <b-dropdown-item-button v-if="deletable && loggedIn && user.username === author" @click.prevent="requestBroadcastDelete({author, permlink, type: 'post'})">
             Delete
           </b-dropdown-item-button>
 
@@ -19,18 +19,46 @@
             Reblog
           </b-dropdown-item-button>
 
-          <b-dropdown-item-button v-if="$auth.loggedIn && type === 'post'" @click.prevent="showPromoteModal">
+          <b-dropdown-item-button v-if="loggedIn && type === 'post'" @click.prevent="showPromoteModal">
             Promote
           </b-dropdown-item-button>
         </b-dropdown>
       </div>
     </div>
+
+    <!-- Replaces the legacy $bvModal.msgBoxConfirm + $createElement VNode message
+         (render-function API removed in Vue 3 / bootstrap-vue-next). -->
+    <b-modal v-model="promoteModalVisible" title="Promote Post" centered size="md" ok-title="Promote" @ok="promotePost">
+      <p>Burn {{ config.TOKEN }} to advertize this post in the promoted contents section.</p>
+
+      <b-form-group class="mt-3" label="Post">
+        <b-form-input readonly :model-value="authorperm" />
+      </b-form-group>
+
+      <b-form-group class="mt-3" label="Balance">
+        <div class="d-inline-block">
+          {{ balance }} {{ config.TOKEN }}
+        </div>
+      </b-form-group>
+
+      <b-form-group class="mt-3" label="Amount">
+        <b-input-group :append="config.TOKEN">
+          <b-form-input v-model.number="amount" type="number" />
+        </b-input-group>
+      </b-form-group>
+    </b-modal>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import { getEstimatedVoteValue } from '@/utils/scot'
+// Ported from legacy/components/ExtraActions.vue (Options API kept).
+// Vuex → Pinia (post → usePostStore, auth → useAuthStore); $config → useRuntimeConfig;
+// mr-* → me-* (BS5). The unused `voteValue` computed (and its weight/show/pending data,
+// user/root store getters and utils/scot import) was dead code in the legacy component
+// and is dropped — nothing in the template referenced it.
+import { mapState, mapActions } from 'pinia'
+import { useAuthStore } from '~/stores/auth'
+import { usePostStore } from '~/stores/post'
 
 export default {
   name: 'ExtraActions',
@@ -41,32 +69,21 @@ export default {
 
   data () {
     return {
-      weight: 100,
-      show: false,
-      pending: false,
-
+      promoteModalVisible: false,
       amount: '',
       balance: 0
     }
   },
 
   computed: {
-    ...mapGetters(['tribe_config', 'tribe_info']),
-    ...mapGetters('user', ['voting_power', 'scot_data']),
+    ...mapState(useAuthStore, ['loggedIn', 'user']),
+
+    config () {
+      return useRuntimeConfig().public
+    },
 
     id () {
       return `${this.author}-${this.permlink}`
-    },
-
-    voteValue () {
-      return getEstimatedVoteValue({
-        currentRshares: this.post.vote_rshares,
-        userData: this.scot_data,
-        vp: this.voting_power,
-        weight: Number(this.weight),
-        tribeConfig: this.tribe_config,
-        tribeInfo: this.tribe_info
-      })
     },
 
     type () {
@@ -95,85 +112,43 @@ export default {
   },
 
   methods: {
-    ...mapActions('post', ['requestBroadcastReblog', 'requestEditPost', 'requestBroadcastDelete', 'requestPromotePost']),
+    ...mapActions(usePostStore, ['requestBroadcastReblog', 'requestEditPost', 'requestBroadcastDelete', 'requestPromotePost']),
 
     async showPromoteModal () {
       try {
-        const balance = await this.$sidechain.getBalance(this.$auth.user.username, this.$config.TOKEN)
+        const balance = await this.$sidechain.getBalance(this.user.username, this.config.TOKEN)
 
         if (balance) {
           this.balance = Number(balance.balance)
         }
 
-        const h = this.$createElement
-
-        const titleVNode = h('div', { domProps: { innerHTML: 'Promote Post' } })
-
-        const self = this
-
-        const messageVNode = h('div', { class: [''] }, [
-          h('p', { class: [] }, [`Burn ${this.$config.TOKEN} to advertize this post in the promoted contents section.`]),
-          h('b-form-group', { class: ['mt-3'], props: { label: 'Post' } }, [
-            h('b-form-input', { props: { readonly: true, value: this.authorperm } })
-          ]),
-          h('b-form-group', { class: ['mt-3'], props: { label: 'Balance' } }, [
-            h('div',
-              {
-                class: ['d-inline-block ']
-              },
-              [`${this.balance} ${this.$config.TOKEN}`]
-            )
-          ]),
-          h('b-form-group', { class: ['mt-3'], props: { label: 'Amount' } }, [
-            h('b-input-group', { props: { append: this.$config.TOKEN } }, [
-              h('b-form-input',
-                {
-                  props: { number: true, type: 'number', value: self.amount },
-                  on: { input (value) { self.amount = value } }
-                }
-              )
-            ])
-          ])
-        ])
-
-        this.$bvModal.msgBoxConfirm([messageVNode], {
-          title: [titleVNode],
-          centered: true,
-          size: 'md',
-          hideHeaderClose: false,
-          okTitle: 'Promote'
-        }).then((value) => {
-          if (value) {
-            if (!this.amount || this.amount === '' || Number(this.amount) === 0) {
-              return self.$notify({
-                title: 'Error',
-                type: 'error',
-                text: 'Invalid promotion amount.'
-              })
-            }
-
-            if (this.balance < this.amount) {
-              return self.$notify({
-                title: 'Error',
-                type: 'error',
-                text: 'You do not have enough balance.'
-              })
-            }
-
-            this.requestPromotePost({ memo: this.authorperm, amount: this.amount })
-
-            this.amount = ''
-          }
-        })
-          .catch(error => console.log(error))
+        this.promoteModalVisible = true
       } catch {
         //
       }
+    },
+
+    promotePost () {
+      if (!this.amount || this.amount === '' || Number(this.amount) === 0) {
+        return this.$notify({
+          title: 'Error',
+          type: 'error',
+          text: 'Invalid promotion amount.'
+        })
+      }
+
+      if (this.balance < this.amount) {
+        return this.$notify({
+          title: 'Error',
+          type: 'error',
+          text: 'You do not have enough balance.'
+        })
+      }
+
+      this.requestPromotePost({ memo: this.authorperm, amount: this.amount })
+
+      this.amount = ''
     }
   }
 }
 </script>
-
-<style>
-
-</style>

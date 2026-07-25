@@ -1,6 +1,15 @@
-import { mapActions } from 'vuex'
-import InfiniteLoading from 'vue-infinite-loading'
-import PostSummary from '@/components/cards/PostSummary.vue'
+// Ported from legacy/mixins/postIndex.js (kept as a mixin — Options API pages use it).
+// Vuex → Pinia (scot → useScotStore, user → useUserStore); vue-infinite-loading →
+// ~/components/app/InfiniteLoading.vue (same :identifier/@infinite/$state contract);
+// beforeDestroy → beforeUnmount. `sleep` came from the legacy global-mixins plugin
+// (not ported) → inlined below.
+// NOTE: ~/components/cards/PostSummary.vue is not ported yet — pages using this mixin
+// will fail to resolve the import until the cards batch lands.
+import { mapActions } from 'pinia'
+import InfiniteLoading from '~/components/app/InfiniteLoading.vue'
+import PostSummary from '~/components/cards/PostSummary.vue'
+import { useScotStore } from '~/stores/scot'
+import { useUserStore } from '~/stores/user'
 
 export default {
 
@@ -51,7 +60,7 @@ export default {
     })
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.posts = []
 
     this.$eventBus.$off(['upvote-successful', 'downvote-successful', 'unvote-successful'])
@@ -59,7 +68,12 @@ export default {
   },
 
   methods: {
-    ...mapActions('scot', ['fetchPosts', 'fetchPost']),
-    ...mapActions('user', ['fetchAccountScotData'])
+    ...mapActions(useScotStore, ['fetchPosts', 'fetchPost']),
+    ...mapActions(useUserStore, ['fetchAccountScotData']),
+
+    // Legacy global mixin helper (legacy/plugins/global-mixins.js), inlined
+    sleep (ms) {
+      return new Promise(resolve => setTimeout(resolve, ms))
+    }
   }
 }

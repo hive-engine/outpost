@@ -1,4 +1,8 @@
-import { encrypt as TripesecEncrypt, decrypt as TripesecDecrypt, Buffer } from 'triplesec'
+// triplesec is CommonJS — named ESM imports fail at runtime in the Nitro server
+// build ("Named export not found"). Import the default and destructure instead.
+import triplesec from 'triplesec'
+
+const { encrypt: TripesecEncrypt, decrypt: TripesecDecrypt, Buffer } = triplesec
 
 export const encrypt = (message, pass) => {
   return new Promise((resolve, reject) => {

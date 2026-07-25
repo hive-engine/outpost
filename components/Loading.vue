@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// Ported from legacy/components/Loading.vue — unchanged (no Vue 2 APIs used).
 export default {
   name: 'Loading',
 

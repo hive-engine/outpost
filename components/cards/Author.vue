@@ -2,7 +2,7 @@
   <div class="author-card">
     <div class="d-flex">
       <div>
-        <nuxt-link v-slot="{href}" custom class="font-weight-bold" :to="{name:'user', params:{user:author}}">
+        <nuxt-link v-slot="{href}" custom class="fw-bold" :to="{name:'user', params:{user:author}}">
           <a :href="href" @click="toggleAuthorCard($event)">
             @{{ author }} <fa-icon class="pt-1" icon="angle-down" />
           </a>
@@ -17,7 +17,7 @@
     <div v-if="showAuthorCard" v-click-outside="() => showAuthorCard = !(showAuthorCard)" class="author-dropdown">
       <div class="d-flex">
         <nuxt-link :to="{name:'user', params:{user:author}}">
-          <b-avatar :src="`${$config.IMAGES_CDN}u/${author}/avatar`" variant="dark" size="75px" class="mr-3" />
+          <b-avatar :src="`${config.IMAGES_CDN}u/${author}/avatar`" variant="dark" size="75px" class="me-3" />
         </nuxt-link>
 
         <div>
@@ -29,15 +29,15 @@
             @{{ author }}
           </nuxt-link>
 
-          <b-button v-if="$auth.loggedIn && author !== $auth.user.username" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastFollow({following: author, what: isFollowing ? '': 'blog'})">
+          <b-button v-if="auth.loggedIn && author !== auth.user.username" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastFollow({following: author, what: isFollowing ? '': 'blog'})">
             {{ isFollowing ? 'Unfollow' : 'Follow' }}
           </b-button>
 
-          <b-button v-if="$auth.loggedIn && author !== $auth.user.username" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastFollow({following: author, what: 'ignore'})">
+          <b-button v-if="auth.loggedIn && author !== auth.user.username" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastFollow({following: author, what: 'ignore'})">
             Ignore
           </b-button>
 
-          <b-button v-if="$auth.loggedIn && $auth.user.username === muting_account" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastMute({account: author, mute: !profile.muted})">
+          <b-button v-if="auth.loggedIn && auth.user.username === muting_account" class="mt-1" size="sm" variant="outline-primary" @click.prevent="requestBroadcastMute({account: author, mute: !profile.muted})">
             {{ profile.muted ? 'Unmute': 'Mute' }}
           </b-button>
         </div>
@@ -62,19 +62,51 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import vClickOutside from 'v-click-outside'
+// Ported from legacy/components/cards/Author.vue.
+// - v-click-outside (Vue-2-only package, not in the new deps) → small local
+//   directive with identical semantics (document click outside el fires binding).
+// - Vuex: root muting_account → useTribeStore, scot accounts → useScotStore,
+//   user following/actions → useUserStore.
+// - $config/$auth → setup() runtime config + auth store; $chain/$sidechain/$eventBus
+//   unchanged (Nuxt 3 plugin provides expose them on `this`).
+// - BS5: font-weight-bold → fw-bold, mr-3 → me-3.
+import { mapState, mapActions } from 'pinia'
+import { calculateReputation } from '~/utils'
+import { useAuthStore } from '~/stores/auth'
+import { useTribeStore } from '~/stores/tribe'
+import { useScotStore } from '~/stores/scot'
+import { useUserStore } from '~/stores/user'
 
 export default {
   name: 'AuthorCard',
 
   directives: {
-    clickOutside: vClickOutside.directive
+    clickOutside: {
+      beforeMount (el, binding) {
+        el.__clickOutsideHandler__ = (event) => {
+          if (el !== event.target && !el.contains(event.target)) {
+            binding.value(event)
+          }
+        }
+        document.addEventListener('click', el.__clickOutsideHandler__)
+      },
+      unmounted (el) {
+        document.removeEventListener('click', el.__clickOutsideHandler__)
+        delete el.__clickOutsideHandler__
+      }
+    }
   },
 
   props: {
     author: { type: String, required: true },
     reputation: { type: Number, required: false, default: 0 }
+  },
+
+  setup () {
+    const config = useRuntimeConfig().public
+    const auth = useAuthStore()
+
+    return { config, auth }
   },
 
   data () {
@@ -92,9 +124,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['muting_account']),
-    ...mapGetters('scot', ['accounts']),
-    ...mapGetters('user', ['following']),
+    ...mapState(useTribeStore, ['muting_account']),
+    ...mapState(useScotStore, ['accounts']),
+    ...mapState(useUserStore, ['following']),
 
     isFollowing () {
       return this.following.includes(this.author)
@@ -134,19 +166,24 @@ export default {
     this.$eventBus.$on('user-mute-successful', this.onMute)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.$eventBus.$off('user-mute-successful', this.onMute)
   },
 
   methods: {
-    ...mapActions('user', ['requestBroadcastFollow', 'requestBroadcastMute']),
+    ...mapActions(useUserStore, ['requestBroadcastFollow', 'requestBroadcastMute']),
 
     getReputation (author) {
       const account = this.accounts[author]
 
       const rep = account ? account.reputation : this.reputation
+      const n = Number(rep)
 
-      return rep.toFixed(0)
+      if (!Number.isFinite(n) || n === 0) { return 25 }
+
+      // Handle either a raw blockchain reputation (huge) or an already-computed
+      // hivemind display value (small).
+      return Math.abs(n) > 1e6 ? calculateReputation(n) : Math.round(n)
     },
 
     toggleAuthorCard (e) {
@@ -163,7 +200,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

@@ -11,8 +11,13 @@ $enable-rounded: false;
   @return $string;
 }
 
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~bootstrap-vue/src/index.scss";
+// Vite resolves bare package paths (no webpack "~" prefix). Bootstrap 5 replaces 4;
+// bootstrap-vue-next's css ships prebuilt and is added via the nuxt.config css array.
+@import "bootstrap/scss/bootstrap";
+@import "@fortawesome/fontawesome-svg-core/styles.css";
 
 @import "./light-mode";
 @import "./dark-mode";
+
+// Web3 Bold theme — loaded last so it overrides the legacy light/dark styles.
+@import "./web3";

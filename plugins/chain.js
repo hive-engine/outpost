@@ -1,11 +1,14 @@
+// Hive chain client — ported from legacy/plugins/chain.js (inject -> provide).
 import { Asset, Client, PrivateKey, PublicKey, cryptoUtils, utils } from '@hiveio/dhive'
 
-export default ({ app, $config }, inject) => {
-  let rpcNode = app.$cookies.get('mainchain_rpc') || $config.NODES[0]
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig().public
 
-  rpcNode = Array.from(new Set([rpcNode, ...$config.NODES]))
+  // Preserve the user's preferred RPC node (cookie-universal-nuxt -> useCookie)
+  const preferred = useCookie('mainchain_rpc').value
+  const rpcNodes = Array.from(new Set([...(preferred ? [preferred] : []), ...config.NODES]))
 
-  const client = new Client(rpcNode, { failoverThreshold: 20, consoleOnFailover: true })
+  const client = new Client(rpcNodes, { failoverThreshold: 20, consoleOnFailover: true })
 
   const getClient = () => client
 
@@ -20,5 +23,9 @@ export default ({ app, $config }, inject) => {
     getClient
   }
 
-  inject('chain', chain)
-}
+  return {
+    provide: {
+      chain
+    }
+  }
+})

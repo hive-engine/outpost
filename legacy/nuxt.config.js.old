@@ -309,7 +309,7 @@ export default {
   },
 
   server: {
-    port: 8080,
+    port: process.env.PORT || 8080,
     host: process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost'
   },
 

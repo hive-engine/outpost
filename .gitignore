@@ -89,3 +89,13 @@ sw.*
 # Vim swap files
 *.swp
 DEPLOYMENT.md
+
+.output
+.nuxt
+hydration-check.mjs
+
+# Chats container cron secrets (account posting key)
+scripts/chats.env
+
+# One-off key handoff file (never commit)
+key.txt

@@ -1,0 +1,295 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Web3 Bold — site-wide dark theme (design rollout D1). Loaded LAST so it wins.
+// ─────────────────────────────────────────────────────────────────────────────
+:root {
+  --w3-red: #e01f26;
+  --w3-gold: #f5b800;
+  --w3-bg: #08080c;
+  --w3-bg-2: #0e0e14;
+  --w3-panel: rgba(255, 255, 255, 0.045);
+  --w3-panel-2: rgba(255, 255, 255, 0.07);
+  --w3-border: rgba(255, 255, 255, 0.10);
+  --w3-text: #f4f4f5;
+  --w3-muted: #a1a1aa;
+
+  --bs-body-bg: var(--w3-bg);
+  --bs-body-color: var(--w3-text);
+  --bs-border-color: var(--w3-border);
+}
+
+html, body {
+  background: var(--w3-bg) !important;
+  color: var(--w3-text);
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+
+// aurora glow behind everything
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(55vw 55vw at 12% -8%, rgba(224, 31, 38, 0.22), transparent 60%),
+    radial-gradient(45vw 45vw at 92% -2%, rgba(245, 184, 0, 0.16), transparent 55%),
+    radial-gradient(40vw 40vw at 65% 30%, rgba(123, 47, 247, 0.12), transparent 60%);
+  filter: blur(24px);
+}
+
+.mono, .w3-mono { font-family: 'JetBrains Mono', monospace; }
+
+// offset content below the fixed navbar
+.app-container { padding-top: 64px; }
+
+// Links
+a { color: var(--w3-gold); }
+a:hover { color: #ffd34d; }
+
+// Headings keep the display font
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; }
+
+// ── Cards → glass panels ──────────────────────────────────────────────────────
+.card {
+  background: var(--w3-panel) !important;
+  border: 1px solid var(--w3-border) !important;
+  border-radius: 18px !important;
+  color: var(--w3-text);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.card-header, .card-footer { background: transparent !important; border-color: var(--w3-border) !important; }
+
+// ── Navbar → dark glass ───────────────────────────────────────────────────────
+.navbar.bg-light, .navbar {
+  background: rgba(8, 8, 12, 0.72) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--w3-border);
+}
+.navbar .nav-link { color: var(--w3-muted) !important; font-weight: 500; }
+.navbar .nav-link:hover, .navbar .nav-link.router-link-exact-active { color: var(--w3-text) !important; }
+.navbar-btn {
+  border: 1px solid var(--w3-border) !important;
+  background: var(--w3-panel) !important;
+  color: var(--w3-text) !important;
+}
+.navbar-btn:hover { background: var(--w3-panel-2) !important; border-color: rgba(245, 184, 0, 0.5) !important; }
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+.btn { border-radius: 10px; font-weight: 600; }
+.btn-success {
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important;
+  border: 0 !important;
+  color: #1a1206 !important;
+  box-shadow: 0 0 22px rgba(245, 184, 0, 0.3);
+}
+.btn-success:hover { filter: brightness(1.05); color: #1a1206 !important; }
+.btn-primary, .btn-info {
+  background: linear-gradient(135deg, var(--w3-red), #ff5a3c) !important;
+  border: 0 !important;
+  color: #fff !important;
+}
+.btn-secondary { background: var(--w3-panel-2) !important; border: 1px solid var(--w3-border) !important; color: var(--w3-text) !important; }
+.btn-link { color: var(--w3-gold) !important; }
+
+// ── Forms ─────────────────────────────────────────────────────────────────────
+.form-control, .form-select, .custom-select {
+  background: var(--w3-panel) !important;
+  border: 1px solid var(--w3-border) !important;
+  color: var(--w3-text) !important;
+}
+.form-control::placeholder { color: var(--w3-muted); }
+.form-control:focus { border-color: rgba(245, 184, 0, 0.6) !important; box-shadow: 0 0 0 0.2rem rgba(245, 184, 0, 0.15) !important; }
+
+// ── Badges / reward pills ─────────────────────────────────────────────────────
+.badge.text-bg-secondary, .b-form-tag { background: var(--w3-panel-2) !important; color: var(--w3-muted) !important; border: 1px solid var(--w3-border); }
+
+// ── Modals / offcanvas → dark glass ───────────────────────────────────────────
+.modal-content, .offcanvas {
+  background: var(--w3-bg-2) !important;
+  color: var(--w3-text);
+  border: 1px solid var(--w3-border) !important;
+  border-radius: 18px;
+}
+.modal-header, .modal-footer { border-color: var(--w3-border) !important; }
+.btn-close { filter: invert(1) grayscale(1) brightness(1.6); }
+
+// ── Tables / lists ────────────────────────────────────────────────────────────
+.table { color: var(--w3-text); --bs-table-bg: transparent; --bs-table-color: var(--w3-text); }
+.list-group-item { background: transparent !important; color: var(--w3-text); border-color: var(--w3-border) !important; }
+
+// The sort/feed page header creates its own stacking context (it has a filter),
+// which traps its dropdown at the header's root-level z-order — the post cards that
+// follow in the DOM then paint over it. Lift the whole header above the post list.
+.page-header { position: relative; z-index: 30; }
+
+// Dropdown menus — high z-index so they never get lost behind post content /
+// the sticky action bar / glass panels (which create stacking contexts).
+.dropdown-menu {
+  background: var(--w3-bg-2) !important;
+  border: 1px solid var(--w3-border) !important;
+  z-index: 1080 !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,.6);
+}
+.dropdown-item { color: var(--w3-text) !important; }
+.dropdown-item:hover { background: var(--w3-panel-2) !important; color: var(--w3-gold) !important; }
+
+// muted text
+.text-muted { color: var(--w3-muted) !important; }
+hr { border-color: var(--w3-border); }
+
+// ── D4 polish: remaining bootstrap variants ───────────────────────────────────
+// Outline buttons → gold (used by the Followers/Following toggle etc.)
+.btn-outline-primary, .btn-outline-secondary, .btn-outline-info {
+  color: var(--w3-gold) !important; border-color: rgba(245,184,0,.4) !important; background: transparent !important;
+}
+.btn-outline-primary:hover, .btn-outline-primary.active,
+.btn-outline-secondary:hover, .btn-outline-secondary.active,
+.btn-outline-info:hover, .btn-outline-info.active {
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important; color: #1a1206 !important; border-color: transparent !important;
+}
+.btn-warning { background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important; border: 0 !important; color: #1a1206 !important; }
+.btn-danger { background: linear-gradient(135deg, var(--w3-red), #ff5a3c) !important; border: 0 !important; color: #fff !important; }
+
+// Badges
+.badge.text-bg-warning, .badge.bg-warning { background: rgba(245,184,0,.15) !important; color: var(--w3-gold) !important; }
+.badge.text-bg-info, .badge.bg-info { background: rgba(10,207,254,.14) !important; color: #6fd6ff !important; }
+.badge.text-bg-danger, .badge.bg-danger { background: rgba(224,31,38,.16) !important; color: #ff8a8a !important; }
+.badge.text-bg-success, .badge.bg-success { background: rgba(0,245,160,.12) !important; color: #4ee6a8 !important; }
+
+// Progress bars, spinners, alerts
+.progress { background: rgba(255,255,255,.08) !important; }
+.progress-bar { background: linear-gradient(90deg, var(--w3-gold), var(--w3-red)) !important; }
+.spinner-border, .spinner-grow { color: var(--w3-gold) !important; }
+.alert { background: var(--w3-panel) !important; border: 1px solid var(--w3-border) !important; color: var(--w3-text); border-radius: 12px; }
+.alert-info { border-color: rgba(10,207,254,.3) !important; }
+.alert-warning { border-color: rgba(245,184,0,.3) !important; }
+.alert-danger { border-color: rgba(224,31,38,.3) !important; }
+
+// Form checks / radios / switches
+.form-check-input { background-color: var(--w3-panel-2) !important; border-color: var(--w3-border) !important; }
+.form-check-input:checked { background-color: var(--w3-gold) !important; border-color: var(--w3-gold) !important; }
+
+// Button groups
+.btn-group > .btn { border-radius: 0; }
+.btn-group > .btn:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+.btn-group > .btn:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+
+// Tabs
+.nav-tabs { border-color: var(--w3-border); }
+.nav-tabs .nav-link { color: var(--w3-muted); border: 0; }
+.nav-tabs .nav-link.active { color: var(--w3-gold); background: transparent; border-bottom: 2px solid var(--w3-gold); }
+
+// ── mavon-editor (reply / post editor) → dark ─────────────────────────────────
+.v-note-wrapper {
+  background: var(--w3-bg-2) !important;
+  border-color: var(--w3-border) !important;
+  color: var(--w3-text) !important;
+}
+.v-note-wrapper .v-note-op {
+  background: var(--w3-panel-2) !important;
+  border-bottom: 1px solid var(--w3-border) !important;
+}
+.v-note-wrapper .v-note-op .op-icon,
+.v-note-wrapper .v-note-op .op-icon.fa,
+.v-note-wrapper .op-btn-divider { color: var(--w3-text) !important; }
+.v-note-wrapper .v-note-op .op-icon:hover { color: var(--w3-gold) !important; }
+.v-note-wrapper .v-note-panel,
+.v-note-wrapper .v-note-edit,
+.v-note-wrapper .v-note-show { background: var(--w3-bg-2) !important; }
+.v-note-wrapper .content-input-wrapper,
+.v-note-wrapper .auto-textarea-wrapper,
+.v-note-wrapper .auto-textarea-input,
+.v-note-wrapper textarea {
+  background: var(--w3-bg-2) !important;
+  color: var(--w3-text) !important;
+  -webkit-text-fill-color: var(--w3-text) !important;
+  caret-color: var(--w3-gold);
+}
+.v-note-wrapper .auto-textarea-input::placeholder { color: var(--w3-muted) !important; }
+.v-note-wrapper .v-note-show .v-show-content { background: var(--w3-bg-2) !important; color: var(--w3-text) !important; }
+
+// ── Markdown post/comment body → readable dark prose ──────────────────────────
+.markdown-view {
+  color: #e6e6e9;
+  font-size: 1.08rem;
+  line-height: 1.75;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  h1, h2, h3, h4, h5, h6 { color: #fff; font-weight: 700; line-height: 1.25; margin: 2rem 0 .8rem; letter-spacing: -0.01em; }
+  h1 { font-size: 1.9rem; } h2 { font-size: 1.55rem; } h3 { font-size: 1.3rem; } h4 { font-size: 1.12rem; }
+
+  p { margin: 0 0 1.2rem; }
+
+  a { color: var(--w3-gold); text-decoration: none; border-bottom: 1px solid rgba(245,184,0,.35); }
+  a:hover { border-bottom-color: var(--w3-gold); }
+
+  img { max-width: 100%; height: auto; border-radius: 12px; margin: 1rem 0; display: block; }
+
+  blockquote {
+    margin: 1.4rem 0; padding: .6rem 1.2rem;
+    border-left: 3px solid var(--w3-gold);
+    background: rgba(245,184,0,.05); border-radius: 0 8px 8px 0;
+    color: #c9c9cf;
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  ul, ol { margin: 0 0 1.2rem; padding-left: 1.5rem; }
+  li { margin-bottom: .4rem; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace; font-size: .88em;
+    background: rgba(255,255,255,.08); padding: .15em .45em; border-radius: 6px; color: #ffd9a0;
+  }
+  pre {
+    background: #050508 !important; border: 1px solid var(--w3-border);
+    border-radius: 12px; padding: 1.1rem 1.3rem; overflow-x: auto; margin: 1.4rem 0;
+  }
+  pre code { background: none; padding: 0; color: #e6e6e9; }
+
+  hr { border: 0; border-top: 1px solid var(--w3-border); margin: 2rem 0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .95rem; }
+  th, td { border: 1px solid var(--w3-border); padding: .6rem .8rem; text-align: left; }
+  th { background: var(--w3-panel-2); }
+
+  .phishy { color: var(--w3-red); }
+  iframe, .embed-responsive { max-width: 100%; border-radius: 12px; margin: 1.2rem 0; }
+  .embed-responsive-16by9 { position: relative; aspect-ratio: 16/9; }
+  .embed-responsive-16by9 iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+}
+
+// ── Comments → threaded cards ─────────────────────────────────────────────────
+.post-comments {
+  .media { display: flex; gap: .75rem; margin-bottom: 1rem; align-items: flex-start; }
+  .media-aside img, .media-aside .b-avatar { flex-shrink: 0; }
+  .media-body { flex: 1; min-width: 0; }
+
+  .comment {
+    background: var(--w3-panel);
+    border: 1px solid var(--w3-border);
+    border-radius: 14px;
+    padding: .85rem 1.1rem;
+  }
+  .comment .markdown-view { font-size: .98rem; line-height: 1.65; margin-top: .5rem; }
+  .comment .markdown-view p:last-child { margin-bottom: 0; }
+  .comment .markdown-view img { max-width: 360px; }
+
+  // comment meta (author + time)
+  .comment > time, .comment .small { color: var(--w3-muted); font-size: .82rem; }
+
+  // action row
+  .comment .cursor-pointer { color: var(--w3-muted) !important; text-decoration: none; }
+  .comment .cursor-pointer:hover { color: var(--w3-gold) !important; }
+  .comment .d-flex.align-items-center.small { margin-top: .7rem; gap: .3rem; }
+
+  // nested replies: indent + thread line
+  .media-body .media {
+    margin-top: 1rem; margin-bottom: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--w3-border);
+  }
+  .media-body .media:hover { border-left-color: rgba(245,184,0,.35); }
+}
