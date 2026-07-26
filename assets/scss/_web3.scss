@@ -293,3 +293,28 @@ hr { border-color: var(--w3-border); }
   }
   .media-body .media:hover { border-left-color: rgba(245,184,0,.35); }
 }
+
+/* --- Vote buttons: clear upvote (gold heart) vs downvote (red thumbs-down) ---
+   User feedback (@lazzvi): heart / broken-heart looked identical → near-accidental
+   downvotes. Now a distinct icon + colour + emphasis for each. */
+.btn-vote {
+  background: transparent !important;
+  border: none !important;
+  padding: .1rem .25rem !important;
+  line-height: 1;
+  box-shadow: none !important;
+  transition: transform .12s ease, color .12s ease, filter .12s ease;
+}
+.btn-vote:disabled { opacity: .5; cursor: default; }
+
+.btn-upvote { color: var(--w3-gold) !important; font-size: 1.05rem; }
+.btn-upvote:hover:not(:disabled) { color: #ffd34d !important; transform: scale(1.2); }
+.btn-upvote.voted { color: var(--w3-gold) !important; filter: drop-shadow(0 0 6px rgba(245, 184, 0, .55)); }
+
+.btn-downvote { color: var(--w3-muted) !important; font-size: .92rem; }
+.btn-downvote:hover:not(:disabled) { color: var(--w3-red) !important; transform: scale(1.15); }
+.btn-downvote.voted { color: var(--w3-red) !important; filter: drop-shadow(0 0 6px rgba(224, 31, 38, .5)); }
+
+.vote-count { font-variant-numeric: tabular-nums; font-weight: 700; }
+.vote-count.up { color: var(--w3-gold); }
+.vote-count.down { color: var(--w3-muted); }
