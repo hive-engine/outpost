@@ -35,6 +35,17 @@ export const CHATS_TAG = 'bbh-chat' // tag stamped on every Chat's json_metadata
 // demo, whose blog is only containers). The container cron creates permlinks like
 // `${CHATS_CONTAINER_PREFIX}YYYY-MM-DD`.
 export const CHATS_CONTAINER_PREFIX = process.env.CHATS_CONTAINER_PREFIX || 'bbh-chats-'
+// Aggregated short-form sources for the Chats feed. Each is container-based
+// (short-form posts are replies to a rolling container post). `scheme: 'date'`
+// derives today's permlink deterministically (`${prefix}YYYY-MM-DD`); `'posts'`
+// looks up the account's most-recent posts as containers. `tag` is stamped when
+// posting to that source. Posting targets the *viewed* source's live container.
+export const CHATS_SOURCES = [
+  { key: 'bbh', label: 'BBH Chats', account: 'thebbhproject', scheme: 'date', prefix: 'bbh-chats-', tag: 'bbh-chat', home: true },
+  { key: 'snaps', label: 'Snaps', account: 'peak.snaps', scheme: 'posts', tag: 'snaps' },
+  { key: 'threads', label: 'Threads', account: 'leothreads', scheme: 'posts', tag: 'leofinance' },
+  { key: 'waves', label: 'Waves', account: 'ecency.waves', scheme: 'posts', tag: 'ecency' }
+]
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

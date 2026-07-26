@@ -5,16 +5,30 @@
       <div class="chats-main">
         <div class="chats-header">
           <h1 class="chats-title">Chats</h1>
-          <p class="chats-sub">Short-form posts from the community. Say something.</p>
+          <p class="chats-sub">Short-form from across Hive, in one place. Say something.</p>
+        </div>
+
+        <!-- source selector -->
+        <div class="source-bar">
+          <button
+            v-for="s of sourceTabs"
+            :key="s.key"
+            class="source-pill"
+            :class="{ active: activeSource === s.key }"
+            @click="switchSource(s.key)"
+          >{{ s.label }}</button>
         </div>
 
         <!-- composer -->
-        <chat-composer v-if="auth.loggedIn" ref="composer" :posting="posting" @submit="onComposerSubmit" />
+        <template v-if="auth.loggedIn">
+          <div class="compose-hint">Posting to <strong>{{ composeLabel }}</strong></div>
+          <chat-composer ref="composer" :posting="posting" @submit="onComposerSubmit" />
+        </template>
         <div v-else class="chat-loginbar">
           <nuxt-link :to="{ name: 'login' }">Log in</nuxt-link> to join the conversation.
         </div>
 
-        <!-- tabs -->
+        <!-- sort tabs -->
         <div class="chats-tabs">
           <button class="chats-tab" :class="{ active: tab === 'latest' }" @click="tab = 'latest'">
             <fa-icon icon="bolt" /> Latest
@@ -39,13 +53,13 @@
 
           <template v-else-if="sortedChats.length">
             <transition-group name="chat">
-              <chat-card v-for="chat of sortedChats" :key="`${chat.author}/${chat.permlink}`" :chat="chat" />
+              <chat-card v-for="chat of sortedChats" :key="`${chat.author}/${chat.permlink}`" :chat="chat" :source="sourceLabel(chat._source)" />
             </transition-group>
           </template>
 
           <div v-else class="chats-empty">
             <div class="chats-empty-emoji">💬</div>
-            <p>No chats yet. Be the first!</p>
+            <p>No chats here yet. Be the first!</p>
           </div>
         </div>
       </div>
@@ -57,12 +71,15 @@
 </template>
 
 <script>
-// Short-form "Chats" feed. Chats are top-level comments on rolling container
-// posts published by CHATS_ACCOUNT (the account's newest matching post is the
-// active container). We aggregate the direct replies of the most-recent N
-// containers into one timeline, support Latest/Trending sorting, poll the live
-// container for new chats (Twitter-style "N new" pill), and compose by posting
-// a comment onto the newest container. Reuses ChatComposer/ChatCard/Sidebar.
+// Short-form "Chats" feed — aggregates multiple Hive short-form sources (BBH
+// Chats, PeakD Snaps, InLeo Threads, Ecency Waves) into one timeline. Each source
+// is container-based (posts are replies to a rolling container post). A source
+// selector switches between them (or "All", merged by time). Posting targets the
+// VIEWED source's live container (in "All", our BBH home container).
+//
+// External containers are resolved via a raw JSON-RPC fetch with node failover
+// (bridgeCall) rather than the dhive client, whose namespace routing errors
+// intermittently on bridge.get_account_posts.
 import { mapActions } from 'pinia'
 import ChatCard from '@/components/cards/ChatCard.vue'
 import ChatComposer from '@/components/cards/ChatComposer.vue'
@@ -79,99 +96,92 @@ export default {
   async setup () {
     const config = useRuntimeConfig().public
     const auth = useAuthStore()
-    const { $chain } = useNuxtApp()
 
-    const account = config.CHATS_ACCOUNT
-    const containersToLoad = Number(config.CHATS_CONTAINERS_TO_LOAD) || 3
-    const prefix = config.CHATS_CONTAINER_PREFIX || ''
+    const nodes = Array.isArray(config.NODES) ? config.NODES : []
+    const sources = config.CHATS_SOURCES || []
+    const activeSource = ref('all')
 
-    const fetchDirectChildren = async (client, container) => {
-      const raw = await client.hivemind
-        .call('get_discussion', { author: container.author, permlink: container.permlink })
-        .catch(() => ({}))
-
-      const out = []
-      Object.values(raw || {}).forEach((node) => {
-        if (node.parent_author === container.author && node.parent_permlink === container.permlink) {
-          if (typeof node.json_metadata === 'string') {
-            try { node.json_metadata = JSON.parse(node.json_metadata) } catch { node.json_metadata = {} }
-          }
-          out.push(node)
-        }
-      })
-      return out
+    // Reliable JSON-RPC call with node failover (avoids dhive routing quirks).
+    const bridgeCall = async (method, params) => {
+      for (const node of nodes) {
+        try {
+          const res = await $fetch(node, {
+            method: 'POST',
+            body: { jsonrpc: '2.0', method, params, id: 1 },
+            timeout: 6000
+          })
+          if (res && res.result !== undefined && res.result !== null) { return res.result }
+        } catch { /* try next node */ }
+      }
+      return null
     }
 
-    // Container candidates. When a prefix is set (BBH) we derive the permlinks
-    // DETERMINISTICALLY from the date scheme (`${prefix}YYYY-MM-DD`, UTC) and
-    // resolve them via get_discussion — which is reliable, unlike
-    // bridge.get_account_posts, whose dhive routing errors intermittently by node
-    // (that flakiness is what made the compose target null and the button dead).
-    const buildCandidates = async (client) => {
-      if (prefix) {
+    // Latest container(s) for a source: date-derived (BBH) or the account's posts.
+    const resolveContainers = async (src, count) => {
+      if (src.scheme === 'date') {
         const now = new Date()
         const out = []
-        for (let i = 0; i < containersToLoad; i++) {
+        for (let i = 0; i < count; i++) {
           const d = new Date(now)
           d.setUTCDate(now.getUTCDate() - i)
-          out.push({ author: account, permlink: `${prefix}${d.toISOString().slice(0, 10)}` })
+          out.push({ author: src.account, permlink: `${src.prefix}${d.toISOString().slice(0, 10)}` })
         }
         return out
       }
-      // No prefix (demo/generic): best-effort account posts as containers.
-      try {
-        const recent = await client.hivemind.call('get_account_posts', { sort: 'posts', account, limit: containersToLoad })
-        return (Array.isArray(recent) ? recent : []).slice(0, containersToLoad).map(p => ({ author: p.author, permlink: p.permlink }))
-      } catch {
-        return []
-      }
+      const recent = await bridgeCall('bridge.get_account_posts', { sort: 'posts', account: src.account, limit: count })
+      return (Array.isArray(recent) ? recent : []).slice(0, count).map(p => ({ author: p.author, permlink: p.permlink }))
     }
 
-    const { data, pending, refresh } = await useAsyncData(`chats-${account}`, async () => {
-      const client = $chain.getClient()
-      const candidates = await buildCandidates(client)
-
-      if (candidates.length === 0) {
-        return { chats: [], container: null }
-      }
-
-      // Resolve each candidate via get_discussion; keep the ones that exist on-chain.
-      const results = await Promise.all(candidates.map(async (c) => {
-        const raw = await client.hivemind
-          .call('get_discussion', { author: c.author, permlink: c.permlink })
-          .catch(() => null)
-
-        const exists = !!(raw && raw[`${c.author}/${c.permlink}`])
-        const children = []
-
-        if (exists) {
-          Object.values(raw).forEach((node) => {
-            if (node.parent_author === c.author && node.parent_permlink === c.permlink) {
-              if (typeof node.json_metadata === 'string') {
-                try { node.json_metadata = JSON.parse(node.json_metadata) } catch { node.json_metadata = {} }
-              }
-              children.push(node)
-            }
-          })
+    // Direct replies of a container = the short-form posts (light: direct children).
+    const fetchReplies = async (container, sourceKey) => {
+      const replies = await bridgeCall('condenser_api.get_content_replies', [container.author, container.permlink])
+      const out = []
+      if (Array.isArray(replies)) {
+        for (const node of replies) {
+          if (typeof node.json_metadata === 'string') {
+            try { node.json_metadata = JSON.parse(node.json_metadata) } catch { node.json_metadata = {} }
+          }
+          node._source = sourceKey
+          out.push(node)
         }
+      }
+      return out
+    }
 
-        return { container: c, exists, children }
+    const loadFeed = async (sourceKey) => {
+      const active = sourceKey === 'all' ? sources : sources.filter(s => s.key === sourceKey)
+      // "All" pulls just the latest container per source (keeps the merged feed
+      // snappy — some containers hold hundreds of replies); single-source views
+      // go a few containers deep.
+      const perSource = sourceKey === 'all' ? 1 : 3
+
+      const results = await Promise.all(active.map(async (src) => {
+        const containers = await resolveContainers(src, perSource)
+        const lists = await Promise.all(containers.map(c => fetchReplies(c, src.key)))
+        return { key: src.key, containers, chats: lists.flat() }
       }))
 
-      const existing = results.filter(r => r.exists)
-      const chats = existing.flatMap(r => r.children)
-
+      let chats = results.flatMap(r => r.chats)
       chats.sort((a, b) => new Date(`${b.created}Z`) - new Date(`${a.created}Z`))
+      chats = chats.slice(0, sourceKey === 'all' ? 60 : 80)
 
-      // Compose target = newest existing container (candidates are today-first).
-      const container = existing[0]?.container || null
+      // Compose target: the viewed source's newest container ("All" → BBH home).
+      const composeKey = sourceKey === 'all' ? ((sources.find(s => s.home) || sources[0] || {}).key) : sourceKey
+      const composeResult = results.find(r => r.key === composeKey)
+      const container = (composeResult && composeResult.containers[0]) || null
 
-      return { chats, container }
-    }, { default: () => ({ chats: [], container: null }) })
+      return { chats, container, composeKey }
+    }
+
+    const { data, pending, refresh } = await useAsyncData(
+      'chats-feed',
+      () => loadFeed(activeSource.value),
+      { watch: [activeSource], default: () => ({ chats: [], container: null, composeKey: 'bbh' }) }
+    )
 
     useHead({ title: 'Chats' })
 
-    return { config, auth, data, pending, refresh, account, fetchDirectChildren, $chain }
+    return { config, auth, sources, activeSource, data, pending, refresh, bridgeCall, fetchReplies }
   },
 
   data () {
@@ -185,8 +195,24 @@ export default {
   },
 
   computed: {
+    sourceTabs () {
+      return [{ key: 'all', label: 'All' }, ...this.sources.map(s => ({ key: s.key, label: s.label }))]
+    },
+
     container () {
       return this.data?.container || null
+    },
+
+    composeKey () {
+      return this.data?.composeKey || 'bbh'
+    },
+
+    composeSource () {
+      return this.sources.find(s => s.key === this.composeKey) || this.sources[0] || {}
+    },
+
+    composeLabel () {
+      return this.composeSource.label || 'BBH Chats'
     },
 
     allChats () {
@@ -213,14 +239,10 @@ export default {
 
   mounted () {
     this.$eventBus.$on('comment-publish-successful', this.onPublished)
-    // Reset the posting state if the broadcast fails or the user cancels Keychain.
     this.$eventBus.$on('transaction-broadcast-error', this.onBroadcastError)
 
-    // If the container didn't resolve during SSR (transient RPC hiccup), retry
-    // once on the client so the composer has a valid target.
     if (!this.container) { this.refresh() }
 
-    // Poll the live container for fresh chats (client-only).
     this.pollTimer = setInterval(this.pollNew, 30000)
   },
 
@@ -232,6 +254,21 @@ export default {
 
   methods: {
     ...mapActions(usePostStore, ['requestBroadcastPost']),
+
+    sourceLabel (key) {
+      if (!key || this.activeSource !== 'all') { return '' }
+      const s = this.sources.find(x => x.key === key)
+      return s ? s.label : ''
+    },
+
+    switchSource (key) {
+      if (key === this.activeSource) { return }
+      this.activeSource = key
+      // Feed is source-specific — clear optimistic/pending buffers.
+      this.localChats = []
+      this.pendingChats = []
+      this.tab = 'latest'
+    },
 
     score (chat) {
       const rshares = parseFloat(chat.net_rshares || chat.vote_rshares || 0) || 0
@@ -245,18 +282,14 @@ export default {
       if (!this.container) { return }
 
       try {
-        const client = this.$chain.getClient()
-        const children = await this.fetchDirectChildren(client, this.container)
+        const fresh = (await this.fetchReplies(this.container, this.composeKey))
+          .filter(c => !this.knownKeys.has(`${c.author}/${c.permlink}`))
 
-        const fresh = children.filter(c => !this.knownKeys.has(`${c.author}/${c.permlink}`))
         if (fresh.length) {
-          // newest first, cap the buffer
           fresh.sort((a, b) => new Date(`${b.created}Z`) - new Date(`${a.created}Z`))
           this.pendingChats = [...fresh, ...this.pendingChats].slice(0, 50)
         }
-      } catch {
-        // ignore transient poll failures
-      }
+      } catch { /* ignore transient poll failures */ }
     },
 
     onBroadcastError () {
@@ -264,7 +297,6 @@ export default {
     },
 
     showNew () {
-      // Move pending into the live feed (dedupe against our own optimistic ones).
       const have = new Set(this.localChats.map(c => `${c.author}/${c.permlink}`))
       const add = this.pendingChats.filter(c => !have.has(`${c.author}/${c.permlink}`))
       this.localChats = [...add, ...this.localChats]
@@ -275,13 +307,10 @@ export default {
     async onComposerSubmit ({ body, images }) {
       if (this.posting) { return }
 
-      // Container must be resolved to post into. If it's missing (rare — RPC
-      // hiccup or the daily container not created yet), retry once, then tell the
-      // user instead of failing silently.
       if (!this.container) {
         await this.refresh()
         if (!this.container) {
-          this.$notify({ title: 'Just a moment', type: 'warn', text: "Couldn't reach today's Chats container. Please refresh and try again." })
+          this.$notify({ title: 'Just a moment', type: 'warn', text: `Couldn't reach the ${this.composeLabel} container. Please refresh and try again.` })
           return
         }
       }
@@ -296,11 +325,9 @@ export default {
       this.posting = true
 
       const permlink = `re-${this.container.author}-${Date.now().toString(36)}`
+      const tags = [...new Set([this.composeSource.tag, this.config.SCOT_TAG].filter(Boolean))]
 
-      const metadata = {
-        tags: [this.config.CHATS_TAG, this.config.SCOT_TAG].filter(Boolean),
-        format: 'markdown'
-      }
+      const metadata = { tags, format: 'markdown', app: this.config.APP }
       if (images && images.length) { metadata.image = images }
 
       this.requestBroadcastPost({
@@ -338,7 +365,8 @@ export default {
         pending_payout_value: '0.000 HBD',
         author_reputation: 25,
         active_votes: [],
-        json_metadata: payload.json_metadata || {}
+        json_metadata: payload.json_metadata || {},
+        _source: this.composeKey
       })
 
       this.tab = 'latest'
@@ -388,6 +416,43 @@ export default {
 }
 .chats-sub { color: var(--w3-muted); margin: .2rem 0 0; font-size: .95rem; }
 
+/* source selector */
+.source-bar {
+  display: flex;
+  gap: .45rem;
+  padding: .7rem clamp(.9rem, 3vw, 1.4rem);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--w3-border);
+  scrollbar-width: none;
+}
+.source-bar::-webkit-scrollbar { display: none; }
+.source-pill {
+  flex: 0 0 auto;
+  border: 1px solid var(--w3-border);
+  background: var(--w3-panel);
+  color: var(--w3-muted);
+  font-weight: 700;
+  font-size: .85rem;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.source-pill:hover { color: var(--w3-text); border-color: rgba(245, 184, 0, .4); }
+.source-pill.active {
+  color: #1a1206;
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d);
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(245, 184, 0, .3);
+}
+
+.compose-hint {
+  padding: .6rem clamp(.9rem, 3vw, 1.4rem) 0;
+  font-size: .8rem;
+  color: var(--w3-muted);
+}
+.compose-hint strong { color: var(--w3-gold); }
+
 .chat-loginbar {
   padding: 1.1rem clamp(.9rem, 3vw, 1.4rem);
   border-bottom: 1px solid var(--w3-border);
@@ -395,7 +460,7 @@ export default {
 }
 .chat-loginbar a { color: var(--w3-gold); font-weight: 600; }
 
-/* tabs */
+/* sort tabs */
 .chats-tabs {
   display: flex;
   position: sticky;
