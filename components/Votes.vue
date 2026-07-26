@@ -2,31 +2,31 @@
   <div>
     <div class="d-flex align-items-center">
       <div class="d-flex align-items-center me-4">
-        <button v-if="!isUpvoted" :id="`${id}-vote`" class="btn-vote" :disabled="!auth.loggedIn">
+        <button v-if="!isUpvoted" :id="`${id}-vote`" class="btn-vote btn-upvote" title="Upvote" :disabled="!auth.loggedIn">
           <fa-icon v-if="!pending" icon="heart" />
           <fa-icon v-else icon="circle-notch" class="fa-spin" />
         </button>
 
-        <button v-else class="btn-vote" @click.prevent="requestBroadcastVote({author, permlink, weight: 0})">
-          <fa-icon icon="heart" class="text-info" />
+        <button v-else class="btn-vote btn-upvote voted" title="Remove upvote" @click.prevent="requestBroadcastVote({author, permlink, weight: 0})">
+          <fa-icon icon="heart" />
         </button>
 
-        <div :id="`${id}-upvotes`" class="cursor-pointer">
+        <div :id="`${id}-upvotes`" class="cursor-pointer vote-count up">
           {{ upVotes.length }}
         </div>
       </div>
 
       <div class="d-flex align-items-center me-4">
-        <button v-if="!isDownvoted" :id="`${id}-downvote`" class="btn-vote" :disabled="!auth.loggedIn">
-          <fa-icon v-if="!dvPending" icon="heart-broken" />
+        <button v-if="!isDownvoted" :id="`${id}-downvote`" class="btn-vote btn-downvote" title="Downvote" :disabled="!auth.loggedIn">
+          <fa-icon v-if="!dvPending" icon="thumbs-down" />
           <fa-icon v-else icon="circle-notch" class="fa-spin" />
         </button>
 
-        <button v-else class="btn-vote" @click.prevent="requestBroadcastVote({author, permlink, weight: 0})">
-          <fa-icon icon="heart-broken" class="text-danger" />
+        <button v-else class="btn-vote btn-downvote voted" title="Remove downvote" @click.prevent="requestBroadcastVote({author, permlink, weight: 0})">
+          <fa-icon icon="thumbs-down" />
         </button>
 
-        <div :id="`${id}-downvotes`" class="cursor-pointer">
+        <div :id="`${id}-downvotes`" class="cursor-pointer vote-count down">
           {{ downVotes.length }}
         </div>
       </div>
