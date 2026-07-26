@@ -238,7 +238,7 @@ export const useUserStore = defineStore('user', {
     },
 
     async uploadFile (file) {
-      const { $chain, $api } = this.$nuxt
+      const { $chain } = this.$nuxt
       const config = useRuntimeConfig().public
       const authStore = useAuthStore()
 
@@ -278,9 +278,20 @@ export const useUserStore = defineStore('user', {
         }
 
         if (sig) {
-          const { url } = await $api.$post(`${config.IMAGE_UPLOAD_SERVER}/${authStore.user.username}/${sig}`, formData)
+          // Plain cross-origin multipart POST to images.hive.blog. Must NOT use the
+          // app's $api instance: its withCredentials + X-CSRF-Token header trigger a
+          // CORS preflight that images.hive.blog rejects (upload fails). fetch with a
+          // FormData body sets the correct multipart boundary itself.
+          const res = await fetch(`${config.IMAGE_UPLOAD_SERVER}/${authStore.user.username}/${sig}`, {
+            method: 'POST',
+            body: formData
+          })
 
-          return url
+          if (!res.ok) { throw new Error(`Image server responded ${res.status}`) }
+
+          const json = await res.json()
+
+          return json && json.url ? json.url : null
         }
       } catch (e) {
         console.log(e.message)
