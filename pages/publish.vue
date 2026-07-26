@@ -180,7 +180,7 @@
             </b-card>
           </b-col>
 
-          <b-col class="mt-5" lg="6">
+          <b-col class="mt-5 publish-preview-col" lg="6">
             <b-card :title="title !== '' ? title : 'Preview'" class="h-100">
               <template v-if="!isEditing">
                 <div v-if="!editPermlink" class="d-flex mb-2">
