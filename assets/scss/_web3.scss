@@ -318,3 +318,28 @@ hr { border-color: var(--w3-border); }
 .vote-count { font-variant-numeric: tabular-nums; font-weight: 700; }
 .vote-count.up { color: var(--w3-gold); }
 .vote-count.down { color: var(--w3-muted); }
+
+/* Tag inputs (b-form-tags + custom TagInput): text was dark-on-dark while typing
+   (user feedback). Make the typed text light and the placeholder muted. */
+.b-form-tags .b-form-tags-input,
+.b-form-tags input,
+.tag-input {
+  color: var(--w3-text) !important;
+  background: transparent !important;
+}
+.b-form-tags .b-form-tags-input::placeholder,
+.b-form-tags input::placeholder,
+.tag-input::placeholder { color: var(--w3-muted) !important; }
+
+/* Long-form editor: let the write column and the preview scroll independently
+   (user feedback). On wide screens the preview column sticks + scrolls on its own,
+   so scrolling the editor no longer drags the preview away. */
+@media (min-width: 992px) {
+  .publish-preview-col {
+    position: sticky;
+    top: 84px;
+    align-self: flex-start;
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+  }
+}
