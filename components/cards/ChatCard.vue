@@ -13,6 +13,7 @@
         <nuxt-link class="chat-time" :to="{ name: 'user-post', params: { user: chat.author, post: chat.permlink } }">
           <timeago :datetime="createdAt" :title="createdAt.toLocaleString()" :auto-update="60" />
         </nuxt-link>
+        <span v-if="source" class="chat-source">{{ source }}</span>
       </div>
 
       <markdown-viewer v-if="displayBody" class="chat-body" :text="displayBody" />
@@ -88,7 +89,8 @@ export default {
   components: { Author, Comment, ChatImages, MarkdownViewer, ReplyEditor, Votes, Loading, Timeago },
 
   props: {
-    chat: { type: Object, required: true }
+    chat: { type: Object, required: true },
+    source: { type: String, default: '' }
   },
 
   setup () {
@@ -246,6 +248,17 @@ export default {
 .chat-dot { color: var(--w3-muted); }
 .chat-time { color: var(--w3-muted); font-size: .85rem; text-decoration: none; }
 .chat-time:hover { color: var(--w3-text); }
+.chat-source {
+  margin-left: auto;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--w3-muted);
+  border: 1px solid var(--w3-border);
+  border-radius: 999px;
+  padding: .1rem .5rem;
+}
 
 .chat-body { word-break: break-word; font-size: 1.02rem; }
 .chat-body :deep(p:last-child) { margin-bottom: 0; }
