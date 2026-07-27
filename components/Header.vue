@@ -18,6 +18,9 @@
           <b-nav-item v-if="config.CHATS_ENABLED" :to="{ name: 'chats' }">
             Chats
           </b-nav-item>
+          <b-nav-item :to="{ name: 'shorts' }">
+            Shorts
+          </b-nav-item>
           <b-nav-item v-if="config.CURATED_FEED && config.CURATED_FEED_ACCOUNT !== ''" :to="{ name: 'sort', params: { sort: 'curated' } }">
             Curator's Pick
           </b-nav-item>
