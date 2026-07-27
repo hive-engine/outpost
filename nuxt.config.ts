@@ -3,6 +3,18 @@
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import * as tribeConfig from './config'
 
+// Analytics (PRODUCTION ONLY): self-hosted Umami + Google Analytics. Guarded on
+// the production domain so dev/staging traffic never pollutes prod stats. These
+// were in the Nuxt 2 head and must be preserved through the migration.
+const APP_DOMAIN = process.env.APP_DOMAIN || tribeConfig.APP_DOMAIN
+const TRACKING_SCRIPTS = APP_DOMAIN === 'https://www.thebbhproject.com'
+  ? [
+      { src: 'https://www.googletagmanager.com/gtag/js?id=G-RXPYJVHM4X', async: true },
+      { src: '/js/ga.js' },
+      { src: '/u.js', defer: true, 'data-website-id': 'bab55116-61ad-46a9-818f-d29b209fe8f7', 'data-host-url': 'https://www.thebbhproject.com' }
+    ]
+  : []
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   ssr: true,
@@ -24,7 +36,8 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap' }
-      ]
+      ],
+      script: TRACKING_SCRIPTS
     }
   },
 
