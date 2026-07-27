@@ -46,6 +46,19 @@ export const CHATS_SOURCES = [
   { key: 'threads', label: 'Threads', account: 'leothreads', scheme: 'posts', tag: 'leofinance' },
   { key: 'waves', label: 'Waves', account: 'ecency.waves', scheme: 'posts', tag: 'ecency' }
 ]
+// --- 3Speak video/shorts integration ---------------------------------------
+export const THREESPEAK_ENABLED = true
+export const THREESPEAK_EMBED_HOST = 'https://embed2.3speak.tv' // upload + bridge
+export const THREESPEAK_PLAYER = 'https://play.3speak.tv/embed'
+export const THREESPEAK_APP = 'thebbhproject' // frontend_app (unlisted on 3speak.tv)
+export const THREESPEAK_COMMUNITY = 'hive-181335' // 3Speak community (post parent)
+export const THREESPEAK_SHORTS_MAX_SEC = 120
+// MANDATORY beneficiaries on every embed upload (sorted by account ascending):
+// 10% threespeakfund + 1% encoder.pay. Weights are 1/100th of a %.
+export const THREESPEAK_BENEFICIARIES = [
+  { account: 'encoder.pay', weight: 100 },
+  { account: 'threespeakfund', weight: 1000 }
+]
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

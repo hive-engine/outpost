@@ -3,6 +3,9 @@
     <div class="shorts-topbar">
       <h1 class="shorts-title"><fa-icon icon="film" /> Shorts</h1>
       <span class="shorts-sub">Vertical video from across Hive · powered by 3Speak</span>
+      <nuxt-link v-if="auth.loggedIn" class="shorts-upload" :to="{ name: 'upload' }">
+        <fa-icon icon="plus" /> Upload
+      </nuxt-link>
     </div>
 
     <loading v-if="loading && !shorts.length" />
@@ -63,6 +66,7 @@
 // time and the page stays light. Each short links to its Hive post for
 // comments/votes on our own site.
 import Loading from '@/components/Loading.vue'
+import { useAuthStore } from '~/stores/auth'
 
 const CHECKER = 'https://checker.3speak.tv'
 
@@ -73,8 +77,9 @@ export default {
 
   setup () {
     const config = useRuntimeConfig().public
+    const auth = useAuthStore()
     useHead({ title: 'Shorts' })
-    return { config }
+    return { config, auth }
   },
 
   data () {
@@ -207,6 +212,17 @@ export default {
   -webkit-text-fill-color: transparent;
 }
 .shorts-sub { color: var(--w3-muted); font-size: .85rem; }
+.shorts-upload {
+  margin-left: auto;
+  padding: .35rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .85rem;
+  text-decoration: none;
+  color: #1a1206;
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d);
+}
+.shorts-upload:hover { filter: brightness(1.05); }
 
 /* vertical snap scroller */
 .shorts-scroller {
