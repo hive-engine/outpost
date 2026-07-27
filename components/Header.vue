@@ -45,6 +45,10 @@
           </b-nav-item>
 
           <template v-if="auth.loggedIn">
+            <b-nav-item :to="{ name: 'notifications' }" link-classes="navbar-btn rounded" title="Notifications">
+              <fa-icon icon="bell" />
+            </b-nav-item>
+
             <b-nav-item :to="{ name: 'publish' }" link-classes="navbar-btn rounded">
               <fa-icon icon="pencil-alt" />
             </b-nav-item>
