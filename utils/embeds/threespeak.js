@@ -1,8 +1,10 @@
 const regex = {
+  // Accept the current player host (play.3speak.tv/embed) as well as the legacy
+  // 3speak.tv/embed and 3speak.tv/watch forms.
   // eslint-disable-next-line no-useless-escape
-  sanitize: /^https:\/\/3speak\.(tv|online|co)\/embed\?v=([A-Za-z0-9_\-\/]+)(&.*)?$/,
+  sanitize: /^https:\/\/(?:play\.)?3speak\.(tv|online|co)\/embed\?v=([A-Za-z0-9_\-\/]+)(&.*)?$/,
   // eslint-disable-next-line no-useless-escape
-  main: /(?:https?:\/\/(?:(?:3speak\.(tv|online|co)\/watch\?v=)|(?:3speak\.tv\/embed\?v=)))([A-Za-z0-9_\-\/]+)(&.*)?/i,
+  main: /(?:https?:\/\/(?:(?:3speak\.(tv|online|co)\/watch\?v=)|(?:(?:play\.)?3speak\.tv\/embed\?v=)))([A-Za-z0-9_\-\/]+)(&.*)?/i,
   // eslint-disable-next-line no-useless-escape
   htmlReplacement: /<a href="(https?:\/\/3speak\.(tv|online|co)\/watch\?v=([A-Za-z0-9_\-\/]+))".*<img.*?><\/a>/i,
   embedShorthand: /~~~ embed:(.*?)\/(.*?) threespeak ~~~/
@@ -73,7 +75,7 @@ export function embedNode (child, links, images) {
 }
 
 export function genIframeMd (idx, threespeakId, width, height, metadata, createElement) {
-  const src = `https://3speak.tv/embed?v=${threespeakId}`
+  const src = `https://play.3speak.tv/embed?v=${threespeakId}`
 
   return createElement('iframe', {
     class: 'embed-responsive-item',
