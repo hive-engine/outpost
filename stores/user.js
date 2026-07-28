@@ -7,6 +7,7 @@ import { decrypt as WCDecrypt } from '~/utils/web-crypto'
 import { useAuthStore } from '~/stores/auth'
 import { useTribeStore } from '~/stores/tribe'
 import { useNftMarketplaceStore } from '~/stores/nftmarketplace'
+import { authenticate as hiveAuthAuthenticate, challenge as hiveAuthChallenge, clearSession as clearHiveAuthSession } from '~/utils/auth/hiveauth'
 
 export const useUserStore = defineStore('user', {
   state: () => {
@@ -82,9 +83,37 @@ export const useUserStore = defineStore('user', {
 
       window.hive_keychain.requestSignBuffer(username, `${username}${ts}`, 'Posting', async (r) => {
         if (r.success) {
-          await this.processLogin({ username, ts, sig: r.result, nftmarketplace })
+          await this.processLogin({ username, ts, sig: r.result, method: 'keychain', nftmarketplace })
         }
       })
+    },
+
+    // HiveAuth login — authenticate + sign the login challenge in one approval.
+    // `onWait({ uuid, expire, deeplink })` fires so the UI can show the QR/deeplink.
+    async loginWithHiveAuth ({ username, onWait, nftmarketplace = false }) {
+      if (!username) { return }
+
+      const ts = Date.now()
+
+      try {
+        const { signature } = await hiveAuthAuthenticate({
+          username,
+          challenge: `${username}${ts}`,
+          keyType: 'posting',
+          onWait
+        })
+
+        if (!signature) { throw new Error('HiveAuth did not return a signature.') }
+
+        await this.processLogin({ username, ts, sig: signature, method: 'hiveauth', nftmarketplace })
+        return true
+      } catch (e) {
+        clearHiveAuthSession()
+        const { $eventBus } = this.$nuxt
+        const message = e && /expired/i.test(e.message || '') ? 'HiveAuth request expired — please try again.' : (e?.message || 'HiveAuth login was cancelled.')
+        if ($eventBus) { $eventBus.$emit('hiveauth-login-error', { error: message }) }
+        return false
+      }
     },
 
     async loginWithKey ({ username, wif, nftmarketplace = false }) {
@@ -108,23 +137,24 @@ export const useUserStore = defineStore('user', {
         const privateKey = $chain.PrivateKey.fromString(key)
         const sig = privateKey.sign(Buffer.from($chain.cryptoUtils.sha256(username + ts))).toString()
 
-        await this.processLogin({ username, ts, sig, smartlock: true, nftmarketplace })
+        await this.processLogin({ username, ts, sig, smartlock: true, method: 'smartlock', nftmarketplace })
       } catch (e) {
         console.log(e)
       }
     },
 
-    async processLogin ({ username, ts, sig, smartlock = false, nftmarketplace }) {
+    async processLogin ({ username, ts, sig, smartlock = false, method = 'keychain', nftmarketplace }) {
       if (!nftmarketplace) {
         try {
           const authStore = useAuthStore()
 
-          const { data } = await authStore.login({ data: { username, ts, sig, smartlock } })
+          const { data } = await authStore.login({ data: { username, ts, sig, smartlock, method } })
 
-          authStore.user = { ...data, smartlock } // was this.$auth.setUser(...)
+          authStore.user = { ...data, smartlock, method } // was this.$auth.setUser(...)
 
           localStorage.setItem('username', username)
           localStorage.setItem('smartlock', smartlock)
+          localStorage.setItem('login-method', method)
 
           await Promise.all([
             this.fetchFollowers(username),
@@ -267,6 +297,10 @@ export const useUserStore = defineStore('user', {
           const privateKey = $chain.PrivateKey.fromString(key)
 
           sig = privateKey.sign(Buffer.from($chain.cryptoUtils.sha256(buf))).toString()
+        } else if (authStore.user.method === 'hiveauth') {
+          // Sign the same message string as the Keychain path so the signature is
+          // interchangeable at images.hive.blog. Approved in the user's PKSA app.
+          sig = await hiveAuthChallenge(JSON.stringify(buf), 'posting')
         } else {
           const response = await new Promise((resolve, reject) => {
             (window[config.IS_HIVE ? 'hive_keychain' : 'steem_keychain']).requestSignBuffer(authStore.user.username, JSON.stringify(buf), 'Posting', (response) => {

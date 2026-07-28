@@ -19,7 +19,11 @@ export default defineEventHandler(async (event) => {
     hiveClient = new Client([...config.public.NODES])
   }
 
-  const { username, sig, ts, smartlock } = await readBody(event)
+  const { username, sig, ts, smartlock, method } = await readBody(event)
+
+  // Signer used ('keychain' | 'smartlock' | 'hiveauth') — stored so the client
+  // routes broadcasts to the right signer after a reload. Validated to a known set.
+  const loginMethod = ['keychain', 'smartlock', 'hiveauth'].includes(method) ? method : (smartlock ? 'smartlock' : 'keychain')
 
   if (process.env.NODE_ENV === 'production') {
     const timeDifference = differenceInMinutes(Date.now(), ts)
@@ -77,9 +81,9 @@ export default defineEventHandler(async (event) => {
     if (validSignature) {
       const session = await getAppSession(event)
 
-      await session.update({ user: username, smartlock })
+      await session.update({ user: username, smartlock, method: loginMethod })
 
-      return { username, smartlock }
+      return { username, smartlock, method: loginMethod }
     }
   } catch (e) {
     return { error: e.message }

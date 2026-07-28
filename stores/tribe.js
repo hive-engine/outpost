@@ -7,6 +7,7 @@ import { useAuthStore } from '~/stores/auth'
 import { useUserStore } from '~/stores/user'
 import { useNftMarketplaceStore } from '~/stores/nftmarketplace'
 import { useUiStore } from '~/stores/ui'
+import { broadcast as hiveAuthBroadcast } from '~/utils/auth/hiveauth'
 
 const requestKeychain = (fn, ...args) => {
   return new Promise((resolve) => {
@@ -22,6 +23,32 @@ const requestKeychain = (fn, ...args) => {
       return resolve({ success: false, msg: r.message, ...r })
     })
   })
+}
+
+// Broadcast operations through HiveAuth, normalised to the same shape as
+// requestKeychain so callers' success/cancel handling is identical regardless of
+// which signer the user logged in with.
+const requestHiveAuth = async (operations, keyType) => {
+  try {
+    const res = await hiveAuthBroadcast(operations, keyType)
+    return { success: true, result: (res && res.data) || res, msg: 'ok' }
+  } catch (e) {
+    const raw = (e && (e.message || e.error)) || ''
+    const cancel = /cancel|reject|nack/i.test(String(raw) || JSON.stringify(e || {}))
+    return { success: false, cancel, msg: raw || 'HiveAuth request was not approved.' }
+  }
+}
+
+// Build a custom_json operation for HiveAuth (Keychain has a dedicated
+// requestCustomJson; for HiveAuth we broadcast the raw op).
+const customJsonOp = (username, id, keyType, json) => {
+  const kt = String(keyType).toLowerCase()
+  return ['custom_json', {
+    required_auths: kt === 'active' ? [username] : [],
+    required_posting_auths: kt === 'posting' ? [username] : [],
+    id,
+    json: JSON.stringify(json)
+  }]
 }
 
 // Legacy Vuex allowed passing (possibly namespaced) mutation names into the broadcast
@@ -165,7 +192,9 @@ export const useTribeStore = defineStore('tribe', {
             atLeastOneCancelled = true
           }
         } else {
-          const { success, cancel, result, msg } = await requestKeychain('requestCustomJson', username, id, keyType, JSON.stringify(json), message)
+          const { success, cancel, result, msg } = authStore.user.method === 'hiveauth'
+            ? await requestHiveAuth([customJsonOp(username, id, keyType, json)], keyType)
+            : await requestKeychain('requestCustomJson', username, id, keyType, JSON.stringify(json), message)
 
           if (success) {
             console.log(msg)
@@ -253,6 +282,20 @@ export const useTribeStore = defineStore('tribe', {
 
             $eventBus.$emit('transaction-broadcast-error', { error: e.message, data: emitData })
           })
+      } else if (authStore.user.method === 'hiveauth') {
+        requestHiveAuth([customJsonOp(username, id, keyType, json)], keyType).then(({ success, result, msg }) => {
+          if (success) {
+            if (eventName) {
+              $eventBus.$emit(eventName, emitData || result)
+            }
+
+            if (mutation) {
+              commitMutation(this, mutation, mutationData)
+            }
+          } else {
+            $eventBus.$emit('transaction-broadcast-error', { error: msg, data: emitData })
+          }
+        })
       } else {
         window[IS_HIVE ? 'hive_keychain' : 'steem_keychain'].requestCustomJson(username, id, keyType, JSON.stringify(json), message, (r) => {
           if (r.success) {
@@ -322,6 +365,20 @@ export const useTribeStore = defineStore('tribe', {
 
             $eventBus.$emit('transaction-broadcast-error', { error: e.message, data: emitData })
           })
+      } else if (authStore.user.method === 'hiveauth') {
+        requestHiveAuth(operations, keyType).then(({ success, result, msg }) => {
+          if (success) {
+            if (emitEvent) {
+              $eventBus.$emit(emitEvent, emitData || result)
+            }
+
+            if (mutation) {
+              commitMutation(this, mutation, mutationData)
+            }
+          } else {
+            $eventBus.$emit('transaction-broadcast-error', { error: msg, data: emitData })
+          }
+        })
       } else {
         window[IS_HIVE ? 'hive_keychain' : 'steem_keychain'].requestBroadcast(username, operations, keyType, (r) => {
           if (r.success) {

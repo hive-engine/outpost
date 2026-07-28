@@ -4,9 +4,16 @@
       <h1 class="upload-title"><fa-icon icon="film" /> Upload to 3Speak</h1>
       <p class="upload-sub">Publish a video or short to Hive via 3Speak — right from The BBH Project.</p>
 
+      <client-only>
+        <b-alert v-if="isInAppBrowser" :model-value="true" variant="warning" class="small text-start">
+          <b>Heads up:</b> uploading video doesn't work inside the Hive Keychain in-app browser.
+          Open <b>thebbhproject.com</b> in Safari or Chrome and log in with <b>HiveAuth</b> to upload.
+        </b-alert>
+      </client-only>
+
       <div v-if="!auth.loggedIn" class="upload-login">
         <fa-icon icon="video" class="drop-icon" />
-        <p>Log in with Hive Keychain to upload a video.</p>
+        <p>Log in with Hive Keychain or HiveAuth to upload a video.</p>
         <b-button variant="primary" @click="ui.showModal('loginModal')">Log in</b-button>
       </div>
 
@@ -70,6 +77,7 @@ import { mapActions } from 'pinia'
 import { useAuthStore } from '~/stores/auth'
 import { useTribeStore } from '~/stores/tribe'
 import { useUiStore } from '~/stores/ui'
+import { useInAppBrowser } from '~/composables/useInAppBrowser'
 
 const slugify = (s) => (s || '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40)
@@ -81,8 +89,9 @@ export default {
     const config = useRuntimeConfig().public
     const auth = useAuthStore()
     const ui = useUiStore()
+    const { isInAppBrowser } = useInAppBrowser()
     useHead({ title: 'Upload to 3Speak' })
-    return { config, auth, ui }
+    return { config, auth, ui, isInAppBrowser }
   },
 
   data () {

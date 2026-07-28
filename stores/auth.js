@@ -4,6 +4,7 @@
 // login({ data }), logout, fetchUser) so legacy `$auth` call sites port 1:1.
 // Server endpoints are the same Express ones until P2 ports them to Nitro.
 import { defineStore } from 'pinia'
+import { clearSession as clearHiveAuthSession } from '~/utils/auth/hiveauth'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -26,7 +27,7 @@ export const useAuthStore = defineStore('auth', {
         const result = await $api.$post('/api/v1/login', data)
 
         if (result && result.username) {
-          this.user = { username: result.username, smartlock: result.smartlock }
+          this.user = { username: result.username, smartlock: result.smartlock, method: result.method || 'keychain' }
         }
 
         return { data: result }
@@ -43,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
         const result = await $api.$post('/api/v1/me')
 
         this.user = result && result.username
-          ? { username: result.username, smartlock: result.smartlock }
+          ? { username: result.username, smartlock: result.smartlock, method: result.method || 'keychain' }
           : null
       } catch {
         this.user = null
@@ -59,6 +60,8 @@ export const useAuthStore = defineStore('auth', {
         await $api.$post('/api/v1/logout')
       } finally {
         this.user = null
+        clearHiveAuthSession()
+        try { localStorage.removeItem('login-method') } catch { /* ignore */ }
       }
     }
   }
