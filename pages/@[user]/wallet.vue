@@ -670,19 +670,24 @@ export default {
     async fetchAccountHistory () {
       const { user: account } = this.$route.params
 
+      // NOTE: history.hive-engine.com is a *different* origin. Must NOT use the app's
+      // $api instance — its withCredentials + X-CSRF-Token header trigger a CORS
+      // preflight the history server rejects, which left this section blank. Plain
+      // $fetch sends no credentials/custom headers. Each source is caught
+      // independently so one failing doesn't wipe out the other.
       const [accountHistory, scotHistory] = await Promise.all([
-        this.$api.$get(`${this.config.SIDECHAIN_HISTORY_API}/accountHistory`, {
-          params: {
+        $fetch(`${this.config.SIDECHAIN_HISTORY_API}/accountHistory`, {
+          query: {
             account,
             limit: 50,
             ops: 'tokens_transfer,tokens_stake,tokens_delegate,tokens_unstakeStart,tokens_unstakeDone,tokens_cancelUnstake,tokens_undelegateStart,tokens_undelegateDone',
             symbol: this.config.TOKEN
           }
-        }),
-        this.$scot.$get('get_account_history', { params: { account, limit: 50 } })
+        }).catch(() => []),
+        this.$scot.$get('get_account_history', { params: { account, limit: 50 } }).catch(() => [])
       ])
 
-      const history = [...accountHistory, ...scotHistory]
+      const history = [...(Array.isArray(accountHistory) ? accountHistory : []), ...(Array.isArray(scotHistory) ? scotHistory : [])]
         .map(h => ({ ...h, timestamp: Number.isInteger(h.timestamp) ? h.timestamp * 1000 : new Date(`${h.timestamp}Z`).getTime(), is_scot: !(h.operation) }))
         .map((h) => {
           let data = {}
