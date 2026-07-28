@@ -273,6 +273,7 @@ export default {
     this.$eventBus.$off('comment-publish-successful', this.onPublished)
     this.$eventBus.$off('transaction-broadcast-error', this.onBroadcastError)
     if (this.pollTimer) { clearInterval(this.pollTimer) }
+    clearTimeout(this._postTimeout)
   },
 
   methods: {
@@ -316,7 +317,33 @@ export default {
     },
 
     onBroadcastError () {
+      clearTimeout(this._postTimeout)
       this.posting = false
+      this._pendingVideo = null
+    },
+
+    // Keychain users need window.hive_keychain injected; the Keychain in-app
+    // browser can't do that, so bail with guidance instead of a silent hang.
+    signerReady () {
+      if (this.auth.user.smartlock || this.auth.user.method === 'hiveauth') { return true }
+      if (!window.hive_keychain) {
+        this.$notify({ title: 'Keychain not found', type: 'error', text: "If you're in an in-app browser, open thebbhproject.com in Safari or Chrome (or log in with HiveAuth) to post." })
+        return false
+      }
+      return true
+    },
+
+    // Safety net: if the signer never responds (no approval AND no cancel — a
+    // popup blocked or swallowed by a webview), don't leave the composer stuck.
+    armPostTimeout () {
+      clearTimeout(this._postTimeout)
+      this._postTimeout = setTimeout(() => {
+        if (this.posting) {
+          this.posting = false
+          this._pendingVideo = null
+          this.$notify({ title: 'Timed out', type: 'warn', text: "No response from your signer. If it didn't pop up, try again — or use a normal browser with Keychain or HiveAuth." })
+        }
+      }, 120000)
     },
 
     showNew () {
@@ -338,11 +365,14 @@ export default {
         }
       }
 
+      if (!this.signerReady()) { return }
+
       // --- 3Speak short: publish as a comment on the container (via the proven
       // requestBroadcastPost path) with the 3Speak metadata + the mandatory
       // beneficiaries, then bridge asset↔post in onPublished. ---
       if (video && video.embedUrl) {
         this.posting = true
+        this.armPostTimeout()
         const owner = this.auth.user.username
         const permlink = `bbh-short-${Date.now().toString(36)}`
         const caption = (body || '').trim()
@@ -389,6 +419,7 @@ export default {
       if (!finalBody.trim()) { return }
 
       this.posting = true
+      this.armPostTimeout()
 
       const permlink = `re-${this.container.author}-${Date.now().toString(36)}`
       const tags = [...new Set([this.composeSource.tag, this.config.SCOT_TAG].filter(Boolean))]
@@ -417,6 +448,7 @@ export default {
 
       if (!isOurChat) { return }
 
+      clearTimeout(this._postTimeout)
       this.posting = false
 
       this.localChats.unshift({
