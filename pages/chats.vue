@@ -86,6 +86,7 @@ import ChatComposer from '@/components/cards/ChatComposer.vue'
 import ChatsSidebar from '@/components/cards/ChatsSidebar.vue'
 import Loading from '@/components/Loading.vue'
 import { usePostStore } from '~/stores/post'
+import { useTribeStore } from '~/stores/tribe'
 import { useAuthStore } from '~/stores/auth'
 
 export default {
@@ -277,6 +278,7 @@ export default {
 
   methods: {
     ...mapActions(usePostStore, ['requestBroadcastPost']),
+    ...mapActions(useTribeStore, ['requestBroadcastOps']),
 
     sourceLabel (key) {
       if (!key || this.activeSource !== 'all') { return '' }
@@ -327,7 +329,7 @@ export default {
       if (import.meta.client) { window.scrollTo({ top: 0, behavior: 'smooth' }) }
     },
 
-    async onComposerSubmit ({ body, images }) {
+    async onComposerSubmit ({ body, images, video }) {
       if (this.posting) { return }
 
       if (!this.container) {
@@ -336,6 +338,44 @@ export default {
           this.$notify({ title: 'Just a moment', type: 'warn', text: `Couldn't reach the ${this.composeLabel} container. Please refresh and try again.` })
           return
         }
+      }
+
+      // --- 3Speak short: publish as a comment on the container with the 3Speak
+      // metadata + the mandatory beneficiaries, then bridge asset↔post. ---
+      if (video && video.embedUrl) {
+        this.posting = true
+        const owner = this.auth.user.username
+        const permlink = `bbh-short-${Date.now().toString(36)}`
+        const caption = (body || '').trim()
+
+        const finalBody = [
+          video.embedUrl, '', caption, '', '---',
+          `▶ [Watch on 3speak.tv](https://3speak.tv/shorts?v=${owner}/${permlink})`
+        ].join('\n')
+
+        const metadata = {
+          app: '3speak/embed',
+          format: 'markdown',
+          tags: [...new Set([this.config.THREESPEAK_COMMUNITY, this.config.SCOT_TAG, this.composeSource.tag].filter(Boolean))].slice(0, 10),
+          links: [video.embedUrl],
+          video: {
+            platform: '3speak', url: video.embedUrl, reusable: false,
+            info: { platform: '3speak', author: owner, permlink: video.assetPermlink, title: '', duration: video.duration || 0 }
+          }
+        }
+        const beneficiaries = (this.config.THREESPEAK_BENEFICIARIES || []).slice().sort((a, b) => a.account.localeCompare(b.account))
+
+        this._pendingVideo = { permlink, assetPermlink: video.assetPermlink, body: finalBody }
+
+        this.requestBroadcastOps({
+          operations: [
+            ['comment', { parent_author: this.container.author, parent_permlink: this.container.permlink, author: owner, permlink, title: '', body: finalBody, json_metadata: JSON.stringify(metadata) }],
+            ['comment_options', { author: owner, permlink, max_accepted_payout: '1000000.000 HBD', percent_hbd: 10000, allow_votes: true, allow_curation_rewards: true, extensions: [[0, { beneficiaries }]] }]
+          ],
+          emitEvent: 'comment-publish-successful',
+          emitData: { author: owner, permlink }
+        })
+        return
       }
 
       let finalBody = body
@@ -394,6 +434,26 @@ export default {
 
       this.tab = 'latest'
       this.$refs.composer?.reset()
+
+      // If this was a 3Speak short, bind the asset to the post so it appears in
+      // 3Speak's feeds (and finishes encoding).
+      if (this._pendingVideo && payload.permlink === this._pendingVideo.permlink) {
+        const pv = this._pendingVideo
+        this._pendingVideo = null
+        $fetch('/api/v1/3speak/bridge', {
+          method: 'POST',
+          body: {
+            permlink: pv.assetPermlink,
+            hive_author: payload.author,
+            hive_permlink: pv.permlink,
+            hive_title: '',
+            hive_body: pv.body,
+            hive_tags: [this.config.THREESPEAK_COMMUNITY]
+          }
+        }).catch(() => {
+          this.$notify({ title: 'Heads up', type: 'warn', text: 'Short posted, but linking to 3Speak failed — it may take a moment to appear.' })
+        })
+      }
     }
   }
 }

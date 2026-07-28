@@ -4,15 +4,21 @@
       <h1 class="upload-title"><fa-icon icon="film" /> Upload to 3Speak</h1>
       <p class="upload-sub">Publish a video or short to Hive via 3Speak — right from The BBH Project.</p>
 
+      <div v-if="!auth.loggedIn" class="upload-login">
+        <fa-icon icon="video" class="drop-icon" />
+        <p>Log in with Hive Keychain to upload a video.</p>
+        <b-button variant="primary" @click="ui.showModal('loginModal')">Log in</b-button>
+      </div>
+
       <!-- file picker -->
-      <div v-if="!file" class="drop-zone" @click="$refs.file.click()" @dragover.prevent @drop.prevent="onDrop">
+      <div v-if="auth.loggedIn && !file" class="drop-zone" @click="$refs.file.click()" @dragover.prevent @drop.prevent="onDrop">
         <fa-icon icon="video" class="drop-icon" />
         <p>Click or drop a video here</p>
         <span class="drop-hint">MP4, MOV, WebM… up to 5&nbsp;GB</span>
         <input ref="file" type="file" accept="video/*" hidden @change="onPick">
       </div>
 
-      <template v-else>
+      <template v-else-if="auth.loggedIn && file">
         <video ref="preview" class="preview" :src="previewUrl" controls @loadedmetadata="onMeta" />
         <div class="file-row">
           <span class="file-name">{{ file.name }}</span>
@@ -63,6 +69,7 @@
 import { mapActions } from 'pinia'
 import { useAuthStore } from '~/stores/auth'
 import { useTribeStore } from '~/stores/tribe'
+import { useUiStore } from '~/stores/ui'
 
 const slugify = (s) => (s || '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 40)
@@ -73,8 +80,9 @@ export default {
   setup () {
     const config = useRuntimeConfig().public
     const auth = useAuthStore()
+    const ui = useUiStore()
     useHead({ title: 'Upload to 3Speak' })
-    return { config, auth }
+    return { config, auth, ui }
   },
 
   data () {
@@ -119,9 +127,8 @@ export default {
     }
   },
 
-  mounted () {
-    if (!this.auth.loggedIn) { navigateTo('/') }
-  },
+  // No auth redirect (that caused a login loop when the session hadn't restored
+  // yet). Logged-out users see a login prompt instead; Publish stays disabled.
 
   beforeUnmount () {
     if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl) }
@@ -335,6 +342,9 @@ export default {
   background: linear-gradient(135deg, var(--w3-gold), #ffd34d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 .upload-sub { color: var(--w3-muted); margin: .3rem 0 1.3rem; }
+
+.upload-login { text-align: center; color: var(--w3-muted); padding: 2.5rem 1rem; }
+.upload-login p { margin: .8rem 0 1.2rem; }
 
 .drop-zone {
   border: 2px dashed var(--w3-border); border-radius: 16px; padding: 3rem 1rem; text-align: center;

@@ -33,12 +33,29 @@
         </div>
       </div>
 
+      <!-- video (3Speak short) -->
+      <div v-if="video" class="composer-video">
+        <fa-icon icon="film" class="cv-icon" />
+        <div class="cv-body">
+          <div class="cv-name">{{ video.name }} <span class="cv-meta mono">· {{ video.duration }}s</span></div>
+          <div v-if="video.uploading" class="cv-bar"><span :style="{ width: video.pct + '%' }" /></div>
+          <div v-else class="cv-ready">Ready — posts as a 3Speak short</div>
+        </div>
+        <button class="composer-thumb-x" :disabled="video.uploading" @click.prevent="removeVideo"><fa-icon icon="times" /></button>
+      </div>
+
       <div class="composer-bar">
         <div class="composer-tools">
-          <button class="composer-tool" title="Add image" :disabled="images.length >= 4" @click.prevent="pickFile">
+          <button class="composer-tool" title="Add image" :disabled="images.length >= 4 || !!video" @click.prevent="pickFile">
             <fa-icon icon="image" />
           </button>
           <input ref="file" type="file" accept="image/*" multiple hidden @change="onFilePick">
+
+          <button class="composer-tool" title="Add a short video (3Speak)" :disabled="images.length > 0 || !!video" @click.prevent="pickVideo">
+            <fa-icon icon="film" />
+          </button>
+          <input ref="videoFile" type="file" accept="video/*" hidden @change="onVideoPick">
+
           <span v-if="uploading" class="composer-uploading"><fa-icon icon="circle-notch" class="fa-spin" /> uploading…</span>
         </div>
 
@@ -99,6 +116,7 @@ export default {
     return {
       draft: '',
       images: [], // { id, url|null, uploading }
+      video: null, // { name, duration, uploading, pct, embedUrl, assetPermlink }
       isDragging: false,
       softLimit: 480,
       hardLimit: 8000
@@ -107,11 +125,12 @@ export default {
 
   computed: {
     uploading () {
-      return this.images.some(i => i.uploading)
+      return this.images.some(i => i.uploading) || !!(this.video && this.video.uploading)
     },
 
     canPost () {
-      return (this.draft.trim().length > 0 || this.images.some(i => i.url)) && !this.uploading
+      const hasContent = this.draft.trim().length > 0 || this.images.some(i => i.url) || !!(this.video && this.video.embedUrl)
+      return hasContent && !this.uploading
     },
 
     overSoft () {
@@ -209,18 +228,92 @@ export default {
       this.images = this.images.filter(i => i.id !== id)
     },
 
+    // --- video (3Speak short) ---
+    pickVideo () {
+      if (!this.auth.loggedIn) { return }
+      this.$refs.videoFile?.click()
+    },
+
+    onVideoPick (e) {
+      const f = e.target.files?.[0]
+      e.target.value = ''
+      if (f && f.type.startsWith('video/')) { this.uploadVideo(f) }
+    },
+
+    getDuration (file) {
+      return new Promise((resolve) => {
+        const v = document.createElement('video')
+        v.preload = 'metadata'
+        v.onloadedmetadata = () => { URL.revokeObjectURL(v.src); resolve(Math.round(v.duration) || 0) }
+        v.onerror = () => resolve(0)
+        v.src = URL.createObjectURL(file)
+      })
+    },
+
+    async uploadVideo (file) {
+      const duration = await this.getDuration(file)
+      if (duration && duration > 120) {
+        return this.$notify({ title: 'Too long', type: 'warn', text: 'Shorts must be 120s or shorter.' })
+      }
+
+      this.video = { name: file.name, duration, uploading: true, pct: 0, embedUrl: '', assetPermlink: '' }
+
+      try {
+        // 1. mint a short token (server-side, owner = logged-in user)
+        const tok = await $fetch('/api/v1/3speak/token', { method: 'POST', body: { short: true, max_file_size: file.size } })
+        this.video.assetPermlink = tok.permlink
+        this.video.embedUrl = tok.embed_url
+
+        // 2. upload bytes (simple multipart, with progress)
+        const host = this.config.THREESPEAK_EMBED_HOST || 'https://embed2.3speak.tv'
+        await new Promise((resolve, reject) => {
+          const form = new FormData()
+          form.append('token', tok.token)
+          form.append('filename', file.name)
+          if (duration) { form.append('duration', String(duration)) }
+          form.append('file', file)
+
+          const xhr = new XMLHttpRequest()
+          xhr.open('POST', `${host}/upload/simple`)
+          xhr.upload.onprogress = (ev) => { if (ev.lengthComputable && this.video) { this.video.pct = Math.round(ev.loaded / ev.total * 100) } }
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try { const r = JSON.parse(xhr.responseText); if (r.permlink) { this.video.assetPermlink = r.permlink }; if (r.embed_url) { this.video.embedUrl = r.embed_url } } catch {}
+              resolve()
+            } else { reject(new Error(`3Speak upload failed (${xhr.status})`)) }
+          }
+          xhr.onerror = () => reject(new Error('Network error during upload'))
+          xhr.send(form)
+        })
+
+        if (this.video) { this.video.uploading = false }
+      } catch (err) {
+        this.video = null
+        this.$notify({ title: 'Video upload failed', type: 'error', text: err.message || 'Could not upload the video.' })
+      }
+    },
+
+    removeVideo () {
+      if (this.video && this.video.uploading) { return }
+      this.video = null
+    },
+
     submit () {
       if (!this.canPost || this.posting) { return }
 
       this.$emit('submit', {
         body: this.draft.trim(),
-        images: this.images.filter(i => i.url).map(i => i.url)
+        images: this.images.filter(i => i.url).map(i => i.url),
+        video: (this.video && this.video.embedUrl)
+          ? { embedUrl: this.video.embedUrl, assetPermlink: this.video.assetPermlink, duration: this.video.duration }
+          : null
       })
     },
 
     reset () {
       this.draft = ''
       this.images = []
+      this.video = null
       this.$nextTick(this.autogrow)
     }
   }
@@ -316,6 +409,24 @@ export default {
   transition: background .15s ease;
 }
 .composer-thumb-x:hover { background: var(--w3-red); }
+
+.composer-video {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin: .6rem 0 .2rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--w3-border);
+  border-radius: 12px;
+  background: var(--w3-panel);
+}
+.cv-icon { color: var(--w3-gold); font-size: 1.2rem; }
+.cv-body { flex: 1; min-width: 0; }
+.cv-name { color: var(--w3-text); font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cv-meta { color: var(--w3-muted); }
+.cv-bar { height: 6px; border-radius: 4px; background: var(--w3-border); overflow: hidden; margin-top: .35rem; }
+.cv-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--w3-gold), #ffd34d); transition: width .2s ease; }
+.cv-ready { color: #2ecc71; font-size: .78rem; margin-top: .2rem; }
 
 .composer-bar {
   display: flex;
