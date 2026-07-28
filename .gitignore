@@ -99,3 +99,7 @@ scripts/chats.env
 
 # One-off key handoff file (never commit)
 key.txt
+
+# Generated token snapshots (data, not code)
+bbho-snapshot-*.json
+bbho-snapshot-*.csv
