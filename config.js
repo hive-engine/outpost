@@ -64,6 +64,10 @@ export const THREESPEAK_BENEFICIARIES = [
   { account: 'encoder.pay', weight: 100 },
   { account: 'threespeakfund', weight: 1000 }
 ]
+// Token backend: 'hive-engine' (SCOT, default) or 'magi' (VSC, added later).
+// Selects which tokenProvider the app uses ($token) so the Outpost can run on
+// either chain — switchable with one flag, reusable across tribes.
+export const TOKEN_BACKEND = process.env.TOKEN_BACKEND || 'hive-engine'
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'

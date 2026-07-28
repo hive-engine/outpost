@@ -104,7 +104,7 @@ import { useScotStore } from '~/stores/scot'
 const config = useRuntimeConfig().public
 const auth = useAuthStore()
 const scot = useScotStore()
-const { $chain, $sidechain } = useNuxtApp()
+const { $chain, $token } = useNuxtApp()
 
 const block = ref(0)
 const aprRaw = ref(null)
@@ -139,17 +139,17 @@ async function refresh () {
 
 async function fetchToken () {
   try {
-    const [metrics, token, pool] = await Promise.all([
-      $sidechain.getMetrics(config.TOKEN),
-      $sidechain.getTokens({ symbol: config.TOKEN }).then(r => (Array.isArray(r) ? r[0] : r)).catch(() => null),
-      $sidechain.getSMTRewardPool(config.TOKEN).catch(() => null)
+    // Read through the token-backend abstraction ($token) rather than Hive-Engine
+    // directly — so this ticker works unchanged when TOKEN_BACKEND flips to Magi.
+    const [metrics, info, pool] = await Promise.all([
+      $token.getMarketMetrics(config.TOKEN),
+      $token.getTokenInfo(config.TOKEN).catch(() => null),
+      $token.getRewardPool(config.TOKEN).catch(() => null)
     ])
 
     if (!metrics) { return }
 
-    const price = Number(metrics.lastPrice) || 0
-    const lastDay = Number(metrics.lastDayPrice) || price
-    const changePct = lastDay > 0 ? ((price - lastDay) / lastDay) * 100 : 0
+    const price = metrics.price
 
     // best-effort USD (HIVE/USD via coingecko; silently skipped on failure)
     let usd = null
@@ -160,11 +160,11 @@ async function fetchToken () {
     } catch { /* no USD */ }
 
     bbho.value = {
-      name: (() => { try { return JSON.parse(token?.metadata || '{}').name } catch { return null } })() || token?.name || 'BBH Outpost',
+      name: info?.name || 'BBH Outpost',
       price,
-      changePct,
-      volume: Number(metrics.volume) || 0,
-      rewardPool: Number(pool?.rewardPool) || 0,
+      changePct: metrics.changePct,
+      volume: metrics.volume,
+      rewardPool: pool?.rewardPool || 0,
       usd
     }
   } catch {
