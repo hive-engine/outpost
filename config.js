@@ -68,6 +68,10 @@ export const THREESPEAK_BENEFICIARIES = [
 // Selects which tokenProvider the app uses ($token) so the Outpost can run on
 // either chain — switchable with one flag, reusable across tribes.
 export const TOKEN_BACKEND = process.env.TOKEN_BACKEND || 'hive-engine'
+// Promote Post (burn TOKEN to advertise a post) — disabled on production at the
+// owner's request (Bradley). Enabled by default; set PROMOTE_ENABLED=false in the
+// prod .env to hide it there while keeping it available in dev.
+export const PROMOTE_ENABLED = process.env.PROMOTE_ENABLED !== 'false'
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'
 export const SIDECHAIN_EXPLORER = 'https://he.dtools.dev'
