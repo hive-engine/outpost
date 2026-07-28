@@ -19,7 +19,7 @@
             Reblog
           </b-dropdown-item-button>
 
-          <b-dropdown-item-button v-if="loggedIn && type === 'post'" @click.prevent="showPromoteModal">
+          <b-dropdown-item-button v-if="config.PROMOTE_ENABLED && loggedIn && type === 'post'" @click.prevent="showPromoteModal">
             Promote
           </b-dropdown-item-button>
         </b-dropdown>
