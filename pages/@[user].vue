@@ -196,6 +196,7 @@ export default {
         { name: 'user', title: 'Blog', show: true },
         { name: 'user-comments', title: 'Comments', show: true },
         { name: 'user-replies', title: 'Replies', show: true },
+        { name: 'user-mentions', title: 'Mentions', show: true },
         { name: 'user-followers', title: 'Connections', show: true },
         { name: 'user-wallet', title: 'Wallet', show: true },
         { name: 'user-settings', title: 'Settings', show: this.auth.loggedIn && this.$route.params.user === this.auth.user.username }

@@ -93,6 +93,7 @@ export default defineNuxtConfig({
         'pages/@[user]/index.vue': 'user',
         'pages/@[user]/comments.vue': 'user-comments',
         'pages/@[user]/replies.vue': 'user-replies',
+        'pages/@[user]/mentions.vue': 'user-mentions',
         'pages/@[user]/wallet.vue': 'user-wallet',
         'pages/@[user]/settings.vue': 'user-settings',
         'pages/@[user]/followers.vue': 'user-followers',
