@@ -86,7 +86,6 @@ import ChatComposer from '@/components/cards/ChatComposer.vue'
 import ChatsSidebar from '@/components/cards/ChatsSidebar.vue'
 import Loading from '@/components/Loading.vue'
 import { usePostStore } from '~/stores/post'
-import { useTribeStore } from '~/stores/tribe'
 import { useAuthStore } from '~/stores/auth'
 
 export default {
@@ -278,7 +277,6 @@ export default {
 
   methods: {
     ...mapActions(usePostStore, ['requestBroadcastPost']),
-    ...mapActions(useTribeStore, ['requestBroadcastOps']),
 
     sourceLabel (key) {
       if (!key || this.activeSource !== 'all') { return '' }
@@ -340,8 +338,9 @@ export default {
         }
       }
 
-      // --- 3Speak short: publish as a comment on the container with the 3Speak
-      // metadata + the mandatory beneficiaries, then bridge asset↔post. ---
+      // --- 3Speak short: publish as a comment on the container (via the proven
+      // requestBroadcastPost path) with the 3Speak metadata + the mandatory
+      // beneficiaries, then bridge asset↔post in onPublished. ---
       if (video && video.embedUrl) {
         this.posting = true
         const owner = this.auth.user.username
@@ -363,17 +362,21 @@ export default {
             info: { platform: '3speak', author: owner, permlink: video.assetPermlink, title: '', duration: video.duration || 0 }
           }
         }
-        const beneficiaries = (this.config.THREESPEAK_BENEFICIARIES || []).slice().sort((a, b) => a.account.localeCompare(b.account))
 
         this._pendingVideo = { permlink, assetPermlink: video.assetPermlink, body: finalBody }
 
-        this.requestBroadcastOps({
-          operations: [
-            ['comment', { parent_author: this.container.author, parent_permlink: this.container.permlink, author: owner, permlink, title: '', body: finalBody, json_metadata: JSON.stringify(metadata) }],
-            ['comment_options', { author: owner, permlink, max_accepted_payout: '1000000.000 HBD', percent_hbd: 10000, allow_votes: true, allow_curation_rewards: true, extensions: [[0, { beneficiaries }]] }]
-          ],
-          emitEvent: 'comment-publish-successful',
-          emitData: { author: owner, permlink }
+        this.requestBroadcastPost({
+          title: '',
+          permlink,
+          body: finalBody,
+          app: '3speak/embed',
+          parent_author: this.container.author,
+          parent_permlink: this.container.permlink,
+          metadata,
+          payout_type: 'regular',
+          beneficiaries: this.config.THREESPEAK_BENEFICIARIES || [],
+          post_type: 'comment',
+          edit: false
         })
         return
       }
