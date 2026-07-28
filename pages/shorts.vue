@@ -227,9 +227,17 @@ export default {
 /* vertical snap scroller */
 .shorts-scroller {
   height: calc(100vh - 64px - 58px);
+  /* dvh (dynamic viewport height) tracks the mobile address bar so the feed
+     doesn't jump/pop to the top as it shows/hides while scrolling. */
+  height: calc(100dvh - 64px - 58px);
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
+  /* keep the scroll inside the feed — don't chain to the page (the "pops to top"
+     symptom on mobile) — and use momentum scrolling on iOS. */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 .shorts-scroller::-webkit-scrollbar { display: none; }
 
