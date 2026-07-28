@@ -155,20 +155,43 @@ export default {
       // go a few containers deep.
       const perSource = sourceKey === 'all' ? 1 : 3
 
-      const results = await Promise.all(active.map(async (src) => {
+      const fetchSource = async (src) => {
+        // Tag sources (D.Buzz) have no container — the tagged posts ARE the items.
+        if (src.scheme === 'tag') {
+          const posts = await bridgeCall('bridge.get_ranked_posts', {
+            sort: 'created', tag: src.hiveTag, observer: '', limit: sourceKey === 'all' ? 12 : 20
+          })
+          const chats = (Array.isArray(posts) ? posts : []).map((p) => {
+            if (typeof p.json_metadata === 'string') {
+              try { p.json_metadata = JSON.parse(p.json_metadata) } catch { p.json_metadata = {} }
+            }
+            p._source = src.key
+            return p
+          })
+          return { key: src.key, containers: [], chats }
+        }
         const containers = await resolveContainers(src, perSource)
         const lists = await Promise.all(containers.map(c => fetchReplies(c, src.key)))
         return { key: src.key, containers, chats: lists.flat() }
-      }))
+      }
+
+      const results = await Promise.all(active.map(fetchSource))
 
       let chats = results.flatMap(r => r.chats)
       chats.sort((a, b) => new Date(`${b.created}Z`) - new Date(`${a.created}Z`))
       chats = chats.slice(0, sourceKey === 'all' ? 60 : 80)
 
-      // Compose target: the viewed source's newest container ("All" → BBH home).
-      const composeKey = sourceKey === 'all' ? ((sources.find(s => s.home) || sources[0] || {}).key) : sourceKey
-      const composeResult = results.find(r => r.key === composeKey)
-      const container = (composeResult && composeResult.containers[0]) || null
+      // Compose target must be a source you can post into (a live container).
+      // Read-only/tag sources (Hangs, D.Buzz) and "All" post to our BBH home.
+      const homeKey = (sources.find(s => s.home) || sources[0] || {}).key
+      const viewed = sources.find(s => s.key === sourceKey)
+      const composeKey = (sourceKey !== 'all' && viewed && !viewed.readonly && viewed.scheme !== 'tag') ? sourceKey : homeKey
+
+      let container = ((results.find(r => r.key === composeKey) || {}).containers || [])[0] || null
+      if (!container) {
+        const homeSrc = sources.find(s => s.key === composeKey)
+        if (homeSrc && homeSrc.scheme !== 'tag') { container = (await resolveContainers(homeSrc, 1))[0] || null }
+      }
 
       return { chats, container, composeKey }
     }
