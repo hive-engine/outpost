@@ -131,6 +131,7 @@ export default {
   // yet). Logged-out users see a login prompt instead; Publish stays disabled.
 
   beforeUnmount () {
+    clearTimeout(this._pubTimeout)
     if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl) }
     this.$eventBus.$off('comment-publish-successful', this.onPublished)
     this.$eventBus.$off('transaction-broadcast-error', this.onBroadcastError)
@@ -166,6 +167,7 @@ export default {
     },
 
     fail (msg) {
+      clearTimeout(this._pubTimeout)
       this._error = msg
       this.stage = 'error'
       this.$notify({ title: 'Upload failed', type: 'error', text: msg })
@@ -291,8 +293,27 @@ export default {
         extensions: [[0, { beneficiaries }]]
       }
 
+      // Guard: a Keychain user with no Keychain available (e.g. the Keychain
+      // in-app browser, which can't inject it) would otherwise wait forever for a
+      // popup that never appears. Fail fast with guidance instead.
+      if (!this.auth.user.smartlock && this.auth.user.method !== 'hiveauth' && !window.hive_keychain) {
+        return this.fail("Hive Keychain wasn't detected. If you're in an in-app browser, open thebbhproject.com in Safari or Chrome (or log in with HiveAuth) to publish.")
+      }
+
       this.$eventBus.$on('comment-publish-successful', this.onPublished)
       this.$eventBus.$on('transaction-broadcast-error', this.onBroadcastError)
+
+      // Safety net: if the signer never responds — no approval AND no cancel,
+      // common when a popup is blocked or swallowed by a webview — don't spin
+      // forever. Time out with a helpful message.
+      clearTimeout(this._pubTimeout)
+      this._pubTimeout = setTimeout(() => {
+        if (this.stage === 'publishing') {
+          this.$eventBus.$off('comment-publish-successful', this.onPublished)
+          this.$eventBus.$off('transaction-broadcast-error', this.onBroadcastError)
+          this.fail("Timed out waiting for approval. If your signer didn't pop up, try again — or use a normal browser (Safari/Chrome) with Keychain or HiveAuth.")
+        }
+      }, 120000)
 
       this.requestBroadcastOps({
         operations: [['comment', comment], ['comment_options', commentOptions]],
@@ -303,6 +324,7 @@ export default {
 
     async onPublished (data) {
       if (data.permlink !== this.hivePermlink) { return }
+      clearTimeout(this._pubTimeout)
       this.$eventBus.$off('comment-publish-successful', this.onPublished)
 
       // 4. Bridge asset ↔ Hive post (mandatory — makes it appear in 3Speak feeds).
@@ -327,6 +349,7 @@ export default {
     },
 
     onBroadcastError () {
+      clearTimeout(this._pubTimeout)
       this.$eventBus.$off('transaction-broadcast-error', this.onBroadcastError)
       if (this.stage === 'publishing') { this.fail('Publishing was cancelled or failed.') }
     }
