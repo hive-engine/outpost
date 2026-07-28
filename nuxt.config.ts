@@ -60,6 +60,9 @@ export default defineNuxtConfig({
     // defaults read from .env at build time — nuxi auto-loads .env during build).
     sessionSecret: process.env.SESSION_SECRET || '',
     hsApiKey: process.env.HS_API_KEY || '',
+    // 3Speak embed API key (sk_...) — server-only; never exposed to the browser.
+    // Set THREESPEAK_API_KEY in the (gitignored) .env.
+    threespeakApiKey: process.env.THREESPEAK_API_KEY || '',
 
     public: {
       ...tribeConfig
@@ -90,6 +93,7 @@ export default defineNuxtConfig({
         'pages/@[user]/index.vue': 'user',
         'pages/@[user]/comments.vue': 'user-comments',
         'pages/@[user]/replies.vue': 'user-replies',
+        'pages/@[user]/mentions.vue': 'user-mentions',
         'pages/@[user]/wallet.vue': 'user-wallet',
         'pages/@[user]/settings.vue': 'user-settings',
         'pages/@[user]/followers.vue': 'user-followers',

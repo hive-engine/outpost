@@ -155,20 +155,43 @@ export default {
       // go a few containers deep.
       const perSource = sourceKey === 'all' ? 1 : 3
 
-      const results = await Promise.all(active.map(async (src) => {
+      const fetchSource = async (src) => {
+        // Tag sources (D.Buzz) have no container — the tagged posts ARE the items.
+        if (src.scheme === 'tag') {
+          const posts = await bridgeCall('bridge.get_ranked_posts', {
+            sort: 'created', tag: src.hiveTag, observer: '', limit: sourceKey === 'all' ? 12 : 20
+          })
+          const chats = (Array.isArray(posts) ? posts : []).map((p) => {
+            if (typeof p.json_metadata === 'string') {
+              try { p.json_metadata = JSON.parse(p.json_metadata) } catch { p.json_metadata = {} }
+            }
+            p._source = src.key
+            return p
+          })
+          return { key: src.key, containers: [], chats }
+        }
         const containers = await resolveContainers(src, perSource)
         const lists = await Promise.all(containers.map(c => fetchReplies(c, src.key)))
         return { key: src.key, containers, chats: lists.flat() }
-      }))
+      }
+
+      const results = await Promise.all(active.map(fetchSource))
 
       let chats = results.flatMap(r => r.chats)
       chats.sort((a, b) => new Date(`${b.created}Z`) - new Date(`${a.created}Z`))
       chats = chats.slice(0, sourceKey === 'all' ? 60 : 80)
 
-      // Compose target: the viewed source's newest container ("All" → BBH home).
-      const composeKey = sourceKey === 'all' ? ((sources.find(s => s.home) || sources[0] || {}).key) : sourceKey
-      const composeResult = results.find(r => r.key === composeKey)
-      const container = (composeResult && composeResult.containers[0]) || null
+      // Compose target must be a source you can post into (a live container).
+      // Read-only/tag sources (Hangs, D.Buzz) and "All" post to our BBH home.
+      const homeKey = (sources.find(s => s.home) || sources[0] || {}).key
+      const viewed = sources.find(s => s.key === sourceKey)
+      const composeKey = (sourceKey !== 'all' && viewed && !viewed.readonly && viewed.scheme !== 'tag') ? sourceKey : homeKey
+
+      let container = ((results.find(r => r.key === composeKey) || {}).containers || [])[0] || null
+      if (!container) {
+        const homeSrc = sources.find(s => s.key === composeKey)
+        if (homeSrc && homeSrc.scheme !== 'tag') { container = (await resolveContainers(homeSrc, 1))[0] || null }
+      }
 
       return { chats, container, composeKey }
     }
@@ -304,7 +327,7 @@ export default {
       if (import.meta.client) { window.scrollTo({ top: 0, behavior: 'smooth' }) }
     },
 
-    async onComposerSubmit ({ body, images }) {
+    async onComposerSubmit ({ body, images, video }) {
       if (this.posting) { return }
 
       if (!this.container) {
@@ -313,6 +336,49 @@ export default {
           this.$notify({ title: 'Just a moment', type: 'warn', text: `Couldn't reach the ${this.composeLabel} container. Please refresh and try again.` })
           return
         }
+      }
+
+      // --- 3Speak short: publish as a comment on the container (via the proven
+      // requestBroadcastPost path) with the 3Speak metadata + the mandatory
+      // beneficiaries, then bridge asset↔post in onPublished. ---
+      if (video && video.embedUrl) {
+        this.posting = true
+        const owner = this.auth.user.username
+        const permlink = `bbh-short-${Date.now().toString(36)}`
+        const caption = (body || '').trim()
+
+        const finalBody = [
+          video.embedUrl, '', caption, '', '---',
+          `▶ [Watch on 3speak.tv](https://3speak.tv/shorts?v=${owner}/${permlink})`
+        ].join('\n')
+
+        const metadata = {
+          app: '3speak/embed',
+          format: 'markdown',
+          tags: [...new Set([this.config.THREESPEAK_COMMUNITY, this.config.SCOT_TAG, this.composeSource.tag].filter(Boolean))].slice(0, 10),
+          links: [video.embedUrl],
+          video: {
+            platform: '3speak', url: video.embedUrl, reusable: false,
+            info: { platform: '3speak', author: owner, permlink: video.assetPermlink, title: '', duration: video.duration || 0 }
+          }
+        }
+
+        this._pendingVideo = { permlink, assetPermlink: video.assetPermlink, body: finalBody }
+
+        this.requestBroadcastPost({
+          title: '',
+          permlink,
+          body: finalBody,
+          app: '3speak/embed',
+          parent_author: this.container.author,
+          parent_permlink: this.container.permlink,
+          metadata,
+          payout_type: 'regular',
+          beneficiaries: this.config.THREESPEAK_BENEFICIARIES || [],
+          post_type: 'comment',
+          edit: false
+        })
+        return
       }
 
       let finalBody = body
@@ -371,6 +437,26 @@ export default {
 
       this.tab = 'latest'
       this.$refs.composer?.reset()
+
+      // If this was a 3Speak short, bind the asset to the post so it appears in
+      // 3Speak's feeds (and finishes encoding).
+      if (this._pendingVideo && payload.permlink === this._pendingVideo.permlink) {
+        const pv = this._pendingVideo
+        this._pendingVideo = null
+        $fetch('/api/v1/3speak/bridge', {
+          method: 'POST',
+          body: {
+            permlink: pv.assetPermlink,
+            hive_author: payload.author,
+            hive_permlink: pv.permlink,
+            hive_title: '',
+            hive_body: pv.body,
+            hive_tags: [this.config.THREESPEAK_COMMUNITY]
+          }
+        }).catch(() => {
+          this.$notify({ title: 'Heads up', type: 'warn', text: 'Short posted, but linking to 3Speak failed — it may take a moment to appear.' })
+        })
+      }
     }
   }
 }

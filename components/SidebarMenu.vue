@@ -29,6 +29,8 @@
         <NuxtLink class="sm-link" to="/" @click="close">🏠 <span>Home</span></NuxtLink>
         <NuxtLink class="sm-link" :to="{ name: 'sort', params: { sort: 'trending' } }" @click="close">🔥 <span>Trending</span></NuxtLink>
         <NuxtLink v-if="config.CHATS_ENABLED" class="sm-link" :to="{ name: 'chats' }" @click="close">💬 <span>Chats</span></NuxtLink>
+        <NuxtLink class="sm-link" :to="{ name: 'shorts' }" @click="close">🎬 <span>Shorts</span></NuxtLink>
+        <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'notifications' }" @click="close">🔔 <span>Notifications</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'user-feed', params: { user: auth.user.username } }" @click="close">📰 <span>My feed</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'user-wallet', params: { user: auth.user.username } }" @click="close">💰 <span>Wallet</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn && auth.user.username === tribe.issuer" class="sm-link" :to="{ name: 'dashboard' }" @click="close">📊 <span>Dashboard</span></NuxtLink>

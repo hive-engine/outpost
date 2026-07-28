@@ -40,11 +40,29 @@ export const CHATS_CONTAINER_PREFIX = process.env.CHATS_CONTAINER_PREFIX || 'bbh
 // derives today's permlink deterministically (`${prefix}YYYY-MM-DD`); `'posts'`
 // looks up the account's most-recent posts as containers. `tag` is stamped when
 // posting to that source. Posting targets the *viewed* source's live container.
+// `scheme: 'date'` derives today's container permlink; `'posts'` looks up the
+// account's recent posts as containers; `'tag'` reads a Hive tag directly
+// (get_ranked_posts) — no container, so it's read-only (compose falls back home).
 export const CHATS_SOURCES = [
   { key: 'bbh', label: 'BBH Chats', account: 'thebbhproject', scheme: 'date', prefix: 'bbh-chats-', tag: 'bbh-chat', home: true },
   { key: 'snaps', label: 'Snaps', account: 'peak.snaps', scheme: 'posts', tag: 'snaps' },
   { key: 'threads', label: 'Threads', account: 'leothreads', scheme: 'posts', tag: 'leofinance' },
-  { key: 'waves', label: 'Waves', account: 'ecency.waves', scheme: 'posts', tag: 'ecency' }
+  { key: 'waves', label: 'Waves', account: 'ecency.waves', scheme: 'posts', tag: 'ecency' },
+  { key: 'hangs', label: 'Hangs', account: 'slothbuzz.hangs', scheme: 'posts', tag: 'slothbuzz', readonly: true },
+  { key: 'dbuzz', label: 'D.Buzz', scheme: 'tag', hiveTag: 'dbuzz', tag: 'dbuzz', readonly: true }
+]
+// --- 3Speak video/shorts integration ---------------------------------------
+export const THREESPEAK_ENABLED = true
+export const THREESPEAK_EMBED_HOST = 'https://embed2.3speak.tv' // upload + bridge
+export const THREESPEAK_PLAYER = 'https://play.3speak.tv/embed'
+export const THREESPEAK_APP = 'thebbhproject' // frontend_app (unlisted on 3speak.tv)
+export const THREESPEAK_COMMUNITY = 'hive-181335' // 3Speak community (post parent)
+export const THREESPEAK_SHORTS_MAX_SEC = 120
+// MANDATORY beneficiaries on every embed upload (sorted by account ascending):
+// 10% threespeakfund + 1% encoder.pay. Weights are 1/100th of a %.
+export const THREESPEAK_BENEFICIARIES = [
+  { account: 'encoder.pay', weight: 100 },
+  { account: 'threespeakfund', weight: 1000 }
 ]
 export const SIDECHAIN_ID = 'ssc-mainnet-hive'
 export const SIDECHAIN_RPC = 'https://enginerpc.com'

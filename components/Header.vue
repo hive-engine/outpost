@@ -18,6 +18,9 @@
           <b-nav-item v-if="config.CHATS_ENABLED" :to="{ name: 'chats' }">
             Chats
           </b-nav-item>
+          <b-nav-item :to="{ name: 'shorts' }">
+            Shorts
+          </b-nav-item>
           <b-nav-item v-if="config.CURATED_FEED && config.CURATED_FEED_ACCOUNT !== ''" :to="{ name: 'sort', params: { sort: 'curated' } }">
             Curator's Pick
           </b-nav-item>
@@ -42,6 +45,10 @@
           </b-nav-item>
 
           <template v-if="auth.loggedIn">
+            <b-nav-item :to="{ name: 'notifications' }" link-classes="navbar-btn rounded" title="Notifications">
+              <fa-icon icon="bell" />
+            </b-nav-item>
+
             <b-nav-item :to="{ name: 'publish' }" link-classes="navbar-btn rounded">
               <fa-icon icon="pencil-alt" />
             </b-nav-item>

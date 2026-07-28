@@ -76,7 +76,7 @@ export const usePostStore = defineStore('post', {
       }
 
       metadata.canonical_url = `${APP_DOMAIN}/@${author}/${permlink}`
-      metadata.app = APP
+      metadata.app = payload.app || APP
 
       if (!edit && ADD_COMMEMT_FOOTER) {
         body += `\n\n${COMMENT_FOOTER.replace('%post_url%', metadata.canonical_url)}`
