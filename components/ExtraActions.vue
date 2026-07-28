@@ -87,7 +87,14 @@ export default {
     },
 
     type () {
-      return this.post.main_post ? 'post' : 'comment'
+      // Feed posts (SCOT) carry `main_post`; the single-post view fetches via
+      // hivemind get_discussion, which doesn't — fall back to depth/parent_author
+      // so Reblog and the other post actions show on the post page too.
+      if (this.post.main_post !== undefined) {
+        return this.post.main_post ? 'post' : 'comment'
+      }
+
+      return (this.post.depth > 0 || this.post.parent_author) ? 'comment' : 'post'
     },
 
     author () {
