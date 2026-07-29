@@ -187,8 +187,11 @@ export default {
       if (this.mode === 'trending') {
         return { url: `${CHECKER}/shortssorted`, params: { page: this.page, limit: 12, seed: this.seed } }
       }
-      const app = this.mode === 'bbh' ? (this.config.THREESPEAK_APP || 'thebbhproject') : 'all'
-      return { url: `${CHECKER}/shorts`, params: { page: this.page, limit: 12, app } }
+      // /shorts treats app as a literal filter — 'all' matches nothing, so OMIT it
+      // for the Latest (all apps) tab and only send it for BBH.
+      const params = { page: this.page, limit: 12 }
+      if (this.mode === 'bbh') { params.app = this.config.THREESPEAK_APP || 'thebbhproject' }
+      return { url: `${CHECKER}/shorts`, params }
     },
 
     async loadPage () {
