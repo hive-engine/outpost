@@ -8,6 +8,18 @@
       </nuxt-link>
     </div>
 
+    <div class="shorts-tabs">
+      <button
+        v-for="t in tabs"
+        :key="t.key"
+        class="shorts-tab"
+        :class="{ active: mode === t.key }"
+        @click="switchMode(t.key)"
+      >
+        {{ t.label }}
+      </button>
+    </div>
+
     <loading v-if="loading && !shorts.length" />
 
     <div v-else-if="shorts.length" ref="scroller" class="shorts-scroller" @scroll.passive="onScroll">
@@ -36,13 +48,13 @@
             <span>@{{ authorOf(s) }}</span>
           </nuxt-link>
 
-          <p v-if="captionOf(s)" class="short-caption">{{ captionOf(s) }}</p>
+          <p v-if="s.caption" class="short-caption">{{ s.caption }}</p>
 
           <div class="short-stats">
             <span><fa-icon icon="eye" /> {{ fmt(s.views) }}</span>
-            <span><fa-icon icon="heart" /> {{ fmt(s.hive_votes) }}</span>
-            <span><fa-icon icon="comment-alt" /> {{ fmt(s.hive_comments) }}</span>
-            <span v-if="s.hive_reward" class="short-reward mono">${{ Number(s.hive_reward).toFixed(2) }}</span>
+            <span v-if="s.votes != null"><fa-icon icon="heart" /> {{ fmt(s.votes) }}</span>
+            <span v-if="s.comments != null"><fa-icon icon="comment-alt" /> {{ fmt(s.comments) }}</span>
+            <span v-if="s.reward" class="short-reward mono">${{ Number(s.reward).toFixed(2) }}</span>
           </div>
 
           <nuxt-link :to="postLink(s)" class="short-open">Open post &amp; comments →</nuxt-link>
@@ -84,6 +96,12 @@ export default {
 
   data () {
     return {
+      mode: 'trending',
+      tabs: [
+        { key: 'trending', label: 'Trending' },
+        { key: 'latest', label: 'Latest' },
+        { key: 'bbh', label: 'BBH' }
+      ],
       shorts: [],
       active: 0,
       page: 1,
@@ -126,8 +144,8 @@ export default {
       return s.thumbnail_url ? { backgroundImage: `url('${s.thumbnail_url}')` } : {}
     },
 
-    captionOf (s) {
-      let t = s.hive_body || s.hive_title || ''
+    cleanCaption (raw) {
+      let t = raw || ''
       // Bodies can be HTML or markdown and lead with the embed/iframe — reduce to
       // readable caption text.
       t = t.replace(/<[^>]+>/g, ' ') // strip HTML tags (incl. the iframe embed)
@@ -145,17 +163,50 @@ export default {
       return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${n}`
     },
 
+    // Normalise the two feed shapes to one item the template renders: shortssorted
+    // (rich stats + hive_body) and /shorts (leaner — embed_title + createdAt, no
+    // vote/comment/reward, which the template then hides).
+    normalize (s) {
+      return {
+        owner: s.owner,
+        permlink: s.permlink,
+        embed_url: s.embed_url,
+        thumbnail_url: s.thumbnail_url || null,
+        caption: this.cleanCaption(s.hive_body || s.hive_title || s.embed_title || ''),
+        views: s.views,
+        votes: s.hive_votes != null ? s.hive_votes : null,
+        comments: s.hive_comments != null ? s.hive_comments : null,
+        reward: s.hive_reward != null ? s.hive_reward : null,
+        createdAt: s.createdAt || s.created || null
+      }
+    },
+
+    // Endpoint + params for the active tab. 'trending' = engagement-ranked
+    // (shortssorted); 'latest'/'bbh' = the recency /shorts feed (all apps / BBH only).
+    endpointFor () {
+      if (this.mode === 'trending') {
+        return { url: `${CHECKER}/shortssorted`, params: { page: this.page, limit: 12, seed: this.seed } }
+      }
+      const app = this.mode === 'bbh' ? (this.config.THREESPEAK_APP || 'thebbhproject') : 'all'
+      return { url: `${CHECKER}/shorts`, params: { page: this.page, limit: 12, app } }
+    },
+
     async loadPage () {
       try {
-        const res = await $fetch(`${CHECKER}/shortssorted`, {
-          params: { page: this.page, limit: 12, seed: this.seed },
-          timeout: 9000
-        })
+        const { url, params } = this.endpointFor()
+        const res = await $fetch(url, { params, timeout: 9000 })
 
         const batch = (res && res.shorts) || []
-        // dedupe against what we already have (ranked feed can repeat across pages)
+        // dedupe against what we already have (feeds can repeat across pages)
         const seen = new Set(this.shorts.map(this.keyOf))
-        const fresh = batch.filter(s => s && s.embed_url && !seen.has(this.keyOf(s)))
+        let fresh = batch
+          .filter(s => s && s.embed_url && !seen.has(`${s.owner}/${s.permlink}`))
+          .map(this.normalize)
+
+        // Recency feeds ('latest'/'bbh') — newest first.
+        if (this.mode !== 'trending') {
+          fresh = fresh.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+        }
 
         this.shorts.push(...fresh)
         this.totalPages = res && res.totalPages ? res.totalPages : this.totalPages
@@ -163,6 +214,20 @@ export default {
       } catch {
         this.done = true
       }
+    },
+
+    async switchMode (key) {
+      if (key === this.mode) { return }
+      this.mode = key
+      this.shorts = []
+      this.active = 0
+      this.page = 1
+      this.totalPages = 1
+      this.done = false
+      this.loading = true
+      if (this.$refs.scroller) { this.$refs.scroller.scrollTop = 0 }
+      await this.loadPage()
+      this.loading = false
     },
 
     async loadMore () {
@@ -224,12 +289,37 @@ export default {
 }
 .shorts-upload:hover { filter: brightness(1.05); }
 
+/* tab bar (Trending / Latest / BBH) */
+.shorts-tabs {
+  display: flex;
+  gap: .5rem;
+  padding: .55rem clamp(.9rem, 3vw, 1.4rem);
+  border-bottom: 1px solid var(--w3-border);
+}
+.shorts-tab {
+  border: 1px solid var(--w3-border);
+  background: transparent;
+  color: var(--w3-muted);
+  font-weight: 700;
+  font-size: .82rem;
+  padding: .3rem .95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.shorts-tab:hover { color: var(--w3-text); border-color: var(--w3-gold); }
+.shorts-tab.active {
+  color: #1a1206;
+  background: linear-gradient(135deg, var(--w3-gold), #ffd34d);
+  border-color: transparent;
+}
+
 /* vertical snap scroller */
 .shorts-scroller {
-  height: calc(100vh - 64px - 58px);
+  height: calc(100vh - 64px - 58px - 50px);
   /* dvh (dynamic viewport height) tracks the mobile address bar so the feed
      doesn't jump/pop to the top as it shows/hides while scrolling. */
-  height: calc(100dvh - 64px - 58px);
+  height: calc(100dvh - 64px - 58px - 50px);
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
