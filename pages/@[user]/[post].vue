@@ -34,7 +34,13 @@
         <nuxt-link :to="{ name: 'user-post', params: { user: post.parent_author, post: post.parent_permlink } }">View direct parent</nuxt-link>
       </div>
 
-      <markdown-viewer class="post-body markdown-view" :text="post.body" />
+      <client-only>
+        <div v-if="freshShort" class="encoding-note">
+          <fa-icon icon="circle-notch" class="fa-spin" /> Just uploaded — if the player is blank, 3Speak is still encoding your short. Give it a few minutes and refresh.
+        </div>
+      </client-only>
+
+      <markdown-viewer class="post-body markdown-view" :class="{ 'is-short': isShort }" :text="post.body" />
 
       <div v-if="post.json_metadata.tags" class="post-tags">
         <nuxt-link v-for="(tag, i) of post.json_metadata.tags" :key="i" class="post-tag" :to="{ name: 'sort-tag', params: { sort: 'trending', tag } }">
@@ -259,6 +265,19 @@ export default {
       return this.discussions[`${author}/${permlink}`]
     },
 
+    // 3Speak short (portrait). Our composer/upload both stamp a `bbh-short-` permlink;
+    // used to render the player in 9:16 instead of the default 16:9.
+    isShort () {
+      return (this.post?.permlink || '').startsWith('bbh-short-')
+    },
+
+    // A just-published short whose player may still be blank while 3Speak encodes.
+    // Client-only + time-gated so the hint disappears once the video is ready.
+    freshShort () {
+      if (!this.isShort || !this.post?.created) { return false }
+      return (Date.now() - new Date(`${this.post.created}Z`).getTime()) < 30 * 60 * 1000
+    },
+
     community () {
       let { community: tag, community_title: title } = this.post
 
@@ -451,6 +470,13 @@ export default {
 
 .post-notice { background: var(--w3-panel); border: 1px solid var(--w3-border); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; font-size: .9rem; }
 
+.encoding-note {
+  display: flex; align-items: center; gap: .55rem;
+  background: var(--w3-panel); border: 1px solid var(--w3-border);
+  border-left: 3px solid var(--w3-gold);
+  border-radius: 10px; padding: .7rem 1rem; margin-bottom: 1rem;
+  font-size: .85rem; color: var(--w3-muted);
+}
 .post-body { margin: 0 0 2rem; }
 
 .post-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
