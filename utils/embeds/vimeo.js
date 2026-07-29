@@ -62,6 +62,10 @@ export function genIframeMd (idx, id, width, height, startTime, createElement) {
   return createElement('iframe', {
     class: 'embed-responsive-item',
     key: `vimeo-${idx}-${id}`,
-    attrs: { width, height, src, allowfullscreen: true }
+    width,
+    height,
+    src,
+    allowfullscreen: true,
+    frameborder: '0'
   })
 }
