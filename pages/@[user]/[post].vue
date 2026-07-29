@@ -128,16 +128,31 @@ export default {
     const config = useRuntimeConfig().public
     const auth = useAuthStore()
     const route = useRoute()
-    const { $chain } = useNuxtApp()
 
     // useAsyncData must RETURN the discussions (not set a ref as a side effect):
     // the returned value is serialized to the client, so on hydration the callback
     // does NOT re-run and any side-effect ref would stay empty -> the 404 guard would
     // wrongly fire client-side. Returning the data keeps it available on both sides.
+    // Fetch the post + its replies via raw bridge JSON-RPC with node failover and
+    // a per-node timeout. dhive's client.hivemind.call can stall on a slow/faulty
+    // node with no short timeout, which hung SSR long enough for nginx to return a
+    // 504 on the post page. Failover + timeout keeps SSR fast and resilient.
+    const bridgeGetDiscussion = async (params) => {
+      for (const node of config.NODES) {
+        try {
+          const res = await $fetch(node, {
+            method: 'POST',
+            body: { jsonrpc: '2.0', method: 'bridge.get_discussion', params, id: 1 },
+            timeout: 6000
+          })
+          if (res && res.result) { return res.result }
+        } catch { /* try the next node */ }
+      }
+      return null
+    }
+
     const { data } = await useAsyncData(`post-${route.params.user}-${route.params.post}`, async () => {
       try {
-        const client = $chain.getClient()
-
         const { user: author, post: permlink } = route.params
 
         const params = { author, permlink }
@@ -146,7 +161,9 @@ export default {
           params.observer = auth.user.username
         }
 
-        const d = await client.hivemind.call('get_discussion', params)
+        const d = await bridgeGetDiscussion(params)
+
+        if (!d) { return null }
 
         Object.keys(d).forEach((pl) => {
           d[pl] = {
