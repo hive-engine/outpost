@@ -269,9 +269,15 @@ export default {
         }
       }
 
-      // Mandatory 3Speak beneficiaries (sorted by account ascending).
-      const beneficiaries = (this.config.THREESPEAK_BENEFICIARIES || [])
-        .slice().sort((a, b) => a.account.localeCompare(b.account))
+      // Mandatory 3Speak beneficiaries (sorted by account ascending). Deep-clone
+      // to PLAIN objects: runtimeConfig values are reactive proxies, and Keychain
+      // silently drops non-cloneable proxies when serialising the op across the
+      // extension boundary — so it never pops and publish appears to hang. (The
+      // Chats composer worked because requestBroadcastPost already JSON-clones.)
+      const beneficiaries = JSON.parse(JSON.stringify(
+        (this.config.THREESPEAK_BENEFICIARIES || [])
+          .slice().sort((a, b) => a.account.localeCompare(b.account))
+      ))
 
       const comment = {
         parent_author: '',
