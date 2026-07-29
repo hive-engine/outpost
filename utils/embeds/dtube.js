@@ -52,7 +52,12 @@ export function genIframeMd (idx, dtubeId, width, height, metadata, createElemen
   return createElement('iframe', {
     class: 'embed-responsive-item',
     key: `dtube-${idx}-${dtubeId}`,
-    attrs: { width, height, src, allowfullscreen: true, sandbox: 'allow-scripts allow-same-origin' }
+    width,
+    height,
+    src,
+    allowfullscreen: true,
+    frameborder: '0',
+    sandbox: 'allow-scripts allow-same-origin'
   })
 }
 

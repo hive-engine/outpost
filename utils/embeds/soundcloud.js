@@ -49,6 +49,11 @@ export function genIframeMd (idx, id, width, height, metadata, createElement) {
   return createElement('iframe', {
     class: 'embed-responsive-item',
     key: `soundcloud-${idx}-${id}`,
-    attrs: { width, height, src, allowfullscreen: true, sandbox: 'allow-scripts allow-same-origin allow-popups' }
+    width,
+    height,
+    src,
+    allowfullscreen: true,
+    frameborder: '0',
+    sandbox: 'allow-scripts allow-same-origin allow-popups'
   })
 }

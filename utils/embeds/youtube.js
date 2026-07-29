@@ -79,7 +79,11 @@ export const genIframeMd = (idx, id, width, height, startTime, createElement) =>
   return createElement('iframe', {
     class: 'embed-responsive-item',
     key: `youtube-${idx}-${id}`,
-    attrs: { width, height, src: autoPlaySrc, allowfullscreen: true }
+    width,
+    height,
+    src: autoPlaySrc,
+    allowfullscreen: true,
+    frameborder: '0'
   })
 }
 

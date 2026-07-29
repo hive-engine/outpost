@@ -80,7 +80,12 @@ export function genIframeMd (idx, threespeakId, width, height, metadata, createE
   return createElement('iframe', {
     class: 'embed-responsive-item',
     key: `threespeak-${idx}-${threespeakId}`,
-    attrs: { width, height, src, allowfullscreen: true, sandbox: 'allow-scripts allow-same-origin allow-popups' }
+    width,
+    height,
+    src,
+    allowfullscreen: true,
+    frameborder: '0',
+    sandbox: 'allow-scripts allow-same-origin allow-popups'
   })
 }
 
