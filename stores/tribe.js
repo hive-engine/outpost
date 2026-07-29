@@ -280,6 +280,13 @@ export const useTribeStore = defineStore('tribe', {
 
       const client = $chain.getClient()
 
+      // Ensure plain, serialisable operations reach the signer. runtimeConfig and
+      // store values can be reactive proxies, which Keychain silently drops when
+      // structured-cloning the op across the extension boundary — it then never
+      // pops and the broadcast appears to hang. A JSON round-trip strips proxies;
+      // operations must be JSON-serialisable to broadcast anyway, so it's lossless.
+      operations = JSON.parse(JSON.stringify(operations))
+
       if (authStore.user.smartlock) {
         // P3: real confirm dialog (was $bvModal.msgBoxConfirm in legacy)
         useUiStore().confirm({ message: 'Are you sure?' })
