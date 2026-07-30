@@ -30,7 +30,7 @@
         <NuxtLink class="sm-link" :to="{ name: 'sort', params: { sort: 'trending' } }" @click="close">🔥 <span>Trending</span></NuxtLink>
         <NuxtLink v-if="config.CHATS_ENABLED" class="sm-link" :to="{ name: 'chats' }" @click="close">💬 <span>Chats</span></NuxtLink>
         <NuxtLink class="sm-link" :to="{ name: 'shorts' }" @click="close">🎬 <span>Shorts</span></NuxtLink>
-        <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'notifications' }" @click="close">🔔 <span>Notifications</span></NuxtLink>
+        <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'notifications' }" @click="close">🔔 <span>Notifications</span><span v-if="notif.unreadCount" class="sm-badge">{{ notif.unreadCount > 99 ? '99+' : notif.unreadCount }}</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'user-feed', params: { user: auth.user.username } }" @click="close">📰 <span>My feed</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'user-wallet', params: { user: auth.user.username } }" @click="close">💰 <span>Wallet</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn && auth.user.username === tribe.issuer" class="sm-link" :to="{ name: 'dashboard' }" @click="close">📊 <span>Dashboard</span></NuxtLink>
@@ -59,9 +59,11 @@ import { useUserStore } from '~/stores/user'
 import { useTribeStore } from '~/stores/tribe'
 import { useScotStore } from '~/stores/scot'
 import { useUiStore } from '~/stores/ui'
+import { useNotificationsStore } from '~/stores/notifications'
 
 const config = useRuntimeConfig().public
 const auth = useAuthStore()
+const notif = useNotificationsStore()
 const userStore = useUserStore()
 const tribe = useTribeStore()
 const scot = useScotStore()
@@ -95,6 +97,7 @@ const close = () => ui.hideModal('sidebarMenu')
 
 .sm-nav { display: flex; flex-direction: column; gap: .2rem; margin-bottom: 1.1rem; }
 .sm-link { display: flex; align-items: center; gap: .7rem; padding: .65rem .8rem; border-radius: 10px; text-decoration: none; color: var(--w3-text) !important; font-weight: 600; font-size: .95rem; }
+.sm-badge { margin-left: auto; background: var(--w3-red, #ff5964); color: #fff; font-size: .68rem; font-weight: 800; line-height: 1; padding: .18rem .4rem; border-radius: 999px; }
 .sm-link:hover { background: var(--w3-panel-2); color: var(--w3-gold) !important; }
 
 .sm-section { margin-bottom: 1.1rem; }

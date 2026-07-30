@@ -12,7 +12,7 @@
         class="notif-filter"
         :class="{ active: filter === f.key }"
         @click="filter = f.key"
-      >{{ f.label }}</button>
+      >{{ f.label }}<span v-if="countFor(f.key)" class="notif-filter-count">{{ countFor(f.key) }}</span></button>
     </div>
 
     <loading v-if="loading && !items.length" />
@@ -51,6 +51,7 @@
 import Loading from '@/components/Loading.vue'
 import Timeago from '~/components/app/Timeago.vue'
 import { useAuthStore } from '~/stores/auth'
+import { useNotificationsStore } from '~/stores/notifications'
 
 export default {
   name: 'NotificationsPage',
@@ -60,13 +61,17 @@ export default {
   setup () {
     const config = useRuntimeConfig().public
     const auth = useAuthStore()
+    const notif = useNotificationsStore()
     useHead({ title: 'Notifications' })
-    return { config, auth }
+    return { config, auth, notif }
   },
 
   data () {
     return {
       items: [],
+      // Unread-at-arrival counts, shown on the filter pills. Snapshotted before
+      // markSeen() so the "3 new mentions" hint survives while you review them.
+      snapshot: {},
       filter: 'all',
       loading: true,
       loadingMore: false,
@@ -91,8 +96,15 @@ export default {
     }
   },
 
-  mounted () {
+  async mounted () {
     if (!this.auth.loggedIn) { return navigateTo('/') }
+
+    // Capture the unread-per-type counts for the pills, THEN mark everything seen
+    // (clears the bell badge). Uses the shared store so counts match the bell.
+    await this.notif.fetch()
+    this.snapshot = { all: this.notif.unreadCount, ...this.notif.unreadByType }
+    this.notif.markSeen()
+
     this.load()
   },
 
@@ -132,6 +144,11 @@ export default {
       this.loadingMore = true
       await this.load()
       this.loadingMore = false
+    },
+
+    countFor (key) {
+      const c = key === 'all' ? this.snapshot.all : this.snapshot[key]
+      return c > 99 ? '99+' : (c || 0)
     },
 
     dateOf (n) { return new Date(`${n.date}Z`) },
@@ -177,6 +194,12 @@ export default {
 }
 .notif-filter:hover { color: var(--w3-text); border-color: rgba(245, 184, 0, .4); }
 .notif-filter.active { color: #1a1206; background: linear-gradient(135deg, var(--w3-gold), #ffd34d); border-color: transparent; }
+.notif-filter-count {
+  display: inline-block; margin-left: .4rem; padding: .06rem .38rem;
+  background: var(--w3-red, #ff5964); color: #fff; font-size: .72rem; font-weight: 800;
+  line-height: 1.3; border-radius: 999px; vertical-align: middle;
+}
+.notif-filter.active .notif-filter-count { background: rgba(26, 18, 6, .8); color: #ffd34d; }
 
 .notif-list { display: flex; flex-direction: column; }
 .notif-item {

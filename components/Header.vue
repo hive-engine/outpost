@@ -47,6 +47,10 @@
           <template v-if="auth.loggedIn">
             <b-nav-item :to="{ name: 'notifications' }" link-classes="navbar-btn rounded" title="Notifications">
               <fa-icon icon="bell" />
+
+              <div v-if="notif.unreadCount" class="notif-count badge text-bg-danger">
+                {{ notif.unreadCount > 99 ? '99+' : notif.unreadCount }}
+              </div>
             </b-nav-item>
 
             <b-nav-item :to="{ name: 'publish' }" link-classes="navbar-btn rounded">
@@ -134,6 +138,7 @@ import { useUserStore } from '~/stores/user'
 import { useTribeStore } from '~/stores/tribe'
 import { useNftMarketplaceStore } from '~/stores/nftmarketplace'
 import { useUiStore } from '~/stores/ui'
+import { useNotificationsStore } from '~/stores/notifications'
 
 const config = useRuntimeConfig().public
 const auth = useAuthStore()
@@ -141,6 +146,22 @@ const userStore = useUserStore()
 const tribe = useTribeStore()
 const nftm = useNftMarketplaceStore()
 const ui = useUiStore()
+const notif = useNotificationsStore()
+
+// Keep the bell badge (unread count) fresh while logged in.
+let notifTimer = null
+const startNotifPolling = () => {
+  if (import.meta.server) { return }
+  notif.fetch()
+  if (!notifTimer) { notifTimer = setInterval(() => notif.fetch(), 60000) }
+}
+const stopNotifPolling = () => { if (notifTimer) { clearInterval(notifTimer); notifTimer = null } }
+
+onMounted(() => { if (auth.loggedIn) { startNotifPolling() } })
+onBeforeUnmount(stopNotifPolling)
+watch(() => auth.loggedIn, (loggedIn) => {
+  if (loggedIn) { startNotifPolling() } else { stopNotifPolling(); notif.reset() }
+})
 
 const urlA = 'https://inleo.io/signup?referral=borniet'
 const urlB = 'https://inleo.io/signup?referral=bradleyarrow'
