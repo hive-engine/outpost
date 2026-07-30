@@ -75,6 +75,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { font-family: 'Space Grote
   color: var(--w3-text) !important;
 }
 .navbar-btn:hover { background: var(--w3-panel-2) !important; border-color: rgba(245, 184, 0, 0.5) !important; }
+// Unread bell badge — anchored to the top-right of the bell button.
+.navbar-nav .nav-item { position: relative; }
+.notif-count {
+  position: absolute; top: -3px; right: -3px;
+  min-width: 17px; padding: .12rem .3rem;
+  font-size: .62rem; font-weight: 800; line-height: 1;
+  border-radius: 999px; pointer-events: none;
+}
 
 // ── Buttons ───────────────────────────────────────────────────────────────────
 .btn { border-radius: 10px; font-weight: 600; }

@@ -58,7 +58,7 @@
     <b-nav v-if="!isPostView" align="center" pills class="profile-tabs">
       <template v-for="(route, i) of childRoutes">
         <b-nav-item v-if="route.show" :key="i" :to="{name: route.name, params: {user: $route.params.user}}" :active="route.name === $route.name || (route.name === 'user-followers' && $route.name === 'user-following')">
-          {{ route.title }}
+          {{ route.title }}<span v-if="route.name === 'user-mentions' && ownProfile && notif.unreadByType.mention" class="tab-badge">{{ notif.unreadByType.mention > 99 ? '99+' : notif.unreadByType.mention }}</span>
         </b-nav-item>
       </template>
     </b-nav>
@@ -79,6 +79,7 @@ import { mapState, mapActions } from 'pinia'
 import { useAuthStore } from '~/stores/auth'
 import { useTribeStore } from '~/stores/tribe'
 import { useUserStore } from '~/stores/user'
+import { useNotificationsStore } from '~/stores/notifications'
 
 export default {
   name: 'UserProfileMain',
@@ -86,6 +87,7 @@ export default {
   async setup () {
     const config = useRuntimeConfig().public
     const auth = useAuthStore()
+    const notif = useNotificationsStore()
     const route = useRoute()
     const { $chain, $sidechain } = useNuxtApp()
 
@@ -152,7 +154,7 @@ export default {
       }
     })
 
-    return { config, auth, data, refresh, muted }
+    return { config, auth, notif, data, refresh, muted }
   },
 
   data () {
@@ -164,6 +166,11 @@ export default {
   computed: {
     ...mapState(useTribeStore, ['muting_account']),
     ...mapState(useUserStore, ['following']),
+
+    // Viewing your own profile — the unread mentions badge only makes sense there.
+    ownProfile () {
+      return this.auth.loggedIn && this.$route.params.user === this.auth.user.username
+    },
 
     // A single post (/@user/:post) is nested under this profile wrapper by Nuxt file
     // routing, but should render standalone — hide the profile cover + tab nav for it.
@@ -306,4 +313,10 @@ export default {
   background: linear-gradient(135deg, var(--w3-gold), #ffd34d) !important;
   box-shadow: 0 0 18px rgba(245,184,0,.3);
 }
+.tab-badge {
+  display: inline-block; margin-left: .4rem; padding: .05rem .34rem;
+  background: var(--w3-red, #ff5964); color: #fff; font-size: .68rem; font-weight: 800;
+  line-height: 1.3; border-radius: 999px; vertical-align: middle;
+}
+.profile-tabs :deep(.nav-link.active) .tab-badge { background: rgba(26,18,6,.8); color: #ffd34d; }
 </style>
