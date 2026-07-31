@@ -16,6 +16,24 @@
           </div>
         </b-card>
 
+        <b-card v-if="isOwner && hasHiveRewards" class="mt-3">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="fw-bold">Claimable {{ currency }} rewards</div>
+              <div class="text-muted small">
+                <span v-if="parseFloat(rewardHive) > 0">{{ rewardHive }}</span>
+                <span v-if="parseFloat(rewardHbd) > 0"> · {{ rewardHbd }}</span>
+                <span v-if="parseFloat(rewardVests) > 0"> · {{ numberWithCommas(rewardVestsHive) }} {{ currency }} Power</span>
+              </div>
+            </div>
+
+            <b-button variant="success" :disabled="disableClaim" @click.prevent="claimHiveRewards">
+              <b-spinner v-if="disableClaim" small />
+              <template v-else>Claim</template>
+            </b-button>
+          </div>
+        </b-card>
+
         <b-card class="mt-3">
           <b-row no-gutters>
             <b-col cols="8">
@@ -103,8 +121,14 @@
                   </div>
                 </template>
 
+                <b-dropdown-item-btn @click.prevent="showHiveModal('transfer', 'HIVE')">
+                  Transfer
+                </b-dropdown-item-btn>
+                <b-dropdown-item-btn @click.prevent="showHiveModal('powerup', 'HIVE')">
+                  Power Up
+                </b-dropdown-item-btn>
                 <b-dropdown-item target="_blank" :href="getWalletLink">
-                  Wallet
+                  View on Hive
                 </b-dropdown-item>
               </b-dropdown>
             </b-col>
@@ -129,8 +153,14 @@
                   </div>
                 </template>
 
+                <b-dropdown-item-btn @click.prevent="showHiveModal('powerdown', 'HP')">
+                  Power Down
+                </b-dropdown-item-btn>
+                <b-dropdown-item-btn @click.prevent="showHiveModal('delegate', 'HP')">
+                  Delegate
+                </b-dropdown-item-btn>
                 <b-dropdown-item target="_blank" :href="getWalletLink">
-                  Wallet
+                  View on Hive
                 </b-dropdown-item>
               </b-dropdown>
 
@@ -159,8 +189,11 @@
                   </div>
                 </template>
 
+                <b-dropdown-item-btn @click.prevent="showHiveModal('transfer', 'HBD')">
+                  Transfer
+                </b-dropdown-item-btn>
                 <b-dropdown-item target="_blank" :href="getWalletLink">
-                  Wallet
+                  View on Hive
                 </b-dropdown-item>
               </b-dropdown>
             </b-col>
@@ -223,6 +256,14 @@
                   {{ item.data.from }}
                 </nuxt-link>
               </template>
+            </template>
+
+            <template v-else-if="item.type === 'hive_powerup'">
+              Powered up {{ item.data.amount }} {{ item.data.token }}<template v-if="item.data.to && item.data.to !== item.data.from"> to <nuxt-link :to="{name:'user', params:{user: item.data.to}}">{{ item.data.to }}</nuxt-link></template>
+            </template>
+
+            <template v-else-if="item.type === 'claim_reward_balance'">
+              Claimed rewards:<template v-if="parseFloat(item.data.hive) > 0"> {{ item.data.hive }}</template><template v-if="parseFloat(item.data.hbd) > 0"> {{ item.data.hbd }}</template><template v-if="parseFloat(item.data.vests) > 0"> {{ item.data.vests }}</template>
             </template>
 
             <template v-else-if="item.type === 'tokens_stake'">
@@ -342,7 +383,7 @@
       </b-form-group>
 
       <template #modal-footer>
-        <b-button :disabled="disableAction" variant="primary" @click="requestTokenAction({action, amount, to, memo})">
+        <b-button :disabled="disableAction" variant="primary" @click="submitAction">
           <b-spinner v-if="waiting" small />
           <template v-else>
             {{ actionNames[action] }}
@@ -417,7 +458,16 @@ export default {
 
       pendingRewards: 0,
 
+      // Claimable Hive rewards (exact chain strings for claim_reward_balance).
+      rewardHive: '0.000 HIVE',
+      rewardHbd: '0.000 HBD',
+      rewardVests: '0.000000 VESTS',
+      rewardVestsHive: 0,
+      vestsPerHive: 0,
+      disableClaim: false,
+
       action: '',
+      assetType: 'token', // 'token' (BBHO) | 'HIVE' | 'HBD' | 'HP'
       available: 0,
       amount: 0,
       percentage: 0,
@@ -459,17 +509,30 @@ export default {
       return !this.auth.loggedIn || this.auth.user.username !== this.$route.params.user
     },
 
+    hasHiveRewards () {
+      return parseFloat(this.rewardHive) > 0 || parseFloat(this.rewardHbd) > 0 || parseFloat(this.rewardVests) > 0
+    },
+
+    isOwner () {
+      return this.auth.loggedIn && this.auth.user.username === this.$route.params.user
+    },
+
     actionNames () {
       return {
         transfer: 'Transfer',
         stake: 'Stake',
         unstake: 'Unstake',
-        delegate: 'Delegate'
+        delegate: 'Delegate',
+        powerup: 'Power Up',
+        powerdown: 'Power Down'
       }
     },
 
     modalTitle () {
-      return `${this.actionNames[this.action]} ${this.config.TOKEN}`
+      const asset = this.assetType === 'token'
+        ? this.config.TOKEN
+        : (this.assetType === 'HP' ? `${this.currency} Power` : this.assetType)
+      return `${this.actionNames[this.action]} ${asset}`
     },
 
     disableAction () {
@@ -545,17 +608,34 @@ export default {
       ])
     })
 
+    // Native Hive ops + reward claim: no Hive-Engine trx id to validate — just
+    // close the modal and refresh chain balances after the block confirms.
+    this.$eventBus.$on(['hive-transfer-successful', 'hive-powerup-successful', 'hive-powerdown-successful', 'hive-delegate-successful', 'claim-rewards-successful'], async () => {
+      self.waiting = false
+      self.disableClaim = false
+      self.ui.hideModal('actionModal')
+
+      await self.sleep(3000)
+
+      await Promise.all([
+        self.fetchChainBalance(),
+        self.fetchAccountHistory()
+      ])
+    })
+
     this.$eventBus.$on('transaction-broadcast-error', () => {
       this.disableRedeem = false
+      this.disableClaim = false
+      this.waiting = false
     })
   },
 
   beforeUnmount () {
-    this.$eventBus.$off(['tokens-transfer-successful', 'tokens-stake-successful', 'tokens-unstake-successful', 'tokens-delegate-successful', 'redeem-rewards-successful', 'transaction-validated', 'transaction-broadcast-error'])
+    this.$eventBus.$off(['tokens-transfer-successful', 'tokens-stake-successful', 'tokens-unstake-successful', 'tokens-delegate-successful', 'redeem-rewards-successful', 'transaction-validated', 'transaction-broadcast-error', 'hive-transfer-successful', 'hive-powerup-successful', 'hive-powerdown-successful', 'hive-delegate-successful', 'claim-rewards-successful'])
   },
 
   methods: {
-    ...mapActions(useUserStore, ['requestTokenAction', 'requestRedeemRewards']),
+    ...mapActions(useUserStore, ['requestTokenAction', 'requestRedeemRewards', 'requestHiveAction', 'requestClaimRewards']),
     ...mapActions(useTransactionStore, ['validateTransaction']),
 
     numberWithCommas,
@@ -615,6 +695,15 @@ export default {
       this.netDelegation = toFixedWithoutRounding(netDelegation, 3)
       this.balance = parseFloat(account.balance)
       this.hbd_balance = parseFloat(account[IS_HIVE ? 'hbd_balance' : 'sbd_balance'])
+
+      // HP <-> VESTS conversion (for power up/down + delegate amounts).
+      this.vestsPerHive = totalVests / totalVestHive
+
+      // Claimable rewards — keep the exact chain strings for claim_reward_balance.
+      this.rewardHive = account.reward_hive_balance || '0.000 HIVE'
+      this.rewardHbd = account[IS_HIVE ? 'reward_hbd_balance' : 'reward_sbd_balance'] || '0.000 HBD'
+      this.rewardVests = account.reward_vesting_balance || '0.000000 VESTS'
+      this.rewardVestsHive = toFixedWithoutRounding(totalVestHive * (parseFloat(this.rewardVests) / totalVests), 3)
     },
 
     async fetchSidechainBalance () {
@@ -675,7 +764,7 @@ export default {
       // preflight the history server rejects, which left this section blank. Plain
       // $fetch sends no credentials/custom headers. Each source is caught
       // independently so one failing doesn't wipe out the other.
-      const [accountHistory, scotHistory] = await Promise.all([
+      const [accountHistory, scotHistory, hiveHistoryRaw] = await Promise.all([
         $fetch(`${this.config.SIDECHAIN_HISTORY_API}/accountHistory`, {
           query: {
             account,
@@ -684,10 +773,13 @@ export default {
             symbol: this.config.TOKEN
           }
         }).catch(() => []),
-        this.$scot.$get('get_account_history', { params: { account, limit: 50 } }).catch(() => [])
+        this.$scot.$get('get_account_history', { params: { account, limit: 50 } }).catch(() => []),
+        // Hive blockchain history (so the table isn't BBHO-only). Last 100 ops,
+        // filtered client-side to transfers / claims / power-ups.
+        this.$chain.getClient().call('condenser_api', 'get_account_history', [account, -1, 100]).catch(() => [])
       ])
 
-      const history = [...(Array.isArray(accountHistory) ? accountHistory : []), ...(Array.isArray(scotHistory) ? scotHistory : [])]
+      const heHistory = [...(Array.isArray(accountHistory) ? accountHistory : []), ...(Array.isArray(scotHistory) ? scotHistory : [])]
         .map(h => ({ ...h, timestamp: Number.isInteger(h.timestamp) ? h.timestamp * 1000 : new Date(`${h.timestamp}Z`).getTime(), is_scot: !(h.operation) }))
         .map((h) => {
           let data = {}
@@ -718,11 +810,32 @@ export default {
           }
         })
 
-      this.history = history
+      const hiveHistory = (Array.isArray(hiveHistoryRaw) ? hiveHistoryRaw : [])
+        .map(([, h]) => {
+          const [opName, op] = h.op
+          const timestamp = new Date(`${h.timestamp}Z`).getTime()
+
+          if (opName === 'transfer') {
+            const [amt, token] = op.amount.split(' ')
+            return { timestamp, type: 'tokens_transfer', is_scot: false, data: { from: op.from, to: op.to, amount: Number(amt), token, memo: op.memo }, raw_data: h }
+          }
+          if (opName === 'claim_reward_balance') {
+            return { timestamp, type: 'claim_reward_balance', is_scot: false, data: { hive: op.reward_hive, hbd: op.reward_hbd, vests: op.reward_vests }, raw_data: h }
+          }
+          if (opName === 'transfer_to_vesting') {
+            const [amt] = op.amount.split(' ')
+            return { timestamp, type: 'hive_powerup', is_scot: false, data: { from: op.from, to: op.to, amount: Number(amt), token: 'HIVE' }, raw_data: h }
+          }
+          return null
+        })
+        .filter(Boolean)
+
+      this.history = [...heHistory, ...hiveHistory].sort((a, b) => b.timestamp - a.timestamp)
     },
 
     showModal (action) {
       this.action = action
+      this.assetType = 'token'
 
       this.available = ['delegate', 'unstake'].includes(action) ? this.availableStake : this.tokenBalance
 
@@ -731,6 +844,45 @@ export default {
       }
 
       this.ui.showModal('actionModal')
+    },
+
+    // Open the action modal for a native Hive asset (HIVE / HBD / HP).
+    showHiveModal (action, asset) {
+      this.action = action
+      this.assetType = asset
+
+      if (asset === 'HBD') {
+        this.available = this.hbd_balance
+      } else if (asset === 'HP') {
+        this.available = this.vestingHive
+      } else {
+        this.available = this.balance
+      }
+
+      this.ui.showModal('actionModal')
+    },
+
+    // Modal submit — routes to the HE (BBHO) or native-Hive broadcast path.
+    submitAction () {
+      this.waiting = true
+
+      if (this.assetType === 'token') {
+        this.requestTokenAction({ action: this.action, amount: this.amount, to: this.to, memo: this.memo })
+      } else {
+        this.requestHiveAction({
+          action: this.action,
+          amount: this.amount,
+          to: this.to,
+          memo: this.memo,
+          asset: this.assetType === 'HBD' ? 'HBD' : 'HIVE',
+          vestsPerHive: this.vestsPerHive
+        })
+      }
+    },
+
+    claimHiveRewards () {
+      this.disableClaim = true
+      this.requestClaimRewards({ rewardHive: this.rewardHive, rewardHbd: this.rewardHbd, rewardVests: this.rewardVests })
     }
   }
 }
