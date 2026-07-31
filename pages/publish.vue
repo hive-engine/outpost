@@ -447,7 +447,18 @@ export default {
 
     body () { this.queueAutoSave() },
     summary () { this.queueAutoSave() },
-    tags: { handler () { this.queueAutoSave() }, deep: true }
+    tags: { handler () { this.queueAutoSave() }, deep: true },
+
+    // The session restores asynchronously, so on a fresh load mounted() runs while
+    // draftUser is still 'anon' — reading the wrong (empty) draft key. When auth
+    // lands and draftUser becomes the real username, re-read the drafts (and, if
+    // nothing's been typed yet, restore the auto-saved work). This is why
+    // "yesterday's draft" wasn't showing up.
+    draftUser () {
+      if (this.isEditing) { return }
+      this.loadDrafts()
+      if (!this.hasContent) { this.restoreAutoDraft() }
+    }
   },
 
   created () {
