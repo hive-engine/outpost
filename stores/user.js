@@ -409,6 +409,45 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    // Native Hive value operations (transfer / power up / power down / delegate) —
+    // the wallet's in-app HIVE/HBD actions. HP amounts are converted to VESTS via
+    // vestsPerHive (from the chain's global props). Active authority (except claim).
+    requestHiveAction ({ action, amount, to, memo, asset = 'HIVE', vestsPerHive = 0 }) {
+      const authStore = useAuthStore()
+      const username = authStore.user.username
+      const amt = Number(amount)
+      let operations
+
+      if (action === 'transfer') {
+        operations = [['transfer', { from: username, to, amount: `${amt.toFixed(3)} ${asset}`, memo: memo || '' }]]
+      } else if (action === 'powerup') {
+        operations = [['transfer_to_vesting', { from: username, to: to || username, amount: `${amt.toFixed(3)} HIVE` }]]
+      } else if (action === 'powerdown') {
+        operations = [['withdraw_vesting', { account: username, vesting_shares: `${(amt * vestsPerHive).toFixed(6)} VESTS` }]]
+      } else if (action === 'delegate') {
+        operations = [['delegate_vesting_shares', { delegator: username, delegatee: to, vesting_shares: `${(amt * vestsPerHive).toFixed(6)} VESTS` }]]
+      } else {
+        return
+      }
+
+      useTribeStore().requestBroadcastOps({ operations, emitEvent: `hive-${action}-successful`, keyType: 'Active' })
+    },
+
+    // Claim pending Hive author/curation/staking rewards. Amounts are the exact
+    // reward_* balance strings from the account. claim_reward_balance is posting-auth.
+    requestClaimRewards ({ rewardHive, rewardHbd, rewardVests }) {
+      const authStore = useAuthStore()
+
+      const operations = [['claim_reward_balance', {
+        account: authStore.user.username,
+        reward_hive: rewardHive,
+        reward_hbd: rewardHbd,
+        reward_vests: rewardVests
+      }]]
+
+      useTribeStore().requestBroadcastOps({ operations, emitEvent: 'claim-rewards-successful' })
+    },
+
     requestAccountUpdate (profile) {
       const authStore = useAuthStore()
 
