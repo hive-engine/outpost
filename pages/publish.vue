@@ -588,21 +588,37 @@ export default {
     // logged out or the request fails. restoreAuto fills the editor with unsaved
     // auto-saved work when nothing has been typed yet.
     async loadDrafts ({ restoreAuto = false } = {}) {
-      let loaded = false
+      // Read the local backup first — it may hold pre-server drafts we must not lose.
+      let localDrafts = []
+      let localAuto = null
+      try { localDrafts = JSON.parse(localStorage.getItem(this.draftStoreKey) || '[]') } catch { /* ignore */ }
+      try { localAuto = JSON.parse(localStorage.getItem(this.autoStoreKey) || 'null') } catch { /* ignore */ }
 
       if (this.auth.loggedIn) {
         try {
           const res = await this.$api.$get('/api/v1/drafts')
-          this.drafts = Array.isArray(res.drafts) ? res.drafts : []
-          this.autoDraft = res.auto || null
-          this.backupLocal()
-          loaded = true
-        } catch { /* fall back to local */ }
-      }
+          const serverDrafts = Array.isArray(res.drafts) ? res.drafts : []
+          const serverAuto = res.auto || null
 
-      if (!loaded) {
-        try { this.drafts = JSON.parse(localStorage.getItem(this.draftStoreKey) || '[]') } catch { this.drafts = [] }
-        try { this.autoDraft = JSON.parse(localStorage.getItem(this.autoStoreKey) || 'null') } catch { this.autoDraft = null }
+          if (!serverDrafts.length && localDrafts.length) {
+            // First run with the server store empty but local drafts present —
+            // migrate them up so nothing is lost (never overwrite local with []).
+            this.drafts = localDrafts
+            this.autoDraft = serverAuto || localAuto
+            await this.syncDrafts()
+          } else {
+            this.drafts = serverDrafts
+            this.autoDraft = serverAuto || localAuto
+            this.backupLocal()
+          }
+        } catch {
+          // Request failed — keep the local backup.
+          this.drafts = localDrafts
+          this.autoDraft = localAuto
+        }
+      } else {
+        this.drafts = localDrafts
+        this.autoDraft = localAuto
       }
 
       if (restoreAuto && !this.hasContent && this.autoDraft && (this.autoDraft.title || this.autoDraft.body)) {
