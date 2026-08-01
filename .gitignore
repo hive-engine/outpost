@@ -103,3 +103,6 @@ key.txt
 # Generated token snapshots (data, not code)
 bbho-snapshot-*.json
 bbho-snapshot-*.csv
+
+# server-side drafts store
+.data/

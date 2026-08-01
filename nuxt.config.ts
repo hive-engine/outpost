@@ -72,6 +72,15 @@ export default defineNuxtConfig({
   // Legacy dir is excluded from the build; pieces are ported in phase by phase.
   ignore: ['legacy/**'],
 
+  nitro: {
+    // Persistent, account-scoped drafts store. fs base is relative to the server's
+    // working dir (outside .output, so it survives rebuilds). Override with
+    // DRAFTS_DIR if you want it elsewhere.
+    storage: {
+      drafts: { driver: 'fsLite', base: process.env.DRAFTS_DIR || './.data/drafts' }
+    }
+  },
+
   hooks: {
     // webpack 4 (Nuxt 2) injected a global Buffer; Vite does not. dhive/triplesec/
     // signing reference global Buffer in the browser. Polyfill it — CLIENT BUILD ONLY

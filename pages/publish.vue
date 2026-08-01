@@ -347,8 +347,9 @@ export default {
     return {
       loading: false,
 
-      // Local drafts (browser-stored)
+      // Account-synced drafts (server-backed, localStorage backup)
       drafts: [],
+      autoDraft: null,
       draftSaved: false,
       autoSavedAt: null,
 
@@ -456,8 +457,7 @@ export default {
     // "yesterday's draft" wasn't showing up.
     draftUser () {
       if (this.isEditing) { return }
-      this.loadDrafts()
-      if (!this.hasContent) { this.restoreAutoDraft() }
+      this.loadDrafts({ restoreAuto: true })
     }
   },
 
@@ -480,10 +480,9 @@ export default {
   mounted () {
     const self = this
 
-    // Restore any locally-saved drafts / auto-saved work (client-only).
+    // Load saved drafts / auto-saved work from the account store (client-only).
     if (!this.isEditing) {
-      this.loadDrafts()
-      this.restoreAutoDraft()
+      this.loadDrafts({ restoreAuto: true })
     }
 
     this.multipleImageUploader = setInterval(async () => {
@@ -529,7 +528,7 @@ export default {
       return new Promise(resolve => setTimeout(resolve, ms))
     },
 
-    // ── Local drafts (browser localStorage) ──────────────────────────────────
+    // ── Account-synced drafts (server-backed, localStorage as offline backup) ──
     draftSnapshot () {
       return { title: this.title, body: this.body, tags: [...this.tags], summary: this.summary, savedAt: Date.now() }
     },
@@ -542,18 +541,16 @@ export default {
 
     autoSaveDraft () {
       if (this.isEditing || !this.hasContent || !import.meta.client) { return }
-      try {
-        const snap = this.draftSnapshot()
-        localStorage.setItem(this.autoStoreKey, JSON.stringify(snap))
-        this.autoSavedAt = snap.savedAt
-      } catch { /* storage full / disabled */ }
+      this.autoDraft = this.draftSnapshot()
+      this.autoSavedAt = this.autoDraft.savedAt
+      this.syncDrafts()
     },
 
     saveDraft () {
       if (!this.hasContent) { return }
       const draft = { ...this.draftSnapshot(), id: Date.now() }
       this.drafts = [draft, ...this.drafts].slice(0, 20)
-      this.persistDrafts()
+      this.syncDrafts()
       this.draftSaved = true
       setTimeout(() => { this.draftSaved = false }, 2000)
     },
@@ -567,30 +564,57 @@ export default {
 
     deleteDraft (id) {
       this.drafts = this.drafts.filter(d => d.id !== id)
-      this.persistDrafts()
+      this.syncDrafts()
     },
 
-    persistDrafts () {
+    // Mirror to localStorage (offline backup) so nothing is lost if the network
+    // hiccups; the server copy is what makes drafts follow the user across devices.
+    backupLocal () {
       try { localStorage.setItem(this.draftStoreKey, JSON.stringify(this.drafts)) } catch { /* ignore */ }
-    },
-
-    loadDrafts () {
-      try { this.drafts = JSON.parse(localStorage.getItem(this.draftStoreKey) || '[]') } catch { this.drafts = [] }
-    },
-
-    restoreAutoDraft () {
       try {
-        const d = JSON.parse(localStorage.getItem(this.autoStoreKey) || 'null')
-        if (d && (d.title || d.body)) {
-          this.applyDraft(d)
-          this.autoSavedAt = d.savedAt
-        }
+        if (this.autoDraft) { localStorage.setItem(this.autoStoreKey, JSON.stringify(this.autoDraft)) } else { localStorage.removeItem(this.autoStoreKey) }
       } catch { /* ignore */ }
     },
 
+    async syncDrafts () {
+      this.backupLocal()
+      if (!this.auth.loggedIn) { return }
+      try {
+        await this.$api.$post('/api/v1/drafts', { drafts: this.drafts, auto: this.autoDraft })
+      } catch { /* localStorage backup already saved */ }
+    },
+
+    // Load from the account store (cross-device); fall back to localStorage if
+    // logged out or the request fails. restoreAuto fills the editor with unsaved
+    // auto-saved work when nothing has been typed yet.
+    async loadDrafts ({ restoreAuto = false } = {}) {
+      let loaded = false
+
+      if (this.auth.loggedIn) {
+        try {
+          const res = await this.$api.$get('/api/v1/drafts')
+          this.drafts = Array.isArray(res.drafts) ? res.drafts : []
+          this.autoDraft = res.auto || null
+          this.backupLocal()
+          loaded = true
+        } catch { /* fall back to local */ }
+      }
+
+      if (!loaded) {
+        try { this.drafts = JSON.parse(localStorage.getItem(this.draftStoreKey) || '[]') } catch { this.drafts = [] }
+        try { this.autoDraft = JSON.parse(localStorage.getItem(this.autoStoreKey) || 'null') } catch { this.autoDraft = null }
+      }
+
+      if (restoreAuto && !this.hasContent && this.autoDraft && (this.autoDraft.title || this.autoDraft.body)) {
+        this.applyDraft(this.autoDraft)
+        this.autoSavedAt = this.autoDraft.savedAt
+      }
+    },
+
     clearAutoDraft () {
-      try { localStorage.removeItem(this.autoStoreKey) } catch { /* ignore */ }
+      this.autoDraft = null
       this.autoSavedAt = null
+      this.syncDrafts()
     },
 
     draftAgo (ts) {
