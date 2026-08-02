@@ -201,6 +201,7 @@ export default {
     childRoutes () {
       return [
         { name: 'user', title: 'Blog', show: true },
+        { name: 'user-posts', title: 'Posts', show: true },
         { name: 'user-comments', title: 'Comments', show: true },
         { name: 'user-replies', title: 'Replies', show: true },
         { name: 'user-mentions', title: 'Mentions', show: true },
