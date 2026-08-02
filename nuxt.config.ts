@@ -100,6 +100,7 @@ export default defineNuxtConfig({
       const names: Record<string, string> = {
         'pages/@[user]/[post].vue': 'user-post',
         'pages/@[user]/index.vue': 'user',
+        'pages/@[user]/posts.vue': 'user-posts',
         'pages/@[user]/comments.vue': 'user-comments',
         'pages/@[user]/replies.vue': 'user-replies',
         'pages/@[user]/mentions.vue': 'user-mentions',
