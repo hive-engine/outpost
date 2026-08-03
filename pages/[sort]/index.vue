@@ -2,7 +2,7 @@
   <div class="sort-page">
     <div class="page-header">
       <b-container v-if="$route.params.sort !== 'curated'" class="mb-2" fluid>
-        <trending-tags :sort="$route.params.sort" />
+        <category-chips />
       </b-container>
 
       <b-container>
