@@ -31,6 +31,7 @@
         <NuxtLink v-if="config.CHATS_ENABLED" class="sm-link" :to="{ name: 'chats' }" @click="close">💬 <span>Chats</span></NuxtLink>
         <NuxtLink class="sm-link" :to="{ name: 'shorts' }" @click="close">🎬 <span>Shorts</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'notifications' }" @click="close">🔔 <span>Notifications</span><span v-if="notif.unreadCount" class="sm-badge">{{ notif.unreadCount > 99 ? '99+' : notif.unreadCount }}</span></NuxtLink>
+        <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'bookmarks' }" @click="close">🔖 <span>Bookmarks</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'user-feed', params: { user: auth.user.username } }" @click="close">📰 <span>My feed</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'user-wallet', params: { user: auth.user.username } }" @click="close">💰 <span>Wallet</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn && auth.user.username === tribe.issuer" class="sm-link" :to="{ name: 'dashboard' }" @click="close">📊 <span>Dashboard</span></NuxtLink>
