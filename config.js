@@ -35,8 +35,11 @@ export const ADD_COMMEMT_FOOTER = true
 export const COMMENT_FOOTER = `Posted using [${APP_TITLE}](%post_url%)`
 export const SCOT_API = 'https://smt-api.enginerpc.com'
 export const SCOT_QUERY_LIMIT = 10
-export const CURATED_FEED = false
-export const CURATED_FEED_ACCOUNT = 'tribe-dev'
+// Curated "Editor's Picks" feed = posts the curation account upvotes. To switch
+// on: set CURATED_FEED_ACCOUNT to the account whose upvotes should be featured,
+// and CURATED_FEED=true. The 'Curated' nav/dropdown links appear only when enabled.
+export const CURATED_FEED = process.env.CURATED_FEED === 'true'
+export const CURATED_FEED_ACCOUNT = process.env.CURATED_FEED_ACCOUNT || 'tribe-dev'
 // --- Chats: short-form feed (Snaps/Threads/Waves-style) ---------------------
 // Chats are top-level comments on rolling "container" posts published by
 // CHATS_ACCOUNT. The account's recent posts ARE the containers (newest = active).
