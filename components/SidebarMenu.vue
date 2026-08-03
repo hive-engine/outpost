@@ -19,9 +19,22 @@
         <div class="sm-you-name">@{{ auth.user.username }}</div>
         <div class="sm-you-stats">
           <div><b class="mono">{{ balance }}</b><span>BBHO</span></div>
-          <div><b class="mono">{{ vp }}%</b><span>Voting</span></div>
         </div>
-        <div class="sm-vp"><div class="sm-vp-bar" :style="{ width: vp + '%' }" /></div>
+
+        <div class="sm-meters">
+          <div class="sm-meter">
+            <div class="sm-meter-head"><span>Voting</span><b class="mono">{{ vp }}%</b></div>
+            <div class="sm-bar"><div class="sm-bar-fill vp" :style="{ width: vp + '%' }" /></div>
+          </div>
+          <div class="sm-meter">
+            <div class="sm-meter-head"><span>Downvote</span><b class="mono">{{ dvp }}%</b></div>
+            <div class="sm-bar"><div class="sm-bar-fill dv" :style="{ width: dvp + '%' }" /></div>
+          </div>
+          <div class="sm-meter">
+            <div class="sm-meter-head"><span>RC</span><b class="mono">{{ rc == null ? '—' : rc + '%' }}</b></div>
+            <div class="sm-bar"><div class="sm-bar-fill rc" :style="{ width: (rc || 0) + '%' }" /></div>
+          </div>
+        </div>
       </div>
 
       <!-- nav -->
@@ -75,7 +88,32 @@ const balance = computed(() => {
   return v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v.toFixed(0)
 })
 const vp = computed(() => Math.round((userStore.voting_power || 0) / 100))
+const dvp = computed(() => Math.round((userStore.downvoting_power || 0) / 100))
 const tags = computed(() => (scot.trending_tags || []).slice(0, 10))
+
+// Hive Resource Credits — mana that regenerates fully in 5 days. Compute the
+// live % from the manabar + elapsed time (same model as voting power).
+const { $chain } = useNuxtApp()
+const rc = ref(null)
+
+async function fetchRC () {
+  if (!auth.loggedIn || import.meta.server) { return }
+  try {
+    const res = await $chain.getClient().call('rc_api', 'find_rc_accounts', { accounts: [auth.user.username] })
+    const acc = res && res.rc_accounts && res.rc_accounts[0]
+    if (!acc) { return }
+
+    const max = Number(acc.max_rc)
+    const current = Number(acc.rc_manabar.current_mana)
+    const last = Number(acc.rc_manabar.last_update_time)
+    const now = Math.floor(Date.now() / 1000)
+    const regenerated = (now - last) * max / (5 * 24 * 3600)
+    rc.value = Math.max(0, Math.min(100, Math.round((Math.min(max, current + regenerated) / max) * 100)))
+  } catch { /* leave as — */ }
+}
+
+onMounted(fetchRC)
+watch(() => auth.loggedIn, (loggedIn) => { if (loggedIn) { fetchRC() } })
 
 const close = () => ui.hideModal('sidebarMenu')
 </script>
@@ -93,8 +131,14 @@ const close = () => ui.hideModal('sidebarMenu')
 .sm-you-stats { display: flex; justify-content: center; gap: 1.6rem; margin: .7rem 0 .6rem; }
 .sm-you-stats b { display: block; font-size: 1.1rem; color: var(--w3-gold); }
 .sm-you-stats span { font-size: .7rem; color: var(--w3-muted); }
-.sm-vp { height: 6px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
-.sm-vp-bar { height: 100%; background: linear-gradient(90deg, var(--w3-gold), var(--w3-red)); }
+.sm-meters { display: flex; flex-direction: column; gap: .55rem; margin-top: .6rem; text-align: left; }
+.sm-meter-head { display: flex; justify-content: space-between; font-size: .72rem; color: var(--w3-muted); margin-bottom: .2rem; }
+.sm-meter-head b { color: var(--w3-text); }
+.sm-bar { height: 6px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
+.sm-bar-fill { height: 100%; transition: width .3s ease; }
+.sm-bar-fill.vp { background: linear-gradient(90deg, var(--w3-gold), #ffd34d); }
+.sm-bar-fill.dv { background: linear-gradient(90deg, #ff8a5b, var(--w3-red, #ff5964)); }
+.sm-bar-fill.rc { background: linear-gradient(90deg, #4da3ff, #6fd6ff); }
 
 .sm-nav { display: flex; flex-direction: column; gap: .2rem; margin-bottom: 1.1rem; }
 .sm-link { display: flex; align-items: center; gap: .7rem; padding: .65rem .8rem; border-radius: 10px; text-decoration: none; color: var(--w3-text) !important; font-weight: 600; font-size: .95rem; }
