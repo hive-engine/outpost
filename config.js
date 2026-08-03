@@ -11,6 +11,24 @@ export const NODES = ['https://api.hive.blog', 'https://api.deathwing.me', 'http
 export const COMMUNITY_CATEGORY = 'hive-110490'
 export const AUTO_ADD_COMMUNITY = false
 export const SCOT_TAG = 'bbh'
+// Category chips shown on the feeds — quick topic filters. Each links to that
+// tag's feed (within the tribe); the 'All' chip (empty tag) clears the filter.
+// Tune this list for the community.
+export const CATEGORY_CHIPS = [
+  { label: 'All', tag: '' },
+  { label: 'BBH', tag: 'bbh' },
+  { label: 'Photography', tag: 'photography' },
+  { label: 'Life', tag: 'life' },
+  { label: 'Nature', tag: 'nature' },
+  { label: 'Art', tag: 'art' },
+  { label: 'Food', tag: 'food' },
+  { label: 'Travel', tag: 'travel' },
+  { label: 'Crypto', tag: 'crypto' },
+  { label: 'Hive', tag: 'hive' },
+  { label: 'Gaming', tag: 'gaming' },
+  { label: 'Music', tag: 'music' },
+  { label: 'News', tag: 'news' }
+]
 export const SCOT_TAG_FIRST = true
 export const MAX_TAG = 10
 export const ADD_COMMEMT_FOOTER = true
