@@ -13,6 +13,10 @@
             </h2> <fa-icon class="ms-1" icon="angle-down" />
           </template>
 
+          <b-dropdown-item v-if="config.CURATED_FEED" :to="{name:'sort', params:{sort:'curated'}}">
+            ⭐ Curated
+          </b-dropdown-item>
+
           <b-dropdown-item v-if="$route.path !== 'trending'" :to="{name:'sort', params:{sort:'trending'}}">
             Trending
           </b-dropdown-item>
