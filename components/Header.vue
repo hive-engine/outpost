@@ -139,6 +139,7 @@ import { useTribeStore } from '~/stores/tribe'
 import { useNftMarketplaceStore } from '~/stores/nftmarketplace'
 import { useUiStore } from '~/stores/ui'
 import { useNotificationsStore } from '~/stores/notifications'
+import { useBookmarksStore } from '~/stores/bookmarks'
 
 const config = useRuntimeConfig().public
 const auth = useAuthStore()
@@ -147,12 +148,15 @@ const tribe = useTribeStore()
 const nftm = useNftMarketplaceStore()
 const ui = useUiStore()
 const notif = useNotificationsStore()
+const bookmarks = useBookmarksStore()
 
-// Keep the bell badge (unread count) fresh while logged in.
+// Keep the bell badge (unread count) fresh while logged in; load bookmarks once
+// so the save-for-later state is correct on every post.
 let notifTimer = null
 const startNotifPolling = () => {
   if (import.meta.server) { return }
   notif.fetch()
+  bookmarks.fetch()
   if (!notifTimer) { notifTimer = setInterval(() => notif.fetch(), 60000) }
 }
 const stopNotifPolling = () => { if (notifTimer) { clearInterval(notifTimer); notifTimer = null } }
@@ -160,7 +164,7 @@ const stopNotifPolling = () => { if (notifTimer) { clearInterval(notifTimer); no
 onMounted(() => { if (auth.loggedIn) { startNotifPolling() } })
 onBeforeUnmount(stopNotifPolling)
 watch(() => auth.loggedIn, (loggedIn) => {
-  if (loggedIn) { startNotifPolling() } else { stopNotifPolling(); notif.reset() }
+  if (loggedIn) { startNotifPolling() } else { stopNotifPolling(); notif.reset(); bookmarks.reset() }
 })
 
 const urlA = 'https://inleo.io/signup?referral=borniet'

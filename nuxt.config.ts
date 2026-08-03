@@ -77,7 +77,8 @@ export default defineNuxtConfig({
     // working dir (outside .output, so it survives rebuilds). Override with
     // DRAFTS_DIR if you want it elsewhere.
     storage: {
-      drafts: { driver: 'fsLite', base: process.env.DRAFTS_DIR || './.data/drafts' }
+      drafts: { driver: 'fsLite', base: process.env.DRAFTS_DIR || './.data/drafts' },
+      bookmarks: { driver: 'fsLite', base: process.env.BOOKMARKS_DIR || './.data/bookmarks' }
     }
   },
 

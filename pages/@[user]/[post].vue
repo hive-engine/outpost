@@ -60,6 +60,7 @@
             :is-comment="false"
           />
           <extra-actions :post="post" />
+          <bookmark-button :post="post" />
         </div>
         <a href="#comments" class="post-actions-comments">💬 {{ Object.keys(discussions).length - 1 }}</a>
       </div>

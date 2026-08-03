@@ -105,6 +105,8 @@
           </div>
 
           <extra-actions :post="post" />
+
+          <bookmark-button :post="post" />
         </div>
 
         <payout :post="post" />
