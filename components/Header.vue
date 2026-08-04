@@ -40,6 +40,10 @@
             <fa-icon icon="search" />
           </b-nav-item>
 
+          <b-nav-item link-classes="navbar-btn rounded" :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'" @click.prevent="toggleTheme">
+            <fa-icon :icon="isDark ? 'sun' : 'moon'" />
+          </b-nav-item>
+
           <b-nav-item v-if="config.NFT_ENABLED && $route.name && ($route.name.startsWith('nfts') || ['user-collection', 'user-gallery', 'user-collection-series', 'user-gallery-series'].includes($route.name))" link-classes="navbar-btn rounded" @click.prevent="ui.showModal('activityModal')">
             <fa-icon icon="shopping-basket" />
 
@@ -153,6 +157,12 @@ const nftm = useNftMarketplaceStore()
 const ui = useUiStore()
 const notif = useNotificationsStore()
 const bookmarks = useBookmarksStore()
+
+// Light/dark toggle (@nuxtjs/color-mode injects $colorMode; toggles the
+// .light-mode / .dark-mode class on <html>, which flips the --w3-* palette).
+const { $colorMode } = useNuxtApp()
+const isDark = computed(() => $colorMode.value !== 'light')
+const toggleTheme = () => { $colorMode.preference = $colorMode.value === 'light' ? 'dark' : 'light' }
 
 // Keep the bell badge (unread count) fresh while logged in; load bookmarks once
 // so the save-for-later state is correct on every post.

@@ -17,6 +17,23 @@
   --bs-border-color: var(--w3-border);
 }
 
+// Light theme — same variable surface, light values. @nuxtjs/color-mode toggles
+// the `.light` class on <html> (classSuffix ''); this override wins over :root.
+html.light {
+  --w3-bg: #f4f5f7;
+  --w3-bg-2: #ffffff;
+  --w3-panel: #ffffff;
+  --w3-panel-2: #eceef1;
+  --w3-border: rgba(0, 0, 0, 0.12);
+  --w3-text: #17181c;
+  --w3-muted: #5c626c;
+
+  --bs-body-bg: var(--w3-bg);
+  --bs-body-color: var(--w3-text);
+  --bs-border-color: var(--w3-border);
+}
+html.light .card, html.light .navbar-btn { box-shadow: 0 1px 3px rgba(0, 0, 0, .06); }
+
 html, body {
   background: var(--w3-bg) !important;
   color: var(--w3-text);
@@ -360,3 +377,4 @@ hr { border-color: var(--w3-border); }
     overflow-y: auto;
   }
 }
+
