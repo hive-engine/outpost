@@ -6,6 +6,26 @@
       </template>
 
       <template v-else>
+        <b-card v-if="bbhoPrice > 0" class="mt-3 portfolio-card">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+              <div class="text-muted small">Your {{ config.TOKEN }} portfolio</div>
+              <div class="portfolio-value mono">{{ numberWithCommas(toFixedWithoutRounding(portfolioBbho, 3)) }} {{ config.TOKEN }}</div>
+              <div class="text-muted small">
+                ≈ {{ portfolioHive.toFixed(3) }} HIVE<span v-if="portfolioUsd != null"> · ${{ portfolioUsd.toFixed(2) }}</span>
+              </div>
+            </div>
+            <div class="text-end">
+              <div class="mono">{{ bbhoPrice.toFixed(6) }} <small class="text-muted">HIVE</small></div>
+              <div class="small fw-bold" :class="bbhoChange >= 0 ? 'text-success' : 'text-danger'">
+                {{ bbhoChange >= 0 ? '▲' : '▼' }} {{ Math.abs(bbhoChange).toFixed(2) }}% <span class="text-muted fw-normal">30d</span>
+              </div>
+            </div>
+          </div>
+
+          <sparkline v-if="priceHistory.length > 1" class="mt-2 w-100" :values="priceHistory" :w="480" :h="46" :color="bbhoChange >= 0 ? '#2ecc71' : '#ff5964'" />
+        </b-card>
+
         <b-card v-if="pendingRewards > 0" class="mt-3">
           <div class="d-flex align-items-center justify-content-between">
             Your current rewards: {{ pendingRewards }} {{ config.TOKEN }}
@@ -458,6 +478,12 @@ export default {
 
       pendingRewards: 0,
 
+      // BBHO market — 30-day price history (sparkline), current price + HIVE/USD.
+      priceHistory: [],
+      bbhoPrice: 0,
+      bbhoChange: 0,
+      hiveUsd: null,
+
       // Claimable Hive rewards (exact chain strings for claim_reward_balance).
       rewardHive: '0.000 HIVE',
       rewardHbd: '0.000 HBD',
@@ -499,6 +525,16 @@ export default {
 
     getWalletLink () {
       return `${this.config.IS_HIVE ? 'https://wallet.hive.blog' : 'https://steemitwallet.com'}/@${this.$route.params.user}/transfers`
+    },
+
+    portfolioBbho () {
+      return (Number(this.tokenBalance) || 0) + (Number(this.tokenStake) || 0)
+    },
+    portfolioHive () {
+      return this.portfolioBbho * this.bbhoPrice
+    },
+    portfolioUsd () {
+      return this.hiveUsd != null ? this.portfolioHive * this.hiveUsd : null
     },
 
     currency () {
@@ -652,7 +688,8 @@ export default {
       const requests = [
         this.fetchChainBalance(),
         this.fetchSidechainBalance(),
-        this.fetchAccountHistory()
+        this.fetchAccountHistory(),
+        this.fetchMarket()
       ]
 
       if (this.auth.loggedIn && this.$route.params.user === this.auth.user.username) {
@@ -754,6 +791,30 @@ export default {
       } catch (e) {
         console.log(e.message)
       }
+    },
+
+    async fetchMarket () {
+      // Daily BBHO market history (newest-first) for the sparkline + current price;
+      // HIVE/USD from coingecko for the USD portfolio value (best-effort).
+      try {
+        const hist = await $fetch('https://history.hive-engine.com/marketHistory', {
+          query: { symbol: this.config.TOKEN, interval: 'daily' },
+          timeout: 9000
+        })
+
+        if (Array.isArray(hist) && hist.length) {
+          const recent = hist.slice(0, 30) // newest-first → last 30 days
+          this.priceHistory = recent.map(d => Number(d.closePrice)).reverse() // chronological
+          this.bbhoPrice = Number(recent[0].closePrice) || 0
+          const oldest = Number(recent[recent.length - 1].closePrice) || this.bbhoPrice
+          this.bbhoChange = oldest > 0 ? ((this.bbhoPrice - oldest) / oldest) * 100 : 0
+        }
+      } catch { /* no chart */ }
+
+      try {
+        const j = await $fetch('https://api.coingecko.com/api/v3/simple/price', { query: { ids: 'hive', vs_currencies: 'usd' }, timeout: 8000 })
+        if (j && j.hive && j.hive.usd) { this.hiveUsd = j.hive.usd }
+      } catch { /* no USD */ }
     },
 
     async fetchAccountHistory () {
@@ -889,6 +950,9 @@ export default {
 </script>
 
 <style scoped>
+.portfolio-value { font-size: 1.5rem; font-weight: 700; color: var(--w3-gold); line-height: 1.2; }
+.portfolio-card :deep(.sparkline) { width: 100%; height: 46px; }
+
 .btn::disabled {
   opacity: 1;
 }
