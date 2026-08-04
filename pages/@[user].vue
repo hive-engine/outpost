@@ -35,6 +35,10 @@
               <div v-if="profile.about" class="mt-2">
                 {{ profile.about }}
               </div>
+
+              <div v-if="badges.length" class="profile-badges mt-2">
+                <span v-for="(b, i) in badges" :key="i" class="profile-badge" :title="b.title">{{ b.emoji }} {{ b.label }}</span>
+              </div>
             </b-media>
           </b-col>
 
@@ -97,15 +101,17 @@ export default {
       let muted = false
       let followerCount = 0
       let followingCount = 0
+      let bbhoStake = 0
       let backgroundOverlay = 'background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(10, 10, 10, 0.75) 100%)'
 
       const client = $chain.getClient()
 
       try {
-        const [[userAccount], followCount, heVotingPower] = await Promise.all([
+        const [[userAccount], followCount, heVotingPower, bbhoBalance] = await Promise.all([
           client.database.getAccounts([route.params.user]),
           client.database.call('get_follow_count', [route.params.user]),
-          $sidechain.getVotingPower(route.params.user)
+          $sidechain.getVotingPower(route.params.user),
+          $sidechain.getBalance(route.params.user, config.TOKEN).catch(() => null)
         ])
 
         if (userAccount) { account = userAccount }
@@ -114,6 +120,7 @@ export default {
 
         followerCount = followCount.follower_count
         followingCount = followCount.following_count
+        bbhoStake = bbhoBalance ? (Number(bbhoBalance.stake) || 0) : 0
       } catch (e) {
         //
       }
@@ -136,7 +143,7 @@ export default {
         //
       }
 
-      return { account, profile, muted, followerCount, followingCount, backgroundOverlay }
+      return { account, profile, muted, followerCount, followingCount, bbhoStake, backgroundOverlay }
     })
 
     const muted = ref(data.value?.muted ?? false)
@@ -184,6 +191,35 @@ export default {
 
     profile () {
       return this.data?.profile || {}
+    },
+
+    // Achievement badges derived from account age, post count & BBHO stake.
+    badges () {
+      const acc = this.data?.account
+      if (!acc) { return [] }
+
+      const out = []
+      const created = new Date(`${acc.created}Z`)
+      const years = (Date.now() - created.getTime()) / (365.25 * 24 * 3600 * 1000)
+
+      out.push({ emoji: '📅', label: `Hive since ${created.getFullYear()}`, title: 'Account creation year' })
+
+      if (years >= 5) { out.push({ emoji: '👑', label: 'OG', title: '5+ years on Hive' }) }
+      else if (years >= 3) { out.push({ emoji: '🏅', label: 'Veteran', title: '3+ years on Hive' }) }
+      else if (years >= 1) { out.push({ emoji: '⭐', label: 'Established', title: '1+ year on Hive' }) }
+      else { out.push({ emoji: '🌱', label: 'Newcomer', title: 'On Hive under a year' }) }
+
+      const posts = Number(acc.post_count) || 0
+      out.push({ emoji: '📝', label: `${this.compact(posts)} posts`, title: `${posts.toLocaleString()} posts & comments` })
+      if (posts >= 5000) { out.push({ emoji: '✍️', label: 'Prolific', title: '5,000+ posts & comments' }) }
+
+      const stake = Number(this.data?.bbhoStake) || 0
+      if (stake >= 100000) { out.push({ emoji: '🐋', label: 'BBHO Whale', title: `${this.compact(stake)} ${this.config.TOKEN} staked` }) }
+      else if (stake >= 25000) { out.push({ emoji: '🦈', label: 'BBHO Shark', title: `${this.compact(stake)} ${this.config.TOKEN} staked` }) }
+      else if (stake >= 5000) { out.push({ emoji: '🐬', label: 'BBHO Dolphin', title: `${this.compact(stake)} ${this.config.TOKEN} staked` }) }
+      else if (stake >= 1000) { out.push({ emoji: '🐟', label: 'BBHO Minnow', title: `${this.compact(stake)} ${this.config.TOKEN} staked` }) }
+
+      return out
     },
 
     followerCount () {
@@ -261,6 +297,13 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['requestBroadcastFollow', 'requestBroadcastMute']),
 
+    compact (n) {
+      n = Number(n) || 0
+      if (n >= 1e6) { return `${(n / 1e6).toFixed(1)}M` }
+      if (n >= 1e3) { return `${(n / 1e3).toFixed(1)}K` }
+      return String(Math.round(n))
+    },
+
     sleep (ms) {
       return new Promise(resolve => setTimeout(resolve, ms))
     },
@@ -275,6 +318,14 @@ export default {
 </script>
 
 <style scoped>
+.profile-badges { display: flex; flex-wrap: wrap; gap: .4rem; }
+.profile-badge {
+  font-size: .74rem; font-weight: 700; line-height: 1.2;
+  padding: .22rem .62rem; border-radius: 999px;
+  background: rgba(255, 255, 255, .12); color: #fff;
+  border: 1px solid rgba(255, 255, 255, .18);
+  backdrop-filter: blur(4px); white-space: nowrap;
+}
 .profile-cover {
   min-height: 240px;
   display: flex;
