@@ -73,11 +73,16 @@
                   <div>{{ auth.user.username }} <fa-icon class="ms-1" icon="angle-down" /></div>
                 </div>
 
-                <div id="voting_power">
+                <div id="voting_power" :title="powerTitle">
                   <b-progress variant="primary" :value="userStore.voting_power" max="10000" height="2px" class="mt-1" />
                   <b-progress variant="danger" :value="userStore.downvoting_power" max="10000" height="2px" class="mt-1" />
                 </div>
               </template>
+
+              <b-dropdown-text class="power-readout">
+                ⚡ Voting <b>{{ (userStore.voting_power / 100).toFixed(1) }}%</b> · Downvote <b>{{ (userStore.downvoting_power / 100).toFixed(1) }}%</b>
+              </b-dropdown-text>
+              <b-dropdown-divider />
 
               <b-dropdown-item v-if="auth.user.username === tribe.issuer" :to="{ name: 'dashboard' }">
                 Dashboard
@@ -163,6 +168,10 @@ const bookmarks = useBookmarksStore()
 const { $colorMode } = useNuxtApp()
 const isDark = computed(() => $colorMode.value !== 'light')
 const toggleTheme = () => { $colorMode.preference = $colorMode.value === 'light' ? 'dark' : 'light' }
+
+// Native title so the voting-power readout also works on touch/devices where a
+// hover tooltip never fires (jongo: couldn't see his mana on iOS/Brave).
+const powerTitle = computed(() => `Voting Power: ${(userStore.voting_power / 100).toFixed(1)}% · Downvote Power: ${(userStore.downvoting_power / 100).toFixed(1)}%`)
 
 // Keep the bell badge (unread count) fresh while logged in; load bookmarks once
 // so the save-for-later state is correct on every post.
