@@ -36,6 +36,10 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="ms-auto align-items-center">
+          <b-nav-item :to="{ name: 'search' }" link-classes="navbar-btn rounded" title="Search">
+            <fa-icon icon="search" />
+          </b-nav-item>
+
           <b-nav-item v-if="config.NFT_ENABLED && $route.name && ($route.name.startsWith('nfts') || ['user-collection', 'user-gallery', 'user-collection-series', 'user-gallery-series'].includes($route.name))" link-classes="navbar-btn rounded" @click.prevent="ui.showModal('activityModal')">
             <fa-icon icon="shopping-basket" />
 
