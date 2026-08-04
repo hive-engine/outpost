@@ -37,6 +37,11 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap' }
       ],
+      // Light-theme variable overrides. Injected here (not via SCSS) so the rule is
+      // guaranteed in <head>; @nuxtjs/color-mode adds the `.light` class to <html>.
+      style: [
+        { id: 'w3-light-theme', innerHTML: 'html.light{--w3-bg:#f4f5f7;--w3-bg-2:#ffffff;--w3-panel:#ffffff;--w3-panel-2:#eceef1;--w3-border:rgba(0,0,0,.12);--w3-text:#17181c;--w3-muted:#5c626c;--bs-body-bg:var(--w3-bg);--bs-body-color:var(--w3-text);--bs-border-color:var(--w3-border)}html.light .navbar{background:rgba(255,255,255,.8)!important}html.light .card,html.light .navbar-btn{box-shadow:0 1px 3px rgba(0,0,0,.06)}' }
+      ],
       script: TRACKING_SCRIPTS
     }
   },
