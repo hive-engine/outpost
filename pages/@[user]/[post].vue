@@ -61,6 +61,7 @@
           />
           <extra-actions :post="post" />
           <bookmark-button :post="post" />
+          <tip-button :author="post.author" />
         </div>
         <a href="#comments" class="post-actions-comments">💬 {{ Object.keys(discussions).length - 1 }}</a>
       </div>

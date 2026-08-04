@@ -17,6 +17,8 @@
 
     <SidebarMenu />
 
+    <TipModal />
+
     <ConfirmDialog />
 
     <client-only>
@@ -33,6 +35,7 @@
 import Header from '~/components/Header.vue'
 import Login from '~/components/modals/Login.vue'
 import SidebarMenu from '~/components/SidebarMenu.vue'
+import TipModal from '~/components/modals/TipModal.vue'
 import ConfirmDialog from '~/components/app/ConfirmDialog.vue'
 import BackToTop from '~/components/app/BackToTop.vue'
 import { useAuthStore } from '~/stores/auth'
