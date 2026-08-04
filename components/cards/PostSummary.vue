@@ -107,6 +107,8 @@
           <extra-actions :post="post" />
 
           <bookmark-button :post="post" />
+
+          <tip-button :author="post.author" />
         </div>
 
         <payout :post="post" />
