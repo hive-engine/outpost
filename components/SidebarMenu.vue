@@ -40,6 +40,7 @@
       <!-- nav -->
       <nav class="sm-nav">
         <NuxtLink class="sm-link" to="/" @click="close">🏠 <span>Home</span></NuxtLink>
+        <NuxtLink class="sm-link" :to="{ name: 'search' }" @click="close">🔎 <span>Search</span></NuxtLink>
         <NuxtLink class="sm-link" :to="{ name: 'sort', params: { sort: 'trending' } }" @click="close">🔥 <span>Trending</span></NuxtLink>
         <NuxtLink v-if="config.CURATED_FEED" class="sm-link" :to="{ name: 'sort', params: { sort: 'curated' } }" @click="close">⭐ <span>Curated</span></NuxtLink>
         <NuxtLink v-if="config.CHATS_ENABLED" class="sm-link" :to="{ name: 'chats' }" @click="close">💬 <span>Chats</span></NuxtLink>
