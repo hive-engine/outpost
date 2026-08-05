@@ -51,6 +51,18 @@ const customJsonOp = (username, id, keyType, json) => {
   }]
 }
 
+// Guard: Keychain not injected (disabled/updated extension, blocked by Brave
+// Shields, an iOS browser, or a session restored from a stale cookie). Without
+// this, broadcasts fail silently — the user clicks and nothing happens, no error.
+// Show a clear message + fail the broadcast so any spinner resets.
+const ensureKeychain = (store, $eventBus, emitData) => {
+  if (typeof window !== 'undefined' && window[IS_HIVE ? 'hive_keychain' : 'steem_keychain']) { return true }
+
+  store.showNotification({ title: 'Hive Keychain not detected', type: 'error', message: 'Enable or refresh Hive Keychain (or log in with HiveAuth) to sign this action.' })
+  $eventBus.$emit('transaction-broadcast-error', { error: 'Hive Keychain not detected', data: emitData })
+  return false
+}
+
 // Legacy Vuex allowed passing (possibly namespaced) mutation names into the broadcast
 // actions (e.g. 'user/UPDATE_FOLLOWING', 'nftmarketplace/EMPTY_CART'). Resolve them to
 // the equivalent Pinia store action.
@@ -297,6 +309,8 @@ export const useTribeStore = defineStore('tribe', {
           }
         })
       } else {
+        if (!ensureKeychain(this, $eventBus, emitData)) { return }
+
         window[IS_HIVE ? 'hive_keychain' : 'steem_keychain'].requestCustomJson(username, id, keyType, JSON.stringify(json), message, (r) => {
           if (r.success) {
             console.log(r.result)
@@ -387,6 +401,8 @@ export const useTribeStore = defineStore('tribe', {
           }
         })
       } else {
+        if (!ensureKeychain(this, $eventBus, emitData)) { return }
+
         window[IS_HIVE ? 'hive_keychain' : 'steem_keychain'].requestBroadcast(username, operations, keyType, (r) => {
           if (r.success) {
             console.log(r.result)
