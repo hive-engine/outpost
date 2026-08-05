@@ -60,13 +60,14 @@
 
               <div v-if="!isEditing" class="drafts-bar">
                 <b-button size="sm" variant="secondary" :disabled="!hasContent" @click.prevent="saveDraft">
-                  <fa-icon icon="check" v-if="draftSaved" /> {{ draftSaved ? 'Saved!' : 'Save draft' }}
+                  <fa-icon v-if="draftSaved" icon="check" /> {{ draftSaved ? 'Saved!' : 'Save draft' }}
                 </b-button>
 
-                <b-dropdown v-if="drafts.length" size="sm" variant="link" no-caret>
+                <b-dropdown v-if="drafts.length" size="sm" variant="secondary" no-caret class="drafts-dd">
                   <template #button-content>
-                    <fa-icon icon="list" /> Drafts ({{ drafts.length }})
+                    📄 Drafts ({{ drafts.length }})
                   </template>
+                  <b-dropdown-header class="small text-muted">Your saved drafts · click to open</b-dropdown-header>
                   <b-dropdown-item v-for="d in drafts" :key="d.id" @click.prevent="applyDraft(d)">
                     <div class="draft-item">
                       <span class="draft-title">{{ d.title || 'Untitled draft' }}</span>
@@ -76,7 +77,9 @@
                   </b-dropdown-item>
                 </b-dropdown>
 
-                <span v-if="autoSavedAt" class="draft-auto">Auto-saved {{ draftAgo(autoSavedAt) }}</span>
+                <span v-if="lastSavedAt" class="draft-saved-note" :title="`Your work is saved to your account (${new Date(lastSavedAt).toLocaleString()})`">
+                  <fa-icon icon="check" /> Saved {{ draftAgo(lastSavedAt) }} · synced to your account
+                </span>
               </div>
 
               <b-form-group label="Title" label-sr-only>
@@ -411,6 +414,15 @@ export default {
 
     hasContent () {
       return !!(this.title.trim() || (this.body && this.body.trim()) || this.summary.trim())
+    },
+
+    // Most recent save (manual draft or auto-save) — powers the persistent
+    // "✓ Saved · X ago" reassurance so it's obvious drafts are being kept.
+    lastSavedAt () {
+      let max = 0
+      for (const d of this.drafts) { max = Math.max(max, Number(d.savedAt) || 0) }
+      if (this.autoDraft) { max = Math.max(max, Number(this.autoDraft.savedAt) || 0) }
+      return max || null
     },
 
     draftUser () {
@@ -893,7 +905,7 @@ export default {
 .create-post :deep(.post-title-input::placeholder) { color: var(--w3-muted); }
 .create-post :deep(.card) { margin-bottom: 1.2rem; }
 .drafts-bar { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; flex-wrap: wrap; }
-.drafts-bar .draft-auto { color: var(--w3-muted); font-size: .8rem; margin-left: auto; }
+.draft-saved-note { color: #2ecc71; font-size: .8rem; margin-left: auto; display: inline-flex; align-items: center; gap: .3rem; }
 .draft-item { display: flex; align-items: center; gap: .6rem; min-width: 240px; }
 .draft-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
 .draft-time { color: var(--w3-muted); font-size: .78rem; }
