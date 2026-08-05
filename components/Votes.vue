@@ -37,6 +37,7 @@
       v-model="show"
       click
       placement="right"
+      teleport-to="body"
       :target="`${id}-vote`"
       class="vote-weight-popover"
       @show="onPopoverShow"
@@ -74,6 +75,7 @@
       v-model="dvShow"
       click
       placement="right"
+      teleport-to="body"
       :target="`${id}-downvote`"
       class="vote-weight-popover"
       @show="onPopoverShow"
@@ -106,7 +108,7 @@
       </div>
     </b-popover>
 
-    <b-popover v-if="upVotes.length > 0" hover focus placement="bottom" :target="`${id}-upvotes`" class="votes-preview-popover">
+    <b-popover v-if="upVotes.length > 0" hover focus placement="bottom" teleport-to="body" :target="`${id}-upvotes`" class="votes-preview-popover">
       <template #title>
         Vote values
       </template>
@@ -124,7 +126,7 @@
       </template>
     </b-popover>
 
-    <b-popover v-if="downVotes.length > 0" hover focus placement="bottom" :target="`${id}-downvotes`" class="votes-preview-popover">
+    <b-popover v-if="downVotes.length > 0" hover focus placement="bottom" teleport-to="body" :target="`${id}-downvotes`" class="votes-preview-popover">
       <template #title>
         Vote values
       </template>
