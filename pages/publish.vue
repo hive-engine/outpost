@@ -124,9 +124,10 @@
                 </b-col>
 
                 <b-col cols="12" sm="3" lg="3" class="text-end">
-                  <b-button @click="showAdvanced = !showAdvanced">
-                    Advanced
+                  <b-button variant="secondary" @click="showAdvanced = !showAdvanced">
+                    {{ showAdvanced ? 'Hide options' : 'Advanced' }}
                   </b-button>
+                  <small class="text-muted d-block mt-1">Beneficiaries · rewards · author</small>
                 </b-col>
               </b-form-row>
 
