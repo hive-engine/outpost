@@ -8,6 +8,8 @@
 
     <HiveStatusBanner />
 
+    <KeychainHealthBanner />
+
     <Header />
 
     <slot />
