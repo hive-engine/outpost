@@ -3,6 +3,7 @@
 import { Buffer } from 'buffer'
 import { defineStore } from 'pinia'
 import { toFixedWithoutRounding } from '~/utils'
+import { maybeDownscaleImage } from '~/utils/image-upload'
 import { decrypt as WCDecrypt } from '~/utils/web-crypto'
 import { useAuthStore } from '~/stores/auth'
 import { useTribeStore } from '~/stores/tribe'
@@ -245,7 +246,21 @@ export const useUserStore = defineStore('user', {
       try {
         const { username, smartlock } = authStore.user
 
-        const { miniurl: dataUrl, name: filename } = file
+        // Downscale large / phone-camera photos before signing + upload. Keeps the
+        // signed buffer and the uploaded bytes in lock-step: sign over `data`, and
+        // send that exact same `data` as the multipart body (a mismatch makes the
+        // image server reject the signature). Small images return null → original
+        // path, untouched.
+        let dataUrl = file.miniurl
+        let filename = file.name
+        let filePart = file
+        const shrunk = await maybeDownscaleImage(file)
+        if (shrunk) {
+          dataUrl = shrunk.dataUrl
+          filename = shrunk.name
+          filePart = shrunk.blob
+        }
+
         const commaIdx = dataUrl.indexOf(',')
         const dataBs64 = dataUrl.substring(commaIdx + 1)
         const data = Buffer.from(dataBs64, 'base64')
@@ -255,7 +270,7 @@ export const useUserStore = defineStore('user', {
 
         const formData = new FormData()
 
-        formData.append('filename', file)
+        formData.append('filename', filePart, filename)
         formData.append('filename', filename)
         formData.append('filebase64', dataBs64)
 
