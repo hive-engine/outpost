@@ -45,6 +45,7 @@
         <NuxtLink v-if="config.CURATED_FEED" class="sm-link" :to="{ name: 'sort', params: { sort: 'curated' } }" @click="close">⭐ <span>Curated</span></NuxtLink>
         <NuxtLink v-if="config.CHATS_ENABLED" class="sm-link" :to="{ name: 'chats' }" @click="close">💬 <span>Chats</span></NuxtLink>
         <NuxtLink class="sm-link" :to="{ name: 'shorts' }" @click="close">🎬 <span>Shorts</span></NuxtLink>
+        <NuxtLink class="sm-link" :to="{ name: 'arcade' }" @click="close">🕹️ <span>Arcade</span></NuxtLink>
         <NuxtLink class="sm-link" :to="{ name: 'leaderboards' }" @click="close">🏆 <span>Leaderboards</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'notifications' }" @click="close">🔔 <span>Notifications</span><span v-if="notif.unreadCount" class="sm-badge">{{ notif.unreadCount > 99 ? '99+' : notif.unreadCount }}</span></NuxtLink>
         <NuxtLink v-if="auth.loggedIn" class="sm-link" :to="{ name: 'bookmarks' }" @click="close">🔖 <span>Bookmarks</span></NuxtLink>

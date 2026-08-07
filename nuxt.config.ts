@@ -83,7 +83,8 @@ export default defineNuxtConfig({
     // DRAFTS_DIR if you want it elsewhere.
     storage: {
       drafts: { driver: 'fsLite', base: process.env.DRAFTS_DIR || './.data/drafts' },
-      bookmarks: { driver: 'fsLite', base: process.env.BOOKMARKS_DIR || './.data/bookmarks' }
+      bookmarks: { driver: 'fsLite', base: process.env.BOOKMARKS_DIR || './.data/bookmarks' },
+      scores: { driver: 'fsLite', base: process.env.SCORES_DIR || './.data/scores' }
     }
   },
 
