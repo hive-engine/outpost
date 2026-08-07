@@ -64,6 +64,12 @@
       <div class="sm-section">
         <a class="sm-link" target="_blank" :href="`https://tribaldex.com/trade/${config.TOKEN}`">💱 <span>Trade {{ config.TOKEN }}</span></a>
       </div>
+
+      <div class="sm-foot">
+        <button class="sm-toggle" @click="toggleTheme">
+          {{ isDark ? '☀️ Switch to light mode' : '🌙 Switch to dark mode' }}
+        </button>
+      </div>
     </div>
   </b-offcanvas>
 </template>
@@ -94,9 +100,14 @@ const vp = computed(() => Math.round((userStore.voting_power || 0) / 100))
 const dvp = computed(() => Math.round((userStore.downvoting_power || 0) / 100))
 const tags = computed(() => (scot.trending_tags || []).slice(0, 10))
 
+// Light/dark toggle (@nuxtjs/color-mode adds the .light/.dark class on <html>).
+// Labeled here because the header's sun/moon icon alone was too easy to miss.
+const { $chain, $colorMode } = useNuxtApp()
+const isDark = computed(() => $colorMode.value !== 'light')
+const toggleTheme = () => { $colorMode.preference = $colorMode.value === 'light' ? 'dark' : 'light' }
+
 // Hive Resource Credits — mana that regenerates fully in 5 days. Compute the
 // live % from the manabar + elapsed time (same model as voting power).
-const { $chain } = useNuxtApp()
 const rc = ref(null)
 
 async function fetchRC () {
