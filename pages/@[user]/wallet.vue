@@ -393,7 +393,7 @@
       <template v-if="['transfer', 'stake', 'delegate'].includes(action)">
         <b-form-group label="To">
           <b-input-group prepend="@">
-            <b-form-input v-model="to" trim @input="to = $event.toLowerCase()" />
+            <b-form-input v-model="to" trim @update:model-value="to = String($event || '').toLowerCase()" />
           </b-input-group>
         </b-form-group>
       </template>
