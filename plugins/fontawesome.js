@@ -16,7 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faMoon, faSun, faTimesCircle, faComments, faCommentAlt as farCommentAlt,
-  faBookmark as farBookmark
+  faBookmark as farBookmark, faHeart as farHeart, faThumbsDown as farThumbsDown
 } from '@fortawesome/free-regular-svg-icons'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -33,7 +33,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     faLongArrowAltDown, faInfoCircle, faBars, faExternalLinkAlt, faEye, faReply,
     faImage, faBolt, faFire, faArrowUp, faThumbsDown, faPlay, faFilm, faBell, faAt,
     faBookmark, faSearch,
-    faMoon, faSun, faTimesCircle, faComments, farCommentAlt, farBookmark
+    faMoon, faSun, faTimesCircle, faComments, farCommentAlt, farBookmark, farHeart, farThumbsDown
   )
 
   nuxtApp.vueApp.component('fa-icon', FontAwesomeIcon)
