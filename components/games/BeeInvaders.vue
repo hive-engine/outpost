@@ -24,8 +24,9 @@
         </template>
         <template v-else>
           <button class="bi-btn" @click="startFree">▶ Free play</button>
+          <p class="bi-hint">Unlimited &amp; always free — just for fun</p>
           <button v-if="loggedIn && cfg" class="bi-btn ghost" @click="startRanked">🏆 Ranked — {{ rankedCostLabel }}</button>
-          <p v-if="loggedIn && cfg" class="bi-hint">1 free ranked entry/day{{ cfg.stakerPerkMinStake ? ` (+1 if you stake ${cfg.stakerPerkMinStake}+ ${cfg.symbol})` : '' }} · winners split the weekly pot</p>
+          <p v-if="loggedIn && cfg" class="bi-hint">Compete for the weekly {{ cfg.symbol }} pot · 1 free entry/day{{ cfg.stakerPerkMinStake ? ` (+1 if you stake ${cfg.stakerPerkMinStake}+)` : '' }}</p>
           <p v-else-if="cfg" class="bi-hint">Log in to play Ranked ({{ rankedCostLabel }}) &amp; win the weekly {{ cfg.symbol }} pot.</p>
           <div v-if="entryState === 'error'" class="bi-save err">{{ entryError }}</div>
         </template>
