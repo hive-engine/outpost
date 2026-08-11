@@ -68,6 +68,12 @@ export default defineNuxtConfig({
     // 3Speak embed API key (sk_...) — server-only; never exposed to the browser.
     // Set THREESPEAK_API_KEY in the (gitignored) .env.
     threespeakApiKey: process.env.THREESPEAK_API_KEY || '',
+    // Arcade weekly payout — server-only secrets (gitignored .env). BBHBOT_ACTIVE_KEY
+    // = BBHBot's Hive active key used to send prize + burn transfers; ARCADE_ADMIN_TOKEN
+    // = shared secret the payout cron presents to POST /api/v1/games/payout. Absent =
+    // payouts are disabled (route no-ops), safe to deploy without them.
+    bbhbotActiveKey: process.env.BBHBOT_ACTIVE_KEY || '',
+    arcadeAdminToken: process.env.ARCADE_ADMIN_TOKEN || '',
 
     public: {
       ...tribeConfig
@@ -84,7 +90,9 @@ export default defineNuxtConfig({
     storage: {
       drafts: { driver: 'fsLite', base: process.env.DRAFTS_DIR || './.data/drafts' },
       bookmarks: { driver: 'fsLite', base: process.env.BOOKMARKS_DIR || './.data/bookmarks' },
-      scores: { driver: 'fsLite', base: process.env.SCORES_DIR || './.data/scores' }
+      scores: { driver: 'fsLite', base: process.env.SCORES_DIR || './.data/scores' },
+      gamesessions: { driver: 'fsLite', base: process.env.GAME_SESSIONS_DIR || './.data/gamesessions' },
+      winners: { driver: 'fsLite', base: process.env.WINNERS_DIR || './.data/winners' }
     }
   },
 

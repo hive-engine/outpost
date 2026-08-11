@@ -1,0 +1,44 @@
+# Reference systemd unit + timer for the weekly Bee Invaders prize payout.
+#
+# Prereqs (in the app's gitignored .env):
+#   BBHBOT_ACTIVE_KEY=5J...            # BBHBot Hive ACTIVE key (from the tipping-bot)
+#   ARCADE_ADMIN_TOKEN=<long-random>   # shared secret the trigger presents
+# Rebuild the app after adding them (runtimeConfig reads .env at build).
+#
+# Install:
+#   chmod +x scripts/arcade-payout.sh
+#   sudo cp scripts/arcade-payout.service /etc/systemd/system/
+#   sudo cp scripts/arcade-payout.timer   /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now arcade-payout.timer
+#   systemctl list-timers arcade-payout.timer
+#
+# Preview without paying:  scripts/arcade-payout.sh --dry-run
+#
+# (Two unit bodies below — split into the two filenames above. Use WorkingDirectory
+#  /home/ubuntu/outpost for prod.)
+
+# ===== /etc/systemd/system/arcade-payout.service =====
+[Unit]
+Description=Weekly Bee Invaders prize payout
+After=network-online.target outpost-dev.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/outpost-dev
+ExecStart=/home/ubuntu/outpost-dev/scripts/arcade-payout.sh
+
+# ===== /etc/systemd/system/arcade-payout.timer =====
+[Unit]
+Description=Run the Bee Invaders weekly payout (Mondays)
+
+[Timer]
+# 00:10 UTC every Monday — pays out the week that just ended. Persistent catches
+# up a missed run after downtime.
+OnCalendar=Mon *-*-* 00:10:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

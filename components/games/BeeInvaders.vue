@@ -18,7 +18,18 @@
       <div v-if="state === 'ready'" class="bi-overlay">
         <div class="bi-title">🐝 Bee Invaders</div>
         <p class="bi-sub">Defend the hive from the swarm of pests!</p>
-        <button class="bi-btn" @click="start">▶ Play</button>
+
+        <template v-if="entryState === 'paying'">
+          <div class="bi-save muted">Confirm the {{ rankedCostLabel }} entry in your wallet…</div>
+        </template>
+        <template v-else>
+          <button class="bi-btn" @click="startFree">▶ Free play</button>
+          <button v-if="loggedIn && cfg" class="bi-btn ghost" @click="startRanked">🏆 Ranked — {{ rankedCostLabel }}</button>
+          <p v-if="loggedIn && cfg" class="bi-hint">1 free ranked entry/day{{ cfg.stakerPerkMinStake ? ` (+1 if you stake ${cfg.stakerPerkMinStake}+ ${cfg.symbol})` : '' }} · winners split the weekly pot</p>
+          <p v-else-if="cfg" class="bi-hint">Log in to play Ranked ({{ rankedCostLabel }}) &amp; win the weekly {{ cfg.symbol }} pot.</p>
+          <div v-if="entryState === 'error'" class="bi-save err">{{ entryError }}</div>
+        </template>
+
         <p class="bi-hint">Drag / arrow keys to move · auto-fire · <kbd>P</kbd> to pause</p>
         <p v-if="bestLocal" class="bi-best">Your best: <b class="mono">{{ bestLocal.toLocaleString() }}</b></p>
       </div>
@@ -29,6 +40,20 @@
         <button class="bi-btn" @click="resume">▶ Resume</button>
       </div>
 
+      <!-- continue overlay (burn-to-continue) -->
+      <div v-else-if="state === 'continue'" class="bi-overlay">
+        <div class="bi-title small">🐝 Out of lives!</div>
+        <p class="bi-final">Score <b class="mono">{{ score.toLocaleString() }}</b> · Wave {{ wave }}</p>
+        <template v-if="continueState === 'paying'">
+          <div class="bi-save muted">Confirm {{ cfg.continueFee }} {{ cfg.symbol }} in your wallet…</div>
+        </template>
+        <template v-else>
+          <button class="bi-btn" @click="continueRun">🔥 Continue — burn {{ cfg.continueFee }} {{ cfg.symbol }}</button>
+          <button class="bi-btn ghost" @click="endFromContinue">End run</button>
+          <div v-if="continueState === 'error'" class="bi-save err">Payment failed — try again or end the run.</div>
+        </template>
+      </div>
+
       <!-- game over overlay -->
       <div v-else-if="state === 'over'" class="bi-overlay">
         <div class="bi-title small">{{ breached ? '🍯 Hive breached!' : 'Game over' }}</div>
@@ -36,11 +61,11 @@
         <p v-if="score >= bestLocal" class="bi-new">🏅 New personal best!</p>
 
         <div v-if="submitState === 'saving'" class="bi-save muted">Saving score…</div>
-        <div v-else-if="submitState === 'saved'" class="bi-save ok">✓ Saved to the leaderboard{{ submittedRank ? ` — rank #${submittedRank}` : '' }}</div>
+        <div v-else-if="submitState === 'saved'" class="bi-save ok">✓ Saved to the {{ mode === 'ranked' ? 'weekly Ranked' : '' }} leaderboard{{ submittedRank ? ` — rank #${submittedRank}` : '' }}</div>
         <div v-else-if="submitState === 'error'" class="bi-save err">Couldn't save score. <a href="#" @click.prevent="submitScore">Retry</a></div>
         <div v-else-if="!loggedIn" class="bi-save muted">Log in to save your score to the leaderboard.</div>
 
-        <button class="bi-btn" @click="start">↻ Play again</button>
+        <button class="bi-btn" @click="backToMenu">↻ Play again</button>
       </div>
     </div>
   </div>
@@ -53,9 +78,21 @@
 // object) so per-frame mutation is cheap; only HUD values are reactive refs.
 // Emits `gameover` { score, wave } so the host page can persist to the leaderboard.
 import { useAuthStore } from '~/stores/auth'
+import { useUserStore } from '~/stores/user'
 
 const LW = 600 // logical width
 const LH = 760 // logical height
+
+// Small seedable PRNG (mulberry32). Driven by the server-issued seed so a run is
+// deterministic — the groundwork for server-side replay validation later.
+function mulberry32 (a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0
+    let t = Math.imul(a ^ (a >>> 15), 1 | a)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
 
 export default {
   name: 'BeeInvaders',
@@ -64,7 +101,8 @@ export default {
 
   setup () {
     const auth = useAuthStore()
-    return { auth }
+    const userStore = useUserStore()
+    return { auth, userStore }
   },
 
   data () {
@@ -76,12 +114,24 @@ export default {
       breached: false,
       bestLocal: 0,
       submitState: 'idle', // idle | saving | saved | error
-      submittedRank: null
+      submittedRank: null,
+      sessionId: null,
+      mode: 'free', // free | ranked (of the current/last run)
+      entryState: 'idle', // idle | paying | error
+      entryError: '',
+      freeLeft: null,
+      cfg: null, // arcade tokenomics config (fetched)
+      continuesUsed: 0,
+      continueState: 'idle' // idle | paying | error
     }
   },
 
   computed: {
-    loggedIn () { return this.auth.loggedIn }
+    loggedIn () { return this.auth.loggedIn },
+    rankedCostLabel () { return this.cfg ? `${this.cfg.entryFee} ${this.cfg.symbol}` : '' },
+    canContinue () {
+      return this.loggedIn && this.cfg && this.continuesUsed < (this.cfg.maxContinues || 0)
+    }
   },
 
   mounted () {
@@ -91,6 +141,7 @@ export default {
     window.addEventListener('keyup', this.onKeyUp)
     window.addEventListener('resize', this.setupCanvas)
     this.drawIdle()
+    $fetch('/api/v1/games/config').then((c) => { this.cfg = c }).catch(() => {})
   },
 
   beforeUnmount () {
@@ -119,6 +170,8 @@ export default {
       this.breached = false
       this.submitState = 'idle'
       this.submittedRank = null
+      this.continuesUsed = 0
+      this.continueState = 'idle'
       this.g = {
         player: { x: LW / 2, y: LH - 64, w: 44, h: 34, speed: 430, invuln: 0 },
         keys: { left: false, right: false, fire: false },
@@ -131,9 +184,26 @@ export default {
         enemyDir: 1,
         enemyStepDown: 0,
         last: 0,
-        shake: 0
+        shake: 0,
+        rng: null // set when the server seed arrives
       }
       this.spawnWave()
+    },
+
+    // gameplay RNG — seeded once the server session is open, else Math.random
+    rand () {
+      return this.g && this.g.rng ? this.g.rng() : Math.random()
+    },
+
+    // Open a server run for `mode`. Sets sessionId + seeds the RNG and returns the
+    // server response (which for ranked may carry payment instructions).
+    async openSession (mode) {
+      this.sessionId = null
+      if (!this.loggedIn) { return null }
+      const res = await $fetch('/api/v1/games/session', { method: 'POST', body: { game: 'bee-invaders', mode } })
+      this.sessionId = res && res.sessionId ? res.sessionId : null
+      if (res && typeof res.seed === 'number' && this.g) { this.g.rng = mulberry32(res.seed) }
+      return res
     },
 
     spawnWave () {
@@ -167,11 +237,80 @@ export default {
       g.enemyDir = 1
     },
 
-    start () {
-      this.newGame()
+    backToMenu () {
+      this.state = 'ready'
+      this.entryState = 'idle'
+      this.entryError = ''
+      this.drawIdle()
+    },
+
+    // Begin actual gameplay (assumes newGame() already ran and a session is opening).
+    beginRun () {
+      this.entryState = 'idle'
       this.state = 'playing'
       this.g.last = performance.now()
       this._raf = requestAnimationFrame(this.loop)
+    },
+
+    // Free / casual play. Anonymous users play with a local-only best (no session).
+    startFree () {
+      this.mode = 'free'
+      this.newGame()
+      this.openSession('free').catch(() => { this.sessionId = null })
+      this.beginRun()
+    },
+
+    // Ranked play. Spends a free daily entry if available, otherwise requires a
+    // 0.1 BBHO entry transfer (signed in the user's wallet) before the run starts.
+    async startRanked () {
+      if (!this.loggedIn) { return }
+      this.mode = 'ranked'
+      this.entryError = ''
+      this.newGame()
+      try {
+        const res = await this.openSession('ranked')
+        if (!res) { throw new Error('Could not open a ranked run.') }
+
+        if (res.requiresPayment) {
+          this.entryState = 'paying'
+          await this.broadcastEntry(res.potAccount, res.memo, res.fee)
+          // Payment sent; confirm on-chain in the background while the run plays.
+          this.pollConfirm()
+        } else if (typeof res.freeLeft === 'number') {
+          this.freeLeft = res.freeLeft
+        }
+        this.beginRun()
+      } catch (e) {
+        this.entryState = 'error'
+        this.entryError = e && e.message ? e.message : 'Entry failed.'
+        this.state = 'ready'
+      }
+    },
+
+    // Broadcast the ranked entry transfer and resolve when the wallet confirms it.
+    broadcastEntry (potAccount, memo, fee) {
+      return new Promise((resolve, reject) => {
+        const cleanup = () => {
+          this.$eventBus.$off('tokens-transfer-successful', ok)
+          this.$eventBus.$off('transaction-broadcast-error', err)
+        }
+        const ok = () => { cleanup(); resolve() }
+        const err = (e) => { cleanup(); reject(new Error((e && e.error) || 'Payment was cancelled.')) }
+        this.$eventBus.$on('tokens-transfer-successful', ok)
+        this.$eventBus.$on('transaction-broadcast-error', err)
+        this.userStore.requestTokenAction({ action: 'transfer', amount: fee, to: potAccount, memo })
+      })
+    },
+
+    // Poll the server until it sees the entry payment on-chain (best-effort).
+    async pollConfirm () {
+      for (let i = 0; i < 8; i++) {
+        try {
+          const r = await $fetch('/api/v1/games/session-confirm', { method: 'POST', body: { sessionId: this.sessionId } })
+          if (r && r.paid) { return }
+        } catch { /* keep trying */ }
+        await new Promise(r => setTimeout(r, 3000))
+      }
     },
 
     resume () {
@@ -202,17 +341,27 @@ export default {
 
     async submitScore () {
       if (!this.loggedIn) { return }
+      if (!this.sessionId) { this.submitState = 'error'; return } // no verified run to submit
       this.submitState = 'saving'
-      try {
-        const res = await $fetch('/api/v1/games/scores', {
-          method: 'POST',
-          body: { game: 'bee-invaders', score: this.score, wave: this.wave }
-        })
-        this.submittedRank = res && res.rank ? res.rank : null
-        this.submitState = 'saved'
-        if (res && res.scores) { this.$emit('saved', res.scores) }
-      } catch {
-        this.submitState = 'error'
+      const body = { game: 'bee-invaders', score: this.score, wave: this.wave, sessionId: this.sessionId }
+
+      for (let attempt = 0; attempt < 5; attempt++) {
+        try {
+          const res = await $fetch('/api/v1/games/scores', { method: 'POST', body })
+          this.submittedRank = res && res.rank ? res.rank : null
+          this.submitState = 'saved'
+          if (res && res.scores) { this.$emit('saved', res.scores) }
+          return
+        } catch (e) {
+          const code = (e && (e.statusCode || (e.response && e.response.status))) || 0
+          // 402 = ranked entry not yet indexed on-chain → wait and retry a few times
+          if (code === 402 && attempt < 4) {
+            await new Promise(r => setTimeout(r, 4000))
+            continue
+          }
+          this.submitState = 'error'
+          return
+        }
       }
     },
 
@@ -220,7 +369,7 @@ export default {
     onKeyDown (e) {
       if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) { e.preventDefault() }
       if (this.state === 'ready' || this.state === 'over') {
-        if (e.key === ' ' || e.key === 'Enter') { this.start() }
+        if (e.key === ' ' || e.key === 'Enter') { this.startFree() }
         return
       }
       const k = this.g?.keys
@@ -334,10 +483,10 @@ export default {
       // enemies reached the hive line?
       if (lowest >= p.y - p.h / 2) { return this.endGame(true) }
 
-      // enemy fire
-      if (Math.random() < g.fireRate * dt) {
+      // enemy fire (seeded RNG so the run is reproducible for validation)
+      if (this.rand() < g.fireRate * dt) {
         const shooters = g.enemies.filter(e => e.alive)
-        const e = shooters[(Math.random() * shooters.length) | 0]
+        const e = shooters[(this.rand() * shooters.length) | 0]
         if (e) { g.stingers.push({ x: e.x, y: e.y + e.h / 2, vy: 240 + this.wave * 8, r: 4 }) }
       }
       for (const s of g.stingers) { s.y += s.vy * dt }
@@ -385,9 +534,58 @@ export default {
       this.spawnBurst(g.player.x, g.player.y, '#ff5964')
       g.shake = 0.35
       this.lives--
-      if (this.lives <= 0) { return this.endGame(false) }
+      if (this.lives <= 0) {
+        if (this.canContinue) { return this.offerContinue() }
+        return this.endGame(false)
+      }
       g.player.invuln = 1.4
       g.stingers = []
+    },
+
+    // Out of lives but a continue is available: pause and offer a burn-to-revive.
+    offerContinue () {
+      cancelAnimationFrame(this._raf)
+      this.continueState = 'idle'
+      this.state = 'continue'
+      this.draw()
+    },
+
+    // Burn continueFee BBHO (sent to @null) to revive with one life.
+    async continueRun () {
+      if (!this.canContinue) { return }
+      this.continueState = 'paying'
+      try {
+        await new Promise((resolve, reject) => {
+          const cleanup = () => {
+            this.$eventBus.$off('tokens-transfer-successful', ok)
+            this.$eventBus.$off('transaction-broadcast-error', err)
+          }
+          const ok = () => { cleanup(); resolve() }
+          const err = (e) => { cleanup(); reject(new Error((e && e.error) || 'Payment cancelled.')) }
+          this.$eventBus.$on('tokens-transfer-successful', ok)
+          this.$eventBus.$on('transaction-broadcast-error', err)
+          this.userStore.requestTokenAction({ action: 'transfer', amount: this.cfg.continueFee, to: 'null', memo: '🐝 Bee Invaders continue' })
+        })
+        this.continuesUsed++
+        this.revive()
+      } catch {
+        this.continueState = 'error'
+      }
+    },
+
+    revive () {
+      const g = this.g
+      this.lives = 1
+      g.stingers = []
+      g.player.invuln = 1.8
+      this.continueState = 'idle'
+      this.state = 'playing'
+      g.last = performance.now()
+      this._raf = requestAnimationFrame(this.loop)
+    },
+
+    endFromContinue () {
+      this.endGame(false)
     },
 
     spawnBurst (x, y, color) {
@@ -547,6 +745,12 @@ export default {
 }
 .bi-canvas { width: 100%; height: 100%; display: block; }
 
+/* On phones the portrait stage would fill the whole screen and push the
+   leaderboard out of sight — cap its height so the rankings peek below it. */
+@media (max-width: 991px) {
+  .bi-stage { max-height: 66vh; }
+}
+
 .bi-hud {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -601,5 +805,12 @@ export default {
   transition: transform .12s ease;
 }
 .bi-btn:hover { transform: translateY(-1px); }
+.bi-btn.ghost {
+  background: transparent;
+  color: var(--w3-gold, #f5b800);
+  border: 1px solid rgba(245, 184, 0, .6);
+  box-shadow: none;
+}
+.bi-btn.ghost:hover { background: rgba(245, 184, 0, .12); }
 .mono { font-family: 'JetBrains Mono', monospace; }
 </style>

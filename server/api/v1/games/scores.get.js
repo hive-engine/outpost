@@ -1,16 +1,21 @@
-// GET /api/v1/games/scores?game=bee-invaders — public high-score table for an
-// arcade game. Returns the top entries (one best score per account), newest wins
-// on ties. Anonymous-readable so the leaderboard shows for everyone.
+// GET /api/v1/games/scores?game=bee-invaders&board=casual|ranked
+// Public high-score tables. `casual` = all-time free-play board; `ranked` = the
+// current week's paid/prize board. One best score per account. Anonymous-readable.
 import { defineEventHandler, getQuery } from 'h3'
+import { weekKey, rankedBoardKey } from '../../../utils/arcade'
 
 const KNOWN_GAMES = ['bee-invaders']
 
 export default defineEventHandler(async (event) => {
-  const game = String(getQuery(event).game || 'bee-invaders')
+  const q = getQuery(event)
+  const game = String(q.game || 'bee-invaders')
   if (!KNOWN_GAMES.includes(game)) { return { scores: [] } }
 
-  const data = await useStorage('scores').getItem(game)
+  const board = q.board === 'ranked' ? 'ranked' : 'casual'
+  const key = board === 'ranked' ? rankedBoardKey(game, weekKey()) : game
+
+  const data = await useStorage('scores').getItem(key)
   const scores = (data && Array.isArray(data.scores)) ? data.scores : []
 
-  return { scores: scores.slice(0, 25) }
+  return { board, week: board === 'ranked' ? weekKey() : null, scores: scores.slice(0, 25) }
 })
