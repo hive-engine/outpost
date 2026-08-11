@@ -4,6 +4,7 @@
       <div class="arc-header">
         <h1 class="arc-title">🕹️ Arcade</h1>
         <p class="arc-sub">Play, climb the leaderboard, defend the hive. More games — and {{ config.TOKEN }} prizes — coming soon.</p>
+        <nuxt-link class="arc-other" :to="{ name: 'puzzle' }">🐝 New: play the Daily Buzzle →</nuxt-link>
       </div>
 
       <b-row>
@@ -119,6 +120,7 @@ onMounted(async () => {
 .arc-header { text-align: center; margin-bottom: 1.5rem; }
 .arc-title { font-weight: 800; }
 .arc-sub { color: var(--w3-muted); max-width: 620px; margin: .3rem auto 0; }
+.arc-other { display: inline-block; margin-top: .5rem; font-weight: 700; color: var(--w3-gold) !important; text-decoration: none; }
 
 .arc-lb { background: var(--w3-panel); border: 1px solid var(--w3-border); border-radius: 16px; padding: 1.1rem; }
 .arc-lb-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: .8rem; }

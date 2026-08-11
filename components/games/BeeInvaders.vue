@@ -81,6 +81,7 @@
 // Emits `gameover` { score, wave } so the host page can persist to the leaderboard.
 import { useAuthStore } from '~/stores/auth'
 import { useUserStore } from '~/stores/user'
+import { track } from '~/utils/track'
 
 const LW = 600 // logical width
 const LH = 760 // logical height
@@ -274,6 +275,7 @@ export default {
       this.mode = 'free'
       this.newGame()
       this.openSession('free').catch(() => { this.sessionId = null })
+      track('arcade-play', { game: 'bee-invaders', mode: 'free' })
       this.beginRun()
     },
 
@@ -288,6 +290,7 @@ export default {
         const res = await this.openSession('ranked')
         if (!res) { throw new Error('Could not open a ranked run.') }
 
+        track('arcade-play', { game: 'bee-invaders', mode: 'ranked', paid: res.requiresPayment ? 1 : 0 })
         if (res.requiresPayment) {
           this.freeLeft = 0
           this.entryState = 'paying'

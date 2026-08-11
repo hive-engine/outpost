@@ -92,7 +92,8 @@ export default defineNuxtConfig({
       bookmarks: { driver: 'fsLite', base: process.env.BOOKMARKS_DIR || './.data/bookmarks' },
       scores: { driver: 'fsLite', base: process.env.SCORES_DIR || './.data/scores' },
       gamesessions: { driver: 'fsLite', base: process.env.GAME_SESSIONS_DIR || './.data/gamesessions' },
-      winners: { driver: 'fsLite', base: process.env.WINNERS_DIR || './.data/winners' }
+      winners: { driver: 'fsLite', base: process.env.WINNERS_DIR || './.data/winners' },
+      puzzle: { driver: 'fsLite', base: process.env.PUZZLE_DIR || './.data/puzzle' }
     }
   },
 
