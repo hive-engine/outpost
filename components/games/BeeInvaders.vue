@@ -27,6 +27,7 @@
           <p class="bi-hint">Unlimited &amp; always free — just for fun</p>
           <button v-if="loggedIn && cfg" class="bi-btn ghost" @click="startRanked">🏆 Ranked — {{ rankedCostLabel }}</button>
           <p v-if="loggedIn && cfg" class="bi-hint">Compete for the weekly {{ cfg.symbol }} pot · 1 free entry/day{{ cfg.stakerPerkMinStake ? ` (+1 if you stake ${cfg.stakerPerkMinStake}+)` : '' }}</p>
+          <p v-if="loggedIn && cfg && freeLeft !== null" class="bi-hint bi-free">🎟️ {{ freeLeft > 0 ? `${freeLeft} free ranked game${freeLeft === 1 ? '' : 's'} left today` : `No free games left — next ranked costs ${rankedCostLabel}` }}</p>
           <p v-else-if="cfg" class="bi-hint">Log in to play Ranked ({{ rankedCostLabel }}) &amp; win the weekly {{ cfg.symbol }} pot.</p>
           <div v-if="entryState === 'error'" class="bi-save err">{{ entryError }}</div>
         </template>
@@ -135,6 +136,10 @@ export default {
     }
   },
 
+  watch: {
+    loggedIn () { this.fetchEntries() }
+  },
+
   mounted () {
     this.setupCanvas()
     this.bestLocal = Number(localStorage.getItem('bee-invaders-best') || 0)
@@ -143,6 +148,7 @@ export default {
     window.addEventListener('resize', this.setupCanvas)
     this.drawIdle()
     $fetch('/api/v1/games/config').then((c) => { this.cfg = c }).catch(() => {})
+    this.fetchEntries()
   },
 
   beforeUnmount () {
@@ -243,6 +249,16 @@ export default {
       this.entryState = 'idle'
       this.entryError = ''
       this.drawIdle()
+      this.fetchEntries()
+    },
+
+    // Remaining free ranked entries for today (read-only; doesn't consume one).
+    async fetchEntries () {
+      if (!this.loggedIn) { this.freeLeft = null; return }
+      try {
+        const r = await $fetch('/api/v1/games/entries', { params: { game: 'bee-invaders' } })
+        this.freeLeft = (r && typeof r.freeLeft === 'number') ? r.freeLeft : null
+      } catch { /* leave prior value */ }
     },
 
     // Begin actual gameplay (assumes newGame() already ran and a session is opening).
@@ -273,6 +289,7 @@ export default {
         if (!res) { throw new Error('Could not open a ranked run.') }
 
         if (res.requiresPayment) {
+          this.freeLeft = 0
           this.entryState = 'paying'
           await this.broadcastEntry(res.potAccount, res.memo, res.fee)
           // Payment sent; confirm on-chain in the background while the run plays.
@@ -785,6 +802,7 @@ export default {
 .bi-sub { margin: 0; color: #cfcfd6; font-size: .95rem; }
 .bi-hint { margin: .3rem 0 0; font-size: .74rem; color: #9a9aa4; }
 .bi-hint kbd { background: #2a2a34; border-radius: 4px; padding: 0 .3rem; }
+.bi-free { color: var(--w3-gold, #f5b800); font-weight: 700; }
 .bi-best, .bi-final { margin: 0; color: #d8d8de; font-size: .9rem; }
 .bi-new { margin: 0; color: #2ecc71; font-weight: 700; }
 .bi-save { font-size: .82rem; margin: 0; }
