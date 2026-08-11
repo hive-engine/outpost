@@ -102,3 +102,4 @@ key.txt
 
 # server-side drafts store
 .data/
+secret
