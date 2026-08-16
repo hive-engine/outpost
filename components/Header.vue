@@ -9,7 +9,7 @@
             </div>
             <div class="brand-text-container ml-2 d-none d-sm-block">
               <span class="brand-title">LASSECASH</span>
-              <span class="brand-subtitle">AnCap society tools</span>
+              <span class="brand-subtitle">ANCAP SOCIETY TOOLS</span>
             </div>
           </div>
         </b-navbar-brand>
@@ -141,6 +141,18 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Header',
 
+  head() {
+    return {
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='black' stroke='%23facc15' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='central' text-anchor='middle' font-family='monospace' font-weight='900' font-size='20' fill='%23facc15'>L</text></svg>"
+        }
+      ]
+    }
+  },
+
   computed: {
     ...mapGetters(['issuer']),
     ...mapGetters('user', ['voting_power', 'downvoting_power']),
@@ -160,8 +172,11 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap');
+
 .lassecash-brand-logo {
   text-decoration: none;
+  font-family: 'Inter', sans-serif;
 }
 
 .logo-box {
@@ -192,6 +207,7 @@ export default {
 }
 
 .brand-title {
+  font-family: 'Inter', sans-serif;
   font-weight: 900;
   font-size: 1.1rem;
   letter-spacing: 0.05em;
@@ -199,14 +215,15 @@ export default {
 }
 
 .brand-subtitle {
+  font-family: 'Inter', sans-serif;
   font-size: 9px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   color: #b45309;
   text-transform: uppercase;
 }
 
-/* Dark mode adjustments if needed */
+/* Dark mode adjustments */
 .dark-mode .brand-title {
   color: #f9fafb;
 }
