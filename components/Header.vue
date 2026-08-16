@@ -14,20 +14,6 @@
           </div>
         </b-navbar-brand>
 
-        <b-navbar-nav class="d-none d-md-flex">
-          <client-only>
-            <b-nav-item @click.prevent="changeColorMode">
-              <template v-if="$colorMode.value === 'light'">
-                <fa-icon :icon="['far', 'moon']" />
-              </template>
-
-              <template v-else>
-                <fa-icon :icon="['far', 'sun']" />
-              </template>
-            </b-nav-item>
-          </client-only>
-        </b-navbar-nav>
-
         <b-navbar-nav class="d-none d-lg-flex mx-auto">
           <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
             Feed
@@ -49,7 +35,19 @@
           </b-nav-item>
         </b-navbar-nav>
 
-        <b-navbar-nav class="align-items-center">
+        <b-navbar-nav class="ml-auto align-items-center">
+          <client-only>
+            <b-nav-item class="d-none d-md-flex mr-2" @click.prevent="changeColorMode">
+              <template v-if="$colorMode.value === 'light'">
+                <fa-icon :icon="['far', 'moon']" />
+              </template>
+
+              <template v-else>
+                <fa-icon :icon="['far', 'sun']" />
+              </template>
+            </b-nav-item>
+          </client-only>
+
           <b-nav-item v-if="$config.NFT_ENABLED && $route.name && ($route.name.startsWith('nfts') || ['user-collection', 'user-gallery', 'user-collection-series', 'user-gallery-series'].includes($route.name))" link-classes="navbar-btn rounded" @click.prevent="$bvModal.show('activityModal')">
             <fa-icon icon="shopping-basket" />
 
@@ -143,6 +141,7 @@ export default {
 
   head() {
     return {
+      title: 'LASSECASH AnCap Society Tools',
       link: [
         {
           rel: 'icon',
