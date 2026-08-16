@@ -7,9 +7,9 @@
             <div class="logo-box">
               <span class="logo-text">L</span>
             </div>
-            <div class="brand-text-container ml-2.5 d-none d-sm-block">
+            <div class="brand-text-container ml-2 d-none d-sm-block">
               <span class="brand-title">LASSECASH</span>
-              <span class="brand-subtitle">AnCap society tools</span>
+              <span class="brand-subtitle">ANCAP SOCIETY TOOLS</span>
             </div>
           </div>
         </b-navbar-brand>
@@ -28,7 +28,7 @@
           </client-only>
         </b-navbar-nav>
 
-        <b-navbar-nav class="d-none d-lg-flex">
+        <b-navbar-nav class="d-none d-lg-flex ml-4">
           <b-nav-item v-if="$auth.loggedIn" :to="{name:'user-feed', params:{user: $auth.user.username}}">
             Feed
           </b-nav-item>
@@ -180,8 +180,8 @@ export default {
 }
 
 .logo-box {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   background-color: #000000;
   border: 2px solid #facc15;
   border-radius: 0.5rem;
@@ -194,7 +194,7 @@ export default {
 .logo-text {
   font-family: monospace;
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: #facc15;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -210,16 +210,16 @@ export default {
 .brand-title {
   font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   letter-spacing: 0.05em;
   color: #111827;
 }
 
 .brand-subtitle {
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: #facc15;
   text-transform: uppercase;
 }
