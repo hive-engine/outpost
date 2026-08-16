@@ -2,8 +2,16 @@
   <header>
     <b-navbar fixed="top" type="light" variant="light">
       <b-container fluid>
-        <b-navbar-brand to="/">
-          <img src="/logo.png" class="logo">
+        <b-navbar-brand to="/" class="d-flex align-items-center">
+          <div class="lassecash-brand-logo d-flex align-items-center">
+            <div class="logo-box">
+              <span class="logo-text">L</span>
+            </div>
+            <div class="brand-text-container ml-2 d-none d-sm-block">
+              <span class="brand-title">LASSECASH</span>
+              <span class="brand-subtitle">AnCap society tools</span>
+            </div>
+          </div>
         </b-navbar-brand>
 
         <b-navbar-nav class="d-none d-md-flex">
@@ -151,6 +159,55 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.lassecash-brand-logo {
+  text-decoration: none;
+}
 
+.logo-box {
+  width: 38px;
+  height: 38px;
+  background-color: #000000;
+  border: 2px solid #facc15;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(250, 204, 21, 0.1);
+}
+
+.logo-text {
+  font-family: monospace;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #facc15;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.brand-text-container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand-title {
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  color: #111827;
+}
+
+.brand-subtitle {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #b45309;
+  text-transform: uppercase;
+}
+
+/* Dark mode adjustments if needed */
+.dark-mode .brand-title {
+  color: #f9fafb;
+}
 </style>
