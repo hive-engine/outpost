@@ -7,9 +7,9 @@
             <div class="logo-box">
               <span class="logo-text">L</span>
             </div>
-            <div class="brand-text-container ml-2 d-none d-sm-block">
+            <div class="brand-text-container ml-2.5 d-none d-sm-block">
               <span class="brand-title">LASSECASH</span>
-              <span class="brand-subtitle">ANCAP SOCIETY TOOLS</span>
+              <span class="brand-subtitle">AnCap society tools</span>
             </div>
           </div>
         </b-navbar-brand>
@@ -172,7 +172,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
 
 .lassecash-brand-logo {
   text-decoration: none;
@@ -180,8 +180,8 @@ export default {
 }
 
 .logo-box {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   background-color: #000000;
   border: 2px solid #facc15;
   border-radius: 0.5rem;
@@ -203,23 +203,24 @@ export default {
 .brand-text-container {
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
+  justify-content: center;
+  line-height: 1.15;
 }
 
 .brand-title {
   font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   letter-spacing: 0.05em;
   color: #111827;
 }
 
 .brand-subtitle {
   font-family: 'Inter', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.1em;
-  color: #b45309;
+  color: #facc15;
   text-transform: uppercase;
 }
 
