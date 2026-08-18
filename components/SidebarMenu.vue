@@ -47,6 +47,10 @@
         Music
       </b-list-group-item>
 
+      <b-list-group-item :to="{name:'price-stats'}">
+        Price Stats
+      </b-list-group-item>
+
       <b-list-group-item :to="{name:'philosophy-and-endorsement'}">
         Philosophy and Endorsement
       </b-list-group-item>
