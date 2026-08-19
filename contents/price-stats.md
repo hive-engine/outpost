@@ -12,6 +12,6 @@ title: LasseStats - Price Statistics
 
 Price history (A bit more than TribalDex).
 
-Pools liquidity providers.
+Pool's liquidity providers.
 
 Richlist data.
