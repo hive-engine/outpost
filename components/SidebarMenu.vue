@@ -48,7 +48,7 @@
       </b-list-group-item>
 
       <b-list-group-item :to="{name:'price-stats'}">
-        Price Stats
+        Stats
       </b-list-group-item>
 
       <b-list-group-item :to="{name:'philosophy-and-endorsement'}">
