@@ -8,8 +8,6 @@ title: Welcome
 
 <center>![lassecash.png](https://images.hive.blog/DQmV33fUKy6nypLvVhtTRxXkAFxGqTAN9pQpFoYH5QHcP1z/lassecash.png)</center>
 
-MAJOR NEWS: **MAGI migration design is now final: https://www.lassecash.com/@lasseehlers/specific-tokenomics-for-magi-migration-final-design**
-
 NB: LasseCash is highly experimental, use at your own risk.
 
 Short about the cryptocurrency LASSECASH
@@ -128,9 +126,17 @@ All LasseCash services runs on very little resources and very little power consu
 Future development
 --
 
-We are trying to migrate LasseCash to MAGI when that is ready, if that happens then the weakness of Hive Engine (Not immutable present and future) is gone and the inflation schedule will be set in stone (with a halving mechanism) so that Lasse Ehlers no longer decides on inflation and LasseCash might be among the top Freedom Fighter Golds in the world. Also MAGI migration will open up endless oppotunities for builing new stuff on top of LasseCash, like DeFi with zero fees (in any programming language) and all kinds of tools for building the AnarchoCapitalistic society.
 
-**MAGI migration design is now final: https://www.lassecash.com/@lasseehlers/specific-tokenomics-for-magi-migration-final-design**
+LasseCash is migrating to MAGI. The contract is built, and the migration is the last step. What changes is not the tokenomics — the 51 million hardcap and the 20 million inflation caps are the ones published in 2019 — but who enforces them does. On Hive Engine I hold the keys and you have to trust me. On MAGI the schedule is code, with the halving finally implemented the way it was always meant to be, and the owner keys are burned shortly after launch, so nobody — including me — can ever change it again.
+
+MAGI also is feeless like LasseCash always was. Actions cost Resource Credits, which regenerate, so using DeFi and AnCap tools built on top of LasseCash costs users nothing per transaction. That is what makes zero-fee anarcho-capitalist tooling possible.
+
+The migration announcement, with the snapshot rules and the exact block, comes probably soon. If you hold LASSECASH, read it — the rules decide who migrates.
+
+
+An earlier draft of the migration design is here: **https://www.lassecash.com/@lasseehlers/specific-tokenomics-for-magi-migration-final-design** — this was a draft and has been superseded. The final design comes with the announcement.
+
+
 
 
 Legal disclaimer
