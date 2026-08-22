@@ -104,8 +104,6 @@ Inflation in LasseCash is decided by Lasse Ehlers, as the leader of the OUTPOST.
 
 ![inflation.webp](https://images.hive.blog/DQmRhz8nZXipEKakXBWiphCDhmCKEpxpLKPmM6Y3uEkZWtr/inflation.webp)
 
-From 2027 until MAGI migration, the inflation is set to 500000 for pool rewards and 250000 for post rewards. The remaining inflation in @lassecash will be burned at migration to MAGI.
-
 Max 51 million tokens ever.
 
 20 million LASSECASH for the first 10 years (taken from @lassecash), 20 million LASSECASH forever thereafter (Issued from the tokens unissued) and 11 million was issued to Lasse Ehlers day 1 (for promotion and profits) (Lasse Ehlers has currently ~7 million after extensive activities).
